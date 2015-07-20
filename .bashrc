@@ -292,11 +292,15 @@ case $TERM in
 esac
 
 # Colorized output
-if [ `uname` = "Linux" ] || [ `uname` = "Darwin" ] && [ `which gls` ]; then
+if [[ `uname` = "Linux" ]]; then
   # GNU ls
-  if [ -f /etc/DIR_COLORS ]; then
-    eval `dircolors -b /etc/DIR_COLORS`
-  fi
+  eval `dircolors -b ${HOME}/.DIR_COLORS`
+  alias ls="ls --color --human-readable --ignore-backups"
+  alias ll="ls --color --human-readable --ignore-backups -l"
+  alias la="ls --color --human-readable -A"
+elif [[ `uname` = "Darwin" ]] && [[ `which gls` ]]; then
+  # GNU ls
+  eval `dircolors -b ${HOME}/.DIR_COLORS`
   alias ls="gls --color --human-readable --ignore-backups"
   alias ll="gls --color --human-readable --ignore-backups -l"
   alias la="gls --color --human-readable -A"
