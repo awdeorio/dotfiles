@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# m4a to wav
+
+### Functions ##################################################################
+function die() {
+  [ -n "$1" ] && echo "$1" 1>&2
+  exit 1
+}
+
+
+### Main #######################################################################
+for file_m4a in "$@"; do
+  echo "Converting $file_m4a ..."
+  echo "$file_m4a" | grep -q '\.m4a' \
+    || die "Error: $file_m4a is not an m4a file"
+  file_wav=`echo "$file_m4a"|sed -e 's/.m4a/.wav/'`
+  file_mp3=`echo "$file_m4a"|sed -e 's/.m4a/.mp3/'`
+  file_tags=`echo "$file_m4a"|sed -e 's/.m4a/.tags/'`
+
+  faad -i "$file_m4a" 2> "$file_tags" \
+    || die "Error reading tags from $file_m4a"
+  title=`grep 'title: ' "$file_tags"|sed -e 's/title: //'`
+  artist=`grep 'artist: ' "$file_tags"|sed -e 's/artist: //'`
+  album=`grep 'album: ' "$file_tags"|sed -e 's/album: //'`
+  genre=`grep 'genre: ' "$file_tags"|sed -e 's/genre: //'`
+  track=`grep 'track: ' "$file_tags"|sed -e 's/track: //'`
+  year=`grep 'year: ' "$file_tags"|sed -e 's/year: //'`
+
+  faad "$file_m4a" -o "$file_wav" \
+    || die "Error converting $file_m4a to $file_wav"
+
+  lame \
+    --preset standard \
+    --ignore-tag-errors \
+    --add-id3v2 \
+    --tt "$title" \
+    --ta "$artist" \
+    --tl "$album" \
+    --tg "$genre" \
+    --tn "$track" \
+    --ty "$year" "$file_wav" "$file_mp3" \
+    || die "Error converting $file_wav to $file_mp3"
+
+  rm -vf "$file_tags" "$file_wav"
+done

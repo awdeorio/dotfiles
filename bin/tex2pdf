@@ -1,0 +1,102 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Data::Dumper;
+use Getopt::Long;
+
+### Todo ######################################################################
+# comment dvips, ps2pdf options
+
+### Parse Commandline Options #################################################
+Getopt::Long::Configure ("bundling"); # - vs. --
+my %opt;
+$opt{help}        = '';
+$opt{verbose}     = 1;
+$opt{clean}       = '';
+$opt{view}         = '';
+$opt{keep}        = '';
+
+GetOptions(
+           'help|h|?'   =>\$opt{help},
+           'verbose|v+' =>\$opt{verbose},
+           'clean|c'    =>\$opt{clean},
+           'view|i'     =>\$opt{view},
+           'keep|k'     =>\$opt{keep},
+           );
+
+if ($opt{clean}) {
+  foreach (<*.{bbl,blg,log,aux,dvi,ps}>) {
+    print "deleting $_\n" if $opt{verbose};
+    unlink or die "Error $!";
+  }
+  exit(0);
+}
+
+
+### Select a .tex file
+my $ID = @ARGV ? $ARGV[0] : &most_recent_tex_file();
+$ID =~ s/\.[^.]*$//;
+
+### convert ps to eps
+system('find . -maxdepth 2 -iname \'*.ps\' -exec ~/bin/ps2eps -f {} \; -exec rm -v {} \;') == 0
+  or die "ps2eps error $!";
+
+### Build this bitch
+&clean($ID);
+&try("latex -halt-on-error $ID");
+if (&citations_exist("$ID.tex")) {
+  &try("bibtex $ID");
+  &try("latex -halt-on-error $ID");
+}
+&try("latex -halt-on-error $ID");
+&try("dvips -t letter -Pcmz -Pamz -G0 -o $ID.ps $ID.dvi");
+&try("ps2pdf -sPAPERSIZE=letter -dPDFSETTINGS=/printer -dMaxSubsetPct=100 -dCompatibilityLevel=1.4 -dSubsetFonts=true -dEmbedAllFonts=true $ID.ps $ID.pdf");
+&clean($ID) unless $opt{keep};
+&try("evince $ID.pdf 2>&1 > /dev/null &") if $opt{view};
+
+
+### Functions #################################################################
+sub try {
+  # usage: try <command> [message]
+
+  my $cmd = shift or die "Error: try function";
+  my $cmd_short = shift @{[ split(/ /,$cmd)]};
+
+  print $opt{verbose} > 1 ? "$cmd\n" : "$cmd_short\t$ID\n";
+
+  use IO::CaptureOutput qw(capture);
+  my ($stdout, $stderr, $retval);
+  $retval = capture(sub{return system("$cmd")}, \$stdout, \$stderr);
+  if ($retval) {
+    if ($cmd_short eq "latex") { die grep(/^!/, split(/\n/,$stdout.$stderr)) }
+    else                       { die $stdout.$stderr                         }
+  }
+  return 0;
+}
+
+sub most_recent_tex_file {
+  # returns name of most recent .tex file
+  my %mtimes = map {$_ => (stat)[9]} <*.tex>;
+  die "Error: no .tex files found." unless %mtimes;
+  return shift @{[ sort {$mtimes{$b} <=> $mtimes{$a}} keys %mtimes ]};
+}
+
+sub citations_exist {
+  # usage:  citations_exist $filename
+  # return: 1 if citations exist
+
+  my $filename = shift;
+
+  open FILE, "<$filename" or die "citations_exist: $filename $!";
+  while(<FILE>) {
+    return 1 if /\\cite/;
+  }
+  close FILE or die "citations_exist: $!";
+  return 0;
+}
+
+sub clean {
+  my $ID = shift;
+  print "rm\t$ID.{toc,ps,dvi,log,aux,blg,bbl}" if $opt{verbose} > 1;
+  unlink(<$ID.{toc,ps,dvi,log,aux,blg,bbl}>);
+}

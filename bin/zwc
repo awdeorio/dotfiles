@@ -1,0 +1,11 @@
+#!/bin/sh
+
+for i in "$@"; do
+  if echo "$i" | grep -q '^-'; then
+    OPT="${OPT} $i"
+  else
+    FILES="${FILES} $i"
+  fi  
+done
+
+zcat ${FILES} | wc ${OPT}

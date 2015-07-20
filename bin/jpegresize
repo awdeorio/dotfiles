@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for file in "$@"; do
+  echo "${file}"
+  convert \
+    -size 640x640 "${file}" \
+    -resize 640x640 +profile '*' \
+    "${file%.*}-small.${file##*.}"
+done

@@ -1,0 +1,44 @@
+#!/bin/bash
+# backup
+#
+# Drew's script to back up laptop to server
+
+
+# Don't backup these files
+set -o noglob # bug fix: globbing fucks up the *'s in EXCLUDE
+EXCLUDE+=' --exclude *.vmem'
+EXCLUDE+=' --exclude *.iso'
+EXCLUDE+=' --exclude .mozilla/firefox/*/Cache/*'
+EXCLUDE+=' --exclude .Trash/***'
+EXCLUDE+=' --exclude awdeorio/Library/Caches/Google/Chrome/Default/Cache/***'
+EXCLUDE+=' --exclude .dropbox/***'
+EXCLUDE+=' --exclude *.vdi'
+EXCLUDE+=' --exclude nobackup/***'
+EXCLUDE+=' --exclude GoogleDrive/Archive/eecs280w15/***'
+EXCLUDE+=' --exclude Library/***'
+EXCLUDE+=' --exclude Applications/***'
+
+# Sanity check that this is my laptop
+if [ `hostname` != "manzana.local" ]; then
+  echo "Error: \$HOSTNAME=$HOSTNAME"
+  exit 1
+fi
+
+# Check if another backup process is running
+if pgrep `basename $0` | grep -vq $$; then
+  echo "Error: another `basename $0` process is running"
+  exit 1
+fi
+
+# Trap C-c and exit
+trap exit 2
+
+# Perform backup
+# -a               archive mode; same as -rlptgoD (no -H)
+# -v               increase verbosity
+# -z               compress data during transfer
+# --delete         delete extraneous files from dest dirs
+# -x               avoid crossing a  filesystem  boundary  when recursing
+CMD="rsync -avzx --delete $EXCLUDE $HOME awdeorio@trenton.eecs.umich.edu:backup/manzana $@"
+echo $CMD
+$CMD

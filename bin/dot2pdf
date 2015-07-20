@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# dot2pdf
+# by Andrew DeOrio
+#
+# converts .dot file to .pdf
+#
+
+# error checking
+if [ $# -lt 1 ]; then
+  printf "Usage: $0 DOT_FILES\n"
+  exit 1
+fi
+
+# are we using landscape mode?
+# if [ "$1" == "-l" ] || [ "$1" == "--landscape" ]; then
+#     DOT_ARGS="-Glandscape=true -Gsize=10,7.5"
+# fi
+
+for DOT_FILE in "$@"; do
+    PS_FILE=${DOT_FILE%.*}.ps
+    PDF_FILE=${DOT_FILE%.*}.pdf
+    dot $DOT_ARGS -Tps -o $PS_FILE $DOT_FILE
+    ps2pdf $PS_FILE $PDF_FILE
+    rm -f $PS_FILE
+done

@@ -1,0 +1,30 @@
+#
+# ~/.inputrc
+#
+#  Drew's Custom InputRC
+#
+
+
+# case insensitivity
+set completion-ignore-case on
+
+# do not tab-complete hidden files
+set match-hidden-files off
+
+#one TAB will show list
+set show-all-if-ambiguous on
+
+# do not bell on tab-completion
+set bell-style none
+
+# append file type information to tab completion lists
+set visible-stats on
+
+set meta-flag on
+set input-meta on
+set convert-meta off
+set output-meta on
+
+# Completed names which are symbolic links to
+# directories have a slash appended.
+set mark-symlinked-directories on

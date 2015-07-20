@@ -1,0 +1,28 @@
+_vpnclient() 
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="connect disconnect"
+    profile_dir="/etc/opt/cisco-vpnclient/Profiles/"
+    case "${prev}" in
+	connect)
+	    local profiles=$(for x in `ls $profile_dir | awk -F "." '{print $1}'`; do echo ${x} ; done )
+	    COMPREPLY=( $(compgen -W "${profiles}" -- ${cur}) )
+            return 0
+            ;;
+	disconnect)
+	    return 0
+	    ;;
+	umich*)
+	    return 0
+	    ;;
+        *)
+	    ;;
+    esac
+
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    return 0;
+}
+complete -F _vpnclient vpnclient

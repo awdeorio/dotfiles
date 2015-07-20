@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# mp3 to mp3 through wav
+
+### Functions ##################################################################
+function die() {
+  [ -n "$1" ] && echo "$1" 1>&2
+  mv -f "$file_mp3_bak" "$file_mp3"
+  rm -f "$file_wav"
+  exit 1
+}
+
+
+### Main #######################################################################
+for file_mp3 in "$@"; do
+  echo "$file_mp3" | grep '\.mp3' || die "Error: $file_mp3 is not an mp3 file"
+  file_mp3_bak="${file_mp3}.bak.mp3"
+  mv "$file_mp3" "$file_mp3_bak" || die "Error: moving $file_mp3 to $file_mp3_bak"
+  file_wav=`echo "$file_mp3"|sed -e 's/.mp3/.wav/'`
+
+  mplayer \
+    "$file_mp3_bak" \
+    -vc null \
+    -vo null \
+    -ao pcm:file="$file_wav" \
+    || die "Error converting $file_mp3_bak to $file_wav"
+
+  lame \
+    --preset standard \
+    --ignore-tag-errors \
+    --add-id3v2 \
+    "$file_wav" "$file_mp3" \
+    || die "Error converting $file_wav to $file_mp3"
+
+  rm -vf "$file_wav"
+done

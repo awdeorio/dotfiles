@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# bill
+#
+# script to launch virtual machine or open a file inside the VM
+
+# troubleshooting:
+# 1. make sure that correct virtual machine is running
+# 2. make sure that correct user is logged in
+# 3. make sure that blank passwords are enabled
+#    http://www.virtualbox.org/manual/ch14.html (search for "Guest control")
+
+
+# Name of virtual machine is name of this script
+MACHINE=`basename $0`
+
+# With no arguments, start the virtual machine
+if [ $# == 0 ]; then
+  vboxmanage startvm ${MACHINE}
+  exit $?
+elif [ $# != 1 ]; then
+  # open multiple files
+  for FILE in $@; do
+    $0 "$FILE"
+  done
+  exit 0
+fi
+
+# No spaces in file name: exposes a bug in the way vboxmanage passes strings
+if [[ "$1" == *\ * ]]; then
+  echo "Error: \`$1' contains whitespace."
+  exit 1
+fi
+
+# File must exist
+if [ ! -e "$1" ]; then
+  echo "Error: \`$1' file does not exist."
+  exit 1
+fi
+
+# File must be in /home/awdeorio
+FILE=$(readlink -f "$1") # get absolute path
+if [[ "$FILE" != /home/awdeorio/* ]]; then
+  echo "Error: \`$1' is not in /home/awdeorio."
+  exit 1
+fi
+
+# Check if VM is running
+if vboxmanage list runningvms | grep -q ${MACHINE}; then true; else
+  echo "Error: virtual machine \`${MACHINE}' is not running."
+  exit 1
+fi
+
+# Convert UNIX path to windows path
+FILE="${FILE/\/home\/awdeorio/\\\\VBOXSVR\\awdeorio}" # UNIX homedir->Windows network dir
+FILE="${FILE////\\}" # replace "/" with "\"
+#echo "DEBUG: FILE=${FILE}"
+
+# Open file inside VM
+vboxmanage guestcontrol ${MACHINE} execute \
+  --image "C:\Windows\System32\cmd.exe" \
+  --username awdeorio \
+  -- \
+  "/c" "start" "${FILE}"
+
+# NOTE: add these options for debugging: --verbose --wait-stdout 
+#
+# Other ways to open a file
+# vboxmanage guestcontrol ${MACHINE} execute --image "C:\Program Files (x86)\Microsoft Office\Office14\POWERPNT.EXE" --username awdeorio -- "C:\Users\awdeorio\Desktop\intro.pptx"
+# vboxmanage guestcontrol ${MACHINE} execute --image "C:\PROGRA~2\MICROS~\Office14\POWERPNT.EXE" --username awdeorio -- "C:\Users\awdeorio\Desktop\intro.pptx"

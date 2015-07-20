@@ -1,0 +1,86 @@
+#!/bin/bash
+# bugs: encrypting file for the first time
+#       make sure plaintext tmp file permissions are 600
+
+### Check arguments and executable dependencies
+if [ ! $EDITOR ]; then
+    EDITOR=emacs
+fi
+
+if [ ! -x `which gpg` ]; then
+    echo "Error: can't find gpg"
+    exit 1
+elif [ ! -x `which $EDITOR` ]; then
+    echo "Error: can't find $EDITOR"
+    exit 1
+elif [ ! -f "$1" ]; then
+    echo "Error: specify an input file"
+    exit 1
+elif ! echo $1 | grep -q '\.gpg$'; then
+    echo "Error: $1 is not a gpg file"
+    exit 1
+fi
+
+
+### files
+GPG_FILE=$1
+GPG_FILE_BAK=$GPG_FILE-`date '+%F_%T'`
+TXT_FILE_TMP=`tempfile --prefix gpged`.txt
+GPG_FILE_TMP=$TXT_FILE_TMP.gpg
+
+
+### functions
+function error {
+    echo "Error: $1"
+    rm -vf $TXT_FILE_TMP $GPG_FILE_TMP
+    exit 1
+}
+
+
+### get password
+stty -echo
+read -p "key: " PASSWD; echo
+stty echo
+
+
+### delete the plaintext file if someone tries to kill this thing
+trap "{ rm -f $TXT_FILE_TMP; }" 0 1 2 5 15
+
+
+### decrypt to temporary text file
+echo "Decrypting $GPG_FILE to $TXT_FILE_TMP"
+echo $PASSWD | gpg --batch \
+                   --passphrase-fd 0  \
+                   --decrypt \
+                   -o $TXT_FILE_TMP \
+                   $GPG_FILE \
+                       || error "decryption failed"
+chmod 600 $TXT_FILE_TMP
+
+### edit
+if ! $EDITOR $TXT_FILE_TMP; then
+    echo "Error: edit failed.  Plaintext file still exists at $TXT_FILE_TMP!!!"
+    exit 1
+fi
+
+
+### encrypt to temporary gpg file
+echo "Encrypting $TXT_FILE_TMP to $GPG_FILE_TMP"
+if ! echo $PASSWD | gpg --batch \
+                        --cipher-algo AES256 \
+                        --passphrase-fd 0 \
+                        -c \
+                        -o $GPG_FILE_TMP\
+                        $TXT_FILE_TMP;
+    then
+    echo "Error: edit failed.  Plaintext file still exists at $TXT_FILE_TMP!!!"
+fi
+                    
+
+### Backup, cleanup and copy tmp file over
+#echo "Backing up $GPG_FILE to $GPG_FILE_BAK"
+#mv $GPG_FILE $GPG_FILE_BAK || error "backup failed"
+echo "Copying over temp file $GPG_FILE_TMP to $GPG_FILE"
+cp $GPG_FILE_TMP $GPG_FILE || error "copy from tmp file failed"
+echo "Removing temporary files $TXT_FILE_TMP $GPG_FILE_TMP"
+rm -v $TXT_FILE_TMP $GPG_FILE_TMP

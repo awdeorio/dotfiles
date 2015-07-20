@@ -1,0 +1,55 @@
+#!/usr/bin/perl
+#
+# csv2latex
+#
+# by Andrew DeOrio
+# 2011-04-18
+#
+# convert a .csv file into a latex table
+
+use strict;
+use warnings;
+use English;
+use Data::Dumper;
+
+# sanity check options
+die "Usage: $PROGRAM_NAME FILE\n" unless @ARGV == 1;
+
+# open CSV input file
+my $inputFilename = $ARGV[0];
+open CSVFH, '<', $inputFilename;
+
+# open latex output file
+my $outputFilename = $ARGV[0];
+$outputFilename =~ s/(\..*?)?$/.tex/;
+open TEXFH, '>', $outputFilename or die "Error opening $outputFilename";
+
+# print latex header
+print TEXFH '\\documentclass{article}
+\begin{document}
+\begin{table}[htb]
+  \centering' . "\n";
+
+
+# print table guts
+my @file = <CSVFH>;
+chomp(@file);
+my @a = split(',',$file[0]); #FIXME: remove @a
+print TEXFH '  \begin{tabular}{|' . ('l|' x scalar(@a)) . '}\hline' . "\n";
+
+foreach my $line (@file) {
+  my @b = split(',',$line); #FIXME: remove @b
+  print TEXFH "  " . join(' & ',@b) . ' \\\\\hline' . "\n";
+}
+
+
+# print latex footer
+print TEXFH '  \end{tabular}
+  \caption{Hello world.}
+  \label{tab:mytable}
+\end{table}
+\end{document}' . "\n";
+
+
+close CSVFH;
+close TEXFH;

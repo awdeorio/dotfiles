@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use English;
+use Data::Dumper;
+use File::Basename;
+
+if (scalar(@ARGV) != 1) {
+  print "usage: " . basename($0) . " NUMBER\n";
+  print "Waste CPU cycles for NUMBER seconds.\n";
+  exit(1);
+}
+
+my $duration = $ARGV[0];
+my $tstart = time;
+while (time < $tstart + $duration) {}

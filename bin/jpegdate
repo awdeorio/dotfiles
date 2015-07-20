@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# todo
+# check if file is actually a jpeg
+
+
+for f in "$@"; do
+  echo -n "$f -> "
+  DATE=`identify -verbose "$f" | grep 'exif:DateTimeOriginal:'`
+
+  # get only the date from string
+  DATE=`echo "$DATE" | sed 's/ *exif:DateTimeOriginal: //'`
+  
+  # remove spaces and colons
+  DATE=`echo "$DATE" | sed 's/ /_/g'`
+  DATE=`echo "$DATE" | sed 's/:/-/g'`
+
+  # create new filename
+  fnew="${DATE}_${f}"
+
+  # print
+  echo "$fnew"
+
+  # move file
+  mv "$f" "$fnew"
+done

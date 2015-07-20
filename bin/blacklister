@@ -1,0 +1,18 @@
+#!/bin/csh
+#
+# blacklister
+#
+# monitors for another user's processes on a machine and kills the processes
+#
+# Andrew DeOrio <awdeorio@umich.edu>
+
+grep "^lschvart:" /etc/passwd > /dev/null
+setenv uexists $?
+who | grep `whoami`" *:0" > /dev/null
+while ( $? == 0 )
+  if ($uexists == 0) then
+    setenv badpids `ps -o pid= -u lschvart` && rmproc $badpids
+  endif
+  sleep 30
+  who | grep `whoami`" *:0" > /dev/null
+end

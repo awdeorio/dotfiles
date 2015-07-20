@@ -1,0 +1,28 @@
+_backThatAssUP() 
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    #opts="--help --deep"
+    opts=`backThatAssUP --help | grep -oP '\-{1,2}\w+'`
+
+    case "${prev}" in
+	--config|-c)
+	    local configs="$(backThatAssUP --config list)"
+	    COMPREPLY=( $(compgen -W "${configs}" -- ${cur}) )
+            return 0
+            ;;
+        --restore|-e)
+            local restore_files=`cat ~/.backThatAssUP.idx | grep -vP '^\s*#'`
+	    COMPREPLY=( $(compgen -W "${restore_files}" -- ${cur}) )
+            return 0
+            ;;
+        *)
+	    ;;
+    esac
+
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    return 0;
+}
+complete -F _backThatAssUP backThatAssUP

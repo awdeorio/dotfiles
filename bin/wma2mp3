@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# wma to mp3
+
+### Functions ##################################################################
+function die() {
+  [ -n "$1" ] && echo "$1" 1>&2
+  exit 1
+}
+
+
+### Main #######################################################################
+for file_wma in "$@"
+ do
+ echo "$file_wma" | grep '\.wma' || die "Error: $file_wma is not an wma file"
+ file_wav=`echo "$file_wma"|sed -e 's/.wma/.wav/'`
+ file_mp3=`echo "$file_wma"|sed -e 's/.wma/.mp3/'`
+ file_tags=`echo "$file_wma"|sed -e 's/.wma/.tags/'`
+
+ mplayer \
+   "$file_wma" \
+   -ao pcm \
+   -ao pcm:file="$file_wav" \
+   || die "Error converting $file_wma to $file_wav"
+
+ lame \
+   --preset standard \
+   --ignore-tag-errors \
+   --add-id3v2 \
+   "$file_wav" "$file_mp3" \
+   || die "Error converting $file_wav to $file_mp3"
+
+ rm -vf "$file_wav"
+done

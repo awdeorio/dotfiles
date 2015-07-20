@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# aif to mp3
+
+### Functions ##################################################################
+function die() {
+  [ -n "$1" ] && echo "$1" 1>&2
+  exit 1
+}
+
+
+### Main #######################################################################
+for file_aif in "$@"
+ do
+ echo "$file_aif" | grep '\.aif' || die "Error: $file_aif is not an aif file"
+ file_wav=`echo "$file_aif"|sed -e 's/.aif/.wav/'`
+ file_mp3=`echo "$file_aif"|sed -e 's/.aif/.mp3/'`
+
+ mplayer \
+   "$file_aif" \
+   -ao pcm \
+   -ao pcm:file="$file_wav" \
+   || die "Error converting $file_aif to $file_wav"
+
+ lame \
+   --preset standard \
+   --ignore-tag-errors \
+   --add-id3v2 \
+   "$file_wav" "$file_mp3" \
+   || die "Error converting $file_wav to $file_mp3"
+
+ rm -vf "$file_wav"
+done

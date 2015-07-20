@@ -1,0 +1,8 @@
+#!/bin/bash 
+# 
+# wav2mp3
+# 
+for i in *.wav; do
+    echo "converting $i ..."
+    lame --preset standard "$i" "${i%.wav}.mp3"
+done

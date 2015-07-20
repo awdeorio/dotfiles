@@ -1,0 +1,130 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import getopt
+import fileinput
+from math import sqrt
+
+
+def usage():
+    print "Usage: %s [options] [files]" % sys.argv[0]
+    sys.exit(0)
+
+
+def main(argv):
+    # parse options
+    global _opt;
+    _opt = {'help':0, 'verbose':0, 'mean':0, 'average':0,
+            'median':0, 'mode':0, 'min':0, 'max':0,
+            'stddev':0, 'num':0, 'sum':0, 'range':0, 'all':0,}
+    try:
+        opts, args = getopt.gnu_getopt(argv, 'hva', _opt.keys())
+    except getopt.GetoptError:
+        usage()
+    for opt, arg in opts:
+        if opt in ('-h', '--help'):
+            _opt['help'] = 1
+        elif opt in ('-v', '--verbose'):
+            _opt['verbose'] = 1
+        elif opt in ('-a', '--all'):
+            _opt['all'] = 1
+        elif opt in ('--mean', '--average'):
+            _opt['mean'] = 1
+        elif opt in ('--median'):
+            _opt['median'] = 1
+        elif opt in ('--mode'):
+            _opt['mode'] = 1
+        elif opt in ('--min'):
+            _opt['min'] = 1
+        elif opt in ('--max'):
+            _opt['max'] = 1
+        elif opt in ('--min'):
+            _opt['min'] = 1
+        elif opt in ('--stddev'):
+            _opt['stddev'] = 1
+        elif opt in ('--num'):
+            _opt['num'] = 1
+        elif opt in ('--sum'):
+            _opt['sum'] = 1
+        elif opt in ('--range'):
+            _opt['range'] = 1
+
+    # default: if no options specifed, use --all --verbose
+    if sum(_opt.values()) == 0:
+        _opt['all'] = 1
+
+    # gather data from input files or STDIN
+    input_data = []
+    for line in fileinput.input(args):
+        line = line.rstrip()
+        try:
+            input_data.append(float(line))
+        except:
+            # FIXME: have some sort of meaningful error here
+            pass
+        
+    # compute
+    if (_opt['help']):
+        usage()
+        sys.exit()
+    if (_opt['mean'] or _opt['all']):
+        print 'mean   = %f' % mean(input_data)
+    if (_opt['median'] or _opt['all']):
+        print 'median = %f' % median(input_data)
+    if (_opt['mode'] or _opt['all']):
+        print 'mode   =', mode(input_data)
+    if (_opt['min'] or _opt['all']):
+        print 'min    = %f' % min(input_data)
+    if (_opt['max'] or _opt['all']):
+        print 'max    = %f' % max(input_data)
+    if (_opt['stddev'] or _opt['all']):
+        print 'stddev = %f' % stddev(input_data)
+    if (_opt['num'] or _opt['all']):
+        print 'num    = %f' % len(input_data)
+    if (_opt['sum'] or _opt['all']):
+        print 'sum    = %f' % sum(input_data)
+    if (_opt['range'] or _opt['all']):
+        print 'range  =', max(input_data) - min(input_data)
+
+
+
+def mean(data):
+    try:
+        return sum(data)/len(data)
+    except:
+        return 0
+
+def median(data):
+    data.sort()
+    # even number of elts -> average middle two
+    if len(data) % 2 == 0:
+        return (data[len(data)/2] + data[len(data)/2-1])/2
+    # odd number of elts -> pick the middle elt
+    else:
+        return data[len(data)/2]
+
+def mode(data):
+    freq = {}
+    for i in data:
+        freq[i] = freq.get(i, 0) + 1
+    mode_val = max(freq.values())
+    mode = []
+    for k in freq.iterkeys():
+        if freq[k] == mode_val:
+            mode.append(k)
+    return mode
+
+def stddev(data):
+    avg = mean(data)
+    square_sum = 0;
+    for i in data:
+        square_sum += (i-avg)**2
+
+    stddev = sqrt((float(1)/len(data))*square_sum)
+    return stddev
+
+
+### run that shit #############################################################
+if __name__ == "__main__":
+    main(sys.argv[1:])

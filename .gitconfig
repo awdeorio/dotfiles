@@ -1,0 +1,10 @@
+[user]
+	name = Andrew DeOrio
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[core]
+	editor = emacs
+[push]
+	default = matching

@@ -1,0 +1,99 @@
+#!/usr/bin/perl -w
+# rename.pl
+#
+# renames files according to Perl script input
+#
+# Author: Andrew DeOrio
+
+use strict;
+use Getopt::Long;
+use Data::Dumper;
+use File::Find;
+use File::Basename;
+
+
+### Parse Options #############################################################
+Getopt::Long::Configure ("bundling"); # - vs. --
+my %opt;
+$opt{help}          = '';
+$opt{verbose}       = 't';
+$opt{dryrun}        = '';
+$opt{recursive}     = '';
+
+GetOptions(
+           "help|h|?"    =>\$opt{help},
+           "verbose|v"   =>\$opt{verbose},
+           "recursive|r" =>\$opt{recursive},
+           "dry-run|n"   =>\$opt{dry_run},
+           );
+
+usage() if $opt{help};
+die "Error: there is a bug with --dry-run" if $opt{dryrun};
+my $op = shift or &usage();
+chomp(@ARGV = <STDIN>) unless @ARGV;
+
+
+### Main ######################################################################
+if ($opt{recursive}) {
+  find(\&mv, @ARGV);
+} else {
+  foreach (@ARGV) {
+    &mv($_);
+  }
+}
+
+
+### Functions #################################################################
+sub mv {
+  my $old_filename = $_;
+
+  # make sure we are working on files and dirs
+  die "Error: $old_filename is not a file or direcory"
+    unless (-f $old_filename || -d $old_filename);
+
+  # compute new filename
+  eval $op;
+  die $@ if $@;
+  my $new_filename = $_;
+
+  # print and move
+  return if $old_filename eq $new_filename;
+  print "$old_filename -> $new_filename\n" if $opt{verbose};
+  return if $opt{dryrun};
+  rename ($old_filename, $new_filename) or die "Error: rename $!";
+}
+
+sub usage {
+  my $prog = basename($0);
+  print "Usage: $prog expr [files]\n\n",
+    "Options:\n",
+    "  -h  --help        show this message\n",
+    "  -v  --verbose     print more information\n",
+    "  -r  --recursive   recurse into directories\n",
+    "  -n  --dry-run     do not actually rename any files\n",
+    "Examples: \n",
+    "  $prog 'tr/A-Z/a-z/'   *         convert to lowercase\n",
+    "  $prog 's/\.orig\$//'    *.orig    remove trailing '.orig'\n",
+    "  $prog '\$_ .= \".old\"'  *         append '.old'\n";
+  exit(0);
+}
+
+
+# sub clean_filename {
+#     push @_, $_ unless @_; # bug fix: find gives $_ bug manual call gives @_
+#     my $old_filename = shift;
+#     my $new_filename = $old_filename;
+#     $new_filename =~ s/_20/ /g; # _20 -> <space>
+#     $new_filename =~ s/_23/#/g;
+#     $new_filename =~ s/_27/'/g; # _27 -> '
+#     $new_filename =~ s/_28/(/g;
+#     $new_filename =~ s/_29/)/g;
+#     $new_filename =~ s/^(\d{2})\./$1/; # 00. blah -> 00 blah
+#     $new_filename =~ s/_E5/a/g;
+#     $new_filename =~ s/_E8/e/g;
+#     $new_filename =~ s/_E9/e/g;
+#     print "$old_filename -> $new_filename\n" if $opt_verbose;
+#     if (!$opt_dry_run) {
+#         rename($old_filename, $new_filename) or die "Error moving file $!";
+#     }
+# }
