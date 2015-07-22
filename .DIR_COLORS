@@ -160,26 +160,26 @@ EXEC 01;32
 
 
 # Document files
-.pdf 00;32
-.PDF 00;32
-.ps 00;32
-.txt 00;32
-.TXT 00;32
-.patch 00;32
-.diff 00;32
-.log 00;32
-.tex 00;32
-.doc 00;32
-.docx 00;32
-.sxw 00;32
-.odt 00;32
-.ppt 00;32
-.pptx 00;32
-.xls 00;32
-.xlsx 00;32
-.ods 00;32
-.vsd 00;32
-.muse 00;32
+# .pdf 00;32
+# .PDF 00;32
+# .ps 00;32
+# .txt 00;32
+# .TXT 00;32
+# .patch 00;32
+# .diff 00;32
+# .log 00;32
+# .tex 00;32
+# .doc 00;32
+# .docx 00;32
+# .sxw 00;32
+# .odt 00;32
+# .ppt 00;32
+# .pptx 00;32
+# .xls 00;32
+# .xlsx 00;32
+# .ods 00;32
+# .vsd 00;32
+# .muse 00;32
 
 # Audio files
 .mp3 00;36
