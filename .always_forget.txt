@@ -11,6 +11,7 @@ usermod -g GID username                           # change default group
 groupmod -g GID group                             # change GID of group
 gpasswd -a awdeorio audio                         # add awdeorio to audio group
 smbpasswd -a username                             # new Samba users
+chsh -s /bin/bash username                        # change default shell
 
 
 ### Connecting to wireless access point manually (DHCP)
