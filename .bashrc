@@ -313,8 +313,12 @@ fi
 
 
 ### Bash-completion ###########################################################
-if [ -f ~/.bash_completion ] && ! shopt -oq posix; then
-  source ~/.bash_completion
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  # OS X
+  . $(brew --prefix)/etc/bash_completion
+elif [ $PS1 && -f /usr/share/bash-completion/bash_completion ]; then
+  . /usr/share/bash-completion/bash_completion
 fi
 
 
