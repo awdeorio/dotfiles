@@ -44,6 +44,7 @@ nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
 netstat -l numeric-ports | grep 80 # what's using port 80?
 sudo fuser -v -n tcp 80            # who's using port 80?
+nc -v SERVER 9559                  # check connection to SERVER on port 9559
 
 
 ### Audio
