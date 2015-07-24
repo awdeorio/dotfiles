@@ -314,7 +314,7 @@ fi
 
 ### Bash-completion ###########################################################
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
+if which brew &>/dev/null && [[ -f $(brew --prefix)/etc/bash_completion ]]; then
   # OS X
   . $(brew --prefix)/etc/bash_completion
 elif [ $PS1 && -f /usr/share/bash-completion/bash_completion ]; then
