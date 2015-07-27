@@ -455,3 +455,162 @@ pbcopy < FILE
 
 # Graphical diff on OS X
 opendiff FILE1 FILE2 [-merge FILE3]
+
+
+################################################################################
+# CAUTION: ENTERING GIT SECTION
+
+########################################
+# One-time setup for a user
+
+# Sets the default name for git to use when you commit
+git config --global user.name "Your Name Here"
+
+# colors in git
+git config --global color.diff auto
+git config --global color.status auto
+git config --global color.branch auto
+
+# Set the default email for git to use when you commit
+git config --global user.email "your_email@example.com"
+
+
+########################################
+# One-time setup for a local repository
+
+cd PROJECT/
+git init
+git add .
+git commit
+
+
+########################################
+# One-time setup for a shared repository
+
+# make sure you are working in a shared directory (e.g., ssh, AFS, NFS, etc.)
+ssh SERVER            # or navigate to shared directory using AFS, NFS, etc.
+mkdir -p ~/opt/git/   # make directory
+cd ~/opt/git/         # default directory for shared repositories
+mkdir PROJECT.git     # shared repositories end in .git
+git init --bare PROJECT.git/  # shared repositories are bare repositories
+
+# If it's on AFS
+find PROJECT.git -type d -exec fs setacl -dir {} -acl USER rlidwk \;
+
+# on your local machine
+git clone ssh://USERNAME@SERVER/~/opt/git/PROJECT.git
+cd PROJECT
+echo 'Hello World' > README  # create the first file
+git add README
+git commit
+git push origin master
+
+
+########################################
+# Setup on github
+
+# New repository
+go to github.com and click "make a new repository"
+git clone git@github.com:REPO/PROJECT.git
+
+# SSH keys
+https://help.github.com/articles/generating-ssh-keys/
+
+# remove sensitive data
+https://help.github.com/articles/remove-sensitive-data/
+
+
+########################################
+# Daily git use
+
+# get a local copy of a shared repository
+# you only have to do this once.  Other options are file://, ssh://, https://
+git clone ssh://USERNAME@SERVER/~/opt/git/PROJECT.git
+
+# Change your email address for one project
+git config user.email awdeorio@virtalabs.com
+
+# update your local copy, merging from repository, manual
+# (assuming you're tracking origin)
+git fetch origin
+git diff master origin/master           # see changes
+git merge origin/master                 # this will be a FF if no local changes
+
+# update your local copy, merging from repository, automatic
+git pull       
+
+# committing
+git status
+git add FILE # file to commit
+git commit
+git push
+
+# undo
+git checkout FILE # revert a file to last checked-in version
+git reset --soft  # changes to tracked files are discarded
+git reset --hard  # reset head to <commit>, files unchanged
+
+# ignoring files in git
+add a .gitignore file to the PWD
+add patterns to .gitignore
+git add .gitignore
+
+# view log
+git log [FILE]
+
+# view history of commits, branches and merges
+git log --oneline --decorate --graph --all
+
+# viewing old versions
+git show REV:FILE
+git show HEAD^ FILE  # look at last committed version
+git show HEAD~4:FILE # 4th last commit
+
+# get info about git connections
+git remote # list names of remote repositories
+git branch # list name of local branch
+
+# recover a removed file http://stackoverflow.com/questions/953481
+git rev-list -n 1 HEAD -- <file_path>
+git checkout <deleting_commit>^ -- <file_path>
+
+
+########################################
+# Branching 
+
+git branch                              # view local branches
+git branch -a                           # view all branches
+git checkout BRANCH                     # switch to BRANCH
+git checkout -b BRANCH                  # create a new branch & switch to it
+git push origin BRANCH                  # push BRANCH to remote
+
+
+########################################
+# Comparing
+
+git diff BRANCH1 BRANCH2                # diff two local branches
+git diff master remotes/origin/dataset  # diff two remote branches
+git mergetool --tool-help               # list available diff/merge tools
+git config --global diff.tool TOOL      # use TOOL for merging
+git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
+
+
+########################################
+# Git Branching Model
+http://nvie.com/posts/a-successful-git-branching-model/
+
+git checkout -b MYFEATURE develop # Start working on a new feature
+# merge feature into develop branch
+git checkout develop         # switch to develop branch
+git merge --no-ff myfeature  # merge feature into develop, keep old branch info
+git branch -d myfeature      # delete myfeature branch
+git push origin develop      # push to server
+
+
+########################################
+# Changing the location of a repository
+
+# change remote
+git remote -v
+git remote set-url origin NEW_URL
+git remote -v
