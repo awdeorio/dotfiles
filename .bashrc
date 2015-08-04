@@ -37,7 +37,7 @@ function dftp-get { command scp -r -P19999 "$@" localhost: ; }
 alias shred='shred --remove'
 alias R='R --quiet --no-save'
 #NOTE: see later for ls options
-alias xat='xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/finance'
+alias xat='xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/Encrypted_Drew'
 
 
 ### Editor ####################################################################
@@ -216,11 +216,7 @@ alias ge='egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e'
 
 # Find a file with a pattern in name:
 function ff() { 
-  if [ `uname` = "Darwin" ]; then
-    mdfind -onlyin . -name '*'$*'*' ;
-  else
     find . -type f -iwholename '*'$*'*' ;
-  fi
 }
 
 # Find a file with pattern $1 in name and Execute $2 on it:

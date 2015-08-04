@@ -40,6 +40,7 @@ edit /etc/resolv.conf
 
 
 ### Network Utilities
+host www.google.com                # DNS lookup
 nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
 netstat -l numeric-ports | grep 80 # what's using port 80?
@@ -265,9 +266,10 @@ top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -
 cpufreq-selector -g performance
 
 
-### rsync to FAT32
-1. mount with "shortname=mixed"
-2. rsync -rvtP --modify-window=1 --delete ${MP3} /mnt/dumpster/
+### rsync
+mount with "shortname=mixed"            # mount FAT32
+rsync -rvtP --modify-window=1 --delete  # copy
+rsync -rv --delete --checksum           # copy, using file checksum
 
 
 ### ntp - sync clock with servers
@@ -398,7 +400,7 @@ valgrind -v --leak-check=full ./a.out
 encfs ROOTDIR MOUNTPOINT   # enter "p" to create with defaults
 encfs ROOTDIR MOUNTPOINT   # mount
 fusermount -u MOUNTPOINT   # unmount
-encfsctl OPTIONS           # change password
+encfsctl passwd ROOTDIR    # change password
 
 
 ### Paths
@@ -420,29 +422,17 @@ xinput set-prop "DualPoint Stick" 249 2
 xinput set-prop "DualPoint Stick" 250 10
 
 
-### Mount CD/DVD image
+# Mount CD/DVD image
 mount -o loop file.img /home/awdeorio/mnt/loop
-
-
-### Cygwin
-cygstart.exe FILE          # open a file, as if you double-clicked it
-
-
-### Creating a bootable USB drive under windows
-http://betanews.com/2013/11/06/how-to-create-a-bootable-windows-8-1-usb-drive/
-
-
-### Create a random password
-md5sum -      # enter some text, followedby CTRL-D
-
-# print text file to pdf
-enscript FILE -o - | ps2pdf - FILE.pdf
 
 # change a bunch of file extensions using bash
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
 
-xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/finance
-open -a "Google Chrome" FILE
+# Create a random password
+md5sum -      # enter some text, followedby CTRL-D
+
+# print text file to pdf
+enscript FILE -o - | ps2pdf - FILE.pdf
 
 # merge individual pdf pages into one document
 pdftk PATH/*.pdf cat output output.pdf
@@ -450,12 +440,32 @@ pdftk PATH/*.pdf cat output output.pdf
 # explode one pdf docudment into individual pages
 pdftk FILE.pdf burst
 
+
+########################################
+# Windows / Cygwin Specific
+
+# open a file as if you double-clicked it
+cygstart.exe FILE
+
+
+########################################
+# OS X Specific
+
+# open a file as if you double-clicked it
+open FILE
+open -a "Google Chrome" FILE  # force use of a Google Chrome
+
+# Get rid of annoying "damaged and can't be opened" message for downloads
+xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/finance
+
 # Copy contents of FILE to clipboard from command line (OS X)
 pbcopy < FILE
 
 # Graphical diff on OS X
 opendiff FILE1 FILE2 [-merge FILE3]
 
+# unmount USB_DISK on OS X
+diskutil unmount /Volumes/USB_DISK
 
 ################################################################################
 # CAUTION: ENTERING GIT SECTION
