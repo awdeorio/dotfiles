@@ -153,9 +153,13 @@ brew cask cleanup
 brew linkapps
 
 ### grep
-grepping for tab: In bash, as you are typing the quoted regular expression, hit Ctrl-V then the TAB key to get the TAB in there.
+# grep for tab: In bash, as you are typing the quoted regular expression, hit Ctrl-V then the TAB key to get the TAB in there.
 
-Recover deleted file: grep -a -b -B100 -A100 phrase /dev/sda3 > file.txt
+# Recover deleted files
+grep -a -b -B100 -A100 phrase /dev/sda3 > file.txt
+
+# grep for email addresses
+egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e
 
 
 ### sed

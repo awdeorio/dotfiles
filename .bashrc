@@ -211,9 +211,6 @@ function bgui {
 # recursively grep for string
 alias gg='grep -r . --binary-files=without-match --exclude-dir ".svn" --exclude "*~" -e'
 
-# grep for email addresses
-alias ge='egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e'
-
 # Find a file with a pattern in name:
 function ff() { 
     find . -type f -iwholename '*'$*'*' ;
