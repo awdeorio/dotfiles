@@ -583,6 +583,11 @@ git show HEAD~4:FILE # 4th last commit
 git remote # list names of remote repositories
 git branch # list name of local branch
 
+# Combine the staged changes with the previous commit and replace the previous
+# commit with the resulting snapshot.  Running this when there is nothing
+# staged lets you edit the previous commit’s message without altering its
+# snapshot.
+git commit --amend
 
 ########################################
 # Branching 
