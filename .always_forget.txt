@@ -558,6 +558,11 @@ git rm -r --cached DIR  # undo git add, without removing files
 git rev-list -n 1 HEAD -- <file_path>
 git checkout <deleting_commit>^ -- <file_path>
 
+# temporarily stash work, and restore clean set of files
+git stash       # stash current modifications on stack
+git stash list  # view stash stack
+git stash apply # "unstash" top of stack
+
 # ignoring files in git
 add a .gitignore file to the PWD
 add patterns to .gitignore
