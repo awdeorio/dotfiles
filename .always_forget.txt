@@ -378,18 +378,6 @@ java -jar myprog.jar                    # run a java program
 jar -xvf                                # extract all files from jar archive
 
 
-### git
-git rm -r --cached DIR                  # undo git add, without removing files
-git commit -a  # skip staging (git add)
-
-# creating a new git repo
-[ add files to PROJ ]
-git init PROJ
-git clone --bare PROJ PROJ.git
-scp -r PROJ.git trenton:opt/git/
-git clone awdeorio@trenton:opt/git/PROJ.git   # check out repo
-
-
 ### wget
 wget -m andrewdeorio.com   # download everything
 avconv -i fergie.mp4 -s 960x540  -r 65535/2733 fergie960x540.mp4
@@ -471,9 +459,10 @@ opendiff FILE1 FILE2 [-merge FILE3]
 # unmount USB_DISK on OS X
 diskutil unmount /Volumes/USB_DISK
 
+
 ################################################################################
 # CAUTION: ENTERING GIT SECTION
-
+#
 ########################################
 # One-time setup for a user
 
@@ -563,6 +552,11 @@ git push
 git checkout FILE # revert a file to last checked-in version
 git reset --soft  # changes to tracked files are discarded
 git reset --hard  # reset head to <commit>, files unchanged
+git rm -r --cached DIR  # undo git add, without removing files
+
+# recover a removed file  http://stackoverflow.com/questions/953481
+git rev-list -n 1 HEAD -- <file_path>
+git checkout <deleting_commit>^ -- <file_path>
 
 # ignoring files in git
 add a .gitignore file to the PWD
@@ -583,10 +577,6 @@ git show HEAD~4:FILE # 4th last commit
 # get info about git connections
 git remote # list names of remote repositories
 git branch # list name of local branch
-
-# recover a removed file http://stackoverflow.com/questions/953481
-git rev-list -n 1 HEAD -- <file_path>
-git checkout <deleting_commit>^ -- <file_path>
 
 
 ########################################
