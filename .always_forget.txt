@@ -555,6 +555,7 @@ git checkout FILE # revert a file to last checked-in version
 git reset --soft  # changes to tracked files are discarded
 git reset --hard  # reset head to <commit>, files unchanged
 git rm -r --cached DIR  # undo git add, without removing files
+git clean -xf           # restore to "clean repo", including deleting extras
 
 # recover a removed file  http://stackoverflow.com/questions/953481
 git rev-list -n 1 HEAD -- <file_path>
@@ -572,9 +573,8 @@ git add .gitignore
 
 # view log
 git log [FILE]
-
-# view history of commits, branches and merges
-git log --oneline --decorate --graph --all
+git log --oneline                   # less info
+git log --oneline --decorate --graph --all # more info
 
 # viewing old versions
 git show REV:FILE
@@ -590,6 +590,14 @@ git branch # list name of local branch
 # staged lets you edit the previous commit’s message without altering its
 # snapshot.
 git commit --amend
+
+# tagging a commit
+git tag                                 # view tags
+git tag TAG                             # apply lightweight tag
+git tag -a TAG                          # apply annotated tag
+git tag -a TAG REV                      # apply annotated tag to REV commit
+git push --tags                         # make them public
+
 
 ########################################
 # Branching 
@@ -621,6 +629,7 @@ git checkout develop         # switch to develop branch
 git merge --no-ff myfeature  # merge feature into develop, keep old branch info
 git branch -d myfeature      # delete myfeature branch
 git push origin develop      # push to server
+git push origin ":myfeature" # remove branch from server
 
 
 ########################################
