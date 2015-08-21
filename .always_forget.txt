@@ -46,7 +46,9 @@ netstat -atn | grep ':22'          # how many ssh connections on this machine?
 netstat -l numeric-ports | grep 80 # what's using port 80?
 sudo fuser -v -n tcp 80            # who's using port 80?
 nc -v SERVER 9559                  # check connection to SERVER on port 9559
-
+nc SERVER 8083                     # connect to server "cat over a socket"
+nc -l SERVER PORT                  # start a server, good for testing firewalls
+g
 
 ### Audio
 alsamixer                               # change volume
@@ -592,10 +594,10 @@ git commit --amend
 ########################################
 # Branching 
 
-git branch                              # view local branches
+git branch                              # view current and local branches
 git branch -a                           # view all branches
 git checkout BRANCH                     # switch to BRANCH
-git checkout -b BRANCH                  # create a new branch & switch to it
+git checkout -b BRANCH                  # create a new branch and switch to it
 git push origin BRANCH                  # push BRANCH to remote
 
 
