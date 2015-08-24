@@ -540,6 +540,7 @@ git config user.email awdeorio@virtalabs.com
 git fetch origin
 git diff master origin/master           # see changes
 git merge origin/master                 # this will be a FF if no local changes
+git fetch --prune                       # remove stale local branches
 
 # update your local copy, merging from repository, automatic
 git pull       
