@@ -462,6 +462,20 @@ opendiff FILE1 FILE2 [-merge FILE3]
 diskutil unmount /Volumes/USB_DISK
 
 
+########################################
+# Python
+
+# Add this to source code to drop to a debugger
+import pdb; pdb.set_trace();
+
+# Enable tab-completion and history in Python shell.  Add this to ~/.pythonrc.py
+import readline, rlcompleter
+readline.parse_and_bind("tab: complete")
+
+# Execute an IPython Notebook in headless mode.  Clears all output, runs the 
+# entire notebook, and writes the result to an output .ipynb file
+ipython nbconvert --to=notebook --ClearOutputPreprocessor.enabled=True --ExecutePreprocessor.enabled=True --output=OUTPUT.ipynb INPUT.ipynb
+
 ################################################################################
 # CAUTION: ENTERING GIT SECTION
 #
@@ -584,8 +598,9 @@ git show HEAD^ FILE  # look at last committed version
 git show HEAD~4:FILE # 4th last commit
 
 # get info about git connections
-git remote # list names of remote repositories
-git branch # list name of local branch
+git remote                               # list names of remote repositories
+git remote show origin                   # more info
+git branch                               # list name of local branch
 
 # Combine the staged changes with the previous commit and replace the previous
 # commit with the resulting snapshot.  Running this when there is nothing
@@ -606,7 +621,8 @@ git push --tags                         # make them public
 
 git branch                              # view current and local branches
 git branch -a                           # view all branches
-git checkout BRANCH                     # switch to BRANCH
+git checkout BRANCH                     # switch to local BRANCH
+git checkout --track origin/BRANCH      # switch to remote BRANCH
 git checkout -b BRANCH                  # create a new branch and switch to it
 git push origin BRANCH                  # push BRANCH to remote
 
