@@ -468,6 +468,9 @@ diskutil unmount /Volumes/USB_DISK
 # Add this to source code to drop to a debugger
 import pdb; pdb.set_trace();
 
+# Check style
+pylint SRC_FOLDER
+
 # Enable tab-completion and history in Python shell.  Add this to ~/.pythonrc.py
 import readline, rlcompleter
 readline.parse_and_bind("tab: complete")
@@ -608,17 +611,18 @@ git branch                               # list name of local branch
 # snapshot.
 git commit --amend
 
-# tagging a commit
-git tag                                 # view tags
+########################################
+# Tagging
+git tag                                 # list tags
 git tag TAG                             # apply lightweight tag
 git tag -a TAG                          # apply annotated tag
 git tag -a TAG REV                      # apply annotated tag to REV commit
-git push --tags                         # make them public
-
+git push --tags                         # make tags public
+git checkout tags/TAG                   # checkout a tag as detacted HEAD
+git checkout -b BRANCH                  # retain changes in a branch
 
 ########################################
 # Branching 
-
 git branch                              # view current and local branches
 git branch -a                           # view all branches
 git checkout BRANCH                     # switch to local BRANCH
