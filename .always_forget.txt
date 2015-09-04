@@ -27,7 +27,7 @@ dhcpcd -t 10 -N eth1
 
 
 ### Manual Network Configuration
-nmap -sP '141.212.106.*'  # find an IP that's not in use
+nmap -sP '141.212.106.*'  # see what IP addresses are inuse
 dig -x 141.212.106.7      # verify that my IP is not in DHCP space
 ifconfig eth0 down
 ifconfig eth0 141.212.106.7 broadcast 141.212.106.255 netmask 0xffffff80 up
@@ -625,27 +625,27 @@ git checkout -b BRANCH                  # retain changes in a branch
 # Branching 
 git branch                              # view current and local branches
 git branch -a                           # view all branches
+git branch -vv                          # include tracking and commit info
 git checkout BRANCH                     # switch to local BRANCH
 git checkout --track origin/BRANCH      # switch to remote BRANCH
 git checkout -b BRANCH                  # create a new branch and switch to it
 git push origin BRANCH                  # push BRANCH to remote
+git branch --set-upstream-to=origin/BRANCH BRANCH # fix tracking
 
 
 ########################################
 # Comparing
-
 git diff BRANCH1 BRANCH2                # diff two local branches
 git diff master remotes/origin/dataset  # diff two remote branches
 git mergetool --tool-help               # list available diff/merge tools
 git config --global diff.tool TOOL      # use TOOL for merging
 git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
 
-
 ########################################
 # Git Branching Model
-http://nvie.com/posts/a-successful-git-branching-model/
-
+# http://nvie.com/posts/a-successful-git-branching-model/
 git checkout -b MYFEATURE develop # Start working on a new feature
+
 # merge feature into develop branch
 git checkout develop         # switch to develop branch
 git merge --no-ff myfeature  # merge feature into develop, keep old branch info
@@ -653,11 +653,34 @@ git branch -d myfeature      # delete myfeature branch
 git push origin develop      # push to server
 git push origin ":myfeature" # remove branch from server
 
-
 ########################################
 # Changing the location of a repository
-
-# change remote
-git remote -v
 git remote set-url origin NEW_URL
-git remote -v
+
+
+########################################
+# SQL
+
+# sqlite3 Linux CLI
+sqlite3 file.db                         # open connection to database from file
+
+# MySQL Linux CLI
+mysqladmin -u root password PASSWORD    # change root password
+mysql -u root -pPASSWORD                # connect to db (NO SPACE!!!)
+mysql.server start                      # start SQL server
+mysql -u user db -p                     # open db
+mysql -u user -p < SCRIPT               # run script
+mysqldump -u user -pPASSWD DB > file.db # dump database to file
+
+# SQL tid bits
+PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
+TIMESTAMP DEFAULT CURRENT_TIMESTAMP     # avoid initializing timestamps
+
+# SQL CLI
+SHOW DATABASES;                         # list all databases
+DROP DATABASE db;                       # delete database
+USE db;                                 # open database db
+SHOW TABLES;                            # list tables in db
+DROP TABLE table;                       # delete table
+INSERT INTO db (col, ...)               # add a row
+VALUES ('val', ...);                    # ...
