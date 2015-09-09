@@ -1,9 +1,8 @@
 # .always_forget.txt
 #
-# awdeorio's UNIX command reminders
+# awdeorio's notes on UNIX commands
 
-
-### Users and Groups
+# Users and Groups
 adduser john                                      # add user w/ system defaults
 useradd -m -G users,wheel,audio -s /bin/bash john # add new user manually
 usermod -u UID username                           # change UID
@@ -13,20 +12,16 @@ gpasswd -a awdeorio audio                         # add awdeorio to audio group
 smbpasswd -a username                             # new Samba users
 chsh -s /bin/bash username                        # change default shell
 
-
-### Connecting to wireless access point manually (DHCP)
+# Manual network configuration (DHCP)
 killall dhcpcd
 ifconfig eth1 down
 ifconfig eth1 hw ether '00:16:cb:05:3b:10'  # spoof MAC addr
-   Todd's MAC: 00:1F:E1:19:A3:72 
-   Valeria   : 00:16:cb:05:3b:10
 iwconfig eth1 key s:nebardupover3
 iwconfig eth1 essid DeOrio
 ifconfig eth1 up
 dhcpcd -t 10 -N eth1
 
-
-### Manual Network Configuration
+# Manual network configuration (static IP)
 nmap -sP '141.212.106.*'  # see what IP addresses are inuse
 dig -x 141.212.106.7      # verify that my IP is not in DHCP space
 ifconfig eth0 down
@@ -38,8 +33,7 @@ edit /etc/resolv.conf
   > nameserver 141.213.4.5
   > nameserver 141.213.13.31
 
-
-### Network Utilities
+# Network Utilities
 host www.google.com                # DNS lookup
 nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
@@ -48,16 +42,15 @@ sudo fuser -v -n tcp 80            # who's using port 80?
 nc -v SERVER 9559                  # check connection to SERVER on port 9559
 nc SERVER 8083                     # connect to server "cat over a socket"
 nc -l SERVER PORT                  # start a server, good for testing firewalls
-g
+wget -m andrewdeorio.com           # download everything
 
-### Audio
+# Audio
 alsamixer                               # change volume
 amixer -c 0 sset Master '6%+'           # change volume
 amixer -c 0 sset Headphone toggle       # toggle speakers/headphones
 mplayer "$(ls | shuf -n1)"              # select and play a random file
 
-
-### Video
+# Video
 # Read video device live
 mplayer tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0 -fps 20
 mplayer tv://
@@ -72,44 +65,34 @@ ffmpeg -i /Users/awdeorio/Dropbox/housing/818_Starwick_Sewer_Video.mp4 -vcodec l
 # compress mp4 video to 360p at 250kbit/s mp4
 ffmpeg -i /Users/awdeorio/Dropbox/housing/818_Starwick_Sewer_Video.mp4 -vcodec libx264 -vprofile baseline -preset slow -b:v 250k -maxrate 250k -bufsize 500k -vf scale=-1:360 -threads 0 -ab 96k output_360p.mp4
 
-
-### Images
-mogrify -rotate 90 *.jpg
-mogrify -resize 640x640 *.jpg
-exiftool photo.jpg                     # read all exif data
+# Images
+mogrify -rotate 90                     # rotate
+mogrify -resize 640x640                # reduce resolution
+exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' photo.jpg  # date/time += 3 yr 2 mos
 
-
-### Remote Logins
+# Remote login
 maize $> ssh -L 5901:localhost:5900 snoopy.eecs.umich.edu  # port forwarding
 maize $> vncviewer localhost:1
 # remotely enable gnome VNC server
 gconftool-2 -s -t bool /desktop/gnome/remote_access/enabled true
 
-# start remote vnc session  www.icsi.berkeley.edu/~wooters/persistentX.html
-server> vncserver -localhost -NeverShared
-client> ssh -N -L 5901:localhost:5901 server.eecs.umich.edu
-client> vncviewer localhost:1
+# Start remote vnc session
+server $ vncserver -localhost -NeverShared
+client $ ssh -N -L 5901:localhost:5901 server.eecs.umich.edu
+client $ vncviewer localhost:1
 # edit server:~/.vnc/.vnc/xstartup to change xsession to gnome, etc.
-server> vncserver -kill :1  # end vnc server
+server $ vncserver -kill :1  # end vnc server
 
-# open an .rdp file for remote login to virtualsites
+# Open an .rdp file for remote login to virtualsites
 tsclient -x connect.rdp                       
 rdesktop server:port -u awdeorio@UMICH.EDU
 
-
-### redirection in bash
+# Redirection in bash
 some_command 2>&1 | less   # copies STDERR to STDOUT
 diff <(echo a) <(echo b)   # <( ... ) syntax creates a temporary named pipe which makes the stdout of commands look and behave like a file
 
-
-### locate databases with old locate (not slocate)
-updatedb --database-root /y/awdeorio/mp3/ --require-visibility no --output
-/y/awdeorio/mp3/.mp3.db
-locate --database /y/awdeorio/mp3/.mp3.db
-
-
-### crontab format
+# crontab format
  +---------------- minute (0 - 59)
  |  +------------- hour (0 - 23)
  |  |  +---------- day of month (1 - 31)
@@ -118,53 +101,44 @@ locate --database /y/awdeorio/mp3/.mp3.db
  |  |  |  |  |
  *  *  *  *  *  command to be executed
 
-
-### Check a disk with progress bar and no questions asked
+# Check a disk with progress bar and no questions asked
 fsck -aC /dev/<device>
 touch /forcefsck && reboot  # force a filesystem check on reboot
 
-
-### Gentoo:emerge - USE flag descriptions:
+# Gentoo:emerge - USE flag descriptions:
 /usr/portage/profiles/use.desc
 /usr/portage/profiles/use.local.desc
 
-
-### Redhat:rpm
+# Redhat:rpm
 rpm -Uvh foo-1.0-1.i386.rpm  # install a package
 rpm -ev foo.rpm
-# compile and install a package from source (*.src.rpm)
+## compile and install a package from source (*.src.rpm)
 rpm -ivh source-package  # installs the source in /usr/src/redhat/SOURCES
                          # installs the spec file in /usr/src/redhat/SPECS.
 rpmbuild -bb thing.spec  # build rpm
 rpm -Uvh     thing.rpm   # install rpm
 rpm2cpio FILE.rpm | cpio -idmv # extra files from rpm
 
-
-### Debian/Ubuntu apt
+# Debian/Ubuntu apt
 apt-get update                          # update repository
 apt-get upgrade                         # upgrade packages, but NOT kernel
 apt-get dist-upgrade                    # upgrade packages, including kernel
 apt-cache search <package>              # find packages
 apt-cache showpkg <package>             # get the details on a package
 
-### Homebrew
+# Homebrew
 brew update
 brew upgrade
 brew cleanup
 brew cask cleanup
 brew linkapps
 
-### grep
+# grep
+grep -a -b -B100 -A100 phrase /dev/sda3 > file.txt  # recover deleted files
+egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
 # grep for tab: In bash, as you are typing the quoted regular expression, hit Ctrl-V then the TAB key to get the TAB in there.
 
-# Recover deleted files
-grep -a -b -B100 -A100 phrase /dev/sda3 > file.txt
-
-# grep for email addresses
-egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e
-
-
-### sed
+# sed
 sed 1d        # print all but first line
 sed '$d'      # print all but last line
 sed -n '52p'  # print line number 52
@@ -182,16 +156,14 @@ sed -nr 's/@@  ([0-9]+\.?[0-9]*) ns total time to execute/\1/p'
 sed '1s/before/after/' FILE  # replace first line
 FIXME: sed search and THEN do replace, e.g., '/searchterm/s/query/replace/'
 
-
-### awk
+# awk
 echo -e '1\n2\n3' | awk '{ sum += $1 }; END { print sum }' # sum an input stream
 awk '/Iowa/,/Montana/' # print section of a file between two regex (inclusive)
 awk '{print $NF}'      # print last field
 awk '{$1="";print}'    # print all but last field
 awk '$1>=2{print}      # print if greater that 2
 
-
-### misc text processing
+# Misc text processing
 cut -c8-               # remove first 8 characters of a line
 fold                   # word-wrap text
 column -tns, FILE.csv  # pretty-print a csv file
@@ -203,29 +175,19 @@ cat FILE | sort | uniq -c # frequency analysis of lines (histogram)
 paste                  # print two files side-by-side
 tr "\r\n" "\n"  FILE   # convert line endings to UNIX
 cat FILE | tr -d -c ',\n' | awk '{print length}' # count commas
-
-
-### text encoding
+shuf                   # shuffle lines in a file
 file FILE              # determine encoding of FILE
 iconv -f UTF-8 -t ASCII//TRANSLIT INFILE -o OUTFILE  # convert UTF8 to ASCII
 
-
-### set operations
-sort file1 | uniq                   # unique patterns in file1
-sort file1 file2 | uniq             # union file1 file2
-sort file1 file2 | uniq -d          # intersection file1 file2
-sort file1 file2 | uniq -u          # symmetric difference
-
-
-### Printing
+# Printing
 lprm -P<printer>       # remove one job from queue
 lpq  -P<printer>       # show printer queue status
 lpstat -t              # show all status information for all printers
 cupsdisable <printer>  # stop printer
 cupsenable  <printer>  # start printer
+enscript FILE          # pretty-print text file
 
-
-### disk imaging over a network
+# Disk imaging over a network
 # create a backup of client to server
 server $> nc -p 2222 -l > client-sda.img
 client $> dd if=/dev/sda bs=16M | nc server.eecs.umich.edu 2222
@@ -233,56 +195,43 @@ client $> dd if=/dev/sda bs=16M | nc server.eecs.umich.edu 2222
 client $> nc -p 2222 -l > /dev/sda
 server $> dd if=client-sda.img bs=16M | nc client.umich.edu 2222
 
-
-### back up and restore MBR excluding partition table
-http://users.bigpond.net.au/hermanzone/p15.htm#How_to_back_up_and_restore_your_MBR
-dd if=/dev/sda of=/home/herman/MBR.img bs=446 count=1 # backup
-dd if=/home/herman/MBR.img of=/dev/sda bs=446 count=1 # restore
+# Back up and restore MBR excluding partition table
+dd if=/dev/sda of=/home/herman/MBR.img bs=446 count=1 # backup MBR
+dd if=/home/herman/MBR.img of=/dev/sda bs=446 count=1 # restore MBR
 dd if=/dev/zero of=/dev/hda bs=446 count=1            # kill MBR, except table
 dd if=/dev/zero of=/dev/hda bs=512 count=1            # kill ENTIRE MBR
 
-
-### rip ISO from cdrom
+# Rip ISO from cdrom
 dd if=/dev/cdrom of=my_cd_image.iso
 
-
-### /etc/init.d/ scripts
+# /etc/init.d/ scripts
 update-rc.d -f autofs remove # Ubuntu, remove
 update-rc.d autofs defaults  # Ubuntu, add
 chkconfig autofs off         # FC/Redhat
 rc-update del autofs         # Gentoo
 
-
-### Intel SSH
+# Intel SSH
 cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
 cygwin $ ssh2.exe -L 22:localhost:22 ariel.eecs.umich.edu -s service
 # now you can use ssh or svn
 cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
 
-
-### All the words in the dictionary
+# All the words in the dictionary
 /usr/share/dict/words
+shuf /usr/share/dict/words | head -n1   # random word
 
-
-### CPU usage (%)
+# CPU usage (%)
 top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -oE '[0-9]+\.?[0-9]*' | awk '{sum+=$0} END {print sum/NR}'
 
-
-### Changing CPU frequency governor
+# Changing CPU frequency governor
 cpufreq-selector -g performance
 
-
-### rsync
+# rsync
 mount with "shortname=mixed"            # mount FAT32
 rsync -rvtP --modify-window=1 --delete  # copy
 rsync -rv --delete --checksum           # copy, using file checksum
 
-
-### ntp - sync clock with servers
-sudo ntpdate europe.pool.ntp.org north-america.pool.ntp.org
-
-
-### AFS
+# AFS
 kdestroy                                  # delete Kerberos tickets
 unlog                                     # delete AFS tokens
 kinit [-5] [-l 30d] [awdeorio@UMICH.EDU]  # get Kerberos ticket
@@ -295,11 +244,13 @@ find DIR -type d -exec fs setacl -dir {} -acl USER rlidwk \;
   # give USER access to DIR, recursively
 find DIR -type d -exec fs setacl -dir {} -acl USER rlidwka \;
   # give USER access to DIR, recursively, with admin (note the "a")
-
 fs setacl -dir DIR -acl USER rlidwk # give USER permission to DIR
 
+# NFS
+showmount -e 192.168.0.100              # see what's available
+mount 192.168.0.100:/volume1/public nas # mount it
 
-### hardware and detection
+# Hardware and detection
 top                                                # current memory usage
 free                                               # memory only
 cat /proc/cpuinfo                                  # CPU only
@@ -310,26 +261,27 @@ xinput --test "AlpsPS/2 ALPS GlidePoint"           # test the device
 xinput --list-props "AlpsPS/2 ALPS GlidePoint"     # see what one device can do
 xinput --set-prop "AlpsPS/2 ALPS GlidePoint" 121 1 # change a property
 
-
-### converting docs
+# Converting docs
 xlhtml - convert excel files
 tofrodos
 antiword
 ppthtml - ppt file to html
+enscript FILE.txt -o - | ps2pdf - FILE.pdf  # txt to pdf
+pdftk PATH/*.pdf cat output output.pdf  # merge pages
+pdftk FILE.pdf burst                    # explode pages
 
-
-### date
+# Date and time
 date '+%s'                                        # current time in seconds
 date --date='Thu Nov  4 09:08:49 EDT 2010' '+%s'  # parse a date and reformat
 date --date="1970-01-01 1187769064 sec GMT"       # Unix time to human
 date --date @1187769064                           # Unix time to human
 TZ='America/Detroit'; export TZ                   # change time zone
+ntpdate europe.pool.ntp.org north-america.pool.ntp.org # sync clock
 
-### make scripts exit cleanly
+# Make scripts exit cleanly
 trap exit 1 2 3 15
 
-
-### GNU parallel
+# GNU parallel
 parallel --verbose                      # print cmd before executing it
 parallel -v                             # print cmd+output after executing it
 ls *.tar.bz2 | parallel -v -j3 tar xvjf # untar, 3 jobs in parallel
@@ -340,25 +292,21 @@ killall -TERM parallel                  # finish running jobs, no new jobs
 echo >jobqueue; tail -f jobqueue | parallel  # start job queue
 echo my_command my_arg >> jobqueue           # submit to job queue
 
-
-### NFS
-showmount -e 192.168.0.100              # see what's available
-mount 192.168.0.100:/volume1/public nas # mount it
-
-
-### patch
+# Patch
 cd src/drivers/input/mouse
 patch < patch-dell-e6510
 
-
-### shell math
+# Shell math
 expr 1 / 2                              # integer only
 let A=1/2                               # integer only
 echo "1 / 2" | bc -l                    # floating point
 dc -e "3 k 1 2 /p"                      # floating point
+sort file1 | uniq                       # unique patterns
+sort file1 file2 | uniq                 # union
+sort file1 file2 | uniq -d              # intersection
+sort file1 file2 | uniq -u              # symmetric difference
 
-
-### compression
+# Compression
 tar -cjf DIR.tar.bz2 DIR/               # compress directory
 tar -xvjf DIR.tar.bz2                   # decompress directory
 tar -xvjOf DIR.tar.bz2                  # cat tarball files to stdout
@@ -369,44 +317,38 @@ bzip2 FILE.bz2                          # compress a single file
 bzcat FILE.bz2                          # dump compressed file to stdout
 bunzip2 FILE.bz2                        # decompress a single file
 gzip FILE.gz                            # compress a single file
-gunzip FILE.gz                          # decompress a single file                               zcat FILE.gz                            # dump compressed file to stdout
+gunzip FILE.gz                          # decompress a single file
+zcat FILE.gz                            # dump compressed file to stdout
 zgrep FILE.gz                           # grep for compressed files
 zdiff FILE1.gz FILE2.gz                 # diff for compressed files
 cat FILE.txt | gzip -f > FILE.txt.gz    # pipe into gzip
 
+# C++ tools
+g++ -g                                  # compile with debug support
+valgrind -v --leak-check=full ./a.out   # check for memory errors
+LIBARY_PATH                             # environment vars for tool installs
+LD_LIBRARY_PATH
+LD_RUN_PATH
+CPATH
+C_INCLUDE_PATH
+CPLUS_INCLUDE_PATH
+MANPATH
 
-### java
-java -jar myprog.jar                    # run a java program
-jar -xvf                                # extract all files from jar archive
-
-
-### wget
-wget -m andrewdeorio.com   # download everything
-avconv -i fergie.mp4 -s 960x540  -r 65535/2733 fergie960x540.mp4
-
-
-### C++ tools
-g++ -g ...
-valgrind -v --leak-check=full ./a.out
-
-
-### encfs
+# Encrypted virtual partition with encfs
 encfs ROOTDIR MOUNTPOINT   # enter "p" to create with defaults
 encfs ROOTDIR MOUNTPOINT   # mount
 fusermount -u MOUNTPOINT   # unmount
 encfsctl passwd ROOTDIR    # change password
 
-
-### Paths
+# Paths
 readlink -f PATH           # return absolute path
 
-
-### Serial ports
+# Serial ports
 dmesg                      # devices connected recently, e.g., /dev/tty...
 screen /dev/ttyACM0 9600   # text input/output at 9600 Baud
                            #   Ctrl-A,Shift-K to quit
 
-### Controlling mouse setting in X
+# Controlling mouse setting in X
 xinput                               # list devices
 xinput watch-props "DualPoint Stick" # list settings for one device
 xinput set-prop "DualPoint Stick" "Device Accel Profile" 2 # change setting
@@ -415,24 +357,14 @@ xinput set-prop "DualPoint Stick" 248 2
 xinput set-prop "DualPoint Stick" 249 2
 xinput set-prop "DualPoint Stick" 250 10
 
-
 # Mount CD/DVD image
 mount -o loop file.img /home/awdeorio/mnt/loop
 
-# change a bunch of file extensions using bash
+# Change a bunch of file extensions using bash
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
 
 # Create a random password
 md5sum -      # enter some text, followedby CTRL-D
-
-# print text file to pdf
-enscript FILE -o - | ps2pdf - FILE.pdf
-
-# merge individual pdf pages into one document
-pdftk PATH/*.pdf cat output output.pdf
-
-# explode one pdf docudment into individual pages
-pdftk FILE.pdf burst
 
 
 ########################################
@@ -463,6 +395,20 @@ diskutil unmount /Volumes/USB_DISK
 
 
 ########################################
+# Java
+java -jar myprog.jar                    # run a java program
+jar -xvf                                # extract all files from jar archive
+
+
+########################################
+# Perl 
+
+perl -V                                 # debug environment
+PERL5LIB                                # environment variable for tool installs
+cpan -i PACKAGE                         # install package
+
+
+########################################
 # Python
 
 # Add this to source code to drop to a debugger
@@ -479,8 +425,52 @@ readline.parse_and_bind("tab: complete")
 # entire notebook, and writes the result to an output .ipynb file
 ipython nbconvert --to=notebook --ClearOutputPreprocessor.enabled=True --ExecutePreprocessor.enabled=True --output=OUTPUT.ipynb INPUT.ipynb
 
-################################################################################
-# CAUTION: ENTERING GIT SECTION
+# include path for local packages
+export PYTHONPATH=${HOME}/local/lib/python2.6:${PYTHONPATH}
+export PYTHONUSERBASE=${HOME}/local
+
+# set up local package installs
+virtualenv ./venv                       # create
+. ./venv/bin/activate                   # enable
+pip install PACKAGE                     # install PACKAGE
+deactivate                              # disable
+
+
+########################################
+# Ruby local install
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+export PATH="$PATH:$HOME/.rvm/bin"
+
+
+########################################
+# SQL
+
+# sqlite3 Linux CLI
+sqlite3 file.db                         # open connection to database from file
+
+# MySQL Linux CLI
+mysqladmin -u root password PASSWORD    # change root password
+mysql -u root -pPASSWORD                # connect to db (NO SPACE!!!)
+mysql.server start                      # start SQL server
+mysql -u user db -p                     # open db
+mysql -u user -p < SCRIPT               # run script
+mysqldump -u user -pPASSWD DB > file.db # dump database to file
+
+# SQL tid bits
+PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
+TIMESTAMP DEFAULT CURRENT_TIMESTAMP     # avoid initializing timestamps
+
+# SQL CLI
+SHOW DATABASES;                         # list all databases
+DROP DATABASE db;                       # delete database
+USE db;                                 # open database db
+SHOW TABLES;                            # list tables in db
+DROP TABLE table;                       # delete table
+INSERT INTO db (col, ...)               # add a row
+VALUES ('val', ...);                    # ...
+
+
+################################################################################# CAUTION: ENTERING GIT SECTION
 #
 ########################################
 # One-time setup for a user
@@ -656,31 +646,3 @@ git push origin ":myfeature" # remove branch from server
 ########################################
 # Changing the location of a repository
 git remote set-url origin NEW_URL
-
-
-########################################
-# SQL
-
-# sqlite3 Linux CLI
-sqlite3 file.db                         # open connection to database from file
-
-# MySQL Linux CLI
-mysqladmin -u root password PASSWORD    # change root password
-mysql -u root -pPASSWORD                # connect to db (NO SPACE!!!)
-mysql.server start                      # start SQL server
-mysql -u user db -p                     # open db
-mysql -u user -p < SCRIPT               # run script
-mysqldump -u user -pPASSWD DB > file.db # dump database to file
-
-# SQL tid bits
-PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
-TIMESTAMP DEFAULT CURRENT_TIMESTAMP     # avoid initializing timestamps
-
-# SQL CLI
-SHOW DATABASES;                         # list all databases
-DROP DATABASE db;                       # delete database
-USE db;                                 # open database db
-SHOW TABLES;                            # list tables in db
-DROP TABLE table;                       # delete table
-INSERT INTO db (col, ...)               # add a row
-VALUES ('val', ...);                    # ...
