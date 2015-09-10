@@ -11,6 +11,7 @@ groupmod -g GID group                             # change GID of group
 gpasswd -a awdeorio audio                         # add awdeorio to audio group
 smbpasswd -a username                             # new Samba users
 chsh -s /bin/bash username                        # change default shell
+id                                                # print user and group ID #'s
 
 # Manual network configuration (DHCP)
 killall dhcpcd
@@ -34,6 +35,7 @@ edit /etc/resolv.conf
   > nameserver 141.213.13.31
 
 # Network Utilities
+hostname                           # name of this computer
 host www.google.com                # DNS lookup
 nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
@@ -42,7 +44,13 @@ sudo fuser -v -n tcp 80            # who's using port 80?
 nc -v SERVER 9559                  # check connection to SERVER on port 9559
 nc SERVER 8083                     # connect to server "cat over a socket"
 nc -l SERVER PORT                  # start a server, good for testing firewalls
+wget https://www.google.com/       # download one page
 wget -m andrewdeorio.com           # download everything
+traceroute                         # print route packets take to network host
+curl --verbose                     # watch protocol in action
+curl --trace-ascii log.txt         # watch protocol in action, more detail
+curl --trace-ascii log.txt --trace-time # include timing
+telnet HOST 80                     # connect to web server
 
 # Audio
 alsamixer                               # change volume
