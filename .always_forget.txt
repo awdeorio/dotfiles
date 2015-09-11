@@ -79,6 +79,9 @@ mogrify -resize 640x640                # reduce resolution
 exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' photo.jpg  # date/time += 3 yr 2 mos
 
+# ssh
+ssh -vT SERVER                         # debug authentication issues
+
 # Remote login
 maize $> ssh -L 5901:localhost:5900 snoopy.eecs.umich.edu  # port forwarding
 maize $> vncviewer localhost:1
@@ -91,6 +94,13 @@ client $ ssh -N -L 5901:localhost:5901 server.eecs.umich.edu
 client $ vncviewer localhost:1
 # edit server:~/.vnc/.vnc/xstartup to change xsession to gnome, etc.
 server $ vncserver -kill :1  # end vnc server
+
+# Intel SSH
+cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
+cygwin $ ssh2.exe -L 22:localhost:22 ariel.eecs.umich.edu -s service
+# now you can use ssh or svn
+cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
+
 
 # Open an .rdp file for remote login to virtualsites
 tsclient -x connect.rdp                       
@@ -217,12 +227,6 @@ update-rc.d -f autofs remove # Ubuntu, remove
 update-rc.d autofs defaults  # Ubuntu, add
 chkconfig autofs off         # FC/Redhat
 rc-update del autofs         # Gentoo
-
-# Intel SSH
-cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
-cygwin $ ssh2.exe -L 22:localhost:22 ariel.eecs.umich.edu -s service
-# now you can use ssh or svn
-cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
 
 # All the words in the dictionary
 /usr/share/dict/words
@@ -532,6 +536,7 @@ git push origin master
 # New repository
 go to github.com and click "make a new repository"
 git clone git@github.com:REPO/PROJECT.git
+git clone https://github.com/REPO/PROJECT.git
 
 # SSH keys
 https://help.github.com/articles/generating-ssh-keys/
