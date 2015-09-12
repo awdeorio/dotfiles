@@ -51,6 +51,14 @@ curl --verbose                     # watch protocol in action
 curl --trace-ascii log.txt         # watch protocol in action, more detail
 curl --trace-ascii log.txt --trace-time # include timing
 telnet HOST 80                     # connect to web server
+tcpdump                            # watch packets on all network interfaces
+tcpdump -i eth0                    # watch packets on one network interface
+tcpdump tcp                        # only one protocol
+tcpdump port 80                    # only one port
+tcpdump host 1.2.3.4               # only one host
+tcpdump dst 1.2.3.4                # only one dest
+tcpdump src 1.2.3.4                # only one source
+iftop                              # display bandwidth usage
 
 # Audio
 alsamixer                               # change volume
