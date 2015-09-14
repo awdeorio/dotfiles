@@ -12,6 +12,7 @@ gpasswd -a awdeorio audio                         # add awdeorio to audio group
 smbpasswd -a username                             # new Samba users
 chsh -s /bin/bash username                        # change default shell
 id                                                # print user and group ID #'s
+ulimit -a                                         # per-user system limits
 
 # Manual network configuration (DHCP)
 killall dhcpcd
