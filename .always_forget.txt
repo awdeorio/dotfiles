@@ -3,22 +3,27 @@
 # awdeorio's notes on UNIX commands
 
 # Users and Groups
-adduser john                                      # add user w/ system defaults
-useradd -m -G users,wheel,audio -s /bin/bash john # add new user manually
-usermod -u UID username                           # change UID
-usermod -g GID username                           # change default group
-groupmod -g GID group                             # change GID of group
-gpasswd -a awdeorio audio                         # add awdeorio to audio group
-smbpasswd -a username                             # new Samba users
-chsh -s /bin/bash username                        # change default shell
-id                                                # print user and group ID #'s
-ulimit -a                                         # per-user system limits
+adduser john                            # add user w/ system defaults
+useradd -m -G users,wheel -s /bin/bash USER # add new USER manually
+usermod -u UID username                 # change UID
+usermod -g GID username                 # change default group
+groupmod -g GID group                   # change GID of group
+gpasswd -a awdeorio audio               # add awdeorio to audio group
+smbpasswd -a username                   # new Samba user
+chsh -s /bin/bash username              # change default shell
+id                                      # print user and group ID #'s
+ulimit -a                               # per-user system limits
 groups                                  # list group membership
 users                                   # list users logged in
 w                                       # list users logged in
 who                                     # list users logged in
 finger USER                             # directory info about USER
 whoami                                  # current user
+
+# Machines
+hostname                                # name of this computer
+uname                                   # operating system name
+uname -a                                # TONS of info about OS, compiler, etc.
 
 # Processes and Threads
 ps                                      # View my threads
@@ -27,6 +32,7 @@ ps -ax                                  # All processes on the machine
 ps -axM                                 # All processes and threads
 top                                     # Dynamic view of processes
 top -H                                  # Dynamic view of threads
+top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -oE '[0-9]+\.?[0-9]*' | awk '{sum+=$0} END {print sum/NR}' # CPU usage (%)
 
 # Manual network configuration (DHCP)
 killall dhcpcd
@@ -50,7 +56,6 @@ edit /etc/resolv.conf
   > nameserver 141.213.13.31
 
 # Network Utilities
-hostname                           # name of this computer
 host www.google.com                # DNS lookup
 nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
@@ -102,14 +107,10 @@ mogrify -resize 640x640                # reduce resolution
 exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' photo.jpg  # date/time += 3 yr 2 mos
 
-# ssh
+# SSH
 ssh -vT SERVER                         # debug authentication issues
-
-# Remote login
-maize $> ssh -L 5901:localhost:5900 snoopy.eecs.umich.edu  # port forwarding
-maize $> vncviewer localhost:1
-# remotely enable gnome VNC server
-gconftool-2 -s -t bool /desktop/gnome/remote_access/enabled true
+ssh -L 5901:localhost:5900 HOST        # port forwarding
+vncviewer localhost:1                  # (now use forwarded port)
 
 # Start remote vnc session
 server $ vncserver -localhost -NeverShared
@@ -123,7 +124,6 @@ cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
 cygwin $ ssh2.exe -L 22:localhost:22 ariel.eecs.umich.edu -s service
 # now you can use ssh or svn
 cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
-
 
 # Open an .rdp file for remote login to virtualsites
 tsclient -x connect.rdp                       
@@ -145,34 +145,6 @@ diff <(echo a) <(echo b)   # <( ... ) syntax creates a temporary named pipe whic
 # Check a disk with progress bar and no questions asked
 fsck -aC /dev/<device>
 touch /forcefsck && reboot  # force a filesystem check on reboot
-
-# Gentoo:emerge - USE flag descriptions:
-/usr/portage/profiles/use.desc
-/usr/portage/profiles/use.local.desc
-
-# Redhat:rpm
-rpm -Uvh foo-1.0-1.i386.rpm  # install a package
-rpm -ev foo.rpm
-## compile and install a package from source (*.src.rpm)
-rpm -ivh source-package  # installs the source in /usr/src/redhat/SOURCES
-                         # installs the spec file in /usr/src/redhat/SPECS.
-rpmbuild -bb thing.spec  # build rpm
-rpm -Uvh     thing.rpm   # install rpm
-rpm2cpio FILE.rpm | cpio -idmv # extra files from rpm
-
-# Debian/Ubuntu apt
-apt-get update                          # update repository
-apt-get upgrade                         # upgrade packages, but NOT kernel
-apt-get dist-upgrade                    # upgrade packages, including kernel
-apt-cache search <package>              # find packages
-apt-cache showpkg <package>             # get the details on a package
-
-# Homebrew
-brew update
-brew upgrade
-brew cleanup
-brew cask cleanup
-brew linkapps
 
 # grep
 grep -a -b -B100 -A100 phrase /dev/sda3 > file.txt  # recover deleted files
@@ -230,11 +202,11 @@ enscript FILE          # pretty-print text file
 
 # Disk imaging over a network
 # create a backup of client to server
-server $> nc -p 2222 -l > client-sda.img
-client $> dd if=/dev/sda bs=16M | nc server.eecs.umich.edu 2222
+server $ nc -p 2222 -l > client-sda.img
+client $ dd if=/dev/sda bs=16M | nc server.eecs.umich.edu 2222
 # restore backup from server on to client
-client $> nc -p 2222 -l > /dev/sda
-server $> dd if=client-sda.img bs=16M | nc client.umich.edu 2222
+client $ nc -p 2222 -l > /dev/sda
+server $ dd if=client-sda.img bs=16M | nc client.umich.edu 2222
 
 # Back up and restore MBR excluding partition table
 dd if=/dev/sda of=/home/herman/MBR.img bs=446 count=1 # backup MBR
@@ -245,21 +217,9 @@ dd if=/dev/zero of=/dev/hda bs=512 count=1            # kill ENTIRE MBR
 # Rip ISO from cdrom
 dd if=/dev/cdrom of=my_cd_image.iso
 
-# /etc/init.d/ scripts
-update-rc.d -f autofs remove # Ubuntu, remove
-update-rc.d autofs defaults  # Ubuntu, add
-chkconfig autofs off         # FC/Redhat
-rc-update del autofs         # Gentoo
-
 # All the words in the dictionary
 /usr/share/dict/words
 shuf /usr/share/dict/words | head -n1   # random word
-
-# CPU usage (%)
-top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -oE '[0-9]+\.?[0-9]*' | awk '{sum+=$0} END {print sum/NR}'
-
-# Changing CPU frequency governor
-cpufreq-selector -g performance
 
 # rsync
 mount with "shortname=mixed"            # mount FAT32
@@ -431,6 +391,42 @@ opendiff FILE1 FILE2 [-merge FILE3]
 # unmount USB_DISK on OS X
 diskutil unmount /Volumes/USB_DISK
 
+# Homebrew
+brew update
+brew upgrade
+brew cleanup
+brew cask cleanup
+brew linkapps
+
+########################################
+# Other Linux Distro specifics
+
+# Gentoo:emerge - USE flag descriptions:
+/usr/portage/profiles/use.desc
+/usr/portage/profiles/use.local.desc
+
+# Redhat:rpm
+rpm -Uvh foo-1.0-1.i386.rpm  # install a package
+rpm -ev foo.rpm
+## compile and install a package from source (*.src.rpm)
+rpm -ivh source-package  # installs the source in /usr/src/redhat/SOURCES
+                         # installs the spec file in /usr/src/redhat/SPECS.
+rpmbuild -bb thing.spec  # build rpm
+rpm -Uvh     thing.rpm   # install rpm
+rpm2cpio FILE.rpm | cpio -idmv # extra files from rpm
+
+# Debian/Ubuntu apt
+apt-get update                          # update repository
+apt-get upgrade                         # upgrade packages, but NOT kernel
+apt-get dist-upgrade                    # upgrade packages, including kernel
+apt-cache search <package>              # find packages
+apt-cache showpkg <package>             # get the details on a package
+
+# /etc/init.d/ scripts
+update-rc.d -f autofs remove # Ubuntu, remove
+update-rc.d autofs defaults  # Ubuntu, add
+chkconfig autofs off         # FC/Redhat
+rc-update del autofs         # Gentoo
 
 ########################################
 # Java
