@@ -13,6 +13,20 @@ smbpasswd -a username                             # new Samba users
 chsh -s /bin/bash username                        # change default shell
 id                                                # print user and group ID #'s
 ulimit -a                                         # per-user system limits
+groups                                  # list group membership
+users                                   # list users logged in
+w                                       # list users logged in
+who                                     # list users logged in
+finger USER                             # directory info about USER
+whoami                                  # current user
+
+# Processes and Threads
+ps                                      # View my threads
+ps -u johndoe                           # Another user's processes
+ps -ax                                  # All processes on the machine
+ps -axM                                 # All processes and threads
+top                                     # Dynamic view of processes
+top -H                                  # Dynamic view of threads
 
 # Manual network configuration (DHCP)
 killall dhcpcd
@@ -355,20 +369,26 @@ C_INCLUDE_PATH
 CPLUS_INCLUDE_PATH
 MANPATH
 
-# Encrypted virtual partition with encfs
-encfs ROOTDIR MOUNTPOINT   # enter "p" to create with defaults
+# Encryption
+encfs ROOTDIR MOUNTPOINT   # (first time) create encrypted virtual folder
 encfs ROOTDIR MOUNTPOINT   # mount
-fusermount -u MOUNTPOINT   # unmount
+fusermount -u MOUNTPOINT   # unmount / Linux
+umoount MOUNTPOINT         # unmount / Darwin
 encfsctl passwd ROOTDIR    # change password
+md5sum                     # compute hash
+md5sum -                   # enter some text, then CTRL-D for random passwd
+shasum                     # compute hash
+gpg                        # encrypt/decrypt text file
 
 # Paths
+pwd                        # current directory
 readlink -f PATH           # return absolute path
+cd -                       # return to previous directory
 
 # Serial ports
 dmesg                      # devices connected recently, e.g., /dev/tty...
 screen /dev/ttyACM0 9600   # text input/output at 9600 Baud
                            #   Ctrl-A,Shift-K to quit
-
 # Controlling mouse setting in X
 xinput                               # list devices
 xinput watch-props "DualPoint Stick" # list settings for one device
@@ -383,9 +403,6 @@ mount -o loop file.img /home/awdeorio/mnt/loop
 
 # Change a bunch of file extensions using bash
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
-
-# Create a random password
-md5sum -      # enter some text, followedby CTRL-D
 
 
 ########################################
