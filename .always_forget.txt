@@ -24,6 +24,17 @@ whoami                                  # current user
 hostname                                # name of this computer
 uname                                   # operating system name
 uname -a                                # TONS of info about OS, compiler, etc.
+cat /proc/cpuinfo                       # CPU size/features
+cat /proc/meminfo                       # memory size/features
+uptime                                  # time since turn on
+
+# Superuser permissions
+su                                      # switch user to root
+su USER                                 # switch user to USER
+sudo CMD                                # run CMD as root
+sudo CMD                                # run CMD as root
+sudo -u USER CMD                        # run CMD as USER
+sudoedit FILE                           # edit file as root
 
 # Processes and Threads
 ps                                      # View my threads
@@ -33,6 +44,23 @@ ps -axM                                 # All processes and threads
 top                                     # Dynamic view of processes
 top -H                                  # Dynamic view of threads
 top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -oE '[0-9]+\.?[0-9]*' | awk '{sum+=$0} END {print sum/NR}' # CPU usage (%)
+pgrep                                   # search for processes, return PID
+kill PID                                # kill process with PID
+kill -9 PID                             # kill process using signal 9
+killall NAME                            # kill all processes with NAME
+killall -9 NAME                         # kill all using signal 9
+
+# Commonly used signals
+1       HUP (hang up)
+2       INT (interrupt)
+3       QUIT (quit)
+6       ABRT (abort)
+9       KILL (non-catchable, non-ignorable kill)
+14      ALRM (alarm clock)
+15      TERM (software termination signal)
+
+# Make scripts exit cleanly
+trap exit 1 2 3 15
 
 # Manual network configuration (DHCP)
 killall dhcpcd
@@ -150,6 +178,7 @@ touch /forcefsck && reboot  # force a filesystem check on reboot
 grep -a -b -B100 -A100 phrase /dev/sda3 > file.txt  # recover deleted files
 egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
 # grep for tab: In bash, as you are typing the quoted regular expression, hit Ctrl-V then the TAB key to get the TAB in there.
+grep -P                                 # Perl regex
 
 # sed
 sed 1d        # print all but first line
@@ -226,6 +255,25 @@ mount with "shortname=mixed"            # mount FAT32
 rsync -rvtP --modify-window=1 --delete  # copy
 rsync -rv --delete --checksum           # copy, using file checksum
 
+# Permissions
+chown USER                              # change owner
+chown -R USER                           # change owner recursively
+chgrp GROUP                             # change group
+chgrp -R GROUP                          # change group recursively
+chmod -r                                # remove read permissions
+chmod -w                                # remove write permissions
+chmod -x                                # remove execute permissions
+chmod +r                                # add read permissions
+chmod +w                                # add write permissions
+chmod +x                                # add execute permissions
+chmod u-rwx                             # remove rwx access for user
+chmod g-rwx                             # remove rwx access for group
+chmod o-rwx                             # remove rwx access for others
+chmod 777                               # EVERYONE can do EVERYTHING
+find . -type f -exec chmod 600 {}\;     # change permissions for files only
+find . -type d -exec chmod 700 {}\;     # change permissions for dirs only
+umask                                   # view mask for default file permissions
+
 # AFS
 kdestroy                                  # delete Kerberos tickets
 unlog                                     # delete AFS tokens
@@ -272,9 +320,6 @@ date --date="1970-01-01 1187769064 sec GMT"       # Unix time to human
 date --date @1187769064                           # Unix time to human
 TZ='America/Detroit'; export TZ                   # change time zone
 ntpdate europe.pool.ntp.org north-america.pool.ntp.org # sync clock
-
-# Make scripts exit cleanly
-trap exit 1 2 3 15
 
 # GNU parallel
 parallel --verbose                      # print cmd before executing it
@@ -344,6 +389,7 @@ gpg                        # encrypt/decrypt text file
 pwd                        # current directory
 readlink -f PATH           # return absolute path
 cd -                       # return to previous directory
+lsof                       # list open files
 
 # Serial ports
 dmesg                      # devices connected recently, e.g., /dev/tty...
