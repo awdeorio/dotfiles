@@ -108,8 +108,7 @@ tcpdump port 80                    # only one port
 tcpdump host 1.2.3.4               # only one host
 tcpdump dst 1.2.3.4                # only one dest
 tcpdump src 1.2.3.4                # only one source
-tcpdump "tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0" # TCP 3-way handshake
-
+tcpdump -S "tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0" # 3-way handshake
 iftop                              # display bandwidth usage
 
 # Audio
@@ -407,6 +406,8 @@ exit N                     # exit N
 true                       # exit zero
 false                      # exit non-zero
 trap FUNC 1 2 3 15         # run FUNC (or command) on receiving a signal
+tee FILE                   # copy stdin to both stdout and FILE
+echo hello | tee FILE      # write "hello" to both stdout and FILE
 
 # Serial ports
 dmesg                      # devices connected recently, e.g., /dev/tty...
