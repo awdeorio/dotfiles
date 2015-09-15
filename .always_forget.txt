@@ -62,6 +62,11 @@ killall -9 NAME                         # kill all using signal 9
 # Make scripts exit cleanly
 trap exit 1 2 3 15
 
+# Paths
+which CMD                               # print path to CMD
+whereis CMD                             # print all paths to CMD
+export PATH=$PATH:NEW_DIR               # add new directory to PATH (bash)
+
 # Manual network configuration (DHCP)
 killall dhcpcd
 ifconfig eth1 down
@@ -139,6 +144,7 @@ exiftool '-AllDates+=3:02:00 00:00:00' photo.jpg  # date/time += 3 yr 2 mos
 ssh -vT SERVER                         # debug authentication issues
 ssh -L 5901:localhost:5900 HOST        # port forwarding
 vncviewer localhost:1                  # (now use forwarded port)
+ssh USER@HOST CMD                      # run command on remote host
 
 # Start remote vnc session
 server $ vncserver -localhost -NeverShared
@@ -220,6 +226,9 @@ cat FILE | tr -d -c ',\n' | awk '{print length}' # count commas
 shuf                   # shuffle lines in a file
 file FILE              # determine encoding of FILE
 iconv -f UTF-8 -t ASCII//TRANSLIT INFILE -o OUTFILE  # convert UTF8 to ASCII
+head                   # first 10 lines
+tail                   # last 10 lines
+tail -f                # monitor file for appends
 
 # Printing
 lprm -P<printer>       # remove one job from queue
@@ -395,6 +404,16 @@ lsof                       # list open files
 dmesg                      # devices connected recently, e.g., /dev/tty...
 screen /dev/ttyACM0 9600   # text input/output at 9600 Baud
                            #   Ctrl-A,Shift-K to quit
+# Virtual terminals
+screen                     # start virtual text terminal
+tmux                       # similar to screen, TODO
+
+# Meta commands
+watch CMD                  # run CMD over and over
+watch -n0.5 CMD            # run CMD every 0.5s
+tail -f FILE               # watch file for appends
+ ... | xargs CMD           # run CMD on each line of input
+
 # Controlling mouse setting in X
 xinput                               # list devices
 xinput watch-props "DualPoint Stick" # list settings for one device
