@@ -59,9 +59,6 @@ killall -9 NAME                         # kill all using signal 9
 14      ALRM (alarm clock)
 15      TERM (software termination signal)
 
-# Make scripts exit cleanly
-trap exit 1 2 3 15
-
 # Paths
 which CMD                               # print path to CMD
 whereis CMD                             # print all paths to CMD
@@ -401,6 +398,15 @@ pwd                        # current directory
 readlink -f PATH           # return absolute path
 cd -                       # return to previous directory
 lsof                       # list open files
+
+# Scripting
+yes                        # keep printing "y" over and over
+yes | INSTALL_CMD          # answer yes to all installer questions
+yes > file                 # quickly generate a big file
+exit N                     # exit N
+true                       # exit zero
+false                      # exit non-zero
+trap FUNC 1 2 3 15         # run FUNC (or command) on receiving a signal
 
 # Serial ports
 dmesg                      # devices connected recently, e.g., /dev/tty...
