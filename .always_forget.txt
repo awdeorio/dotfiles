@@ -59,6 +59,8 @@ tcpdump port 80                    # only one port
 tcpdump host 1.2.3.4               # only one host
 tcpdump dst 1.2.3.4                # only one dest
 tcpdump src 1.2.3.4                # only one source
+tcpdump "tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0" # TCP 3-way handshake
+
 iftop                              # display bandwidth usage
 
 # Audio
