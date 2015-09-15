@@ -3,16 +3,69 @@
 # awdeorio's notes on UNIX commands
 
 # Users and Groups
-adduser john                                      # add user w/ system defaults
-useradd -m -G users,wheel,audio -s /bin/bash john # add new user manually
-usermod -u UID username                           # change UID
-usermod -g GID username                           # change default group
-groupmod -g GID group                             # change GID of group
-gpasswd -a awdeorio audio                         # add awdeorio to audio group
-smbpasswd -a username                             # new Samba users
-chsh -s /bin/bash username                        # change default shell
-id                                                # print user and group ID #'s
-ulimit -a                                         # per-user system limits
+adduser john                            # add user w/ system defaults
+useradd -m -G users,wheel -s /bin/bash USER # add new USER manually
+usermod -u UID username                 # change UID
+usermod -g GID username                 # change default group
+groupmod -g GID group                   # change GID of group
+gpasswd -a awdeorio audio               # add awdeorio to audio group
+smbpasswd -a username                   # new Samba user
+chsh -s /bin/bash username              # change default shell
+id                                      # print user and group ID #'s
+ulimit -a                               # per-user system limits
+groups                                  # list group membership
+users                                   # list users logged in
+w                                       # list users logged in
+who                                     # list users logged in
+finger USER                             # directory info about USER
+whoami                                  # current user
+
+# Machines
+hostname                                # name of this computer
+uname                                   # operating system name
+uname -a                                # TONS of info about OS, compiler, etc.
+cat /proc/cpuinfo                       # CPU size/features
+cat /proc/meminfo                       # memory size/features
+uptime                                  # time since turn on
+
+# Superuser permissions
+su                                      # switch user to root
+su USER                                 # switch user to USER
+sudo CMD                                # run CMD as root
+sudo CMD                                # run CMD as root
+sudo -u USER CMD                        # run CMD as USER
+sudoedit FILE                           # edit file as root
+
+# Processes and Threads
+ps                                      # View my threads
+ps -u johndoe                           # Another user's processes
+ps -ax                                  # All processes on the machine
+ps -axM                                 # All processes and threads
+top                                     # Dynamic view of processes
+top -H                                  # Dynamic view of threads
+top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -oE '[0-9]+\.?[0-9]*' | awk '{sum+=$0} END {print sum/NR}' # CPU usage (%)
+pgrep                                   # search for processes, return PID
+kill PID                                # kill process with PID
+kill -9 PID                             # kill process using signal 9
+killall NAME                            # kill all processes with NAME
+killall -9 NAME                         # kill all using signal 9
+
+# Commonly used signals
+1       HUP (hang up)
+2       INT (interrupt)
+3       QUIT (quit)
+6       ABRT (abort)
+9       KILL (non-catchable, non-ignorable kill)
+14      ALRM (alarm clock)
+15      TERM (software termination signal)
+
+# Make scripts exit cleanly
+trap exit 1 2 3 15
+
+# Paths
+which CMD                               # print path to CMD
+whereis CMD                             # print all paths to CMD
+export PATH=$PATH:NEW_DIR               # add new directory to PATH (bash)
 
 # Manual network configuration (DHCP)
 killall dhcpcd
@@ -36,7 +89,6 @@ edit /etc/resolv.conf
   > nameserver 141.213.13.31
 
 # Network Utilities
-hostname                           # name of this computer
 host www.google.com                # DNS lookup
 nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
@@ -90,14 +142,11 @@ mogrify -resize 640x640                # reduce resolution
 exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' photo.jpg  # date/time += 3 yr 2 mos
 
-# ssh
+# SSH
 ssh -vT SERVER                         # debug authentication issues
-
-# Remote login
-maize $> ssh -L 5901:localhost:5900 snoopy.eecs.umich.edu  # port forwarding
-maize $> vncviewer localhost:1
-# remotely enable gnome VNC server
-gconftool-2 -s -t bool /desktop/gnome/remote_access/enabled true
+ssh -L 5901:localhost:5900 HOST        # port forwarding
+vncviewer localhost:1                  # (now use forwarded port)
+ssh USER@HOST CMD                      # run command on remote host
 
 # Start remote vnc session
 server $ vncserver -localhost -NeverShared
@@ -111,7 +160,6 @@ cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
 cygwin $ ssh2.exe -L 22:localhost:22 ariel.eecs.umich.edu -s service
 # now you can use ssh or svn
 cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
-
 
 # Open an .rdp file for remote login to virtualsites
 tsclient -x connect.rdp                       
@@ -134,38 +182,11 @@ diff <(echo a) <(echo b)   # <( ... ) syntax creates a temporary named pipe whic
 fsck -aC /dev/<device>
 touch /forcefsck && reboot  # force a filesystem check on reboot
 
-# Gentoo:emerge - USE flag descriptions:
-/usr/portage/profiles/use.desc
-/usr/portage/profiles/use.local.desc
-
-# Redhat:rpm
-rpm -Uvh foo-1.0-1.i386.rpm  # install a package
-rpm -ev foo.rpm
-## compile and install a package from source (*.src.rpm)
-rpm -ivh source-package  # installs the source in /usr/src/redhat/SOURCES
-                         # installs the spec file in /usr/src/redhat/SPECS.
-rpmbuild -bb thing.spec  # build rpm
-rpm -Uvh     thing.rpm   # install rpm
-rpm2cpio FILE.rpm | cpio -idmv # extra files from rpm
-
-# Debian/Ubuntu apt
-apt-get update                          # update repository
-apt-get upgrade                         # upgrade packages, but NOT kernel
-apt-get dist-upgrade                    # upgrade packages, including kernel
-apt-cache search <package>              # find packages
-apt-cache showpkg <package>             # get the details on a package
-
-# Homebrew
-brew update
-brew upgrade
-brew cleanup
-brew cask cleanup
-brew linkapps
-
 # grep
 grep -a -b -B100 -A100 phrase /dev/sda3 > file.txt  # recover deleted files
 egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
 # grep for tab: In bash, as you are typing the quoted regular expression, hit Ctrl-V then the TAB key to get the TAB in there.
+grep -P                                 # Perl regex
 
 # sed
 sed 1d        # print all but first line
@@ -207,6 +228,9 @@ cat FILE | tr -d -c ',\n' | awk '{print length}' # count commas
 shuf                   # shuffle lines in a file
 file FILE              # determine encoding of FILE
 iconv -f UTF-8 -t ASCII//TRANSLIT INFILE -o OUTFILE  # convert UTF8 to ASCII
+head                   # first 10 lines
+tail                   # last 10 lines
+tail -f                # monitor file for appends
 
 # Printing
 lprm -P<printer>       # remove one job from queue
@@ -218,11 +242,11 @@ enscript FILE          # pretty-print text file
 
 # Disk imaging over a network
 # create a backup of client to server
-server $> nc -p 2222 -l > client-sda.img
-client $> dd if=/dev/sda bs=16M | nc server.eecs.umich.edu 2222
+server $ nc -p 2222 -l > client-sda.img
+client $ dd if=/dev/sda bs=16M | nc server.eecs.umich.edu 2222
 # restore backup from server on to client
-client $> nc -p 2222 -l > /dev/sda
-server $> dd if=client-sda.img bs=16M | nc client.umich.edu 2222
+client $ nc -p 2222 -l > /dev/sda
+server $ dd if=client-sda.img bs=16M | nc client.umich.edu 2222
 
 # Back up and restore MBR excluding partition table
 dd if=/dev/sda of=/home/herman/MBR.img bs=446 count=1 # backup MBR
@@ -233,26 +257,33 @@ dd if=/dev/zero of=/dev/hda bs=512 count=1            # kill ENTIRE MBR
 # Rip ISO from cdrom
 dd if=/dev/cdrom of=my_cd_image.iso
 
-# /etc/init.d/ scripts
-update-rc.d -f autofs remove # Ubuntu, remove
-update-rc.d autofs defaults  # Ubuntu, add
-chkconfig autofs off         # FC/Redhat
-rc-update del autofs         # Gentoo
-
 # All the words in the dictionary
 /usr/share/dict/words
 shuf /usr/share/dict/words | head -n1   # random word
-
-# CPU usage (%)
-top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -oE '[0-9]+\.?[0-9]*' | awk '{sum+=$0} END {print sum/NR}'
-
-# Changing CPU frequency governor
-cpufreq-selector -g performance
 
 # rsync
 mount with "shortname=mixed"            # mount FAT32
 rsync -rvtP --modify-window=1 --delete  # copy
 rsync -rv --delete --checksum           # copy, using file checksum
+
+# Permissions
+chown USER                              # change owner
+chown -R USER                           # change owner recursively
+chgrp GROUP                             # change group
+chgrp -R GROUP                          # change group recursively
+chmod -r                                # remove read permissions
+chmod -w                                # remove write permissions
+chmod -x                                # remove execute permissions
+chmod +r                                # add read permissions
+chmod +w                                # add write permissions
+chmod +x                                # add execute permissions
+chmod u-rwx                             # remove rwx access for user
+chmod g-rwx                             # remove rwx access for group
+chmod o-rwx                             # remove rwx access for others
+chmod 777                               # EVERYONE can do EVERYTHING
+find . -type f -exec chmod 600 {}\;     # change permissions for files only
+find . -type d -exec chmod 700 {}\;     # change permissions for dirs only
+umask                                   # view mask for default file permissions
 
 # AFS
 kdestroy                                  # delete Kerberos tickets
@@ -300,9 +331,6 @@ date --date="1970-01-01 1187769064 sec GMT"       # Unix time to human
 date --date @1187769064                           # Unix time to human
 TZ='America/Detroit'; export TZ                   # change time zone
 ntpdate europe.pool.ntp.org north-america.pool.ntp.org # sync clock
-
-# Make scripts exit cleanly
-trap exit 1 2 3 15
 
 # GNU parallel
 parallel --verbose                      # print cmd before executing it
@@ -357,19 +385,36 @@ C_INCLUDE_PATH
 CPLUS_INCLUDE_PATH
 MANPATH
 
-# Encrypted virtual partition with encfs
-encfs ROOTDIR MOUNTPOINT   # enter "p" to create with defaults
+# Encryption
+encfs ROOTDIR MOUNTPOINT   # (first time) create encrypted virtual folder
 encfs ROOTDIR MOUNTPOINT   # mount
-fusermount -u MOUNTPOINT   # unmount
+fusermount -u MOUNTPOINT   # unmount / Linux
+umoount MOUNTPOINT         # unmount / Darwin
 encfsctl passwd ROOTDIR    # change password
+md5sum                     # compute hash
+md5sum -                   # enter some text, then CTRL-D for random passwd
+shasum                     # compute hash
+gpg                        # encrypt/decrypt text file
 
 # Paths
+pwd                        # current directory
 readlink -f PATH           # return absolute path
+cd -                       # return to previous directory
+lsof                       # list open files
 
 # Serial ports
 dmesg                      # devices connected recently, e.g., /dev/tty...
 screen /dev/ttyACM0 9600   # text input/output at 9600 Baud
                            #   Ctrl-A,Shift-K to quit
+# Virtual terminals
+screen                     # start virtual text terminal
+tmux                       # similar to screen, TODO
+
+# Meta commands
+watch CMD                  # run CMD over and over
+watch -n0.5 CMD            # run CMD every 0.5s
+tail -f FILE               # watch file for appends
+ ... | xargs CMD           # run CMD on each line of input
 
 # Controlling mouse setting in X
 xinput                               # list devices
@@ -385,9 +430,6 @@ mount -o loop file.img /home/awdeorio/mnt/loop
 
 # Change a bunch of file extensions using bash
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
-
-# Create a random password
-md5sum -      # enter some text, followedby CTRL-D
 
 
 ########################################
@@ -416,6 +458,42 @@ opendiff FILE1 FILE2 [-merge FILE3]
 # unmount USB_DISK on OS X
 diskutil unmount /Volumes/USB_DISK
 
+# Homebrew
+brew update
+brew upgrade
+brew cleanup
+brew cask cleanup
+brew linkapps
+
+########################################
+# Other Linux Distro specifics
+
+# Gentoo:emerge - USE flag descriptions:
+/usr/portage/profiles/use.desc
+/usr/portage/profiles/use.local.desc
+
+# Redhat:rpm
+rpm -Uvh foo-1.0-1.i386.rpm  # install a package
+rpm -ev foo.rpm
+## compile and install a package from source (*.src.rpm)
+rpm -ivh source-package  # installs the source in /usr/src/redhat/SOURCES
+                         # installs the spec file in /usr/src/redhat/SPECS.
+rpmbuild -bb thing.spec  # build rpm
+rpm -Uvh     thing.rpm   # install rpm
+rpm2cpio FILE.rpm | cpio -idmv # extra files from rpm
+
+# Debian/Ubuntu apt
+apt-get update                          # update repository
+apt-get upgrade                         # upgrade packages, but NOT kernel
+apt-get dist-upgrade                    # upgrade packages, including kernel
+apt-cache search <package>              # find packages
+apt-cache showpkg <package>             # get the details on a package
+
+# /etc/init.d/ scripts
+update-rc.d -f autofs remove # Ubuntu, remove
+update-rc.d autofs defaults  # Ubuntu, add
+chkconfig autofs off         # FC/Redhat
+rc-update del autofs         # Gentoo
 
 ########################################
 # Java
