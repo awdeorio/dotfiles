@@ -109,6 +109,8 @@ tcpdump host 1.2.3.4               # only one host
 tcpdump dst 1.2.3.4                # only one dest
 tcpdump src 1.2.3.4                # only one source
 tcpdump -S "tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0" # 3-way handshake
+tcpdump -S "port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)" #  3-way handshake on port 80
+tcpdump -S "host web.eecs.umich.edu and port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)" #  3-way handshake on port 80
 iftop                              # display bandwidth usage
 
 # Audio
