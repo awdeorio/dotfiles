@@ -423,6 +423,11 @@ false                      # exit non-zero
 trap FUNC 1 2 3 15         # run FUNC (or command) on receiving a signal
 tee FILE                   # copy stdin to both stdout and FILE
 echo hello | tee FILE      # write "hello" to both stdout and FILE
+mktemp                     # create a temporary file
+mktemp -t PREFIX           # create temporary file starting with PREFIX
+mktemp -d                  # create a temporary directory
+basename /bin/bash         # returns "bash"
+dirname /bin/bash          # return "/bin"
 
 # Serial ports
 dmesg                      # devices connected recently, e.g., /dev/tty...
