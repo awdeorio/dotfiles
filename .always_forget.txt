@@ -163,9 +163,22 @@ cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
 tsclient -x connect.rdp                       
 rdesktop server:port -u awdeorio@UMICH.EDU
 
-# Redirection in bash
-some_command 2>&1 | less   # copies STDERR to STDOUT
-diff <(echo a) <(echo b)   # <( ... ) syntax creates a temporary named pipe which makes the stdout of commands look and behave like a file
+# Bash
+echo "hello world"                      # print stdout
+echo "hello world" >&2                  # print to stderr
+CMD > /dev/null                         # ignore stdout
+CMD 2> /dev/null                        # ignore stderr
+CMD &> /dev/null                        # ignore both stdout and stderr
+CMD 2>&1                                # copy stderr to stdout
+CMD 2>&1 | less                         # copy stderr to stdout and view
+<( CMD )                                # create a temporary named pipe 
+diff <(echo a) <(echo b)                # diff the output of two commands
+exec > >(tee logfile.txt); exec 2>&1;   # copy stdout and stderr to log file
+$#                                      # argc in bash
+[ $# -lt 1 ] && exit 1                  # check # args and quit
+$@                                      # argv in bash
+$0                                      # argv[0] in bash
+LOGFILE=${TXTFILE%.txt}.log             # change file extension
 
 # crontab format
  +---------------- minute (0 - 59)
