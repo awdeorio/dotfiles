@@ -179,6 +179,7 @@ $#                                      # argc in bash
 $@                                      # argv in bash
 $0                                      # argv[0] in bash
 LOGFILE=${TXTFILE%.txt}.log             # change file extension
+set -o verbose                          # echo commands to stdout
 
 # crontab format
  +---------------- minute (0 - 59)
