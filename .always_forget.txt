@@ -588,15 +588,21 @@ mysqldump -u user -pPASSWD DB > file.db # dump database to file
 # SQL tid bits
 PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
 TIMESTAMP DEFAULT CURRENT_TIMESTAMP     # avoid initializing timestamps
+FOREIGN KEY (child_id)                  # add foreign key constraint to col
+  REFERENCES parent_table(parent_id)    # connect to column in parent table
+  ON UPDATE CASCADE                     # update child rows with parents row
+  ON DELETE CASCADE                     # delete child rows with parents row
 
 # SQL CLI
 SHOW DATABASES;                         # list all databases
 DROP DATABASE db;                       # delete database
+SHOW CREATE TABLE table;                # print statement to create table
 USE db;                                 # open database db
 SHOW TABLES;                            # list tables in db
 DROP TABLE table;                       # delete table
 INSERT INTO db (col, ...)               # add a row
-VALUES ('val', ...);                    # ...
+  VALUES ('val', ...);                  # ...
+DELETE FROM table WHERE column="value"; # remove a row
 
 
 ################################################################################# CAUTION: ENTERING GIT SECTION
