@@ -600,7 +600,7 @@ SHOW CREATE TABLE table;                # print statement to create table
 USE db;                                 # open database db
 SHOW TABLES;                            # list tables in db
 DROP TABLE table;                       # delete table
-INSERT INTO db (col, ...)               # add a row
+INSERT INTO table (col, ...)            # add a row
   VALUES ('val', ...);                  # ...
 DELETE FROM table WHERE column="value"; # remove a row
 
