@@ -770,14 +770,19 @@ git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
 ########################################
 # Git Branching Model
 # http://nvie.com/posts/a-successful-git-branching-model/
-git checkout -b MYFEATURE develop # Start working on a new feature
+git checkout -b feature/F develop # Start working on a new feature "F"
 
 # merge feature into develop branch
 git checkout develop         # switch to develop branch
-git merge --no-ff myfeature  # merge feature into develop, keep old branch info
-git branch -d myfeature      # delete myfeature branch
+git merge --no-ff feature/F  # merge F into develop, keep old branch info
+git branch -d MY             # delete F branch
 git push origin develop      # push to server
-git push origin ":myfeature" # remove branch from server
+git push origin ":F"         # remove F branch from server
+
+########################################
+# Merging
+git merge develop            # merge branch develop into current branch
+git cherry-pick 62ecb3       # merge *one* commit 62ecb3 into current branch
 
 ########################################
 # Changing the location of a repository
