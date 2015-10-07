@@ -91,15 +91,16 @@ nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
 netstat -l numeric-ports | grep 80 # what's using port 80?
 sudo fuser -v -n tcp 80            # who's using port 80?
-nc -v SERVER 9559                  # check connection to SERVER on port 9559
-nc SERVER 8083                     # connect to server "cat over a socket"
-nc -l SERVER PORT                  # start a server, good for testing firewalls
+nc HOST PORT                       # intiate connection "cat over a socket"
+nc -l HOST PORT                    # listen for incoming connection
+nc -v HOST PORT                    # check connection to HOST on PORT
 wget https://www.google.com/       # download one page
 wget -m andrewdeorio.com           # download everything
 traceroute                         # print route packets take to network host
 curl --verbose                     # watch protocol in action
 curl --trace-ascii log.txt         # watch protocol in action, more detail
 curl --trace-ascii log.txt --trace-time # include timing
+curl --data "query=aa" http://localhost:5000/query # send POST request
 telnet HOST 80                     # connect to web server
 tcpdump                            # watch packets on all network interfaces
 tcpdump -i eth0                    # watch packets on one network interface
@@ -130,9 +131,9 @@ mencoder tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0:forceaudi
 # convert VOB file (from a DVD) to mp4   http://stackoverflow.com/questions/13560852/convert-mp4-to-maximum-mobile-supported-mp4-using-ffmpeg
 ffmpeg -i concat:"/media/dvd/VIDEO_TS/VTS_01_1.VOB|/media/dvd/VIDEO_TS/VTS_01_2.VOB" -acodec libfaac -aq 100 -ac 2 -vcodec libx264 -vpre slow -crf 24 -threads 0 output.mp4
 # compress mp4 video to 480p at 500kbit/s mp4
-ffmpeg -i /Users/awdeorio/Dropbox/housing/818_Starwick_Sewer_Video.mp4 -vcodec libx264 -vprofile high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=-1:480 -threads 0 -b:a 128k output_file_480p.mp4
+ffmpeg -i input.mp4 -vcodec libx264 -vprofile high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=-1:480 -threads 0 -b:a 128k output_file_480p.mp4
 # compress mp4 video to 360p at 250kbit/s mp4
-ffmpeg -i /Users/awdeorio/Dropbox/housing/818_Starwick_Sewer_Video.mp4 -vcodec libx264 -vprofile baseline -preset slow -b:v 250k -maxrate 250k -bufsize 500k -vf scale=-1:360 -threads 0 -ab 96k output_360p.mp4
+ffmpeg -i input.mp4 -vcodec libx264 -vprofile baseline -preset slow -b:v 250k -maxrate 250k -bufsize 500k -vf scale=-1:360 -threads 0 -ab 96k output_360p.mp4
 
 # Images
 mogrify -rotate 90                     # rotate
