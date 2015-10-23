@@ -786,6 +786,7 @@ git push origin ":F"         # remove F branch from server
 ########################################
 # Making git appear more like Subversion
 # This will result in a more linear history, rather than a DAG
+# More: http://stevenharman.net/git-pull-with-automatic-rebase
 git config branch.autosetuprebase always
 git config branch.develop.rebase true
 
