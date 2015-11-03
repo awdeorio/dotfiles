@@ -49,6 +49,13 @@ kill PID                                # kill process with PID
 kill -9 PID                             # kill process using signal 9
 killall NAME                            # kill all processes with NAME
 killall -9 NAME                         # kill all using signal 9
+CMD &                                   # start CMD in the background
+fg                                      # bring background command to foreground
+[control-z]                             # suspend current CMD
+bg                                      # send suspended CMD to background
+nohup CMD &                             # logout won't stop CMD
+nohup nice CMD &                        # lower priority
+nohup CMD < /dev/null > LOG 2>&1        # redirect all streams
 
 # Commonly used signals
 1       HUP (hang up)
@@ -701,6 +708,7 @@ git push
 # undo
 git checkout FILE # revert a file to last checked-in version
 git reset --soft  # changes to tracked files are discarded
+git reset --soft HEAD~  # discard commits that aren't pushed
 git reset --hard  # reset head to <commit>, files unchanged
 git rm -r --cached DIR  # undo git add, without removing files
 git clean -xf           # restore to "clean repo", including deleting extras
@@ -794,6 +802,10 @@ git config branch.develop.rebase true
 # Merging
 git merge develop            # merge branch develop into current branch
 git cherry-pick 62ecb3       # merge *one* commit 62ecb3 into current branch
+
+########################################
+# Conflicts
+git checkout --theirs PATH/FILE  # solution is to keep other file
 
 ########################################
 # Changing the location of a repository
