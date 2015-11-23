@@ -14,7 +14,6 @@ EXCLUDE+=' --exclude awdeorio/Library/Caches/Google/Chrome/Default/Cache/***'
 EXCLUDE+=' --exclude .dropbox/***'
 EXCLUDE+=' --exclude *.vdi'
 EXCLUDE+=' --exclude nobackup/***'
-EXCLUDE+=' --exclude GoogleDrive/Archive/eecs280w15/***'
 EXCLUDE+=' --exclude Library/***'
 EXCLUDE+=' --exclude Applications/***'
 

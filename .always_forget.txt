@@ -28,6 +28,21 @@ cat /proc/cpuinfo                       # CPU size/features
 cat /proc/meminfo                       # memory size/features
 uptime                                  # time since turn on
 
+# Files
+ls                                      # list directory contents
+ls -l                                   # include time, size, etc.
+ls -a                                   # include hidden files
+ls -t                                   # sort by time
+stat FILE                               # file modification times, etc.
+touch FILE                              # update modification time to NOW
+touch FILE                              # create empty file, if it doesn't exist
+
+# Paths
+pwd                                     # current directory
+readlink -f PATH                        # absolute path
+cd -                                    # return to previous directory
+lsof                                    # list open files
+
 # Superuser permissions
 su                                      # switch user to root
 su USER                                 # switch user to USER
@@ -94,6 +109,13 @@ edit /etc/resolv.conf
 
 # Network Utilities
 host www.google.com                # DNS lookup
+dig www.google.com                 # DNS lookup
+dig +short www.google.com          # DNS lookup, scriptable
+nslookup                           # DNS lookup
+nslookup -type=ns eecs.umich.edu   # DNS lookup with authortative name servers
+dig -x 141.212.106.7               # reverse DNS lookup
+dig +short -x 141.212.106.7        # reverse DNS lookup, scriptable
+whois www.google.com               # domain name registration info
 nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
 netstat -l numeric-ports | grep 80 # what's using port 80?
@@ -416,12 +438,6 @@ md5sum                     # compute hash
 md5sum -                   # enter some text, then CTRL-D for random passwd
 shasum                     # compute hash
 gpg                        # encrypt/decrypt text file
-
-# Paths
-pwd                        # current directory
-readlink -f PATH           # return absolute path
-cd -                       # return to previous directory
-lsof                       # list open files
 
 # Scripting
 yes                        # keep printing "y" over and over
