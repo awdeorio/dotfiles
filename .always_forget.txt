@@ -23,10 +23,10 @@ whoami                                  # current user
 # Machines
 hostname                                # name of this computer
 uname                                   # operating system name
-uname -a                                # TONS of info about OS, compiler, etc.
+uname -a                                # info about OS, compiler, etc.
 cat /proc/cpuinfo                       # CPU size/features
 cat /proc/meminfo                       # memory size/features
-uptime                                  # time since turn on
+uptime                                  # time since power on
 
 # Files
 ls                                      # list directory contents
