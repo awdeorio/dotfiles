@@ -182,10 +182,19 @@ exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' photo.jpg  # date/time += 3 yr 2 mos
 
 # SSH
-ssh -vT SERVER                         # debug authentication issues
+ssh HOST                               # connect to HOST
+ssh USER@HOST                          # connect to HOST as USER
+ssh USER@HOST CMD                      # run command on remote host
+ssh -vT HOST                           # debug authentication issues
 ssh -L 5901:localhost:5900 HOST        # port forwarding
 vncviewer localhost:1                  # (now use forwarded port)
-ssh USER@HOST CMD                      # run command on remote host
+scp FILE HOST:                         # copy file to remote host over SSH
+scp -r DIR HOST:                       # copy directory
+rsync -av DIR HOST:                    # synchronize directory, with permissions
+rsync -a                               # archive (permissions, recursive, etc.)
+rsync -v                               # verbose
+rsync -z                               # compress
+rsync -P                               # progress bar
 
 # Start remote vnc session
 server $ vncserver -localhost -NeverShared
@@ -314,7 +323,7 @@ dd if=/dev/cdrom of=my_cd_image.iso
 /usr/share/dict/words
 shuf /usr/share/dict/words | head -n1   # random word
 
-# rsync
+# copying to/from FAT32
 mount with "shortname=mixed"            # mount FAT32
 rsync -rvtP --modify-window=1 --delete  # copy
 rsync -rv --delete --checksum           # copy, using file checksum
