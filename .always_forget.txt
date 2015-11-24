@@ -43,6 +43,16 @@ readlink -f PATH                        # absolute path
 cd -                                    # return to previous directory
 lsof                                    # list open files
 
+# Find
+find . hello.txt                        # find hello.txt, starting at PWD
+find / hello.txt                        # find hello.txt, starting at /
+find . '*.txt'                          # txt files
+find . '*hello*'                        # anything with "hello" in the filename
+find . -type f                          # plain files
+find . -type d                          # directories
+find . -name '*~' -exec rm -v {} \;     # remove tilde files
+locate hello.txt                        # search system database for hello.txt
+
 # Superuser permissions
 su                                      # switch user to root
 su USER                                 # switch user to USER
@@ -591,6 +601,10 @@ deactivate                              # disable
 
 # Quick web server serving files in PWD on port 8000
 python -m SimpleHTTPServer 
+
+# Run command line programs as functions in Python
+>>> import sh
+>>> ls('-l')
 
 ########################################
 # Ruby local install
