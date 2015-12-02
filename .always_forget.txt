@@ -457,7 +457,9 @@ md5sum                     # compute hash
 md5sum -                   # enter some text, then CTRL-D for random passwd
 shasum                     # compute hash
 gpg                        # encrypt/decrypt text file
-openssl                    # many ciphers available
+openssl                    # command line interface to OpenSSL library
+crypto FILE                # encrypt to FILE.crypt
+decrypto FILE.crypt        # decrypt to FILE
 
 # Scripting
 yes                        # keep printing "y" over and over
