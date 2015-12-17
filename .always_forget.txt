@@ -729,15 +729,6 @@ https://help.github.com/articles/generating-ssh-keys/
 # remove sensitive data
 https://help.github.com/articles/remove-sensitive-data/
 
-# install git-lfs for handling large files
-# https://git-lfs.github.com/
-brew install git-lfs
-git lfs install
-git lfs track '*.psd'
-git add file.psd
-git commit -m 'add design file'
-git push origin master
-
 # view a github style README.md, rendering markdown in browser
 grip README.md
 
@@ -873,3 +864,25 @@ git checkout --theirs PATH/FILE  # solution is to keep other file
 ########################################
 # Changing the location of a repository
 git remote set-url origin NEW_URL
+
+########################################
+# Tracking large files with git-lfs
+
+# install git-lfs for handling large files
+# https://git-lfs.github.com/
+brew install git-lfs
+git lfs install
+
+# start tracking .psd files
+git lfs track '*.psd'
+
+# now, just use your normal git flow, and git-lfs will be invoked automatically
+git add file.psd
+git commit -m 'add design file'
+git push origin master
+
+# See staged changes.  That is, files added to be managed by `git-lfs`, but not yet committed.
+git lfs status
+
+# See what kinds of files are managed by `git-lfs`.  They must be committed for this to work.
+git lfs track
