@@ -180,6 +180,8 @@ mogrify -rotate 90                     # rotate
 mogrify -resize 640x640                # reduce resolution
 exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' photo.jpg  # date/time += 3 yr 2 mos
+convert FILE.png FILE.jpg              # convert image file type
+convert FILE1.jpg -monochrome FILE2.jpg  # convert image to black and white
 
 # SSH
 ssh HOST                               # connect to HOST
@@ -597,8 +599,15 @@ pylint SRC_FOLDER
 import readline, rlcompleter
 readline.parse_and_bind("tab: complete")
 
+# Start an IPython Notebook server on a remote server
+ipython notebook --ip 0.0.0.0 --no-browser
+
 # Execute an IPython Notebook in headless mode.  Clears all output, runs the 
 # entire notebook, and writes the result to an output .ipynb file
+# NOTE: `ipython nbconvert` is buggy and incorrectly times out long jobs
+pip install runipy
+runipy -o NOTEBOOK.ipynb # save output of each cell back to NOTEBOOK.ipynb
+
 ipython nbconvert --to=notebook --ClearOutputPreprocessor.enabled=True --ExecutePreprocessor.enabled=True --output=OUTPUT.ipynb INPUT.ipynb
 
 # include path for local packages
@@ -719,6 +728,18 @@ https://help.github.com/articles/generating-ssh-keys/
 
 # remove sensitive data
 https://help.github.com/articles/remove-sensitive-data/
+
+# install git-lfs for handling large files
+# https://git-lfs.github.com/
+brew install git-lfs
+git lfs install
+git lfs track '*.psd'
+git add file.psd
+git commit -m 'add design file'
+git push origin master
+
+# view a github style README.md, rendering markdown in browser
+grip README.md
 
 
 ########################################
