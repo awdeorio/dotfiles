@@ -39,7 +39,9 @@ touch FILE                              # create empty file, if it doesn't exist
 
 # Paths
 pwd                                     # current directory
-readlink -f PATH                        # absolute path
+pwd -P                                  # current directory, absolute path
+readlink -f PATH                        # absolute path (GNU only)
+cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 cd -                                    # return to previous directory
 lsof                                    # list open files
 
@@ -232,6 +234,8 @@ $@                                      # argv in bash
 $0                                      # argv[0] in bash
 LOGFILE=${TXTFILE%.txt}.log             # change file extension
 set -o verbose                          # echo commands to stdout
+cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
+
 
 # crontab format
  +---------------- minute (0 - 59)
@@ -782,6 +786,7 @@ add patterns to .gitignore
 git add .gitignore
 
 # view log
+git rev-parse HEAD                  # hash current commit
 git log [FILE]
 git log --oneline                   # less info
 git log --oneline --decorate --graph --all # more info
@@ -811,7 +816,6 @@ git tag -a TAG                          # apply annotated tag
 git tag -a TAG REV                      # apply annotated tag to REV commit
 git push --tags                         # make tags public
 git checkout tags/TAG                   # checkout a tag as detacted HEAD
-git checkout -b BRANCH                  # retain changes in a branch
 
 ########################################
 # Branching 
