@@ -869,24 +869,16 @@ git checkout --theirs PATH/FILE  # solution is to keep other file
 # Changing the location of a repository
 git remote set-url origin NEW_URL
 
+
 ########################################
 # Tracking large files with git-lfs
 
-# install git-lfs for handling large files
-# https://git-lfs.github.com/
-brew install git-lfs
-git lfs install
-
-# start tracking .psd files
-git lfs track '*.psd'
-
-# now, just use your normal git flow, and git-lfs will be invoked automatically
-git add file.psd
-git commit -m 'add design file'
-git push origin master
-
-# See staged changes.  That is, files added to be managed by `git-lfs`, but not yet committed.
-git lfs status
-
-# See what kinds of files are managed by `git-lfs`.  They must be committed for this to work.
-git lfs track
+brew install git-lfs                    # install git-lfs step 1
+git lfs install                         # install git-lfs step 2
+git lfs track '*.psd'                   # start tracking .psd files
+git lfs track                           # types of files managed by git-lfs
+git add file.psd                        # (normal git flow)
+git commit -m 'blah'                    # (normal git flow)
+git push origin master                  # (normal git flow)
+git lfs status                          # staged (uncommitted) changes
+git lfs ls-files                        # files managed by git-lfs (committed)
