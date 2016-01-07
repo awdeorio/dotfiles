@@ -869,6 +869,11 @@ git checkout --theirs PATH/FILE  # solution is to keep other file
 # Changing the location of a repository
 git remote set-url origin NEW_URL
 
+########################################
+# Tarballs of git repos
+
+# create tarball of current repo's HEAD
+git archive --format tar.gz HEAD > file.tar.gz
 
 ########################################
 # Tracking large files with git-lfs
