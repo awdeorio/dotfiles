@@ -403,13 +403,15 @@ ntpdate europe.pool.ntp.org north-america.pool.ntp.org # sync clock
 # GNU parallel
 parallel --verbose                      # print cmd before executing it
 parallel -v                             # print cmd+output after executing it
-ls *.tar.bz2 | parallel -v -j3 tar xvjf # untar, 3 jobs in parallel
+ls *.tar.gz | parallel -v -j3 tar -xvzf # untar, 3 jobs in parallel
+ls *.tar.gz | xargs -P3 tar -xvzf       # alternative using xargs
 parallel -j+0                           # untar, use all CPUs
 */ -d | sed 's_/$__' | parallel -v -j+0 tar -cjf {}.tar.bz2 {}/ # create tar
 killall -USR1 parallel                  # get list of running jobs
 killall -TERM parallel                  # finish running jobs, no new jobs
 echo >jobqueue; tail -f jobqueue | parallel  # start job queue
 echo my_command my_arg >> jobqueue           # submit to job queue
+
 
 # Patch
 cd src/drivers/input/mouse
@@ -595,6 +597,9 @@ cpan -i PACKAGE                         # install package
 
 # Add this to source code to drop to a debugger
 import pdb; pdb.set_trace();
+
+# Start a program in debug mode
+python -m pdb script.py
 
 # Check style
 pylint SRC_FOLDER
