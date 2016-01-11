@@ -156,6 +156,10 @@ tcpdump -S "host web.eecs.umich.edu and port 80 and (tcp[tcpflags] & (tcp-syn|tc
 iftop                              # display bandwidth usage
 python -m SimpleHTTPServer 8000    # start a file server at ./ on port 8000
 
+# Email
+sendmail user@example.com  < email.txt  # send email from CLI
+sendmail -t < email.txt                 # read "TO" field from file
+
 # Audio
 alsamixer                               # change volume
 amixer -c 0 sset Master '6%+'           # change volume
