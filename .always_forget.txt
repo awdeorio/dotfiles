@@ -156,6 +156,10 @@ tcpdump -S "host web.eecs.umich.edu and port 80 and (tcp[tcpflags] & (tcp-syn|tc
 iftop                              # display bandwidth usage
 python -m SimpleHTTPServer 8000    # start a file server at ./ on port 8000
 
+# Email
+sendmail user@example.com  < email.txt  # send email from CLI
+sendmail -t < email.txt                 # read "TO" field from file
+
 # Audio
 alsamixer                               # change volume
 amixer -c 0 sset Master '6%+'           # change volume
@@ -516,40 +520,34 @@ ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
 
 
 ########################################
-# Windows / Cygwin Specific
+# Windows / Cygwin
 
 # open a file as if you double-clicked it
 cygstart.exe FILE
 
 
 ########################################
-# OS X Specific
-
-# open a file as if you double-clicked it
-open FILE
-open -a "Google Chrome" FILE  # force use of a Google Chrome
+# OS X
+open FILE                               # open a file, same as double-click
+open -a "Google Chrome" FILE            # open a file with Google Chrome
+pbcopy < FILE                           # copy contents of FILE to clipboard
+opendiff FILE1 FILE2 [-merge FILE3]     # graphical diff
+diskutil unmount /Volumes/USB_DISK      # Unmount USB_DISK
+rm ~/.Trash/*                           # Empty trash
 
 # Get rid of annoying "damaged and can't be opened" message for downloads
 xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/finance
 
-# Copy contents of FILE to clipboard from command line (OS X)
-pbcopy < FILE
-
-# Graphical diff on OS X
-opendiff FILE1 FILE2 [-merge FILE3]
-
-# unmount USB_DISK on OS X
-diskutil unmount /Volumes/USB_DISK
-
 # Homebrew
-brew update
-brew upgrade
-brew cleanup
-brew cask cleanup
-brew linkapps
+brew update                             # update repository
+brew upgrade                            # upgrade installed packages
+brew cleanup                            # remove tarballs, installers, etc.
+brew cask cleanup                       # remove .dmg installers
+brew linkapps                           # link to /Applications/
+
 
 ########################################
-# Other Linux Distro specifics
+# Other Linux Distros
 
 # Gentoo:emerge - USE flag descriptions:
 /usr/portage/profiles/use.desc
@@ -578,6 +576,7 @@ update-rc.d autofs defaults  # Ubuntu, add
 chkconfig autofs off         # FC/Redhat
 rc-update del autofs         # Gentoo
 
+
 ########################################
 # Java
 java -jar myprog.jar                    # run a java program
@@ -586,7 +585,6 @@ jar -xvf                                # extract all files from jar archive
 
 ########################################
 # Perl 
-
 perl -V                                 # debug environment
 PERL5LIB                                # environment variable for tool installs
 cpan -i PACKAGE                         # install package
