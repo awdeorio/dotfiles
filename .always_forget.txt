@@ -663,6 +663,14 @@ FOREIGN KEY (child_id)                  # add foreign key constraint to col
   REFERENCES parent_table(parent_id)    # connect to column in parent table
   ON UPDATE CASCADE                     # update child rows with parents row
   ON DELETE CASCADE                     # delete child rows with parents row
+SELECT a.*, b.*                         # 2-way join AKA inner join
+  FROM a JOIN b
+  ON a.id=b.id;
+SELECT a.*, b.*, c.*                    # 3-way join AKA inner join
+  FROM (a JOIN b ON a.id=b.id)
+  JOIN c ON (b.id=c.id);
+SELECT MAX(id) FROM table               # last auto-generated id from table
+SELECT LAST_INSERT_ID()                 # last auto-generated id, globally
 
 # SQL CLI
 SHOW DATABASES;                         # list all databases
@@ -671,6 +679,7 @@ SHOW CREATE TABLE table;                # print statement to create table
 USE db;                                 # open database db
 SHOW TABLES;                            # list tables in db
 DROP TABLE table;                       # delete table
+DROP TABLE table IF EXISTS table;       # delete table if it exists
 INSERT INTO table (col, ...)            # add a row
   VALUES ('val', ...);                  # ...
 DELETE FROM table WHERE column="value"; # remove a row
