@@ -303,6 +303,8 @@ iconv -f UTF-8 -t ASCII//TRANSLIT INFILE -o OUTFILE  # convert UTF8 to ASCII
 head                   # first 10 lines
 tail                   # last 10 lines
 tail -f                # monitor file for appends
+wc                     # word, line, character and byte count
+wc -l                  # line count
 
 # Printing
 lprm -P<printer>       # remove one job from queue
