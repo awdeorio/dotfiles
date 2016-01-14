@@ -286,6 +286,9 @@ awk '{$1="";print}'    # print all but last field
 awk '$1>=2{print}      # print if greater that 2
 
 # Misc text processing
+cat FILE1              # print file to terminal
+cat FILE1 FILE2        # print files to terminal
+cat -n                 # prepend line numbers
 cut -c8-               # remove first 8 characters of a line
 fold                   # word-wrap text
 column -tns, FILE.csv  # pretty-print a csv file
@@ -671,6 +674,11 @@ SELECT a.*, b.*, c.*                    # 3-way join AKA inner join
   JOIN c ON (b.id=c.id);
 SELECT MAX(id) FROM table               # last auto-generated id from table
 SELECT LAST_INSERT_ID()                 # last auto-generated id, globally
+SELECT * FROM table ORDER BY x ASC;     # sort on x, ascending
+SELECT * FROM table ORDER BY x DESC;    # sort on x, descending
+SELECT * FROM table LIMIT 1;            # return one result
+SELECT * FROM table ORDER BY x ASC LIMIT 1  # FIRST
+SELECT * FROM table ORDER BY x DESC LIMIT 1 # LAST
 
 # SQL CLI
 SHOW DATABASES;                         # list all databases
