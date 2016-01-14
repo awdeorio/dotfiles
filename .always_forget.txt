@@ -129,6 +129,10 @@ dig -x 141.212.106.7               # reverse DNS lookup
 dig +short -x 141.212.106.7        # reverse DNS lookup, scriptable
 whois www.google.com               # domain name registration info
 nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
+netstat -at                        # list TCP connections
+netstat -au                        # list UDP connections
+netstat -ant                       # disable DNS lookup (faster)
+netstat -tl                        # listening TCP connections
 netstat -atn | grep ':22'          # how many ssh connections on this machine?
 netstat -l numeric-ports | grep 80 # what's using port 80?
 sudo fuser -v -n tcp 80            # who's using port 80?
