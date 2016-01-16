@@ -698,8 +698,7 @@ SELECT * FROM table ORDER BY x DESC;    # sort on x, descending
 SELECT * FROM table LIMIT 1;            # return one result
 SELECT * FROM table ORDER BY x ASC LIMIT 1  # FIRST
 SELECT * FROM table ORDER BY x DESC LIMIT 1 # LAST
-
-# SQL CLI
+CREATE DATABASE db;                     # create new database db
 SHOW DATABASES;                         # list all databases
 DROP DATABASE db;                       # delete database
 SHOW CREATE TABLE table;                # print statement to create table
