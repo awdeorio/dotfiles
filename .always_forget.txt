@@ -519,8 +519,18 @@ dmesg                      # devices connected recently, e.g., /dev/tty...
 screen /dev/ttyACM0 9600   # text input/output at 9600 Baud
                            #   Ctrl-A,Shift-K to quit
 # Virtual terminals
-screen                     # start virtual text terminal
-tmux                       # similar to screen, TODO
+screen                     # start virtual terminal
+screen -S NAME             # start virtual terminal named NAME
+screen -r NAME             # attach to NAME
+screen -ls                 # list sessions
+[C-a d]                    # detach
+tmux                       # start virtual terminal
+tmux new -s NAME           # start virtual terminal named NAME
+tmux a                     # attach
+tmux a -t NAME             # attach to NAME
+tmux ls                    # list sessions
+tmux kill-session -t NAME  # kill session NAME
+[C-b d]                    # detach
 
 # Meta commands
 watch CMD                  # run CMD over and over
