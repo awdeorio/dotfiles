@@ -58,6 +58,7 @@ locate hello.txt                        # search system database for hello.txt
 # Superuser permissions
 su                                      # switch user to root
 su USER                                 # switch user to USER
+sudo -s                                 # switch user to root
 sudo CMD                                # run CMD as root
 sudo CMD                                # run CMD as root
 sudo -u USER CMD                        # run CMD as USER
@@ -523,14 +524,17 @@ screen                     # start virtual terminal
 screen -S NAME             # start virtual terminal named NAME
 screen -r NAME             # attach to NAME
 screen -ls                 # list sessions
-[C-a d]                    # detach
+[screen] C-a d             # detach
 tmux                       # start virtual terminal
 tmux new -s NAME           # start virtual terminal named NAME
 tmux a                     # attach
 tmux a -t NAME             # attach to NAME
 tmux ls                    # list sessions
 tmux kill-session -t NAME  # kill session NAME
-[C-b d]                    # detach
+[tmux] C-b d               # detach
+[tmux] C-b 0               # select window 0
+[tmux] C-b n               # next window
+[tmux] C-b p               # previous window
 
 # Meta commands
 watch CMD                  # run CMD over and over
