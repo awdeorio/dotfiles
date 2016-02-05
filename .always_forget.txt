@@ -327,6 +327,7 @@ tail                   # last 10 lines
 tail -f                # monitor file for appends
 wc                     # word, line, character and byte count
 wc -l                  # line count
+sort | uniq            # print only uniq lines
 
 # Printing
 lprm -P<printer>       # remove one job from queue
