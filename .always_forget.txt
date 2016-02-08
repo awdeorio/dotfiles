@@ -259,7 +259,8 @@ $0                                      # argv[0] in bash
 LOGFILE=${TXTFILE%.txt}.log             # change file extension
 set -o verbose                          # echo commands to stdout
 cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
-
+eval                                    # run in current shell
+exec                                    # spawn a new shell to replace current
 
 # crontab format
  +---------------- minute (0 - 59)
