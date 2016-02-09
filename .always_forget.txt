@@ -1,4 +1,4 @@
-# .always_forget.txt
+.always_forget.txt
 #
 # awdeorio's notes on UNIX commands
 
@@ -575,6 +575,15 @@ opendiff FILE1 FILE2 [-merge FILE3]     # graphical diff
 diskutil unmount /Volumes/USB_DISK      # Unmount USB_DISK
 rm ~/.Trash/*                           # Empty trash
 
+# Create bootable live USB
+# ref: http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx
+hdiutil convert -format UDRW -o target.img SOURCE.iso
+mv target.img.dmg target.img
+diskutil list
+diskutil unmountDisk /dev/diskN
+sudo dd if=./target.img of=/dev/rdiskN bs=1M # change 1M->1m for 
+diskutil eject /dev/diskN
+
 # Get rid of annoying "damaged and can't be opened" message for downloads
 xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/finance
 
@@ -584,7 +593,6 @@ brew upgrade                            # upgrade installed packages
 brew cleanup                            # remove tarballs, installers, etc.
 brew cask cleanup                       # remove .dmg installers
 brew linkapps                           # link to /Applications/
-
 
 ########################################
 # Other Linux Distros
