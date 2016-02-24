@@ -687,6 +687,10 @@ python -m SimpleHTTPServer
 >>> import sh
 >>> ls('-l')
 
+# Build a distribution tarball
+python setup.py sdist
+
+
 ########################################
 # Ruby local install
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
