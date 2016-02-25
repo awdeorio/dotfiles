@@ -690,6 +690,24 @@ python -m SimpleHTTPServer
 # Build a distribution tarball
 python setup.py sdist
 
+####################
+# PyPI howto
+# ref http://peterdowns.com/posts/first-time-with-pypi.html
+# NOTE: for some stupid reason, you *must* have your password in ~/.pypirc
+
+# Release
+git tag -a X.Y
+git push --tags origin master
+
+# Test
+python setup.py register -r pypitest
+python setup.py sdist upload -r pypitest
+open https://testpypi.python.org/pypi/MYPACKAGE/
+
+# Live
+python setup.py register -r pypi
+python setup.py sdist upload -r pypi
+
 
 ########################################
 # Ruby local install
