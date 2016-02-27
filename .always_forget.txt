@@ -772,154 +772,96 @@ INSERT INTO table (col, ...)            # add a row
 DELETE FROM table WHERE column="value"; # remove a row
 
 
-################################################################################# CAUTION: ENTERING GIT SECTION
-#
 ########################################
+# git
+
 # One-time setup for a user
+git config --global user.name "Name"    # Your name for author when committing
+git config --global user.email "email"  # email address (global)
+git config user.email "email"           # email address for one project
+git config --global color.diff auto     # colors: git diff
+git config --global color.status auto   # colors: git status
+git config --global color.branch auto   # colors: git branch
 
-# Sets the default name for git to use when you commit
-git config --global user.name "Your Name Here"
+# One-time setup for a project
+git clone ssh://USERNAME@SERVER/~/opt/git/PROJECT.git # server
+git clone git@github.com:REPO/PROJECT.git             # github
+git clone https://github.com/REPO/PROJECT.git         # github anonymouse
+git init DIR                                          # no server
 
-# colors in git
-git config --global color.diff auto
-git config --global color.status auto
-git config --global color.branch auto
+# Basic workflow
+git pull                                # update local copy
+  ... work on stuff
+git add FILE                            # add file to commit
+git status                              # see what's been added or modified
+git commit                              # commit any added files
+git push                                # push changes to server
 
-# Set the default email for git to use when you commit
-git config --global user.email "your_email@example.com"
+# Repository setup on a server (without github)
+ssh SERVER                              # alternative: use shared network volume
+mkdir -p ~/opt/git/PROJECT.git          # make directory
+git init --bare ~/opt/git/PROJECT.git   # intialize bare repository
 
+# Repository setup on github
+https://github.com -> "make a new repository"   # Create a new repository
+https://help.github.com/articles/generating-ssh-keys/ # SSH keys
+https://help.github.com/articles/remove-sensitive-data/ # remove sensitive data
 
-########################################
-# One-time setup for a local repository
-
-cd PROJECT/
-git init
-git add .
-git commit
-
-
-########################################
-# One-time setup for a shared repository
-
-# make sure you are working in a shared directory (e.g., ssh, AFS, NFS, etc.)
-ssh SERVER            # or navigate to shared directory using AFS, NFS, etc.
-mkdir -p ~/opt/git/   # make directory
-cd ~/opt/git/         # default directory for shared repositories
-mkdir PROJECT.git     # shared repositories end in .git
-git init --bare PROJECT.git/  # shared repositories are bare repositories
-
-# If it's on AFS
-find PROJECT.git -type d -exec fs setacl -dir {} -acl USER rlidwk \;
-
-# on your local machine
-git clone ssh://USERNAME@SERVER/~/opt/git/PROJECT.git
-cd PROJECT
-echo 'Hello World' > README  # create the first file
-git add README
-git commit
-git push origin master
-
-
-########################################
-# Setup on github
-
-# New repository
-go to github.com and click "make a new repository"
-git clone git@github.com:REPO/PROJECT.git
-git clone https://github.com/REPO/PROJECT.git
-
-# SSH keys
-https://help.github.com/articles/generating-ssh-keys/
-
-# remove sensitive data
-https://help.github.com/articles/remove-sensitive-data/
-
-# view a github style README.md, rendering markdown in browser
-grip README.md
-
-
-########################################
-# Daily git use
-
-# get a local copy of a shared repository
-# you only have to do this once.  Other options are file://, ssh://, https://
-git clone ssh://USERNAME@SERVER/~/opt/git/PROJECT.git
-
-# Change your email address for one project
-git config user.email awdeorio@virtalabs.com
-
-# update your local copy, merging from repository, manual
-# (assuming you're tracking origin)
-git fetch origin
+# Update your local copy, merging from repository, manual
+git fetch origin                        # fetch from origin
+git fetch --prune                       # remove stale local branches
+git fetch -avp                          # fetch all branches; prune; verbose
 git diff master origin/master           # see changes
 git merge origin/master                 # this will be a FF if no local changes
-git fetch --prune                       # remove stale local branches
 
-# update your local copy, merging from repository, automatic
-git pull       
+# Commit
+git branch -v                           # check your branch
+git status                              # check file modifications
+git add FILE                            # add file to commit
+git commit                              # commit, with a message
+git push                                # push the commit(s) to server
 
-# committing
-git status
-git add FILE # file to commit
-git commit
-git push
+# Undo
+git checkout FILE                       # revert FILE to last checked-in version
+git reset --soft                        # changes to tracked files are discarded
+git reset --soft HEAD~                  # discard commits that aren't pushed
+git reset --hard                        # reset head to COM, files unchanged
+git rm -r --cached DIR                  # undo git add, without removing files
+git clean -xf                           # restore to "clean repo", DELETES
+git commit --amend                      # Combine this commit with previous
+git rev-list -n 1 HEAD -- FILE          # 1. Commit of a deleted file
+git checkout COMMIT^ -- FILE            # 2. Recover deleted file
 
-# undo
-git checkout FILE # revert a file to last checked-in version
-git reset --soft  # changes to tracked files are discarded
-git reset --soft HEAD~  # discard commits that aren't pushed
-git reset --hard  # reset head to <commit>, files unchanged
-git rm -r --cached DIR  # undo git add, without removing files
-git clean -xf           # restore to "clean repo", including deleting extras
+# Temporarily stash work, restoring a clean set of files
+git stash                               # stash current modifications on stack
+git stash list                          # view stash stack
+git stash apply                         # "unstash" top of stack
 
-# recover a removed file  http://stackoverflow.com/questions/953481
-git rev-list -n 1 HEAD -- <file_path>
-git checkout <deleting_commit>^ -- <file_path>
+# Ignore some files (don't version them)
+echo '*~' > .gitignore                  # ignore emacs backup files
+git add .gitignore                      # git should track ignore file itself
+git commit                              # git should track ignore file itself
 
-# temporarily stash work, and restore clean set of files
-git stash       # stash current modifications on stack
-git stash list  # view stash stack
-git stash apply # "unstash" top of stack
-
-# ignoring files in git
-add a .gitignore file to the PWD
-add patterns to .gitignore
-git add .gitignore
-
-# view log
-git rev-parse HEAD                  # hash current commit
-git log [FILE]
-git log --oneline                   # less info
+# History
+git rev-parse HEAD                      # hash current commit
+git log                                 # commit history
+git log FILE                            # commit history for one file
+git log --oneline                       # less info
 git log --oneline --decorate --graph --all # more info
 git log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold blue)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 
-# viewing old versions
-git show REV:FILE
-git show HEAD^ FILE  # look at last committed version
-git show HEAD~4:FILE # 4th last commit
+# Versions of a file
+git show REV:FILE                       # Old version of file
+git show HEAD^ FILE                     # last committed version
+git show HEAD~4:FILE                    # 4th last commit
 
-# get info about git connections
-git remote                               # list names of remote repositories
-git remote show origin                   # more info
-git branch                               # list name of local branch
+# Remote repositories
+git remote                              # list names of remote repositories
+git remote show origin                  # more info
+git remote set-url origin NEW_URL       # change location of repo
+git branch -vv                          # branch remotes
 
-# Combine the staged changes with the previous commit and replace the previous
-# commit with the resulting snapshot.  Running this when there is nothing
-# staged lets you edit the previous commit’s message without altering its
-# snapshot.
-git commit --amend
-
-########################################
-# Tagging
-git tag                                 # list tags
-git tag TAG                             # apply lightweight tag
-git tag -a TAG                          # apply annotated tag
-git tag -a TAG REV                      # apply annotated tag to REV commit
-git push --tags                         # make tags public
-git checkout tags/TAG                   # checkout a tag as detacted HEAD
-
-########################################
-# Branching 
+# Branching
 git branch                              # view current and local branches
 git branch -a                           # view all branches
 git branch -vv                          # include tracking and commit info
@@ -929,8 +871,25 @@ git checkout -b BRANCH                  # create a new branch and switch to it
 git push origin BRANCH                  # push BRANCH to remote
 git branch --set-upstream-to=origin/BRANCH BRANCH # fix tracking
 
+# Branching Model  http://nvie.com/posts/a-successful-git-branching-model/
+git checkout -b feature/F develop       # start working on a new feature "F"
+git add FILE                            # add files
+git commit                              # commit to branch feature/F
+git push origin feature/F               # push branch to remote
+git checkout develop                    # switch to develop branch
+git merge --no-ff feature/F             # merge F into develop, keep branch info
+git branch -d F                         # delete F branch
+git push origin develop                 # push to server
+git push origin ":F"                    # remove F branch from server
 
-########################################
+# Tagging
+git tag                                 # list tags
+git tag TAG                             # apply lightweight tag
+git tag -a TAG                          # apply annotated tag
+git tag -a TAG REV                      # apply annotated tag to REV commit
+git push --tags                         # make tags public
+git checkout tags/TAG                   # checkout a tag as detacted HEAD
+
 # Comparing
 git diff BRANCH1 BRANCH2                # diff two local branches
 git diff master remotes/origin/dataset  # diff two remote branches
@@ -938,47 +897,21 @@ git mergetool --tool-help               # list available diff/merge tools
 git config --global diff.tool TOOL      # use TOOL for merging
 git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
 
-########################################
-# Git Branching Model
-# http://nvie.com/posts/a-successful-git-branching-model/
-git checkout -b feature/F develop # Start working on a new feature "F"
+# Merging
+git merge develop                       # merge develop into current branch
+git cherry-pick 62ecb3                  # merge *one* commit into current branch
+git checkout --theirs PATH/FILE         # conflict: keep their file
+git checkout --mine PATH/FILE           # conflict: keep my file
 
-# merge feature into develop branch
-git checkout develop         # switch to develop branch
-git merge --no-ff feature/F  # merge F into develop, keep old branch info
-git branch -d MY             # delete F branch
-git push origin develop      # push to server
-git push origin ":F"         # remove F branch from server
-
-########################################
-# Making git appear more like Subversion
-# This will result in a more linear history, rather than a DAG
-# More: http://stevenharman.net/git-pull-with-automatic-rebase
+# Rebase automatically, resulting in a linear history like Subversion
+# Ref: http://stevenharman.net/git-pull-with-automatic-rebase
 git config branch.autosetuprebase always
 git config branch.develop.rebase true
 
-########################################
-# Merging
-git merge develop            # merge branch develop into current branch
-git cherry-pick 62ecb3       # merge *one* commit 62ecb3 into current branch
-
-########################################
-# Conflicts
-git checkout --theirs PATH/FILE  # solution is to keep other file
-
-########################################
-# Changing the location of a repository
-git remote set-url origin NEW_URL
-
-########################################
-# Tarballs of git repos
-
-# create tarball of current repo's HEAD
+# Tarball of current HEAD
 git archive --format tar.gz HEAD > file.tar.gz
 
-########################################
 # Tracking large files with git-lfs
-
 brew install git-lfs                    # install git-lfs step 1
 git lfs install                         # install git-lfs step 2
 git lfs track '*.psd'                   # start tracking .psd files
@@ -988,3 +921,7 @@ git commit -m 'blah'                    # (normal git flow)
 git push origin master                  # (normal git flow)
 git lfs status                          # staged (uncommitted) changes
 git lfs ls-files                        # files managed by git-lfs (committed)
+
+# Render github-style Markdown
+pip install grip                        # install grip utility
+grip -b README.md                       # render README.md in browser
