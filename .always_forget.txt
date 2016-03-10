@@ -267,6 +267,7 @@ set -o verbose                          # echo commands to stdout
 cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 eval                                    # run in current shell
 exec                                    # spawn a new shell to replace current
+TAB=$'\t'                               # TAB literal 
 
 # Scripting
 yes                                     # keep printing "y" over and over
@@ -305,6 +306,7 @@ grep -B10                               # print match + 10 lines before
 grep -a -b -B100 -A100 phrase /dev/sda3 # recover deleted files
 egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
 # grep for tab in bash: Ctrl-V TAB
+grep '^.\{10\}$'                        # 10 letter words
 
 # sed
 sed 1d                                  # print all but first line
@@ -331,6 +333,8 @@ awk '{$1="";print}'                     # print all but last field
 awk '$1>=2{print}                       # print if greater that 2
 awk '{ sum += $1 }; END { print sum }'  # sum input stream
 awk '{print length}'                    # length of each line
+awk '{print length($1)}'                # length of first word
+awk '{a[$1]+=$2}END{for(i in a) print i,a[i]}' # sum vals (col2) by key (col2)
 
 # Misc text processing
 cat FILE1                               # print file to terminal
@@ -363,6 +367,8 @@ wc -l                                   # line count
 sort                                    # sort lines
 sort -n                                 # numeric order
 sort | uniq                             # print only unique lines
+sort -u                                 # print only unique lines
+sort -k1,1                              # sort with only column 1 (first) as key
 /usr/share/dict/words                   # All the words in the dictionary
 shuf /usr/share/dict/words | head -n1   # random word
 
