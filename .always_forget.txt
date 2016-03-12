@@ -250,6 +250,8 @@ rdesktop server:port -u awdeorio@UMICH.EDU
 # Bash
 echo "hello world"                      # print stdout
 echo "hello world" >&2                  # print to stderr
+echo "hello world" > FILE               # print file
+echo "hello world" >> FILE              # append file
 CMD > /dev/null                         # ignore stdout
 CMD 2> /dev/null                        # ignore stderr
 CMD &> /dev/null                        # ignore both stdout and stderr
@@ -268,6 +270,7 @@ cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 eval                                    # run in current shell
 exec                                    # spawn a new shell to replace current
 TAB=$'\t'                               # TAB literal 
+echo "hello" | tee >(cat) >(cat)        # copy stdout to two commands
 
 # Scripting
 yes                                     # keep printing "y" over and over
