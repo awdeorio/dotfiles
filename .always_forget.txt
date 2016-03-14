@@ -196,6 +196,7 @@ mplayer "$(ls | shuf -n1)"              # select and play a random file
 # Read video device live
 mplayer tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0 -fps 20
 mplayer tv://
+vlc v4l2:///dev/video0
 # Record video only
 mencoder tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0 -fps 20 -nosound -ovc lavc -o file.avi
 # Record video+sound
@@ -206,6 +207,13 @@ ffmpeg -i concat:"/media/dvd/VIDEO_TS/VTS_01_1.VOB|/media/dvd/VIDEO_TS/VTS_01_2.
 ffmpeg -i input.mp4 -vcodec libx264 -vprofile high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=-1:480 -threads 0 -b:a 128k output_file_480p.mp4
 # compress mp4 video to 360p at 250kbit/s mp4
 ffmpeg -i input.mp4 -vcodec libx264 -vprofile baseline -preset slow -b:v 250k -maxrate 250k -bufsize 500k -vf scale=-1:360 -threads 0 -ab 96k output_360p.mp4
+# Stream live video
+cvlc v4l2:///dev/video0 :v4l2-standard= :input-slave=alsa://hw:0,0 :live-caching=300 :sout="#transcode{vcodec=WMV2,vb=800,scale=1,acodec=wma2,ab=128,channels=2,samplerate=44100}:http{dst=:8080/stream.wmv}"
+# Stream live video without audio
+cvlc v4l2:///dev/video0 :v4l2-standard= :input-slave=alsa://hw:0,0 :live-caching=300 :sout="#transcode{vcodec=WMV2,vb=800,scale=1,select=noaudio}:http{dst=:8080/stream.wmv}"
+# View live video stream
+vlc http://HOST:8080/stream.wmv
+mplayer http://HOST:8080/stream.wmv
 
 # Images
 mogrify -rotate 90                     # rotate
