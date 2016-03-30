@@ -294,9 +294,9 @@ if [[ `uname` = "Linux" ]]; then
 elif [[ `uname` = "Darwin" ]] && [[ `which gls` ]]; then
   # GNU ls
   eval `dircolors -b ${HOME}/.DIR_COLORS`
-  alias ls="gls --color --human-readable --ignore-backups"
-  alias ll="gls --color --human-readable --ignore-backups -l"
-  alias la="gls --color --human-readable -A"
+  alias ls="gls --color --human-readable --quoting-style=literal --ignore-backups --ignore $'Icon\r'"
+  alias ll="gls --color --human-readable --quoting-style=literal --ignore-backups --ignore $'Icon\r' -l"
+  alias la="gls --color --human-readable --quoting-style=literal -A"
 else
   alias ls="ls -G -h"
   alias ll="ls -G -h -l"

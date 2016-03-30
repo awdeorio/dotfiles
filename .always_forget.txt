@@ -640,7 +640,7 @@ rc-update del autofs                    # Gentoo
 ########################################
 # Vagrant with VirtualBox
 # https://www.vagrantup.com/
-vagrant init                            # install VM (config in Vagrantfile)
+vagrant init                            # create new configuration Vagrantfile
 vagrant up                              # boot VM
 vagrant ssh                             # connect to VM
  > cd /vagrant/                         # shared directory w/host OS

@@ -1,4 +1,4 @@
-personal_ws-1.1 en 192 
+personal_ws-1.1 en 193 
 Microsystems
 dumpfile
 centroids
@@ -28,6 +28,7 @@ DFD
 OpenCores
 topology's
 DDR
+Asheville
 Opteron
 CoSMa's
 resynthesis
@@ -168,8 +169,8 @@ HKN
 VCS's
 levelizing
 Craig's
-GPUs
 GPU's
+GPUs
 scalability
 GPU
 BISTs
