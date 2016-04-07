@@ -1,1 +1,5 @@
+# Disable startup message
 startup_message off
+
+# C-b is the escape combination, instead of default C-a
+escape ^Bb
