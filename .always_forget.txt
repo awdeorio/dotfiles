@@ -591,9 +591,11 @@ rm ~/.Trash/*                           # Empty trash
 
 # Wifi management
 ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/sbin
-airport -I                              # Describe current connection
+networksetup -listallhardwareports      # Find network inferface name
+networksetup -setairportpower en0 on    # Turn on wifi
 airport -s                              # Scan wireless networks
-
+networksetup -setairportnetwork en0 SSID PASSWORD # Connect to wifi network
+airport -I                              # Print current wireless status
 
 # Create bootable live USB
 # ref: http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx
