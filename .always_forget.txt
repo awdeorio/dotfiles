@@ -589,6 +589,12 @@ opendiff FILE1 FILE2 [-merge FILE3]     # graphical diff
 diskutil unmount /Volumes/USB_DISK      # Unmount USB_DISK
 rm ~/.Trash/*                           # Empty trash
 
+# Wifi management
+ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/sbin
+airport -I                              # Describe current connection
+airport -s                              # Scan wireless networks
+
+
 # Create bootable live USB
 # ref: http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx
 hdiutil convert -format UDRW -o target.img SOURCE.iso
