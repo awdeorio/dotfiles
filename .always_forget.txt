@@ -234,11 +234,19 @@ ssh -L 5901:localhost:5900 HOST        # port forwarding
 vncviewer localhost:1                  # (now use forwarded port)
 scp FILE HOST:                         # copy file to remote host over SSH
 scp -r DIR HOST:                       # copy directory
-rsync -av DIR HOST:                    # synchronize directory, with permissions
-rsync -a                               # archive (permissions, recursive, etc.)
+rsync -avz DIR HOST:PATH/              # archive over the network
+rsync -a                               # archive, equivalent to -rlptgoD
+rsync -r                               # recursive
+rsync -l                               # copy symlinks as symlinks
+rsync -p                               # preserve permissions
+rsync -t                               # preserve times
+rsync -g                               # preserve group
+rsync -o                               # preserve owner
+rsync -D                               # preserve devices and special files
 rsync -v                               # verbose
 rsync -z                               # compress
 rsync -P                               # progress bar
+rsync -rvt                             # copy from USB stick
 
 # Start remote vnc session
 server $ vncserver -localhost -NeverShared
@@ -399,7 +407,7 @@ fsck -aC /dev/<device>                  # check disk with progress bar, no ?'s
 touch /forcefsck && reboot              # force filesystem check on reboot
 dd if=/dev/cdrom of=my_cd_image.iso     # Rip ISO from CDROM
 mount with "shortname=mixed"            # mount FAT32
-rsync -rvtP --modify-window=1 --delete  # copy from FAT32
+rsync -rvt --delete --modify-window=1   # copy from FAT32
 rsync -rv --delete --checksum           # copy from FAT32, using file checksum
 
 # Disk imaging over a network
@@ -581,7 +589,7 @@ cygstart.exe FILE
 
 
 ########################################
-# OS X
+# OSX
 open FILE                               # open a file, same as double-click
 open -a "Google Chrome" FILE            # open a file with Google Chrome
 pbcopy < FILE                           # copy contents of FILE to clipboard
@@ -964,3 +972,15 @@ git lfs ls-files                        # files managed by git-lfs (committed)
 # Render github-style Markdown
 pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
+
+
+########################################
+# GNU Make
+
+make                                    # Build the first target in Makefile
+make -f FILE                            # Use FILE as Makefile
+make -d                                 # Print debugging information
+make -jN                                # Run N parallel jobs
+make -k                                 # Keep going after error, if possible
+make -n                                 # Dry run
+make -r                                 # Eliminate built-in implicit rules
