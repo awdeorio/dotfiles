@@ -474,7 +474,7 @@ dos2unix                                # convert line endings to UNIX (old)
 pdftk PATH/*.pdf cat output output.pdf  # join pages
 pdfjoin *.pdf                           # join pages
 pdftk FILE.pdf burst                    # split pages
-pdfseparate                             # split pages
+pdfseparate in.pdf 'out-%d.pdf'         # split pages
 xlhtml - convert excel files
 
 # Date and time
