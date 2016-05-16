@@ -328,3 +328,7 @@
    (t (indent-for-tab-command))))
 
 (global-set-key (kbd "TAB") 'clever-hippie-tab)
+
+
+;;(require 'gud)
+(load-file "~/.emacs.d/elisp/gud.el")

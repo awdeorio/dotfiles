@@ -7,6 +7,7 @@
 # Don't backup these files
 set -o noglob # bug fix: globbing fucks up the *'s in EXCLUDE
 EXCLUDE+=' --exclude *.vmem'
+EXCLUDE+=' --exclude *.vmdk'
 EXCLUDE+=' --exclude *.iso'
 EXCLUDE+=' --exclude .mozilla/firefox/*/Cache/*'
 EXCLUDE+=' --exclude .Trash/***'
@@ -16,6 +17,8 @@ EXCLUDE+=' --exclude *.vdi'
 EXCLUDE+=' --exclude nobackup/***'
 EXCLUDE+=' --exclude Library/***'
 EXCLUDE+=' --exclude Applications/***'
+# EXCLUDE+=' --exclude GoogleDrive/***'
+# EXCLUDE+=' --exclude Dropbox/***'
 
 # Sanity check that this is my laptop
 if [ `hostname` != "manzana.local" ]; then
