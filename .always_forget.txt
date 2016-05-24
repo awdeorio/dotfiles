@@ -289,6 +289,7 @@ eval                                    # run in current shell
 exec                                    # spawn a new shell to replace current
 TAB=$'\t'                               # TAB literal 
 echo "hello" | tee >(cat) >(cat)        # copy stdout to two commands
+set -e                                  # Abort on non-zero NOTE: pipes break it
 
 # Scripting
 yes                                     # keep printing "y" over and over
@@ -330,6 +331,7 @@ egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
 grep '^.\{10\}$'                        # 10 letter words
 
 # sed
+sed -r                                  # use extended regex
 sed 1d                                  # print all but first line
 sed '$d'                                # print all but last line
 sed -n '52p'                            # print line 52
@@ -356,6 +358,7 @@ awk '{ sum += $1 }; END { print sum }'  # sum input stream
 awk '{print length}'                    # length of each line
 awk '{print length($1)}'                # length of first word
 awk '{a[$1]+=$2}END{for(i in a) print i,a[i]}' # sum vals (col2) by key (col2)
+awk '/match/,/*/'                       # remove from match to end of file
 
 # Misc text processing
 cat FILE1                               # print file to terminal
