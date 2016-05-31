@@ -117,6 +117,7 @@ nmap -sP '141.212.106.*'  # see what IP addresses are inuse
 dig -x 141.212.106.7      # verify that my IP is not in DHCP space
 ifconfig eth0 down
 ifconfig eth0 141.212.106.7 broadcast 141.212.106.255 netmask 0xffffff80 up
+route flush     # remove all routes
 route add default gw 141.212.106.1
 edit /etc/resolv.conf
   > search eecs.umich.edu
@@ -290,6 +291,9 @@ exec                                    # spawn a new shell to replace current
 TAB=$'\t'                               # TAB literal 
 echo "hello" | tee >(cat) >(cat)        # copy stdout to two commands
 set -e                                  # Abort on non-zero NOTE: pipes break it
+EXTENSION="${FILENAME##*.}"             # Parse file extension
+CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
+
 
 # Scripting
 yes                                     # keep printing "y" over and over
@@ -352,6 +356,7 @@ FIXME: sed search and THEN do replace, e.g., '/searchterm/s/query/replace/'
 # awk
 awk '/Iowa/,/Montana/'                  # print lines between Iowa & Montana, 
 awk '{print $NF}'                       # print last field
+awk '{print $(NF-1)}'                   # print second-to-last field
 awk '{$1="";print}'                     # print all but last field
 awk '$1>=2{print}                       # print if greater that 2
 awk '{ sum += $1 }; END { print sum }'  # sum input stream
@@ -479,7 +484,9 @@ pdfjoin *.pdf                           # join pages
 pdfunite *.pdf out.pdf                  # join pages
 pdftk FILE.pdf burst                    # split pages
 pdfseparate in.pdf 'out-%d.pdf'         # split pages
-xlhtml - convert excel files
+xlhtml                                  # convert excel files
+pdftotext                               # convert pdf to text
+pdftotext -layout                       # convert pdf to text, preserving layout
 
 # Date and time
 date '+%s'                                        # current time in seconds
