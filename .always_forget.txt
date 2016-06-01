@@ -940,6 +940,10 @@ git branch -d F                         # delete F branch
 git push origin develop                 # push to server
 git push origin ":F"                    # remove F branch from server
 
+# Automated branching model
+brew install git-flow-avh               # Install
+git flow init                           # Defaults; "Version tag prefix" = "v"
+
 # Tagging
 git tag                                 # list tags
 git tag TAG                             # apply lightweight tag
@@ -965,6 +969,7 @@ git checkout --mine PATH/FILE           # conflict: keep my file
 # Ref: http://stevenharman.net/git-pull-with-automatic-rebase
 git config branch.autosetuprebase always
 git config branch.develop.rebase true
+git config branch.autosetuprebase always
 
 # Tarball of current HEAD
 git archive --format tar.gz HEAD > file.tar.gz
