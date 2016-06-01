@@ -591,6 +591,11 @@ mount -o loop file.img /home/awdeorio/mnt/loop
 # Change a bunch of file extensions using bash
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
 
+# Random
+shuf                                    # shuffle lines
+dd bs=1M count=1 if=/dev/urandom of=FILE# create a 1M file with random content
+md5sum -                                # random password: type, then CTRL-D
+
 
 ########################################
 # Windows / Cygwin
@@ -788,6 +793,9 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 # sqlite3 Linux CLI
 sqlite3 file.db                         # open connection to database from file
+sqlite3> .databases                     # list the databases
+sqlite3> .tables                        # list the tables
+sqlite3> .schema                        # show the table creation commands
 
 # MySQL Linux CLI
 mysqladmin -u root password PASSWORD    # change root password
