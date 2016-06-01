@@ -786,6 +786,9 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 # sqlite3 Linux CLI
 sqlite3 file.db                         # open connection to database from file
+sqlite3> .databases                     # list the databases
+sqlite3> .tables                        # list the tables
+sqlite3> .schema                        # show the table creation commands
 
 # MySQL Linux CLI
 mysqladmin -u root password PASSWORD    # change root password
