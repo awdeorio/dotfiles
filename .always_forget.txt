@@ -949,8 +949,21 @@ git push origin develop                 # push to server
 git push origin ":F"                    # remove F branch from server
 
 # Automated branching model
+# https://danielkummer.github.io/git-flow-cheatsheet/
 brew install git-flow-avh               # Install
-git flow init                           # Defaults; "Version tag prefix" = "v"
+git flow init                           # Initialize inside a repository
+git flow feature start NAME             # Start a new feature
+git flow feature finish NAME            # Finish a feature
+git flow feature publish NAME           # Publish a feature
+git flow feature pull origin NAME       # Get feature published by another user
+git flow feature track NAME             # Track a feature on origin
+git flow release start RELEASE          # Start a release
+git flow release publish RELEASE        # Publish a release
+git flow release track RELEASE          # Track a release
+git flow release finish RELEASE         # Finish a release
+git push --tags                         # Push release tags
+git flow hotfix start VERSION           # Start a hotfix
+git flow hotfix finish VERSION          # Finish a hotfix
 
 # Tagging
 git tag                                 # list tags
