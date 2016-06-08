@@ -717,8 +717,10 @@ cpan -i PACKAGE                         # install package
 # Python
 
 # local package installs
-virtualenv ./venv                       # create
-. ./venv/bin/activate                   # enable
+virtualenv venv                         # create
+virtualenv -p python3 venv              # create, Python 3
+source ./venv/bin/activate              # enable, bash
+. ./venv/bin/activate                   # enable, csh, etc.
 pip install PACKAGE                     # install PACKAGE into ./venv
 deactivate                              # disable
 
