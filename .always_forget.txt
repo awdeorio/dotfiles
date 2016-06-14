@@ -798,6 +798,9 @@ sqlite3 file.db                         # open connection to database from file
 sqlite3> .databases                     # list the databases
 sqlite3> .tables                        # list the tables
 sqlite3> .schema                        # show the table creation commands
+sqlite3> .headers on                    # print table column names
+sqlite3> .mode column                   # pretty print table columns
+sqlite3> .show                          # print settings
 
 # MySQL Linux CLI
 mysqladmin -u root password PASSWORD    # change root password
