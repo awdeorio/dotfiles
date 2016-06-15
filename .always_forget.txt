@@ -137,6 +137,7 @@ dig -x 141.212.106.7                    # reverse DNS lookup
 dig +short -x 141.212.106.7             # reverse DNS lookup, scriptable
 whois www.google.com                    # domain name registration info
 nmap -A -T4 snoopy.eecs.umich.edu       # what ports are open?
+nmap -sn -PR 192.168.0.0/24             # which hosts are up my subnet?
 netstat -at                             # list TCP connections
 netstat -au                             # list UDP connections
 netstat -ant                            # disable DNS lookup (faster)
