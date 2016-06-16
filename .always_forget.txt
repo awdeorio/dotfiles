@@ -883,7 +883,7 @@ https://help.github.com/articles/remove-sensitive-data/ # remove sensitive data
 # Update your local copy, merging from repository, manual
 git fetch origin                        # fetch from origin
 git fetch --prune                       # remove stale local branches
-git fetch -avp                          # fetch all branches; prune; verbose
+git fetch -vp                           # ^^^ + verbose
 git diff master origin/master           # see changes
 git merge origin/master                 # this will be a FF if no local changes
 
