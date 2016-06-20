@@ -772,6 +772,8 @@ python -m SimpleHTTPServer
 # ref http://peterdowns.com/posts/first-time-with-pypi.html
 # NOTE: for some stupid reason, you *must* have your password in ~/.pypirc
 
+# Edit setup.py and change version
+
 # Build a distribution tarball locally
 python setup.py sdist
 
@@ -780,9 +782,10 @@ git tag -a X.Y
 git push --tags origin master
 
 # Test deploy to PyPI
+# First, make sure passwords are set in ~/.pypirc
 python setup.py register -r pypitest
 python setup.py sdist upload -r pypitest
-open https://testpypi.python.org/pypi/MYPACKAGE/
+# browse to https://testpypi.python.org/pypi/mailmerge
 
 # Live deploy to PyPI
 python setup.py register -r pypi
