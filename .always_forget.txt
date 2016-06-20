@@ -493,6 +493,7 @@ pdftotext -layout                       # convert pdf to text, preserving layout
 
 # Date and time
 date '+%s'                                        # current time in seconds
+date '+%Y-%m-%d_%H:%M:%S'                         # format 2016-06-20_13:13:19
 date --date='Thu Nov  4 09:08:49 EDT 2010' '+%s'  # parse a date and reformat
 date --date="1970-01-01 1187769064 sec GMT"       # Unix time to human
 date --date @1187769064                           # Unix time to human
