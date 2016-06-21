@@ -819,11 +819,16 @@ mysql -u user -p < SCRIPT               # run script
 mysqldump -u user -pPASSWD DB > file.db # dump database to file
 
 # PostgreSQL
+# https://www.postgresql.org/docs/9.3/static/app-psql.html
 psql                                    # Start postgresql shell
 sudo -u postgres psql                   # Start shell, Ubuntu
+\list                                   # list databases
 \l                                      # list databases
-\dt                                     # list tables
+\connect DB                             # connect to database
 \c DB                                   # connect to database
+\dt                                     # list tables
+\quit                                   # exit psql CLI
+\q                                      # exit psql CLI
 
 # SQL tid bits
 PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
