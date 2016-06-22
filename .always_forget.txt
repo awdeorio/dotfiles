@@ -1010,7 +1010,7 @@ git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
 git merge develop                       # merge develop into current branch
 git cherry-pick 62ecb3                  # merge *one* commit into current branch
 git checkout --theirs PATH/FILE         # conflict: keep their file
-git checkout --mine PATH/FILE           # conflict: keep my file
+git checkout --ours PATH/FILE           # conflict: keep my file
 
 # Rebase automatically, resulting in a linear history like Subversion
 # Ref: http://stevenharman.net/git-pull-with-automatic-rebase
