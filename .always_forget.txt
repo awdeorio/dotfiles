@@ -730,6 +730,7 @@ jar -xvf                                # extract all files from jar archive
 
 ########################################
 # Perl 
+cat FILE | perl -pe 's///'              # apply line of Perl to each input line
 perl -V                                 # debug environment
 PERL5LIB                                # environment variable for tool installs
 cpan -i PACKAGE                         # install package
