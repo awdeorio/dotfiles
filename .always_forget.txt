@@ -840,11 +840,15 @@ mysqldump -u user -pPASSWD DB > file.db # dump database to file
 # https://www.postgresql.org/docs/9.3/static/app-psql.html
 psql                                    # Start postgresql shell
 sudo -u postgres psql                   # Start shell, Ubuntu
+dropdb --echo DB                        # Drop a database, verbose
+dropuser --echo USER                    # Remove a user, verbose
+psql -lqt                               # list databases
 \list                                   # list databases
 \l                                      # list databases
 \connect DB                             # connect to database
 \c DB                                   # connect to database
 \dt                                     # list tables
+\du                                     # list users
 \quit                                   # exit psql CLI
 \q                                      # exit psql CLI
 
