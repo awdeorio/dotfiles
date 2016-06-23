@@ -89,6 +89,7 @@ bg                                      # send suspended CMD to background
 nohup CMD &                             # logout won't stop CMD
 nohup nice CMD &                        # lower priority
 nohup CMD < /dev/null > LOG 2>&1        # redirect all streams
+nohup CMD 0<&- &> /dev/null &           # redirect all streams
 
 # Commonly used signals
 1       HUP (hang up)
@@ -275,14 +276,28 @@ echo "hello world"                      # print stdout
 echo "hello world" >&2                  # print to stderr
 echo "hello world" > FILE               # print file
 echo "hello world" >> FILE              # append file
+echo "hello world" &>> FILE             # append stdout and stderr to file
 CMD > /dev/null                         # ignore stdout
+CMD 1>-                                 # ignore stdout
 CMD 2> /dev/null                        # ignore stderr
+CMD 2>-                                 # ignore stderr
 CMD &> /dev/null                        # ignore both stdout and stderr
+CMD > /dev/null 2>&1                    # ignore both stdout and stderr
+CMD &>-                                 # ignore both stdout and stderr
 CMD 2>&1                                # copy stderr to stdout
-CMD 2>&1 | less                         # copy stderr to stdout and view
+CMD1 2>&1 | CMD2                        # stdout + stderr -> pipe
+CMD1 &| CMD2                            # stdout + stderr -> pipe
+0<&-                                    # close stdin
+<<TAG ... TAG                           # here document (for inline scripts)
+<<-TAG ... TAG                          # here document, ignore leading tabs
 <( CMD )                                # create a temporary named pipe 
 diff <(echo a) <(echo b)                # diff the output of two commands
 exec > >(tee logfile.txt); exec 2>&1;   # copy stdout and stderr to log file
+exec 1<&-                               # close stdout file descriptor
+exec 2<&-                               # close stderr file descriptor
+exec 1<>LOG_FILE                        # open stdout as LOG_FILE file for r/w
+exec 2>&1                               # redirect stderr to stdout
+echo "this goes to LOG_FILE, not screen # (after above 4 exec commands)
 $#                                      # argc in bash
 [ $# -lt 1 ] && exit 1                  # check # args and quit
 $@                                      # argv in bash
@@ -308,6 +323,7 @@ true                                    # exit zero
 false                                   # exit non-zero
 trap FUNC 1 2 3 15                      # run FUNC on receiving a signal
 tee FILE                                # copy stdin to both stdout and FILE
+tee /dev/stderr                         # copy stdin to both stdout and stderr
 echo hello | tee FILE                   # write "hello" to both stdout and FILE
 mktemp                                  # create a temporary file
 mktemp -t PREFIX                        # ^^^ starting with PREFIX
@@ -593,7 +609,7 @@ tail -f FILE               # watch file for appends
 # Mount CD/DVD image
 mount -o loop file.img /home/awdeorio/mnt/loop
 
-# Change a bunch of file extensions using bash
+# Change a bunch of file extensions usingb ash
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
 
 # Random
