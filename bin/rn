@@ -1,9 +1,9 @@
-#!/usr/bin/perl -w
-# rename.pl
+#!/usr/bin/perl
+# rn
 #
-# renames files according to Perl script input
+# renames files using Perl regex
 #
-# Author: Andrew DeOrio
+# Andrew DeOrio <awdeorio@umich.edu>
 
 use strict;
 use Getopt::Long;
@@ -24,11 +24,11 @@ GetOptions(
            "help|h|?"    =>\$opt{help},
            "verbose|v"   =>\$opt{verbose},
            "recursive|r" =>\$opt{recursive},
-           "dry-run|n"   =>\$opt{dry_run},
+           "dry-run|n"   =>\$opt{dryrun},
            );
 
 usage() if $opt{help};
-die "Error: there is a bug with --dry-run" if $opt{dryrun};
+print "dry run\n" if $opt{dryrun};
 my $op = shift or &usage();
 chomp(@ARGV = <STDIN>) unless @ARGV;
 
@@ -77,23 +77,3 @@ sub usage {
     "  $prog '\$_ .= \".old\"'  *         append '.old'\n";
   exit(0);
 }
-
-
-# sub clean_filename {
-#     push @_, $_ unless @_; # bug fix: find gives $_ bug manual call gives @_
-#     my $old_filename = shift;
-#     my $new_filename = $old_filename;
-#     $new_filename =~ s/_20/ /g; # _20 -> <space>
-#     $new_filename =~ s/_23/#/g;
-#     $new_filename =~ s/_27/'/g; # _27 -> '
-#     $new_filename =~ s/_28/(/g;
-#     $new_filename =~ s/_29/)/g;
-#     $new_filename =~ s/^(\d{2})\./$1/; # 00. blah -> 00 blah
-#     $new_filename =~ s/_E5/a/g;
-#     $new_filename =~ s/_E8/e/g;
-#     $new_filename =~ s/_E9/e/g;
-#     print "$old_filename -> $new_filename\n" if $opt_verbose;
-#     if (!$opt_dry_run) {
-#         rename($old_filename, $new_filename) or die "Error moving file $!";
-#     }
-# }
