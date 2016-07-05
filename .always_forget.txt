@@ -1,4 +1,4 @@
-.always_forget.txt
+# .always_forget.txt
 #
 # awdeorio's notes on UNIX commands
 
@@ -694,12 +694,29 @@ update-rc.d autofs defaults             # Ubuntu, add
 chkconfig autofs off                    # Fedora/Redhat
 rc-update del autofs                    # Gentoo
 
+# upstart scripts
+initctl reload-configuration            # reload configs in /etc/init/
+service MYSERVICE status
+status MYSERVICE
+service MYSERVICE start
+start MYSERVICE
+service MYSERVICE stop
+stop MYSERVICE
+service MYSERVICE restart
+restart MYSERVICE
+init-checkconf /etc/init/MYSERVICE.conf # check config syntax
+initctl reload-configuration            # update config (default auto updates)
+
+sudo initctl log-priority debug         # enable debugging
+
 
 ########################################
 # Vagrant with VirtualBox
 # https://www.vagrantup.com/
 vagrant init                            # create new configuration Vagrantfile
-vagrant up                              # boot VM
+vagrant up                              # boot VM, create if necessary
+vagrant up --no-provision               # create VM, but don't isntall anything
+vagrant up --provision                  # boot VM, force installers to run
 vagrant ssh                             # connect to VM
  > cd /vagrant/                         # shared directory w/host OS
 vagrant halt                            # halt VM
@@ -731,7 +748,7 @@ jar -xvf                                # extract all files from jar archive
 
 
 ########################################
-# Perl 
+# Perl
 cat FILE | perl -pe 's///'              # apply line of Perl to each input line
 perl -V                                 # debug environment
 PERL5LIB                                # environment variable for tool installs
@@ -841,6 +858,8 @@ mysqldump -u user -pPASSWD DB > file.db # dump database to file
 # PostgreSQL
 # https://www.postgresql.org/docs/9.3/static/app-psql.html
 psql                                    # Start postgresql shell
+psql -a [--echo-all]                    # Echo all input commands and queries
+psql -U root -h localhost               # connect using a TCP connection
 sudo -u postgres psql                   # Start shell, Ubuntu
 dropdb --echo DB                        # Drop a database, verbose
 dropuser --echo USER                    # Remove a user, verbose
@@ -1058,6 +1077,18 @@ git lfs ls-files                        # files managed by git-lfs (committed)
 # Render github-style Markdown
 pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
+
+# GitHub SSH agent forwarding
+# https://developer.github.com/guides/using-ssh-agent-forwarding/
+localhost $ ssh -T git@github.com      # check github connection
+localhost $ echo $SSH_AUTH_SOCK        # check ssh-agent is running
+localhost $ ssh-add -L                 # check key is added
+localhost $ ssh-add ~/.ssh/id_dsa      # add my key, temporary
+localhost $ ssh-add -K ~/.ssh/id_dsa   # add my key, permanent, OSX
+localhost $ ssh -A SERVER              # ssh to server, forwarding key
+server $ ssh -T git@github.com         # check github connection on server
+server $ echo $SSH_AUTH_SOCK           # check ssh-agent is running
+server $ git remote -v                 # check repo is cloned with SSH URL
 
 
 ########################################
