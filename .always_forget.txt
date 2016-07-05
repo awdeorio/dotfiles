@@ -1089,6 +1089,7 @@ localhost $ ssh -A SERVER              # ssh to server, forwarding key
 server $ ssh -T git@github.com         # check github connection on server
 server $ echo $SSH_AUTH_SOCK           # check ssh-agent is running
 server $ git remote -v                 # check repo is cloned with SSH URL
+server $ sudo -E                       # preserve environment when using sudo
 
 
 ########################################
