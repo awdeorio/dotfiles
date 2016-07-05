@@ -682,11 +682,16 @@ rpm -Uvh     thing.rpm                  # install rpm
 rpm2cpio FILE.rpm | cpio -idmv          # extra files from rpm
 
 # Debian/Ubuntu apt
+apt-get install                         # install package
+apt-get remove                          # remove package
+apt-get purge                           # remove package and config files
 apt-get update                          # update repository
 apt-get upgrade                         # upgrade packages, but NOT kernel
 apt-get dist-upgrade                    # upgrade packages, including kernel
 apt-cache search <package>              # find packages
 apt-cache showpkg <package>             # get the details on a package
+dpkg --get-selections | grep -v deinstall # list installed packages
+dpkg --get-selections | grep PACKAGE    # see if package is installed
 
 # /etc/init.d/ scripts
 update-rc.d -f autofs remove            # Ubuntu, remove
@@ -706,8 +711,17 @@ service MYSERVICE restart
 restart MYSERVICE
 init-checkconf /etc/init/MYSERVICE.conf # check config syntax
 initctl reload-configuration            # update config (default auto updates)
-
 sudo initctl log-priority debug         # enable debugging
+
+
+########################################
+# VirtualBox
+vboxmanage list vms                     # list virtual machines
+vboxmanage list runningvms              # list running virtual machines
+vboxmanage startvm NAME                 # start NAME virtual machine
+vboxmanage startvm NAME --type headless # start, headless mode
+vboxmanage controlvm NAME poweroff      # pull plug
+vboxmanage controlvm NAME acpipowerbutton # halt
 
 
 ########################################
@@ -859,7 +873,7 @@ mysqldump -u user -pPASSWD DB > file.db # dump database to file
 # https://www.postgresql.org/docs/9.3/static/app-psql.html
 psql                                    # Start postgresql shell
 psql -a [--echo-all]                    # Echo all input commands and queries
-psql -U root -h localhost               # connect using a TCP connection
+psql -U DB_USER -h DB_HOST -d DB_NAME   # connect using a TCP connection
 sudo -u postgres psql                   # Start shell, Ubuntu
 dropdb --echo DB                        # Drop a database, verbose
 dropuser --echo USER                    # Remove a user, verbose
@@ -867,7 +881,7 @@ psql -lqt                               # list databases
 \list                                   # list databases
 \l                                      # list databases
 \connect DB                             # connect to database
-\c DB                                   # connect to database
+\c URL                                  # connect to database using URL
 \dt                                     # list tables
 \du                                     # list users
 \quit                                   # exit psql CLI
