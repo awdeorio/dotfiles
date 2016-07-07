@@ -1012,6 +1012,7 @@ git branch -vv                          # branch remotes
 # Branching
 git branch                              # view current and local branches
 git branch -a                           # view all branches
+git branch --all -vv --sort=-committerdate # view branches by recent commit date
 git branch -vv                          # include tracking and commit info
 git checkout BRANCH                     # switch to local BRANCH
 git checkout --track origin/BRANCH      # switch to remote BRANCH
