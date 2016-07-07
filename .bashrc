@@ -30,6 +30,7 @@ alias grep="grep --color"
 alias igrep="grep -i"
 alias wcl="wc -l"
 alias rmb='rm -vf *~'
+alias rmt='[ -d ${HOME}/.Trash/ ] && rm -rvf ${HOME}/.Trash/*'
 alias latex='latex -halt-on-error'
 alias lftps='lftp -e "open -u awdeorio,xx sftp://snoopy.eecs.umich.edu"'
 alias dftp='ssh -R 19999:localhost:22'
