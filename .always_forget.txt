@@ -14,6 +14,8 @@ gpasswd -a USER GROUP                   # add awdeorio to audio group
 smbpasswd -a USER                       # new Samba user
 chsh -s /bin/bash USER                  # change default shell
 id                                      # print user and group ID #'s
+getent passwd USER                      # check if user exists
+getent group GROUP                      # check if group exists
 ulimit -a                               # per-user system limits
 groups                                  # list group membership
 users                                   # list users logged in
