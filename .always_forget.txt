@@ -3,14 +3,16 @@
 # awdeorio's notes on UNIX commands
 
 # Users and Groups
-adduser john                            # add user w/ system defaults
+adduser USER                            # add USER w/ system defaults
+useradd USER                            # add USER, native binary
 useradd -m -G users,wheel -s /bin/bash USER # add new USER manually
-usermod -u UID username                 # change UID
-usermod -g GID username                 # change default group
+usermod -u UID USER                     # change UID
+usermod -g GID USER                     # change default group
+useradd --system                        # no homedir, no passwd, can't log in
 groupmod -g GID group                   # change GID of group
-gpasswd -a awdeorio audio               # add awdeorio to audio group
-smbpasswd -a username                   # new Samba user
-chsh -s /bin/bash username              # change default shell
+gpasswd -a USER GROUP                   # add awdeorio to audio group
+smbpasswd -a USER                       # new Samba user
+chsh -s /bin/bash USER                  # change default shell
 id                                      # print user and group ID #'s
 ulimit -a                               # per-user system limits
 groups                                  # list group membership
@@ -701,17 +703,18 @@ rc-update del autofs                    # Gentoo
 
 # upstart scripts
 initctl reload-configuration            # reload configs in /etc/init/
-service MYSERVICE status
-status MYSERVICE
-service MYSERVICE start
-start MYSERVICE
-service MYSERVICE stop
-stop MYSERVICE
-service MYSERVICE restart
-restart MYSERVICE
+service MYSERVICE status                # status of service
+status MYSERVICE                        # status of service
+service MYSERVICE start                 # start service
+start MYSERVICE                         # start service
+service MYSERVICE stop                  # stop service
+stop MYSERVICE                          # stop service
+service MYSERVICE restart               # restart service
+restart MYSERVICE                       # restart service
 init-checkconf /etc/init/MYSERVICE.conf # check config syntax
 initctl reload-configuration            # update config (default auto updates)
 sudo initctl log-priority debug         # enable debugging
+initctl emit EVENT                      # manually emit an event
 
 
 ########################################
