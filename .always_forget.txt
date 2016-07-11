@@ -888,9 +888,11 @@ psql -lqt                               # list databases
 \connect DB                             # connect to database
 \c URL                                  # connect to database using URL
 \dt                                     # list tables
+\d+ TABLE                               # display schema
 \du                                     # list users
 \quit                                   # exit psql CLI
 \q                                      # exit psql CLI
+COPY table TO 'file.csv' DELIMITER ',' CSV HEADER;  # dump TABLE to csv file
 
 # SQL tid bits
 PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
