@@ -586,6 +586,8 @@ gpg                                     # encrypt/decrypt text file
 openssl                                 # CLI to OpenSSL library
 crypto FILE                             # encrypt to FILE.crypt
 decrypto FILE.crypt                     # decrypt to FILE
+shasum -c FILE                          # check SHA hash
+md5sum -c FILE                          # check MD5 hash
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
@@ -642,6 +644,8 @@ pbcopy < FILE                           # copy contents of FILE to clipboard
 opendiff FILE1 FILE2 [-merge FILE3]     # graphical diff
 diskutil unmount /Volumes/USB_DISK      # Unmount USB_DISK
 rm ~/.Trash/*                           # Empty trash
+dseditgroup -o create -u USER -p GROUP  # create GROUP
+dseditgroup -o edit -u USER1 -p -a USER2 -t user GROUP # Add USER2 to GROUP
 
 # Wifi management
 ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/sbin
