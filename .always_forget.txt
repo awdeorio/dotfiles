@@ -1073,6 +1073,9 @@ git tag -a TAG                          # apply annotated tag
 git tag -a TAG REV                      # apply annotated tag to REV commit
 git push --tags                         # make tags public
 git checkout tags/TAG                   # checkout a tag as detacted HEAD
+git describe                            # describe commit using most recent tag
+git describe --dirty                    # append "-dirty" if repo isn't clean
+git describe --always                   # use commit object as fallback
 
 # Comparing
 git diff BRANCH1 BRANCH2                # diff two local branches
@@ -1093,8 +1096,9 @@ git config branch.autosetuprebase always
 git config branch.develop.rebase true
 git config branch.autosetuprebase always
 
-# Tarball of current HEAD
+# Tarballs
 git archive --format tar.gz HEAD > file.tar.gz
+git archive --format tar.gz --prefix PREFIX/ --output FILE.tar.gz master
 
 # Tracking large files with git-lfs
 brew install git-lfs                    # install git-lfs step 1
