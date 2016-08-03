@@ -747,6 +747,8 @@ vagrant up --provision                  # boot VM, force installers to run
 vagrant ssh                             # connect to VM
  > cd /vagrant/                         # shared directory w/host OS
 vagrant halt                            # halt VM
+# Environment variables
+# https://www.vagrantup.com/docs/other/environmental-variables.html
 
 
 ########################################
