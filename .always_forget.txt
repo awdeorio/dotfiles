@@ -481,6 +481,9 @@ chmod 777                               # EVERYONE can do EVERYTHING
 find . -type f -exec chmod 600 {}\;     # change permissions for files only
 find . -type d -exec chmod 700 {}\;     # change permissions for dirs only
 umask                                   # view mask for default file permissions
+umask -S                                # ^^^ symbolically
+umask 0077                              # Nobody can r/w my data
+umask 0022                              # Group members can r/w my data
 
 # AFS
 kdestroy                                # delete Kerberos tickets
