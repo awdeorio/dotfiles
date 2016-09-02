@@ -328,7 +328,7 @@ yes > file                              # quickly generate a big file
 exit N                                  # exit N
 true                                    # exit zero
 false                                   # exit non-zero
-trap FUNC 1 2 3 15                      # run FUNC on receiving a signal
+trap "FUNC" 1 2 3 15                    # run FUNC on receiving a signal
 tee FILE                                # copy stdin to both stdout and FILE
 tee /dev/stderr                         # copy stdin to both stdout and stderr
 echo hello | tee FILE                   # write "hello" to both stdout and FILE
