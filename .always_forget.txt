@@ -49,8 +49,9 @@ cd                                      # change to home directory
 cd ..                                   # change to directory up
 cd DIR                                  # change to directory
 cd -                                    # return to previous directory
-cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 lsof                                    # list open files
+cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
+cd $(dirname $0) && pwd -P              # absolute path of executed script
 
 # Finding files
 find . hello.txt                        # find hello.txt, starting at PWD
