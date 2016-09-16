@@ -170,6 +170,7 @@ curl -H "Content-type: application/json" \         # POST JSON
      -X POST http://127.0.0.1:5000/ \
      -d '{"message":"Hello Data"}'
 telnet HOST 80                          # connect to web server
+openssl s_client -quiet -connect www.google.com:443 # ^^^ with SSL
 tcpdump                                 # watch packets on all network ifcs
 tcpdump -i eth0                         # watch packets on one network interface
 tcpdump tcp                             # only one protocol
