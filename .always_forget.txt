@@ -732,6 +732,16 @@ initctl reload-configuration            # update config (default auto updates)
 sudo initctl log-priority debug         # enable debugging
 initctl emit EVENT                      # manually emit an event
 
+# systemd scripts
+systemctl start SERVICE                 # start
+systemctl stop SERVICE                  # stop
+systemctl status SERVICE                # status
+systemctl reload SERVICE                # reload config
+systemctl restart SERVICE               # restart
+systemctl enable SERVICE                # start on boot
+systemctl disable SERVICE               # don't start on boot
+/etc/system/systemd/                    # config file location
+systemctl daemon-reload                 # restart after add or modifying config
 
 ########################################
 # VirtualBox
