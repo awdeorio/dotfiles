@@ -6,6 +6,8 @@
 adduser USER                            # add USER w/ system defaults
 useradd USER                            # add USER, native binary
 useradd -m -G users,wheel -s /bin/bash USER # add new USER manually
+deluser USER                            # remove a user
+delgroup GROUP                          # remove a group
 usermod -u UID USER                     # change UID
 usermod -g GID USER                     # change default group
 useradd --system                        # no homedir, no passwd, can't log in
@@ -1054,6 +1056,7 @@ git checkout --track origin/BRANCH      # switch to remote BRANCH
 git checkout -b BRANCH                  # create a new branch and switch to it
 git push origin BRANCH                  # push BRANCH to remote
 git branch --set-upstream-to=origin/BRANCH BRANCH # fix tracking
+git rev-parse --abbrev-ref HEAD         # name of current branch (scriptable)
 
 # Branching Model  http://nvie.com/posts/a-successful-git-branching-model/
 git checkout -b feature/F develop       # start working on a new feature "F"
