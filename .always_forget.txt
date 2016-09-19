@@ -77,7 +77,7 @@ sudo -u USER CMD                        # run CMD as USER
 sudoedit FILE                           # edit file as root
 
 # Processes and Threads
-ps                                      # View my threads
+ps                                      # View my processes
 ps -u johndoe                           # Another user's processes
 ps -ax                                  # All processes on the machine
 ps -axM                                 # All processes and threads
