@@ -679,11 +679,15 @@ diskutil eject /dev/diskN
 xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/finance
 
 # Homebrew
-brew update                             # update repository
+brew update                             # update package index
 brew upgrade                            # upgrade installed packages
+brew upgrade --cleanup                  # ^^^ and then remove installers
 brew cleanup                            # remove tarballs, installers, etc.
 brew cask cleanup                       # remove .dmg installers
 brew linkapps                           # link to /Applications/
+brew install PACKAGE                    # install PACKAGE
+brew uninstall PACKAGE                  # remove PACKAGE
+brew list                               # list all installed packages
 
 
 ########################################
