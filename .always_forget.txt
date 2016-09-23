@@ -353,6 +353,7 @@ dirname /bin/bash                       # return "/bin"
 
 # grep
 grep PATTERN                            # search for pattern
+grep -E PATTERN                         # extended regex
 egrep PATTERN                           # extended regex
 grep -P                                 # Perl regex
 grep -o                                 # only print the matched pattern
