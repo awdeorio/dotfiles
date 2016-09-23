@@ -163,6 +163,7 @@ nc -l HOST PORT                         # listen for incoming connection
 nc -v HOST PORT                         # check connection to HOST on PORT
 wget https://www.google.com/            # download one page
 wget -m andrewdeorio.com                # download everything
+wget URL -O FILE                        # output to FILE
 traceroute                              # route packets take to network host
 curl --verbose                          # watch protocol in action
 curl --trace-ascii log.txt              # watch protocol in action, more detail
