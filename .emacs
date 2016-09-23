@@ -95,7 +95,9 @@
 	   (concat "http://" url))))
     (start-process (concat "open " url) nil "open" url)))
  
-(setq browse-url-browser-function 'rcy-browse-url-default-macosx-browser)
+; OSX
+(setq browse-url-generic-program (executable-find "open")
+      browse-url-browser-function 'browse-url-generic)
 
 ; Linux
 ; (setq browse-url-generic-program (executable-find "google-chrome")
