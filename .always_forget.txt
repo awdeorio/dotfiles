@@ -601,6 +601,7 @@ crypto FILE                             # encrypt to FILE.crypt
 decrypto FILE.crypt                     # decrypt to FILE
 shasum -c FILE                          # check SHA hash
 md5sum -c FILE                          # check MD5 hash
+openssl req -newkey rsa:2048 -nodes -x509 -days 365 # generate server key
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
