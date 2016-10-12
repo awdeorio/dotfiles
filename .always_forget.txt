@@ -50,7 +50,9 @@ readlink -f PATH                        # absolute path (GNU only)
 cd                                      # change to home directory
 cd ..                                   # change to directory up
 cd DIR                                  # change to directory
-cd -                                    # return to previous directory
+cd -                                    # return to previous directory (bash)
+pushd                                   # push pwd onto stack (bash)
+popd                                    # pop dir off stack and cd there (bash)
 lsof                                    # list open files
 cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 cd $(dirname $0) && pwd -P              # absolute path of executed script
@@ -113,6 +115,7 @@ nohup CMD 0<&- &> /dev/null &           # redirect all streams
 which CMD                               # print path to CMD
 whereis CMD                             # print all paths to CMD
 export PATH=$PATH:NEW_DIR               # add new directory to PATH (bash)
+type -a CMD                             # include shell functions/aliases (bash)
 
 # Manual network configuration (DHCP)
 killall dhcpcd
@@ -325,7 +328,13 @@ echo "hello" | tee >(cat) >(cat)        # copy stdout to two commands
 set -e                                  # Abort on non-zero NOTE: pipes break it
 EXTENSION="${FILENAME##*.}"             # Parse file extension
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
-
+cp file{,.bak}                          # Backup a file
+mv file{,.old}                          # Move a file
+sudo !!                                 # Repeat last command with sudo
+ls !$                                   # Last item from last cmd
+ls !^                                   # First (non-cmd) item from last cmd
+ls !*                                   # All (non-cmd) items from last cmd
+ls -d */                                # List only directories
 
 # Scripting
 yes                                     # keep printing "y" over and over
@@ -658,6 +667,7 @@ cygstart.exe FILE
 open FILE                               # open a file, same as double-click
 open -a "Google Chrome" FILE            # open a file with Google Chrome
 pbcopy < FILE                           # copy contents of FILE to clipboard
+echo | pbcopy                           # command output -> clipboard
 opendiff FILE1 FILE2 [-merge FILE3]     # graphical diff
 diskutil unmount /Volumes/USB_DISK      # Unmount USB_DISK
 rm ~/.Trash/*                           # Empty trash
