@@ -587,7 +587,8 @@ tar -xvjf DIR.tar.bz2                   # decompress directory
 tar -xvjOf DIR.tar.bz2                  # cat tarball files to stdout
 tar -tvjf DIR.tar.bz2                   # list contents of tarball
 tar -xvjf DIR.tar.bz2 FILE              # extract FILE from tarball
-zip --encrypt -r folder folder          # create encrypted zip archive
+zip -r DIR DIR                          # create DIR.zip archive
+zip --encrypt -r DIR DIR                # create encrypted zip archive
 bzip2 FILE.bz2                          # compress a single file
 bzcat FILE.bz2                          # dump compressed file to stdout
 bunzip2 FILE.bz2                        # decompress a single file
@@ -614,6 +615,14 @@ decrypto FILE.crypt                     # decrypt to FILE
 shasum -c FILE                          # check SHA hash
 md5sum -c FILE                          # check MD5 hash
 openssl req -newkey rsa:2048 -nodes -x509 -days 365 # generate server key
+zip --encrypt -r DIR DIR                # create encrypted zip archive
+sudo openvpn myconfig.ovpn              # start VPN connection
+gpg --keyserver pool.sks-keyservers.net\# add a public key
+    --recv-key KEY
+gpg --verify FILE.asc                   # verify
+gpg --no-default-keyring \              # circumvent OSX keychain
+    --keyring ./tmp.keyring
+gpg --allow-non-selfsigned-uid          # allow key
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
