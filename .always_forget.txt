@@ -335,6 +335,7 @@ ls !$                                   # Last item from last cmd
 ls !^                                   # First (non-cmd) item from last cmd
 ls !*                                   # All (non-cmd) items from last cmd
 ls -d */                                # List only directories
+IFS= read -s  -p Password: PASSWORD     # Ask user for password
 
 # Scripting
 yes                                     # keep printing "y" over and over
