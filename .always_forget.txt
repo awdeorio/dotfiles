@@ -662,6 +662,7 @@ shuf                                    # shuffle lines
 shuf -i 1-100 -n 1                      # Random number between [1, 100]
 dd bs=1M count=1 if=/dev/urandom of=FILE# create a 1M file with random content
 md5sum -                                # random password: type, then CTRL-D
+openssl rand -base64 32                 # random string
 
 
 ########################################
@@ -836,6 +837,10 @@ perl -pe 's/\\\\n/ /'                   # remove continuation lines (backslash)
 
 ########################################
 # Python
+
+# Options
+python -m MODULE                        # load module and execute main()
+python -c "PROGRAM"                     # execute python program
 
 # local package installs
 virtualenv venv                         # create
