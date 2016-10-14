@@ -665,6 +665,7 @@ shuf -i 1-100 -n 1                      # Random number between [1, 100]
 dd bs=1M count=1 if=/dev/urandom of=FILE# create a 1M file with random content
 md5sum -                                # random password: type, then CTRL-D
 openssl rand -base64 32                 # random string
+pwgen                                   # random passwords
 
 
 ########################################
