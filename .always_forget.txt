@@ -411,6 +411,7 @@ awk '{print length($1)}'                # length of first word
 awk '{a[$1]+=$2}END{for(i in a) print i,a[i]}' # sum vals (col2) by key (col2)
 awk '/match/,/*/'                       # remove from match to end of file
 awk 'BEGIN { FS = "," } ; { print $2 }' # change field separator
+awk '{$1=$1;print}'                     # trim whitespace
 cat ips | awk 'BEGIN {FS="."}; {printf "%03d%03d%03d%03d\n", $1, $2, $3, $4}' | sort -n | awk '{printf "%d.%d.%d.%d\n", substr($0,1,3), substr($0,4,3), substr($0,7,3), substr($0,10,3)}'       # sort ips
 
 # Misc text processing
