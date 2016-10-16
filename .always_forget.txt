@@ -122,8 +122,8 @@ type -a CMD                             # include shell functions/aliases (bash)
 killall dhcpcd
 ifconfig eth1 down
 ifconfig eth1 hw ether '00:16:cb:05:3b:10'  # spoof MAC addr
-iwconfig eth1 key s:nebardupover3
-iwconfig eth1 essid DeOrio
+iwconfig eth1 key PASSWORD
+iwconfig eth1 essid SSID
 ifconfig eth1 up
 dhcpcd -t 10 -N eth1
 
@@ -340,6 +340,7 @@ IFS= read -s  -p Password: PASSWORD     # Ask user for password
 
 # Scripting
 yes                                     # keep printing "y" over and over
+yes STRING                              # keep printing STRING over and over
 yes | INSTALL_CMD                       # answer yes to all installer questions
 yes > file                              # quickly generate a big file
 exit N                                  # exit N
