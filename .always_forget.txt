@@ -78,6 +78,10 @@ sudo CMD                                # run CMD as root
 sudo CMD                                # run CMD as root
 sudo -u USER CMD                        # run CMD as USER
 sudoedit FILE                           # edit file as root
+visudo                                  # edit /etc/sudoeors config file
+sudo -k                                 # empty cache that stores your password
+sudo -E                                 # preserve environment variables
+sudo "PATH=$PATH" -E                    # ^^^ including PATH
 
 # Processes and Threads
 ps                                      # View my processes
@@ -152,7 +156,8 @@ nslookup -type=ns eecs.umich.edu        # DNS with authortative name servers
 dig -x 141.212.106.7                    # reverse DNS lookup
 dig +short -x 141.212.106.7             # reverse DNS lookup, scriptable
 whois www.google.com                    # domain name registration info
-nmap -A -T4 snoopy.eecs.umich.edu       # what ports are open?
+nmap HOST                               # what ports are open?
+nmap -A -T4 HOST                        # what ports are open?
 nmap -sn -PR 192.168.0.0/24             # which hosts are up my subnet?
 netstat -at                             # list TCP connections
 netstat -au                             # list UDP connections
@@ -307,6 +312,7 @@ CMD1 &| CMD2                            # stdout + stderr -> pipe
 <<-TAG ... TAG                          # here document, ignore leading tabs
 <<'TAG' ... TAG                         # here document, no variable expansion
 cat > FILE << EOF ... EOF               # here document, for writing a file
+<<< "STRING"                            # here string
 <( CMD )                                # create a temporary named pipe
 diff <(echo a) <(echo b)                # diff the output of two commands
 exec > >(tee logfile.txt); exec 2>&1;   # copy stdout and stderr to log file
@@ -586,6 +592,7 @@ sort file1 file2 | uniq                 # union
 sort file1 file2 | uniq -d              # intersection
 sort file1 file2 | uniq -u              # symmetric difference
 cat FILE | sort | uniq -c               # frequency analysis (histogram)
+factor NUM                              # print prime factors
 
 # Compression
 tar -cjf DIR.tar.bz2 DIR/               # compress directory
@@ -1208,3 +1215,19 @@ rm -rf /                               # Delete everything
 COMMAND > /dev/sda                     # Write directly to HDD
 dd if=/dev/random of=/dev/sda          # Write junk to HDD
 mv ~ /dev/null                         # Move home directory to nowhere
+
+
+########################################
+# Command line fun
+cowthink                               # ascii art of a fow w/ thought bubble
+cowsay STRING                          # ascii art of a cow w/ speech bubble
+cowsay -f tux                          # ^^^ penguin
+cowsay -l                              # list characters
+fortune                                # print a random adage
+fortune | cowsay                       # ascii art + random adage
+sl                                     # steam locomotive
+asciiquarium                           # ascii art animated aquarium
+telnet towel.blinkenlights.nl          # ascii animated Start Wars C-] to quit
+rig                                    # generate random fake identities
+rev <<< "go hang a salami im a lasagna hog" # reverse a string
+rfor
