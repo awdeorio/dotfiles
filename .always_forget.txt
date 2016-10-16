@@ -39,7 +39,18 @@ uptime                                  # time since power on
 ls                                      # list directory contents
 ls -l                                   # include time, size, etc.
 ls -a                                   # include hidden files
+ls -A                                   # include hidden files, but not . or ..
 ls -t                                   # sort by time
+ls -ltr                                 # newest files last
+ls --color                              # colorize output
+ls --color=auto                         # colorize output only in tty
+ls --human-readable                     # human-readable file sizes
+ls --ignore-backups                     # ignore *~ files
+ls --ignore $'Icon\r'"                  # ignore OSX Icon files
+ls --quoting-style=literal              # don't quote for 'File with spaces'
+dircolors                               # set LS_COLORS using defaults
+dircolors -b                            # ^^^ for Bourne shell
+dircolors -b ${HOME}/.DIR_COLORS        # ^^^ with custom colors
 stat FILE                               # file modification times, etc.
 touch FILE                              # update modification time to NOW
 touch FILE                              # create empty file, if it doesn't exist
