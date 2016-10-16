@@ -290,19 +290,19 @@ esac
 if [[ `uname` = "Linux" ]]; then
   # GNU ls
   eval `dircolors -b ${HOME}/.DIR_COLORS`
-  alias ls="ls --color --human-readable --ignore-backups"
-  alias ll="ls --color --human-readable --ignore-backups -l"
-  alias la="ls --color --human-readable -A"
+  alias ls="ls --color=auto --human-readable --ignore-backups"
+  alias ll="ls --color=auto --human-readable --ignore-backups -l"
+  alias la="ls --color=auto --human-readable -A"
 elif [[ `uname` = "Darwin" ]] && [[ `which gls` ]]; then
   # GNU ls
   eval `dircolors -b ${HOME}/.DIR_COLORS`
-  alias ls="gls --color --human-readable --quoting-style=literal --ignore-backups --ignore $'Icon\r'"
-  alias ll="gls --color --human-readable --quoting-style=literal --ignore-backups --ignore $'Icon\r' -l"
-  alias la="gls --color --human-readable --quoting-style=literal -A"
+  alias ls="gls --color=auto --human-readable --quoting-style=literal --ignore-backups --ignore $'Icon\r'"
+  alias ll="gls --color=auto --human-readable --quoting-style=literal --ignore-backups --ignore $'Icon\r' -l"
+  alias la="gls --color=auto --human-readable --quoting-style=literal -A"
 else
-  alias ls="ls -G -h"
-  alias ll="ls -G -h -l"
-  alias la="ls -G -h -A"
+  alias ls="ls -h"
+  alias ll="ls -h -l"
+  alias la="ls -h -A"
   export CLICOLOR=1
 fi
 
