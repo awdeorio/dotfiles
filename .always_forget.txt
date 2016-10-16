@@ -826,6 +826,15 @@ C_INCLUDE_PATH
 CPLUS_INCLUDE_PATH
 MANPATH
 
+########################################
+# GNU Make
+make                                    # Build the first target in Makefile
+make -f FILE                            # Use FILE as Makefile
+make -d                                 # Print debugging information
+make -jN                                # Run N parallel jobs
+make -k                                 # Keep going after error, if possible
+make -n                                 # Dry run
+make -r                                 # Eliminate built-in implicit rules
 
 ########################################
 # Java
@@ -1193,12 +1202,9 @@ server $ sudo -E                       # preserve environment when using sudo
 
 
 ########################################
-# GNU Make
-
-make                                    # Build the first target in Makefile
-make -f FILE                            # Use FILE as Makefile
-make -d                                 # Print debugging information
-make -jN                                # Run N parallel jobs
-make -k                                 # Keep going after error, if possible
-make -n                                 # Dry run
-make -r                                 # Eliminate built-in implicit rules
+# Nasty things
+rm -rf /                               # Delete everything
+:(){ :|: & };:                         # Fork bomb (bash)
+COMMAND > /dev/sda                     # Write directly to HDD
+dd if=/dev/random of=/dev/sda          # Write junk to HDD
+mv ~ /dev/null                         # Move home directory to nowhere
