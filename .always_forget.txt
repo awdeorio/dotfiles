@@ -25,6 +25,7 @@ w                                       # list users logged in
 who                                     # list users logged in
 finger USER                             # directory info about USER
 whoami                                  # current user
+logname                                 # current logged in user (try w/ sudo)
 
 # Machines
 hostname                                # name of this computer
@@ -353,6 +354,7 @@ mktemp -t PREFIX                        # ^^^ starting with PREFIX
 mktemp -d                               # create a temporary directory
 basename /bin/bash                      # returns "bash"
 dirname /bin/bash                       # return "/bin"
+sleep                                   # sleep (1, 1s, 1m, etc.)
 
 # crontab format
  +---------------- minute (0 - 59)
@@ -370,6 +372,7 @@ egrep PATTERN                           # extended regex
 grep -P                                 # Perl regex
 grep -o                                 # only print the matched pattern
 zgrep                                   # for .gz files
+fgrep                                   # fixed patterns (no regex), faster
 grep -v                                 # invert match
 grep -A10                               # print match + 10 lines after
 grep -B10                               # print match + 10 lines before
