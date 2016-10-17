@@ -37,7 +37,7 @@ uptime                                  # time since power on
 lspci                                   # list PCI devices
 lspci -vv                               # ^^^ with lots of info
 
-# Files
+# Files and folders
 ls                                      # list directory contents
 ls -l                                   # include time, size, etc.
 ls -a                                   # include hidden files
@@ -50,6 +50,13 @@ ls --human-readable                     # human-readable file sizes
 ls --ignore-backups                     # ignore *~ files
 ls --ignore $'Icon\r'"                  # ignore OSX Icon files
 ls --quoting-style=literal              # don't quote for 'File with spaces'
+mkdir DIR                               # make a directory
+mkdir -p DIR                            # ^^^ make intermediate dirs as needed
+rmdir DIR                               # remove a directory
+rm FILE                                 # remove a file
+rm -r DIR                               # remove directory and files
+rm -rf DIR                              # ^^^ and don't ask any questions
+shred -u FILE                           # overwrite file with junk before remove
 dircolors                               # set LS_COLORS using defaults
 dircolors -b                            # ^^^ for Bourne shell
 dircolors -b ${HOME}/.DIR_COLORS        # ^^^ with custom colors
