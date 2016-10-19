@@ -167,7 +167,8 @@ edit /etc/resolv.conf
 
 # Network Utilities
 ping google.com                         # Check if a host is up
-ping -c3 google                         # Only send 3 packets
+ping -c3 google.com                     # Only send 3 packets
+ping -Iwlan0 google.com                 # Ping with a specific NIC
 host www.google.com                     # DNS lookup
 dig www.google.com                      # DNS lookup
 dig +short www.google.com               # DNS lookup, scriptable
