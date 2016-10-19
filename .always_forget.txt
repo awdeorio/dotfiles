@@ -246,6 +246,10 @@ touch -d "2015-01-01 12:34:56 +0400"    # ^^^ date, time, w/ time zone
 touch -r REF_FILE FILE                  # match attributes of FILE to REF_FILE
 edit /var/log/{messages,syslog}         # remove info about changed time
 
+# Shell communication
+wall                                    # send message to all terminals
+write USER                              # send message to USER
+
 # Email
 sendmail user@example.com < email.txt   # send email from CLI
 sendmail -t < email.txt                 # read "TO" field from file
@@ -577,6 +581,8 @@ cat /proc/meminfo                       # Memory information
 lspci                                   # see PCI devices
 hwinfo                                  # all hardware
 xinput --list                           # see available input devices
+shutdown                                # shut down machine
+reboot                                  # reboot machine
 
 # Converting docs
 enscript FILE.txt -o - | ps2pdf - FILE.pdf  # txt to pdf
