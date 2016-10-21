@@ -104,12 +104,17 @@ sudo -E                                 # preserve environment variables
 sudo "PATH=$PATH" -E                    # ^^^ including PATH
 
 # Processes and Threads
-ps                                      # View my processes
-ps -u johndoe                           # Another user's processes
-ps -ax                                  # All processes on the machine
-ps -axM                                 # All processes and threads
-top                                     # Dynamic view of processes
-top -H                                  # Dynamic view of threads
+ps                                      # display my processes
+ps -u USER                              # ^^^ USER's processes
+ps -ax                                  # all processes on the machine
+ps -axM                                 # all processes and threads
+ps -ww                                  # don't chop long lines
+ps -c                                   # basename of executable instead of full
+ps -axvcm                               # sort by memory usage
+ps -axvcr                               # sort by CPU usage
+pstree                                  # visualization of processes
+top                                     # dynamic view of processes
+top -H                                  # dynamic view of threads
 top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -oE '[0-9]+\.?[0-9]*' | awk '{sum+=$0} END {print sum/NR}' # CPU usage (%)
 htop                                    # fancy performance monitor
 nmon                                    # fancy performance monitor
