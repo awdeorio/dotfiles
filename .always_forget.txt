@@ -976,6 +976,7 @@ git push --tags origin master
 
 # Test deploy to PyPI
 # First, make sure passwords are set in ~/.pypirc
+export DISTUTILS_DEBUG="true"  # Debug submission to PyPI
 python setup.py register -r pypitest
 python setup.py sdist upload -r pypitest
 # browse to https://testpypi.python.org/pypi/mailmerge
