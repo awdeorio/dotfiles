@@ -501,10 +501,12 @@ tail -f                                 # monitor file for appends
 wc                                      # word, line, character and byte count
 wc -l                                   # line count
 sort                                    # sort lines
-sort -n                                 # numeric order
 sort | uniq                             # print only unique lines
+sort -n                                 # numeric order
 sort -u                                 # print only unique lines
-sort -k1,1                              # sort with only column 1 (first) as key
+sort -k1                                # sort on column 1 (first)
+sort -k1-2                              # sort on columns 1 and 2
+sort -k1 -t,                            # sort on col 1, comma-delimited
 /usr/share/dict/words                   # All the words in the dictionary
 shuf /usr/share/dict/words | head -n1   # random word
 
@@ -1256,6 +1258,7 @@ git lfs ls-files                        # files managed by git-lfs (committed)
 # Render github-style Markdown
 pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
+grip -b --norefresh README.md           # ^^^ limit github API usage
 
 # GitHub SSH agent forwarding
 # https://developer.github.com/guides/using-ssh-agent-forwarding/
