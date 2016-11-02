@@ -390,6 +390,8 @@ ls !^                                   # First (non-cmd) item from last cmd
 ls !*                                   # All (non-cmd) items from last cmd
 ls -d */                                # List only directories
 IFS= read -s  -p Password: PASSWORD     # Ask user for password
+for i in $(cat file); do                # for loop, word-by-word
+IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
 
 # Scripting
 yes                                     # keep printing "y" over and over
@@ -1046,6 +1048,9 @@ SELECT * FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE' # tables
 SELECT TABLE_NAME FROM <DATABASE_NAME>.INFORMATION_SCHEMA.Tables WHERE TABLE_TYPE = 'BASE TABLE'
 
 # Show tables from <SCHEMA_NAME>
+FIXME
+
+SELECT * FROM <schema>.[<table>]        # handle table names with spaces
 
 # SQL tid bits
 PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
