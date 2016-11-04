@@ -960,6 +960,9 @@ export PYTHONUSERBASE=${HOME}/local
 # Quick web server serving files in PWD on port 8000
 python -m SimpleHTTPServer
 
+# json pretty-printer
+echo '{"json":"obj"}' | python -m json.tool
+
 # Run command line programs as functions in Python
 >>> import sh
 >>> ls('-l')
@@ -1038,6 +1041,8 @@ psql -lqt                               # list databases
 COPY table TO 'file.csv' DELIMITER ',' CSV HEADER;  # dump TABLE to csv file
 
 # Microsoft SQL Server (2005, 2008, 2012, 2014)
+SELECT TOP 10 * FROM table;             # return 10 results
+
 # Show databases
 SELECT name FROM master.dbo.sysdatabases # databases
 
