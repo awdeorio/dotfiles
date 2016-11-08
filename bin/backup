@@ -27,8 +27,8 @@ if [ `hostname` != "manzana.local" ]; then
 fi
 
 # Check if another backup process is running
-if pgrep `basename $0` | grep -vq $$; then
-  echo "Error: another `basename $0` process is running"
+if ps -axc | awk '{print $NF}' | grep -q '^backup$'; then
+  echo "Error: another backup process is running"
   exit 1
 fi
 
