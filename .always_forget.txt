@@ -338,7 +338,26 @@ cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
 tsclient -x connect.rdp
 rdesktop server:port -u awdeorio@UMICH.EDU
 
-# Bash
+# Shell scripting
+yes                                     # keep printing "y" over and over
+yes STRING                              # keep printing STRING over and over
+yes | INSTALL_CMD                       # answer yes to all installer questions
+yes > file                              # quickly generate a big file
+exit N                                  # exit N
+true                                    # exit zero
+false                                   # exit non-zero
+trap "FUNC" 1 2 3 15                    # run FUNC on receiving a signal
+tee FILE                                # copy stdin to both stdout and FILE
+tee /dev/stderr                         # copy stdin to both stdout and stderr
+echo hello | tee FILE                   # write "hello" to both stdout and FILE
+mktemp                                  # create a temporary file
+mktemp -t PREFIX                        # ^^^ starting with PREFIX
+mktemp -d                               # create a temporary directory
+basename /bin/bash                      # returns "bash"
+dirname /bin/bash                       # return "/bin"
+sleep                                   # sleep (1, 1s, 1m, etc.)
+
+# Bash shell scripting
 echo "hello world"                      # print stdout
 echo "hello world" >&2                  # print to stderr
 echo "hello world" > FILE               # print file
@@ -382,6 +401,11 @@ echo "hello" | tee >(cat) >(cat)        # copy stdout to two commands
 set -e                                  # Abort on non-zero NOTE: pipes break it
 EXTENSION="${FILENAME##*.}"             # Parse file extension
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
+IFS= read -s  -p Password: PASSWORD     # Ask user for password
+for i in $(cat file); do                # for loop, word-by-word
+IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
+
+# Bash shell productivity
 cp file{,.bak}                          # Backup a file
 mv file{,.old}                          # Move a file
 sudo !!                                 # Repeat last command with sudo
@@ -389,28 +413,22 @@ ls !$                                   # Last item from last cmd
 ls !^                                   # First (non-cmd) item from last cmd
 ls !*                                   # All (non-cmd) items from last cmd
 ls -d */                                # List only directories
-IFS= read -s  -p Password: PASSWORD     # Ask user for password
-for i in $(cat file); do                # for loop, word-by-word
-IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
-
-# Scripting
-yes                                     # keep printing "y" over and over
-yes STRING                              # keep printing STRING over and over
-yes | INSTALL_CMD                       # answer yes to all installer questions
-yes > file                              # quickly generate a big file
-exit N                                  # exit N
-true                                    # exit zero
-false                                   # exit non-zero
-trap "FUNC" 1 2 3 15                    # run FUNC on receiving a signal
-tee FILE                                # copy stdin to both stdout and FILE
-tee /dev/stderr                         # copy stdin to both stdout and stderr
-echo hello | tee FILE                   # write "hello" to both stdout and FILE
-mktemp                                  # create a temporary file
-mktemp -t PREFIX                        # ^^^ starting with PREFIX
-mktemp -d                               # create a temporary directory
-basename /bin/bash                      # returns "bash"
-dirname /bin/bash                       # return "/bin"
-sleep                                   # sleep (1, 1s, 1m, etc.)
+echo !$:h                               # Directory part of prev cmd last item
+echo !$:t                               # File part of prev cmd last item
+echo !$:r                               # ^^^ w/o suffix
+echo !$:e                               # Remove all but the suffix
+[Ctrl + r]                              # Search history
+[Ctrl + g]                              # Cancel search history
+[Ctrl + p]                              # Prev history command
+[Ctrl + n]                              # Next history command
+[Alt + .]                               # Last word on prev history command
+[Ctrl + l]                              # Clear screen
+[Ctrl + s]                              # Stop output to the screen
+[Ctrl + q]                              # Restart output to the screen
+[Ctrl + c]                              # Terminate command
+[Ctrl + z]                              # Suspend command
+fg                                      # Restart command in foreground
+bg                                      # Restart command in background
 
 # crontab format
  +---------------- minute (0 - 59)
