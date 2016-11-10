@@ -1325,3 +1325,4 @@ telnet towel.blinkenlights.nl          # ascii animated Start Wars C-] to quit
 rig                                    # generate random fake identities
 rev <<< "go hang a salami im a lasagna hog" # palindrome
 figlet STRING                          # print ascii bubble text
+lolcat                                 # rainbow colors (gem install lolcat)
