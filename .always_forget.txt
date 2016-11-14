@@ -127,6 +127,7 @@ CMD &                                   # start CMD in the background
 fg                                      # bring background command to foreground
 [control-z]                             # suspend current CMD
 bg                                      # send suspended CMD to background
+disown                                  # alternative to "bg", but like nohup
 nohup CMD &                             # logout won't stop CMD
 nohup nice CMD &                        # lower priority
 nohup CMD < /dev/null > LOG 2>&1        # redirect all streams
