@@ -431,15 +431,6 @@ echo !$:e                               # Remove all but the suffix
 fg                                      # Restart command in foreground
 bg                                      # Restart command in background
 
-# crontab format
- +---------------- minute (0 - 59)
- |  +------------- hour (0 - 23)
- |  |  +---------- day of month (1 - 31)
- |  |  |  +------- month (1 - 12)
- |  |  |  |  +---- day of week (0 - 6) (Sunday=0 or 7)
- |  |  |  |  |
- *  *  *  *  *  command to be executed
-
 # grep
 grep PATTERN                            # search for pattern
 grep -E PATTERN                         # extended regex
@@ -740,8 +731,23 @@ tail -f FILE               # watch file for appends
 # Mount CD/DVD image
 mount -o loop file.img /home/awdeorio/mnt/loop
 
-# Change a bunch of file extensions usingb ash
+# Change a bunch of file extensions
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
+
+# /etc/crontab format
+ +---------------- minute (0 - 59)
+ |  +------------- hour (0 - 23)
+ |  |  +---------- day of month (1 - 31)
+ |  |  |  +------- month (1 - 12)
+ |  |  |  |  +---- day of week (0 - 6) (Sunday=0 or 7)
+ |  |  |  |  |
+ *  *  *  *  *  command to be executed
+
+# Log Rotate
+logrotate --debug                       # dry run with verbose print
+logrotate --force FILE.conf             # force a rotation
+/etc/logrotate.d/                       # app-specific configuration goes here
+/etc/cron.daily/logrotate               # logrotate scheduled by cron
 
 # Random
 shuf                                    # shuffle lines
