@@ -522,6 +522,33 @@ sort -k1 -t,                            # sort on col 1, comma-delimited
 /usr/share/dict/words                   # All the words in the dictionary
 shuf /usr/share/dict/words | head -n1   # random word
 
+# CSV files
+cat FILE| head -n1| tr ',' '\n'         # column labels
+cat FILE| head -n1| tr ',' '\n'| cat -n # column labels and numbers
+cat FILE| cut -d, -f1                   # print column 1
+cat FILE| cut -d, -f1-3                 # print first 3 columns
+pip install csvkit                      # install python CSV CLI utilities
+in2csv                                  # xls[x] -> csv
+csvlook                                 # pretty print table
+csvcut -n                               # column labels and numbers
+csvcut -c 2-6                           # print columns 2 - 6
+csvcut -c 2,5,6                         # print columns 2,5,6
+csvcut -c county,quantity               # print columns "county" and "quantity"
+csvcut -c 2-5 | csvlook                 # cut and pretty print
+csvstat                                 # print statistics about each column
+csvgrep -c COLUMN[S] -m PATTERN         # search for PATTERN in column
+csvgrep -c COLUMN[S] -r PATTERN         # search for regex PATTERN in column
+csvsort -c COLUMN[S]                    # sort, keyed on COLUMN[S]
+csvsort -c COLUMN[S] -r                 # ^^^ reverse sort
+csvjoin -c COLUMN A.csv B.csv           # join two files on COLUMN
+csvstack A.csv B.csv                    # stack https://goo.gl/CN8JaI
+csvsql --db sqlite:///DB.db --insert    # CSV -> SQL https://goo.gl/9FMLf1
+csvjson                                 # CSV -> JSON
+csvjson --indent 4                      # CSV -> JSON pretty printed
+csvjson --key COLUMN                    # build JSON lookup table
+csvpy data.csv                          # Launch Python and load CSV reader lib
+csvformat -T                            # CSV -> TSV
+
 # Printing
 enscript FILE                           # pretty-print text file
 lpr                                     # print file
