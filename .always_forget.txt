@@ -304,7 +304,8 @@ ssh HOST                               # connect to HOST
 ssh USER@HOST                          # connect to HOST as USER
 ssh USER@HOST CMD                      # run command on remote host
 ssh -vT HOST                           # debug authentication issues
-ssh -N -L 5901:localhost:5900 HOST     # port forwarding
+ssh -N -L 8000:localhost:8000 HOST     # port forwarding
+ssh -D8000 HOST                        # dynamic application-level port forward
 vncviewer localhost:1                  # (now use forwarded port)
 scp FILE HOST:                         # copy file to remote host over SSH
 scp -r DIR HOST:                       # copy directory
@@ -559,6 +560,11 @@ cupsdisable <printer>                   # stop printer
 cupsenable  <printer>                   # start printer
 
 # Filesystems
+df                                      # disk free
+df -h                                   # disk free, human readable
+du [DIR]                                # disk usage of a directory
+du -sh DIR                              # disk usage of DIR, human readable
+du -shc *                               # disk usage of DIRS, with total
 fsck -aC /dev/<device>                  # check disk with progress bar, no ?'s
 touch /forcefsck && reboot              # force filesystem check on reboot
 dd if=/dev/cdrom of=my_cd_image.iso     # Rip ISO from CDROM
