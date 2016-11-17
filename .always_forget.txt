@@ -304,7 +304,7 @@ ssh HOST                               # connect to HOST
 ssh USER@HOST                          # connect to HOST as USER
 ssh USER@HOST CMD                      # run command on remote host
 ssh -vT HOST                           # debug authentication issues
-ssh -L 5901:localhost:5900 HOST        # port forwarding
+ssh -N -L 5901:localhost:5900 HOST     # port forwarding
 vncviewer localhost:1                  # (now use forwarded port)
 scp FILE HOST:                         # copy file to remote host over SSH
 scp -r DIR HOST:                       # copy directory
