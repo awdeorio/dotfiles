@@ -270,13 +270,13 @@ shopt -s cdable_vars                 # shell vars added cd expansion
 # Fancy Prompt
 if [ "$LOGNAME" == "root" ]; then
   # root
-  export PS1='\[\033[01;31m\]\u@\h \[\033[01;34m\]\w\n$ \[\033[00m\]'
+  export PS1='\[\033[01;31m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
 elif [ "$SSH_CONNECTION" ]; then
   # remote machines
   export PS1='\[\033[00;36m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
 else
   # local machine
-  export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\n\$\[\033[00m\] '
+  export PS1='\[\033[01;32m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
 fi
 
 # Change the window title of X terminals
