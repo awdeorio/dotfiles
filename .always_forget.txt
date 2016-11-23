@@ -720,6 +720,8 @@ zcat FILE.gz                            # dump compressed file to stdout
 zgrep FILE.gz                           # grep for compressed files
 zdiff FILE1.gz FILE2.gz                 # diff for compressed files
 cat FILE.txt | gzip -f > FILE.txt.gz    # pipe into gzip
+unzip FILE.zip                          # decompress
+unzip FILE.zip -d DIR                   # decompress to DIR
 
 # Encryption
 encfs ROOTDIR MOUNTPOINT                # (first time) create encrypted virtual folder
