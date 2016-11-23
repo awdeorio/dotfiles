@@ -72,11 +72,13 @@ cd                                      # change to home directory
 cd ..                                   # change to directory up
 cd DIR                                  # change to directory
 cd -                                    # return to previous directory (bash)
-pushd                                   # push pwd onto stack (bash)
+cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced bash script
+cd $(dirname $0) && pwd -P              # absolute path of executed bash script
+pushd DIR                               # push DIR onto stack (bash)
 popd                                    # pop dir off stack and cd there (bash)
-lsof                                    # list open files
-cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
-cd $(dirname $0) && pwd -P              # absolute path of executed script
+dirs -v                                 # print stack (bash)
+cd ~2                                   # cd to 2nd dir on stack
+cp FILE ~2                              # use ~2 as an alias for a DIR
 
 # Finding files
 find . hello.txt                        # find hello.txt, starting at PWD
@@ -132,6 +134,7 @@ nohup CMD &                             # logout won't stop CMD
 nohup nice CMD &                        # lower priority
 nohup CMD < /dev/null > LOG 2>&1        # redirect all streams
 nohup CMD 0<&- &> /dev/null &           # redirect all streams
+lsof                                    # list open files owned by processes
 
 # Commonly used signals
 1  HUP  SIGHUP   hang up; automatic on logout; reload configuration for daemons
@@ -1121,6 +1124,9 @@ SELECT TABLE_NAME FROM <DATABASE_NAME>.INFORMATION_SCHEMA.Tables WHERE TABLE_TYP
 FIXME
 
 SELECT * FROM <schema>.[<table>]        # handle table names with spaces
+
+# Oracle SQL
+SELECT * FROM table WHERE ROWNUM <= 10  # return 10 results
 
 # SQL tid bits
 PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
