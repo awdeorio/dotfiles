@@ -104,6 +104,7 @@ visudo                                  # edit /etc/sudoeors config file
 sudo -k                                 # empty cache that stores your password
 sudo -E                                 # preserve environment variables
 sudo "PATH=$PATH" -E                    # ^^^ including PATH
+newgrp GROUP                            # change default group temporarily
 
 # Processes and Threads
 ps                                      # display my processes
