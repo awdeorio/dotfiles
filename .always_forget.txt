@@ -1132,6 +1132,9 @@ SELECT * FROM <schema>.[<table>]        # handle table names with spaces
 # Oracle SQL
 SELECT * FROM table WHERE ROWNUM <= 10  # return 10 results
 
+# Print column names
+SELECT COLUMN_NAME FROM ALL_TAB_COLUMNS WHERE TABLE_NAME='<name>'
+
 # SQL tid bits
 PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
 TIMESTAMP DEFAULT CURRENT_TIMESTAMP     # avoid initializing timestamps
