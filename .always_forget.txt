@@ -732,7 +732,6 @@ encfsctl passwd ROOTDIR                 # change password
 md5sum                                  # compute hash
 md5sum -                                # random password: type, then CTRL-D
 shasum                                  # compute hash
-gpg                                     # encrypt/decrypt text file
 openssl                                 # CLI to OpenSSL library
 crypto FILE                             # encrypt to FILE.crypt
 decrypto FILE.crypt                     # decrypt to FILE
@@ -741,6 +740,9 @@ md5sum -c FILE                          # check MD5 hash
 openssl req -newkey rsa:2048 -nodes -x509 -days 365 # generate server key
 zip --encrypt -r DIR DIR                # create encrypted zip archive
 sudo openvpn myconfig.ovpn              # start VPN connection
+gpg -c FILE                             # encrypt file to FILE.gpg
+gpg --batch --passphrase-file FILE      # read password from FILE
+gpg -o FILE -d FILE.gpg                 # decrypt file
 gpg --keyserver pool.sks-keyservers.net\# add a public key
     --recv-key KEY
 gpg --verify FILE.asc                   # verify
