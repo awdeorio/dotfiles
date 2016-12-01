@@ -834,6 +834,7 @@ screen -ls                 # list sessions
 [screen] C-a d             # detach
 tmux                       # start virtual terminal
 tmux new -s NAME           # start virtual terminal named NAME
+tmux attach                # attach
 tmux a                     # attach
 tmux a -t NAME             # attach to NAME
 tmux ls                    # list sessions
@@ -842,6 +843,12 @@ tmux kill-session -t NAME  # kill session NAME
 [tmux] C-b 0               # select window 0
 [tmux] C-b n               # next window
 [tmux] C-b p               # previous window
+
+# Shared virtual terminal
+alice@alicehost> ssh SERVER
+bob@bobhost    > ssh SERVER
+alice@SERVER   > tmux new -s shared
+bob@SERVER     > tmux attach -t shared
 
 # Meta commands
 watch CMD                  # run CMD over and over
