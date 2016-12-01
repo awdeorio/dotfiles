@@ -333,6 +333,15 @@ ssh HOST -- CMD                        # ^^^ shortcut
 #  - e.g. connect to a VNC server
 #  - e.g. bypass firewall for any server (as long as you have SSH)
 
+# Local port forward localhost:8080 -> PUBLICHOST:80
+ssh -vnNTL 8080:localhost:80 HOST
+curl https://localhost:8080
+  +---------------+          +--------------+
+  |   localhost   |---SSH---\|  PUBLICHOST  |
+  |     :8080 ===================> :80      |
+  |               |---------/|              |
+  +---------------+          +--------------+
+
 # Local port forward localhost:8080 -> PRIVATEHOST:80, through PUBLICHOST
 # ssh -L ${localhost:LPORT}:${REMOTEHOST:RPORT} PUBLICHOST
 ssh -vnNTL 8080:REMOTEHOST:80 PUBLICHOST
@@ -345,15 +354,6 @@ curl https://localhost:8080
   +---------------+          +--------------+        +---------------+   |
                                  |              private network          |
                                  +---------------------------------------+
-
-# Local port forward localhost:8080 -> PUBLICHOST:80
-ssh -vnNTL 8080:localhost:80 HOST
-curl https://localhost:8080
-  +---------------+          +--------------+
-  |   localhost   |---SSH---\|  PUBLICHOST  |
-  |     :8080 ===================> :80      |
-  |               |---------/|              |
-  +---------------+          +--------------+
 
 # Remote port forwarding allows connections to be made from a remote network,
 # through the SSH server, and to the local network
