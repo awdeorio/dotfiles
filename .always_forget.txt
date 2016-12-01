@@ -308,6 +308,7 @@ convert IN.jpg -monochrome OUT.jpg     # convert image to black and white
 ssh HOST                               # connect to HOST
 ssh USER@HOST                          # connect to HOST as USER
 ssh USER@HOST CMD                      # run command on remote host
+ssh -A                                 # forward SSH keys
 ssh -vT                                # debug authentication issues
 ssh -T                                 # don't set up a terminal
 ssh -v                                 # verbose
@@ -321,7 +322,80 @@ ssh -vnNTR 8000:localhost:8000 HOST    # remote port forwarding (server config!)
 ssh -D8000 HOST                        # dynamic application-level port forward
 ssh HOST -- CMD                        # execute CMD on HOST
 ssh HOST -- CMD                        # ^^^ shortcut
-vncviewer localhost:1                  # (now use forwarded port)
+
+# SSH Local Port Forwarding Explained
+# https://vimeo.com/54505525#t=1029s
+# - Local port forwarding allows connections to be made from the local network,
+#   through the SSH server, and to a remote host
+#   - SSH client -> SSH server -> remote host
+#   - e.g. connect to a staging environment SQL database
+#   - e.g. connect to a VNC server
+#   - e.g. bypass firewall for any server (as long as you have SSH)
+#
+# - Remote port forwarding allows connections to be made from a remote network
+#   through the SSH server, and to the local network
+#   - remote host -> SSH server -> SSH client
+#   FIXMEFIXMEFIXME
+#   - e.g. let somebody on the internet try my locally deployed web app
+
+# Forward localhost:8080 -> PRIVATEHOST:80, through PUBLICHOST
+# ssh -L ${localhost:LPORT}:${REMOTEHOST:RPORT} PUBLICHOST
+ssh -vnNTL 8080:REMOTEHOST:80 PUBLICHOST
+curl https://localhost:8080
+
+                                 +-------------------------------------- +
+  +---------------+          +--------------+        +---------------+   |
+  |   localhost   |---SSH---\|  PUBLICHOST  |        |  REMOTEHOST   |   |
+  |     :8080 ==============================|=============> :80      |   |
+  |               |---------/|              |        |               |   |
+  +---------------+          +--------------+        +---------------+   |
+                                 |              private network          |
+                                 +---------------------------------------+
+
+# Forward localhost:8080 -> PUBLICHOST:80
+ssh -vnNTL 8080:localhost:80 HOST
+curl https://localhost:8080
+
+  +---------------+          +--------------+
+  |   localhost   |---SSH---\|  PUBLICHOST  |
+  |     :8080 ===================> :80      |
+  |               |---------/|              |
+  +---------------+          +--------------+
+
+# Reverse  forward
+ssh -R *:8080:localhost:8080
+
+  +---------------+          +--------------+        +---------------+
+  |       me      |---SSH---\|  PUBLICHOST  |/       |      you      |
+  |     :8080 <=============================<==:8080====             |
+  |               |---------/|              |\       |               |
+  +---------------+          +--------------+        +---------------+
+
+
+# SSH files and permissions
+chmod go-w ~/                          # set permissions on local ssh config
+chmod 700 ~/.ssh                       # set permissions on local ssh config
+chmod 644 ~/.ssh/authorized_keys       # set permissions on local ssh config
+cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"                # install public on HOST
+
+# Start remote vnc session
+remote $ vncserver -localhost -NeverShared
+local  $ ssh -N -L 5901:localhost:5901 server.eecs.umich.edu
+local  $ vncviewer localhost:1
+# edit server:~/.vnc/.vnc/xstartup to change xsession to gnome, etc.
+remote $ vncserver -kill :1  # end vnc server
+
+# Intel SSH
+cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
+cygwin $ ssh2.exe -L 22:localhost:22 ariel.eecs.umich.edu -s service
+  # now you can use ssh or svn
+cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
+
+# Open an .rdp file for remote login to virtualsites
+tsclient -x connect.rdp
+rdesktop server:port -u awdeorio@UMICH.EDU
+
+# SCP and rsync
 scp FILE HOST:                         # copy file to remote host over SSH
 scp -r DIR HOST:                       # copy directory
 rsync -avz DIR HOST:PATH/              # archive over the network
@@ -337,29 +411,6 @@ rsync -v                               # verbose
 rsync -z                               # compress
 rsync -P                               # progress bar
 rsync -rvt                             # copy from USB stick
-
-# SSH files and permissions
-chmod go-w ~/                          # set permissions on local ssh config
-chmod 700 ~/.ssh                       # set permissions on local ssh config
-chmod 644 ~/.ssh/authorized_keys       # set permissions on local ssh config
-cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"                # install public on HOST
-
-# Start remote vnc session
-server $ vncserver -localhost -NeverShared
-client $ ssh -N -L 5901:localhost:5901 server.eecs.umich.edu
-client $ vncviewer localhost:1
-# edit server:~/.vnc/.vnc/xstartup to change xsession to gnome, etc.
-server $ vncserver -kill :1  # end vnc server
-
-# Intel SSH
-cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
-cygwin $ ssh2.exe -L 22:localhost:22 ariel.eecs.umich.edu -s service
-# now you can use ssh or svn
-cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
-
-# Open an .rdp file for remote login to virtualsites
-tsclient -x connect.rdp
-rdesktop server:port -u awdeorio@UMICH.EDU
 
 # Shell scripting
 yes                                     # keep printing "y" over and over
@@ -592,9 +643,10 @@ dd if=/dev/cdrom of=my_cd_image.iso     # Rip ISO from CDROM
 mount with "shortname=mixed"            # mount FAT32
 rsync -rvt --delete --modify-window=1   # copy from FAT32
 rsync -rv --delete --checksum           # copy from FAT32, using file checksum
-mount_webdav -i https://ctools.umich.edu/dav/group-user/1a01c844-13d4-4375-bbd8-b8ecb6e538bb /Users/awdeorio/mnt/uarts250w15-dropbox # Mount a WebDav share
-encfs PATH mnt/PATH                     # Mount an encfs virtual drive
-sshfs USER@HOST:REMOTE_DIR LOCAL_DIR    # Mount REMOTE_DIR over SSH
+mount_webdav -i https://ctools.umich.edu/dav/group-user/1a01c844-13d4-4375-bbd8-b8ecb6e538bb /Users/awdeorio/mnt/uarts250w15-dropbox # mount a WebDav share
+encfs PATH mnt/PATH                     # mount an encfs virtual drive
+sshfs USER@HOST:REMOTE_DIR LOCAL_DIR    # mount REMOTE_DIR over SSH
+mount -o loop file.img DIR              # mount CD/DVD image
 
 # Disk imaging over a network
 # create a backup of client to server
@@ -785,9 +837,6 @@ watch CMD                  # run CMD over and over
 watch -n0.5 CMD            # run CMD every 0.5s
 tail -f FILE               # watch file for appends
  ... | xargs CMD           # run CMD on each line of input
-
-# Mount CD/DVD image
-mount -o loop file.img /home/awdeorio/mnt/loop
 
 # Change a bunch of file extensions
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
