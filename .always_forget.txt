@@ -915,6 +915,9 @@ brew install PACKAGE                    # install PACKAGE
 brew uninstall PACKAGE                  # remove PACKAGE
 brew list                               # list all installed packages
 
+# Services
+launchctl unload  /System/Library/LaunchDaemons/ssh.plist  # stop SSH server
+launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 
 ########################################
 # Other Linux Distros
