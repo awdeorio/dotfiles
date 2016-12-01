@@ -316,33 +316,27 @@ ssh -vvv                               # super verbose
 ssh -f                                 # go to background
 ssh -N                                 # don't execute a remote command
 ssh -n                                 # redirect stdin from /dev/null
-ssh -vnNTL 8000:localhost:8000 HOST    # local port forwarding
-ssh -vnNTL 8000:HOST2:8000 HOST1       # local port forwarding
-ssh -vnNTR 8000:localhost:8000 HOST    # remote port forwarding (server config!)
+ssh -vnNTL 8000:localhost:8000 HOST    # local port forwarding, 1 hop
+ssh -vnNTL 8000:HOST2:8000 HOST1       # local port forwarding, 2 hop
+ssh -vnNTR 8000:localhost:8000 HOST    # remote port forwarding
 ssh -D8000 HOST                        # dynamic application-level port forward
 ssh HOST -- CMD                        # execute CMD on HOST
 ssh HOST -- CMD                        # ^^^ shortcut
 
-# SSH Local Port Forwarding Explained
+# SSH Port Forwarding Explained
 # https://vimeo.com/54505525#t=1029s
-# - Local port forwarding allows connections to be made from the local network,
-#   through the SSH server, and to a remote host
-#   - SSH client -> SSH server -> remote host
-#   - e.g. connect to a staging environment SQL database
-#   - e.g. connect to a VNC server
-#   - e.g. bypass firewall for any server (as long as you have SSH)
 #
-# - Remote port forwarding allows connections to be made from a remote network
-#   through the SSH server, and to the local network
-#   - remote host -> SSH server -> SSH client
-#   FIXMEFIXMEFIXME
-#   - e.g. let somebody on the internet try my locally deployed web app
+# Local port forwarding allows connections to be made from the local network,
+# through the SSH server, and to a remote host
+#  - SSH client -> SSH server -> remote host
+#  - e.g. connect to a staging environment SQL database
+#  - e.g. connect to a VNC server
+#  - e.g. bypass firewall for any server (as long as you have SSH)
 
-# Forward localhost:8080 -> PRIVATEHOST:80, through PUBLICHOST
+# Local port forward localhost:8080 -> PRIVATEHOST:80, through PUBLICHOST
 # ssh -L ${localhost:LPORT}:${REMOTEHOST:RPORT} PUBLICHOST
 ssh -vnNTL 8080:REMOTEHOST:80 PUBLICHOST
 curl https://localhost:8080
-
                                  +-------------------------------------- +
   +---------------+          +--------------+        +---------------+   |
   |   localhost   |---SSH---\|  PUBLICHOST  |        |  REMOTEHOST   |   |
@@ -352,25 +346,42 @@ curl https://localhost:8080
                                  |              private network          |
                                  +---------------------------------------+
 
-# Forward localhost:8080 -> PUBLICHOST:80
+# Local port forward localhost:8080 -> PUBLICHOST:80
 ssh -vnNTL 8080:localhost:80 HOST
 curl https://localhost:8080
-
   +---------------+          +--------------+
   |   localhost   |---SSH---\|  PUBLICHOST  |
   |     :8080 ===================> :80      |
   |               |---------/|              |
   +---------------+          +--------------+
 
-# Reverse  forward
-ssh -R *:8080:localhost:8080
-
+# Remote port forwarding allows connections to be made from a remote network,
+# through the SSH server, and to the local network
+#  - remote host -> SSH server -> SSH client
+#  - e.g. Share your locally deployed app with someone on the internet
+#  - e.g. Remotely pair with people over SSH + Tmux
+#  - e.g. SCP a file from your laptop to a server -- FROM the server (no need
+#    to create a new tab and PUSH the file, just PULL it)
+ssh -vnNTR *:8000:localhost:8080 $PUBLICHOST
   +---------------+          +--------------+        +---------------+
   |       me      |---SSH---\|  PUBLICHOST  |/       |      you      |
-  |     :8080 <=============================<==:8080====             |
+  |     :8000 <=============================<==:8080====             |
   |               |---------/|              |\       |               |
   +---------------+          +--------------+        +---------------+
 
+# EXAMPLE: sharing a deployed web app (remote port forwarding)
+me> mkdir ./tmp/ && cd ./tmp/
+me> echo "hello world" > index.html
+me> python -m SimpleHTTPServer 8000
+me> curl localhost:8000/index.html
+hello world
+me> ssh $PUBLICHOST grep GatewayPorts /etc/ssh/sshd_config
+GatewayPorts yes
+me> ssh -vnNTR *:8080:localhost:8000 $PUBLICHOST
+me> curl $PUBLICHOST:8080/index.html
+hello world
+you> curl $PUBLICHOST:8080/index.html
+hello world
 
 # SSH files and permissions
 chmod go-w ~/                          # set permissions on local ssh config
