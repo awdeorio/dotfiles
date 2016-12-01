@@ -383,6 +383,11 @@ hello world
 you> curl $PUBLICHOST:8080/index.html
 hello world
 
+# EXAMPLE: push a file to your laptop *from* a server
+# This can be helpful if you need to find the file before scp'ing it
+laptop> ssh -A -R 2222:localhost:22 SERVER   # login to server
+server> scp -P2222 FILE localhost:           # copy FILE from server to laptop
+
 # SSH files and permissions
 chmod go-w ~/                          # set permissions on local ssh config
 chmod 700 ~/.ssh                       # set permissions on local ssh config
