@@ -308,10 +308,19 @@ convert IN.jpg -monochrome OUT.jpg     # convert image to black and white
 ssh HOST                               # connect to HOST
 ssh USER@HOST                          # connect to HOST as USER
 ssh USER@HOST CMD                      # run command on remote host
-ssh -vT HOST                           # debug authentication issues
-ssh -vvv HOST                          # super verbose
-ssh -N -L 8000:localhost:8000 HOST     # port forwarding
+ssh -vT                                # debug authentication issues
+ssh -T                                 # don't set up a terminal
+ssh -v                                 # verbose
+ssh -vvv                               # super verbose
+ssh -f                                 # go to background
+ssh -N                                 # don't execute a remote command
+ssh -n                                 # redirect stdin from /dev/null
+ssh -vnNTL 8000:localhost:8000 HOST    # local port forwarding
+ssh -vnNTL 8000:HOST2:8000 HOST1       # local port forwarding
+ssh -vnNTR 8000:localhost:8000 HOST    # remote port forwarding (server config!)
 ssh -D8000 HOST                        # dynamic application-level port forward
+ssh HOST -- CMD                        # execute CMD on HOST
+ssh HOST -- CMD                        # ^^^ shortcut
 vncviewer localhost:1                  # (now use forwarded port)
 scp FILE HOST:                         # copy file to remote host over SSH
 scp -r DIR HOST:                       # copy directory
@@ -332,7 +341,7 @@ rsync -rvt                             # copy from USB stick
 # SSH files and permissions
 chmod go-w ~/                          # set permissions on local ssh config
 chmod 700 ~/.ssh                       # set permissions on local ssh config
-chmod 600 ~/.ssh/authorized_keys       # set permissions on local ssh config
+chmod 644 ~/.ssh/authorized_keys       # set permissions on local ssh config
 cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"                # install public on HOST
 
 # Start remote vnc session
