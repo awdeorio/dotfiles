@@ -201,7 +201,8 @@ lsof -n -i                              # who's using which ports?
 nc HOST PORT                            # intiate connection "cat over a socket"
 nc -l HOST PORT                         # listen for incoming connection
 nc -v HOST PORT                         # check connection to HOST on PORT
-nc -v -z HOST PORT                      # check if port is open
+nc -v -z HOST PORT                      # check if port is open (BSD nc only)
+nc -v HOST PORT </dev/null && echo open # check if port is open (GNU or BSD)
 wget https://www.google.com/            # download one page
 wget -m andrewdeorio.com                # download everything
 wget URL -O FILE                        # output to FILE
