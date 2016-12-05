@@ -325,8 +325,8 @@ ssh -vnNTL 8000:localhost:8000 HOST    # local port forwarding, 1 hop
 ssh -vnNTL 8000:HOST2:8000 HOST1       # local port forwarding, 2 hop
 ssh -vnNTR 8000:localhost:8000 HOST    # remote port forwarding
 ssh -D8000 HOST                        # dynamic application-level port forward
-ssh HOST -- CMD                        # execute CMD on HOST
-ssh HOST -- CMD                        # ^^^ shortcut
+ssh HOST CMD                           # execute CMD on HOST
+ssh HOST -- CMD                        # execute CMD on HOST, with CMD options
 
 # SSH Port Forwarding Explained
 # https://vimeo.com/54505525#t=1029s
@@ -387,6 +387,13 @@ ssh -vnNTR 8000:localhost:8080 $REMOTEHOST
 # This can be helpful if you need to find the file before scp'ing it
 laptop> ssh -A -R 2222:localhost:22 SERVER   # login to server
 server> scp -P2222 FILE localhost:           # copy FILE from server to laptop
+#
+# EXAMPLE: start remote VNC session
+server> vncserver -localhost -NeverShared
+laptop> ssh -vnNTL 5901:localhost:5901 $SERVER
+laptop> vncviewer localhost:1           # start VNC client
+server> $EDITOR ~/.vnc/.vnc/xstartup    # change xsession to gnome, etc.
+server> vncserver -kill :1              # stop VNC server
 
 # Remote port forward PUBLICHOST:8080 -> localhost:8000
 ssh -vnNTR 8000:localhost:8080 $PUBLICHOST
@@ -415,12 +422,18 @@ chmod 700 ~/.ssh                       # set permissions on local ssh config
 chmod 644 ~/.ssh/authorized_keys       # set permissions on local ssh config
 cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"                # install public on HOST
 
-# Start remote vnc session
-remote $ vncserver -localhost -NeverShared
-local  $ ssh -N -L 5901:localhost:5901 server.eecs.umich.edu
-local  $ vncviewer localhost:1
-# edit server:~/.vnc/.vnc/xstartup to change xsession to gnome, etc.
-remote $ vncserver -kill :1  # end vnc server
+# SSH agent forwarding (github example)
+# https://developer.github.com/guides/using-ssh-agent-forwarding/
+local > ssh -T git@github.com      # check github connection
+local > echo $SSH_AUTH_SOCK        # check ssh-agent is running
+local > ssh-add -L                 # check key is added
+local > ssh-add ~/.ssh/id_dsa      # add my key, temporary
+local > ssh-add -K ~/.ssh/id_dsa   # add my key, permanent, OSX
+local > ssh -A SERVER              # ssh to server, forwarding key
+remote> server $ ssh -T git@github.com # check github connection
+server $ echo $SSH_AUTH_SOCK           # check ssh-agent is running
+server $ git remote -v                 # check repo is cloned with SSH URL
+server $ sudo -E                       # preserve environment when using sudo
 
 # Intel SSH
 cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
@@ -1454,19 +1467,6 @@ git lfs ls-files                        # files managed by git-lfs (committed)
 pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
 grip -b --norefresh README.md           # ^^^ limit github API usage
-
-# GitHub SSH agent forwarding
-# https://developer.github.com/guides/using-ssh-agent-forwarding/
-localhost $ ssh -T git@github.com      # check github connection
-localhost $ echo $SSH_AUTH_SOCK        # check ssh-agent is running
-localhost $ ssh-add -L                 # check key is added
-localhost $ ssh-add ~/.ssh/id_dsa      # add my key, temporary
-localhost $ ssh-add -K ~/.ssh/id_dsa   # add my key, permanent, OSX
-localhost $ ssh -A SERVER              # ssh to server, forwarding key
-server $ ssh -T git@github.com         # check github connection on server
-server $ echo $SSH_AUTH_SOCK           # check ssh-agent is running
-server $ git remote -v                 # check repo is cloned with SSH URL
-server $ sudo -E                       # preserve environment when using sudo
 
 
 ########################################
