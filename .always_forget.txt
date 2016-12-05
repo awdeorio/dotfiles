@@ -312,7 +312,7 @@ convert IN.jpg -monochrome OUT.jpg     # convert image to black and white
 # SSH
 ssh HOST                               # connect to HOST
 ssh USER@HOST                          # connect to HOST as USER
-ssh USER@HOST CMD                      # run command on remote host
+ssh -t HOST1 HOST2                     # connect to HOST2 through HOST1
 ssh -A                                 # forward SSH keys
 ssh -vT                                # debug authentication issues
 ssh -T                                 # don't set up a terminal
@@ -327,6 +327,7 @@ ssh -vnNTR 8000:localhost:8000 HOST    # remote port forwarding
 ssh -D8000 HOST                        # dynamic application-level port forward
 ssh HOST CMD                           # execute CMD on HOST
 ssh HOST -- CMD                        # execute CMD on HOST, with CMD options
+yes | pv | ssh HOST "cat > /dev/null"  # network throughput test
 
 # SSH Port Forwarding Explained
 # https://vimeo.com/54505525#t=1029s
@@ -467,6 +468,7 @@ yes                                     # keep printing "y" over and over
 yes STRING                              # keep printing STRING over and over
 yes | INSTALL_CMD                       # answer yes to all installer questions
 yes > file                              # quickly generate a big file
+pv                                      # monitor progress of data thru a pipe
 exit N                                  # exit N
 true                                    # exit zero
 false                                   # exit non-zero
