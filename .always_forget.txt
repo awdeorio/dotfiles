@@ -338,16 +338,20 @@ ssh HOST -- CMD                        # ^^^ shortcut
 #  - e.g. connect to a VNC server
 #  - e.g. bypass firewall for any server (as long as you have SSH)
 
-# Local port forward localhost:8080 -> PUBLICHOST:80
-ssh -vnNTL 8080:localhost:80 HOST
+# Local port forward localhost:8080 -> REMOTEHOST:80
+ssh -vnNTL 8080:localhost:80 REMOTEHOST
 curl https://localhost:8080
   +---------------+          +--------------+
-  |   localhost   |---SSH---\|  PUBLICHOST  |
+  |   localhost   |---SSH---\|  REMOTEHOST  |
   |     :8080 ===================> :80      |
   |               |---------/|              |
   +---------------+          +--------------+
+# EXAMPLE: connect to Jupyter Notebook behind a firewall (local port forwarding)
+remotehost> jupyter-notebook
+localhost > ssh -vnNTL 8888:localhost:8888 $REMOTEHOST
+localhost > # browse to http://localhost:8888
 
-# Local port forward localhost:8080 -> PRIVATEHOST:80, through PUBLICHOST
+# Local port forward localhost:8080 -> REMOTEHOST:80, through PUBLICHOST
 # ssh -L ${localhost:LPORT}:${REMOTEHOST:RPORT} PUBLICHOST
 ssh -vnNTL 8080:REMOTEHOST:80 PUBLICHOST
 curl https://localhost:8080
@@ -359,6 +363,10 @@ curl https://localhost:8080
   +---------------+          +--------------+        +---------------+   |
                                  |              private network          |
                                  +---------------------------------------+
+# EXAMPLE: connect to database and bypass firewall (local port forwarding)
+ssh -vnNTL 1521:crow.dsc.umich.edu:1521 login.itd.umich.edu
+nc -v -z localhost 1521 2>&1
+sqlplus -S $USER/$PASSWORD@localhost:1521/pa07.world
 
 # Remote port forwarding allows connections to be made from a remote network,
 # through the SSH server, and to the local network
@@ -367,13 +375,26 @@ curl https://localhost:8080
 #  - e.g. Remotely pair with people over SSH + Tmux
 #  - e.g. SCP a file from your laptop to a server -- FROM the server (no need
 #    to create a new tab and PUSH the file, just PULL it)
-ssh -vnNTR *:8000:localhost:8080 $PUBLICHOST
+
+# Remote port forward REMOTEHOST:8080 -> localhost:8000
+ssh -vnNTR 8000:localhost:8080 $REMOTEHOST
+  +---------------+          +--------------+
+  |       me      |---SSH---\|  REMOTEHOST  |
+  |     :8000 <===================:8080     |
+  |               |---------/|              |
+  +---------------+          +--------------+
+# EXAMPLE: push a file to your laptop *from* a server (remote port forwarding)
+# This can be helpful if you need to find the file before scp'ing it
+laptop> ssh -A -R 2222:localhost:22 SERVER   # login to server
+server> scp -P2222 FILE localhost:           # copy FILE from server to laptop
+
+# Remote port forward PUBLICHOST:8080 -> localhost:8000
+ssh -vnNTR 8000:localhost:8080 $PUBLICHOST
   +---------------+          +--------------+        +---------------+
   |       me      |---SSH---\|  PUBLICHOST  |/       |      you      |
   |     :8000 <=============================<==:8080====             |
   |               |---------/|              |\       |               |
   +---------------+          +--------------+        +---------------+
-
 # EXAMPLE: sharing a deployed web app (remote port forwarding)
 me> mkdir ./tmp/ && cd ./tmp/
 me> echo "hello world" > index.html
@@ -382,16 +403,11 @@ me> curl localhost:8000/index.html
 hello world
 me> ssh $PUBLICHOST grep GatewayPorts /etc/ssh/sshd_config
 GatewayPorts yes
-me> ssh -vnNTR *:8080:localhost:8000 $PUBLICHOST
+me> ssh -vnNTR 8080:localhost:8000 $PUBLICHOST
 me> curl $PUBLICHOST:8080/index.html
 hello world
 you> curl $PUBLICHOST:8080/index.html
 hello world
-
-# EXAMPLE: push a file to your laptop *from* a server
-# This can be helpful if you need to find the file before scp'ing it
-laptop> ssh -A -R 2222:localhost:22 SERVER   # login to server
-server> scp -P2222 FILE localhost:           # copy FILE from server to laptop
 
 # SSH files and permissions
 chmod go-w ~/                          # set permissions on local ssh config
