@@ -631,12 +631,14 @@ cat FILE1 FILE2                         # print files to terminal
 cat -n                                  # prepend line numbers
 cut -c8-                                # remove first 8 characters of a line
 fold                                    # word-wrap text
+column -t                               # format columns in tabular data
 column -tns, FILE.csv                   # pretty-print a csv file
 test `tail -c 1 file`                   # test if file ends in newline
 expand                                  # converts tabs into spaces
 tac                                     # reverse order of lines
 rev                                     # reverse order of characters
 paste                                   # print two files side-by-side
+paste <(CMD1) <(CMD2) | column -t       # compare the output of two commands
 tr "\r\n" "\n"  FILE                    # convert line endings to UNIX
 fromdos                                 # convert line endings to UNIX
 dos2unix                                # convert line endings to UNIX (old)
