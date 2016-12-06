@@ -831,6 +831,7 @@ sort file1 file2 | uniq -d              # intersection
 sort file1 file2 | uniq -u              # symmetric difference
 cat FILE | sort | uniq -c               # frequency analysis (histogram)
 factor NUM                              # print prime factors
+st                                      # statistics about a stream of numbers
 
 # Compression
 tar -cjf DIR.tar.bz2 DIR/               # compress directory
