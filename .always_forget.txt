@@ -207,17 +207,7 @@ nc -l HOST PORT                         # listen for incoming connection
 nc -v HOST PORT                         # check connection to HOST on PORT
 nc -v -z HOST PORT                      # check if port is open (BSD nc only)
 nc -v HOST PORT </dev/null && echo open # check if port is open (GNU or BSD)
-wget https://www.google.com/            # download one page
-wget -m andrewdeorio.com                # download everything
-wget URL -O FILE                        # output to FILE
 traceroute                              # route packets take to network host
-curl --verbose                          # watch protocol in action
-curl --trace-ascii log.txt              # watch protocol in action, more detail
-curl --trace-ascii log.txt --trace-time # include timing
-curl --data "query=aa" http://localhost:5000/query # send POST request
-curl -H "Content-type: application/json" \         # POST JSON
-     -X POST http://127.0.0.1:5000/ \
-     -d '{"message":"Hello Data"}'
 telnet HOST 80                          # connect to web server
 openssl s_client -quiet -connect www.google.com:443 # ^^^ with SSL
 tcpdump                                 # watch packets on all network ifcs
@@ -232,7 +222,33 @@ tcpdump -S "port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)" #  3-w
 tcpdump -S "host web.eecs.umich.edu and port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)"   # 3-way handshake on port 80
 tcpdump -S -s0 -A port 80               # Sniff HTTP packets in ASCII format
 iftop                                   # display bandwidth usage
+
+# Web Utilities
 python -m SimpleHTTPServer 8000         # start a file server at ./ on port 8000
+wget https://www.google.com/            # download one page
+wget -m andrewdeorio.com                # download everything
+wget URL -O FILE                        # output to FILE
+wget --random-wait                      # avoid a blacklist with random timing
+wget -r                                 # recursive (default max depth 5)
+wget -p                                 # include all files, including images
+wget -e robots=off                      # disregard robots.tx
+wget -U mozilla                         # browser identity
+wget --limit-rate=20k                   # reduce download rate
+wget -b                                 # background
+wget -o FILE                            # log output
+wget --random-wait -r -p \              # download entire site
+     -e robots=off -U mozilla URL
+wget --random-wait -r -p \              # download entire site, background
+     -e robots=off -U mozilla URL \
+     -b -o log
+curl --verbose                          # watch protocol in action
+curl --trace-ascii log.txt              # watch protocol in action, more detail
+curl --trace-ascii log.txt --trace-time # include timing
+curl --data "query=aa" http://localhost:5000/query # send POST request
+curl -H "Content-type: application/json" \         # POST JSON
+     -X POST http://127.0.0.1:5000/ \
+     -d '{"message":"Hello Data"}'
+curl ifconfig.me                        # what is my IP address?
 
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
