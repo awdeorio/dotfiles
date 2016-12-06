@@ -815,12 +815,17 @@ echo > q; tail -f q | parallel          # start job queue
 echo my_command my_arg >> q             # submit to job queue
 
 # File differences
-diff file1 file2                        # view differences of two files
-diff <(echo a) <(echo b)                # diff the output of two commands (bash)
-diff3 file1 file2 file3                 # diff three files
+diff FILE1 FILE2                        # view differences of two files
+diff <(CMD1) <(CMD2)                    # diff the output of two commands (bash)
+diff3 FILE1 FILE2 FILE3                 # diff three files
 sdiff                                   # same as diff --side-by-side
-diff file1 file2 > patch.txt            # save a patch
-patch < patch-dell-e6510                # apply a patch from diff
+diff FILE1 FILE2 > patch.txt            # save a patch
+patch < patch.txt                       # apply a patch from a diff
+wdiff FILE1 FILE2                       # diff word-by-word
+wdiff FILE1 FILE2                       # diff word-by-word
+colordiff                               # same as diff, but with color
+diff ... | colordiff                    # colorize diff output
+wdiff ... | colordiff                   # colorize wdiff output
 
 # Shell math
 expr 1 / 2                              # integer only
