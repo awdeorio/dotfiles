@@ -170,7 +170,7 @@ dhcpcd -t 10 -N eth1
 
 # Manual network configuration (static IP)
 # NOTE: many of these commands are replaced by the "ip" program's subcommands
-nmap -sP '141.212.106.*'  # see what IP addresses are inuse
+nmap -sP '141.212.106.*'  # see what IP addresses are in use
 dig -x 141.212.106.7      # verify that my IP is not in DHCP space
 ifconfig eth0 down
 ifconfig eth0 141.212.106.7 broadcast 141.212.106.255 netmask 0xffffff80 up
@@ -252,6 +252,8 @@ curl -H "Content-type: application/json" \         # POST JSON
      -X POST http://127.0.0.1:5000/ \
      -d '{"message":"Hello Data"}'
 curl ifconfig.me                        # what is my IP address?
+curl ipinfo.io/ip                       # what is my IP address?
+dig +short myip.opendns.com @resolver1.opendns.com # what is my IP address?
 
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
@@ -435,6 +437,18 @@ me> curl $PUBLICHOST:8080/index.html
 hello world
 you> curl $PUBLICHOST:8080/index.html
 hello world
+
+# Proxy Tunnel with SOCKS 5 protocol
+# A SOCKS proxy will tunnel all your traffic through an encrypted channel
+$ curl -s ipinfo.io/ip
+141.212.107.235
+$ ssh $REMOTEHOST curl -s ipinfo.io/ip
+141.212.107.123
+$ ssh -vnNTD 1337 $REMOTEHOST
+debug1: Local connections to LOCALHOST:1337 forwarded to remote address socks:0
+$ curl --socks5 localhost:1337 ipinfo.io/ip
+141.212.107.123
+# Note: your web browser can also use the proxy at localhost:1337
 
 # SSH files and permissions
 chmod go-w ~/                          # set permissions on local ssh config
