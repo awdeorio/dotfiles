@@ -919,7 +919,10 @@ bob@SERVER     > tmux attach -t shared
 watch CMD                  # run CMD over and over
 watch -n0.5 CMD            # run CMD every 0.5s
 tail -f FILE               # watch file for appends
- ... | xargs CMD           # run CMD on each line of input
+...|xargs CMD              # run CMD on all lines of input, all at once
+...|xargs -n1 CMD          # run CMD on each line of input, one at a time
+...|xargs -n1 emacs        # launch emacs one at a time for several files
+...|xargs -n10 CMD         # process files in batches on 10
 
 # Change a bunch of file extensions
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
