@@ -1003,6 +1003,7 @@ brew linkapps                           # link to /Applications/
 brew install PACKAGE                    # install PACKAGE
 brew uninstall PACKAGE                  # remove PACKAGE
 brew list                               # list all installed packages
+brew outdated                           # list outdated packages
 
 # Services
 launchctl unload  /System/Library/LaunchDaemons/ssh.plist  # stop SSH server
