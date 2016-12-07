@@ -438,7 +438,8 @@ hello world
 you> curl $PUBLICHOST:8080/index.html
 hello world
 
-# Proxy Tunnel with SOCKS 5 protocol
+# Dynamic port forwarding
+# EXAMPLE: Proxy with SOCKS 5 protocol
 # A SOCKS proxy will tunnel all your traffic through an encrypted channel
 $ curl -s ipinfo.io/ip
 141.212.107.235
