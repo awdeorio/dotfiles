@@ -451,6 +451,10 @@ $ curl --socks5 localhost:1337 ipinfo.io/ip
 141.212.107.123
 # Note: your web browser can also use the proxy at localhost:1337
 
+# SSH keys
+ssh-keygen                             # generate an SSH key pair
+ssh-keygen -R HOST                     # remove HOST from known_hosts
+
 # SSH files and permissions
 chmod go-w ~/                          # set permissions on local ssh config
 chmod 700 ~/.ssh                       # set permissions on local ssh config
@@ -1260,6 +1264,11 @@ mysql.server start                      # start SQL server
 mysql -u user db -p                     # open db
 mysql -u user -p < SCRIPT               # run script
 mysqldump -u user -pPASSWD DB > file.db # dump database to file
+mysqldump --add-drop-table \            # copy DB from localhost to HOST
+  --extended-insert --force \
+  --log-error=error.log -uUSER -pPASS \
+  OLD_DB_NAME | ssh -C HOST \
+  "mysql -uUSER -pPASS NEW_DB_NAME”
 
 # PostgreSQL
 # https://www.postgresql.org/docs/9.3/static/app-psql.html
