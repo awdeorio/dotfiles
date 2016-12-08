@@ -134,6 +134,7 @@ kill -9 PID                             # kill process using signal 9
 killall NAME                            # kill all processes with NAME
 killall -9 NAME                         # kill all using signal 9
 CMD &                                   # start CMD in the background
+jobs                                    # list active or suspended jobs
 fg                                      # bring background command to foreground
 [control-z]                             # suspend current CMD
 bg                                      # send suspended CMD to background
