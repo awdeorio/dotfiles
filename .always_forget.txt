@@ -485,7 +485,7 @@ cygwin $ scp file localhost: # really sends the file to ariel.eecs.umich.edu
 tsclient -x connect.rdp
 rdesktop server:port -u awdeorio@UMICH.EDU
 
-# SCP and rsync
+# File transfer
 scp FILE HOST:                         # copy file to remote host over SSH
 scp -r DIR HOST:                       # copy directory
 rsync -avz DIR HOST:PATH/              # archive over the network
@@ -501,6 +501,9 @@ rsync -v                               # verbose
 rsync -z                               # compress
 rsync -P                               # progress bar
 rsync -rvt                             # copy from USB stick
+ftp HOST                               # FTP
+lftp HOST                              # FTP with extra features
+sftp HOST                              # FTP over SSH
 
 # Shell scripting
 yes                                     # keep printing "y" over and over
