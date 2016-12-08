@@ -455,7 +455,8 @@ $ curl --socks5 localhost:1337 ipinfo.io/ip
 chmod go-w ~/                          # set permissions on local ssh config
 chmod 700 ~/.ssh                       # set permissions on local ssh config
 chmod 644 ~/.ssh/authorized_keys       # set permissions on local ssh config
-cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"                # install public on HOST
+ssh-copy-id HOST                       # install public key on HOST
+cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"                # install public key on HOST
 
 # SSH agent forwarding (github example)
 # https://developer.github.com/guides/using-ssh-agent-forwarding/
