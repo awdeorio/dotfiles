@@ -575,6 +575,12 @@ CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
 IFS= read -s  -p Password: PASSWORD     # Ask user for password
 for i in $(cat file); do                # for loop, word-by-word
 IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
+[ -z "${VAR}" ]                         # unset or set to the empty string"
+[ -z "${VAR+set}" ]                     # unset"
+[ -z "${VAR-unset}" ]                   # set to the empty string"
+[ -n "${VAR}" ]                         # set to a non-empty string"
+[ -n "${VAR+set}" ]                     # set, possibly to empty string
+[ -n "${VAR-unset}" ]                   # either unset or set non-empty string
 
 # Bash shell productivity
 cp file{,.bak}                          # Backup a file
