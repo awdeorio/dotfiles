@@ -286,6 +286,32 @@ touch -d "2015-01-01 12:34:56 +0400"    # ^^^ date, time, w/ time zone
 touch -r REF_FILE FILE                  # match attributes of FILE to REF_FILE
 edit /var/log/{messages,syslog}         # remove info about changed time
 
+# Tor from the command line
+#
+# configuration (optional)
+$EDITOR /usr/local/etc/tor/torrc
+#
+# Start Tor proxy
+$ tor
+...
+Dec 13 09:23:17.000 [notice] Bootstrapped 100%: Done
+#
+# Tor opens a SOCKS proxy on localhost:9050 by default.  Check open port.
+$ nc -v -z localhost 9050
+localhost [127.0.0.1] 9050 open
+#
+# What is my IP?  (with Tor)
+$ curl --socks5 localhost:9050 ipinfo.io/ip
+62.210.81.152
+#
+# What is my IP?  (with Tor)  This one won't work on OSX
+$ torsocks curl ipinfo.io/ip
+62.210.81.152
+#
+# What is my IP? (without Tor)
+$ curl ipinfo.io/ip
+141.212.107.235
+
 # Shell communication
 wall                                    # send message to all terminals
 write USER                              # send message to USER
@@ -1038,6 +1064,8 @@ brew install PACKAGE                    # install PACKAGE
 brew uninstall PACKAGE                  # remove PACKAGE
 brew list                               # list all installed packages
 brew outdated                           # list outdated packages
+brew services list                      # list startup services
+brew services [start|stop|restart] SVC  # start/stop/restart SVC
 
 # Services
 launchctl unload  /System/Library/LaunchDaemons/ssh.plist  # stop SSH server
