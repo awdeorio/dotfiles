@@ -1,6 +1,8 @@
 # .always_forget.txt
 #
-# awdeorio's notes on UNIX commands
+# awdeorio's UNIX cheat sheet
+#
+# Andrew DeOrio <awdeorio@umich.edu>
 
 # Users and Groups
 adduser USER                            # add USER w/ system defaults
