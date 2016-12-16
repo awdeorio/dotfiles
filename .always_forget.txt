@@ -1332,7 +1332,10 @@ psql -lqt                               # list databases
 \du                                     # list users
 \quit                                   # exit psql CLI
 \q                                      # exit psql CLI
-COPY table TO 'file.csv' DELIMITER ',' CSV HEADER;  # dump TABLE to csv file
+
+# Dump table to CSV, compressed and uncompressed
+psql <<< "COPY table TO 'file.csv' DELIMITER ',' CSV HEADER;"
+psql <<< "COPY table TO STDOUT DELIMITER ',' CSV HEADER;" | gzip -f >FILE.csv.gz
 
 # Microsoft SQL Server (2005, 2008, 2012, 2014)
 SELECT TOP 10 * FROM table;             # return 10 results
