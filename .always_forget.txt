@@ -987,6 +987,7 @@ tail -f FILE               # watch file for appends
 ...|xargs CMD              # run CMD on all lines of input, all at once
 ...|xargs -n1 CMD          # run CMD on each line of input, one at a time
 ...|xargs -n1 emacs        # launch emacs one at a time for several files
+...|xargs -n1 realpath | xargs -n1 emacs  # ^^^ handle relative file paths
 ...|xargs -n10 CMD         # process files in batches on 10
 
 # Change a bunch of file extensions
