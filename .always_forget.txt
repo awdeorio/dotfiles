@@ -5,7 +5,8 @@
 # Andrew DeOrio <awdeorio@umich.edu>
 
 # Users and Groups
-adduser USER                            # add USER w/ system defaults
+adduser USER                            # add USER (Debian)
+adduser USER GROUP                      # add USER to GROUP (Debian)
 useradd USER                            # add USER, native binary
 useradd -m -G users,wheel -s /bin/bash USER # add new USER manually
 useradd --system                        # no homedir, no passwd, can't log in
@@ -28,6 +29,9 @@ who                                     # list users logged in
 finger USER                             # directory info about USER
 whoami                                  # current user
 logname                                 # current logged in user (e.g., w/ sudo)
+passwd                                  # change your password
+passwd USER                             # change USER's password
+echo "USER:NEW_PASSWORD" | chpasswd     # change USER's password, batch
 
 # Machines
 hostname                                # name of this computer
@@ -1014,6 +1018,7 @@ shuf -i 1-100 -n 1                      # Random number between [1, 100]
 dd bs=1M count=1 if=/dev/urandom of=FILE# create a 1M file with random content
 md5sum -                                # random password: type, then CTRL-D
 openssl rand -base64 32                 # random string
+echo "USER:`openssl rand -base64 32 | head -c32`" | chpasswd  # ^^^ and set it
 pwgen                                   # random passwords
 
 
