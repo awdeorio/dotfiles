@@ -1043,6 +1043,7 @@ networksetup -setairportpower en0 on    # Turn on wifi
 airport -s                              # Scan wireless networks
 networksetup -setairportnetwork en0 SSID PASSWORD # Connect to wifi network
 airport -I                              # Print current wireless status
+networksetup -listnetworkserviceorder   # priority of NICs
 
 # Create bootable live USB
 # ref: http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx
