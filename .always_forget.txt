@@ -6,6 +6,7 @@
 
 # Users and Groups
 adduser USER                            # add USER (Debian)
+adduser --disabled-password --gecos ""  # ^^^ scriptable
 adduser USER GROUP                      # add USER to GROUP (Debian)
 useradd USER                            # add USER, native binary
 useradd -m -G users,wheel -s /bin/bash USER # add new USER manually
