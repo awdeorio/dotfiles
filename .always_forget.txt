@@ -833,6 +833,7 @@ aklog                                   # get AFS tokens
 aklog -cell umich.edu -k UMICH.EDU      # AFS tokens for UMICH cell
 aklog -cell eecs.umich.edu -k UMICH.EDU # AFS tokens for EECS cell
 gssklog -cell engin.umich.edu           # AFS tokens for ENGIN cell
+fs listacl [FILE|DIR]                   # list ACLs (permissions)
 fs setacl -dir DIR -acl USER rlidwk     # give USER access to directory
 find DIR -type d -exec fs setacl -dir {} -acl USER rlidwk \;  # give USER access to DIR, recursively
 find DIR -type d -exec fs setacl -dir {} -acl USER rlidwka \; # give USER access to DIR, recursively, with admin (note the "a")
@@ -1020,7 +1021,7 @@ shuf                                    # shuffle lines
 shuf -i 1-100 -n 1                      # Random number between [1, 100]
 dd bs=1M count=1 if=/dev/urandom of=FILE# create a 1M file with random content
 md5sum -                                # random password: type, then CTRL-D
-openssl rand -base64 32                 # random string
+openssl rand -base64 32                 # random string, 32 characters
 echo "USER:`openssl rand -base64 32 | head -c32`" | chpasswd  # ^^^ and set it
 pwgen                                   # random passwords
 
@@ -1065,7 +1066,7 @@ diskutil eject /dev/diskN
 # Get rid of annoying "damaged and can't be opened" message for downloads
 xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/finance
 
-# Homebrew
+# Homebrew (OSX)
 brew update                             # update package index
 brew upgrade                            # upgrade installed packages
 brew upgrade --cleanup                  # ^^^ and then remove installers
@@ -1086,11 +1087,11 @@ launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 ########################################
 # Other Linux Distros
 
-# Gentoo:emerge - USE flag descriptions:
+# emerge (Gentoo)
 /usr/portage/profiles/use.desc
 /usr/portage/profiles/use.local.desc
 
-# Redhat:rpm
+# rpm (Redhat)
 rpm -Uvh foo-1.0-1.i386.rpm             # install a package
 rpm -ev foo.rpm
 rpm -ivh source-package                 # install src in /usr/src/redhat/SOURCES
@@ -1099,7 +1100,7 @@ rpmbuild -bb thing.spec                 # build rpm
 rpm -Uvh     thing.rpm                  # install rpm
 rpm2cpio FILE.rpm | cpio -idmv          # extra files from rpm
 
-# Debian/Ubuntu apt
+# apt (Debian-based systems)
 apt-get install                         # install package
 apt-get remove                          # remove package
 apt-get purge                           # remove package and config files
@@ -1110,12 +1111,6 @@ apt-cache search <package>              # find packages
 apt-cache showpkg <package>             # get the details on a package
 dpkg --get-selections | grep -v deinstall # list installed packages
 dpkg --get-selections | grep PACKAGE    # see if package is installed
-
-# /etc/init.d/ scripts
-update-rc.d -f autofs remove            # Ubuntu, remove
-update-rc.d autofs defaults             # Ubuntu, add
-chkconfig autofs off                    # Fedora/Redhat
-rc-update del autofs                    # Gentoo
 
 # upstart scripts
 initctl reload-configuration            # reload configs in /etc/init/
@@ -1143,7 +1138,6 @@ systemctl disable SERVICE               # don't start on boot
 /etc/system/systemd/                    # config file location
 systemctl daemon-reload                 # restart after add or modifying config
 
-########################################
 # VirtualBox
 vboxmanage list vms                     # list virtual machines
 vboxmanage list runningvms              # list running virtual machines
@@ -1152,9 +1146,7 @@ vboxmanage startvm NAME --type headless # start, headless mode
 vboxmanage controlvm NAME poweroff      # pull plug
 vboxmanage controlvm NAME acpipowerbutton # halt
 
-
-########################################
-# Vagrant with VirtualBox
+# Vagrant
 # https://www.vagrantup.com/
 vagrant init                            # create new configuration Vagrantfile
 vagrant up                              # boot VM, create if necessary
@@ -1162,13 +1154,13 @@ vagrant up --no-provision               # create VM, but don't isntall anything
 vagrant up --provision                  # boot VM, force installers to run
 vagrant ssh                             # connect to VM
  > cd /vagrant/                         # shared directory w/host OS
+vagrant ssh-config                      # list SSH configuration
 vagrant halt                            # halt VM
+vagrant reload                          # reboot VM
 VAGRANT_VAGRANTFILE=Vagrantfile2 vagrant up # alternate Vagrantfile
 vagrant global-status                   # all VMs on this machine
 vagrant global-status --prune           # remove machines whose configs are gone
 
-
-########################################
 # C++ tools
 g++ -g                                  # compile with debug support
 valgrind -v --leak-check=full ./a.out   # check for memory errors
@@ -1186,7 +1178,6 @@ C_INCLUDE_PATH
 CPLUS_INCLUDE_PATH
 MANPATH
 
-########################################
 # GNU Make
 make                                    # Build the first target in Makefile
 make -f FILE                            # Use FILE as Makefile
@@ -1195,6 +1186,7 @@ make -jN                                # Run N parallel jobs
 make -k                                 # Keep going after error, if possible
 make -n                                 # Dry run
 make -r                                 # Eliminate built-in implicit rules
+
 
 ########################################
 # Java
@@ -1417,12 +1409,12 @@ git config --global color.branch auto   # colors: git branch
 # One-time setup for a project
 git clone ssh://USERNAME@SERVER/~/opt/git/PROJECT.git # server
 git clone git@github.com:REPO/PROJECT.git             # github
-git clone https://github.com/REPO/PROJECT.git         # github anonymouse
+git clone https://github.com/REPO/PROJECT.git         # github anonymous
 git init DIR                                          # no server
 
 # Basic workflow
 git pull                                # update local copy
-  ... work on stuff
+$EDITOR FILE                            # work on stuff, modify files
 git add FILE                            # add file to commit
 git status                              # see what's been added or modified
 git commit                              # commit any added files
@@ -1442,11 +1434,13 @@ https://help.github.com/articles/remove-sensitive-data/ # remove sensitive data
 git fetch origin                        # fetch from origin
 git fetch --prune                       # remove stale local branches
 git fetch -vp                           # ^^^ + verbose
+git branch                              # check your branch
 git diff master origin/master           # see changes
 git merge origin/master                 # this will be a FF if no local changes
+git rebase origin/master                # 
 
 # Commit
-git branch -v                           # check your branch
+git branch                              # check your branch
 git status                              # check file modifications
 git add FILE                            # add file to commit
 git commit                              # commit, with a message
@@ -1467,7 +1461,7 @@ git revert COMMIT                       # revert all files to COMMIT
 # Temporarily stash work, restoring a clean set of files
 git stash                               # stash current modifications on stack
 git stash list                          # view stash stack
-git stash apply                         # "unstash" top of stack
+git stash pop                           # "unstash" top of stack
 
 # Ignore some files (don't version them)
 echo '*~' > .gitignore                  # ignore emacs backup files
@@ -1475,7 +1469,7 @@ git add .gitignore                      # git should track ignore file itself
 git commit                              # git should track ignore file itself
 
 # History
-git rev-parse HEAD                      # hash current commit
+git rev-parse HEAD                      # print hash of current commit
 git log                                 # commit history
 git log FILE                            # commit history for one file
 git log --oneline                       # less info
@@ -1509,6 +1503,8 @@ git rev-parse --abbrev-ref HEAD         # name of current branch (scriptable)
 git checkout -b feature/F develop       # start working on a new feature "F"
 git add FILE                            # add files
 git commit                              # commit to branch feature/F
+git fetch                               # get changes to feature/F from repo
+git rebase                              # apply changes from repo
 git push origin feature/F               # push branch to remote
 git checkout develop                    # switch to develop branch
 git merge --no-ff feature/F             # merge F into develop, keep branch info
