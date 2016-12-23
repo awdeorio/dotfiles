@@ -1145,6 +1145,17 @@ vboxmanage startvm NAME                 # start NAME virtual machine
 vboxmanage startvm NAME --type headless # start, headless mode
 vboxmanage controlvm NAME poweroff      # pull plug
 vboxmanage controlvm NAME acpipowerbutton # halt
+vboxmanage import FILE.ova              # import OVA
+vboxmanage import FILE.ova --dry-run    # ^^^ just print
+vboxmanage list bridgedifs              # list NICS available for bridging
+vboxmanage modifyvm "VM Name" --bridgeadapter1 "nic name" # change bridged NIC
+
+# Modifying OVA virtual appliances
+tar -xvf vmName.ova                     # untar appliance
+$EDITOR vmName.ovf                      # edit config
+sha1sum vmName.ovf                      # compute new hash of config
+$EDITOR vmName.mf                       # replace old hash with new hash
+tar -cvf vmName-NEW.ova vmName{.ovf,-disk1.vmdk,.mf} # repackage
 
 # Vagrant
 # https://www.vagrantup.com/
