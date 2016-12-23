@@ -1001,6 +1001,10 @@ tail -f FILE               # watch file for appends
 # Change a bunch of file extensions
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
 
+# Cron
+crontab -l                              # display current crontab
+crontab -r                              # remove current crontab
+crontab -e                              # edit current crontab
 # /etc/crontab format
  +---------------- minute (0 - 59)
  |  +------------- hour (0 - 23)
