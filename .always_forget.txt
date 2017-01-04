@@ -491,6 +491,7 @@ $ curl --socks5 localhost:1337 ipinfo.io/ip
 
 # SSH keys
 ssh-keygen                             # generate an SSH key pair
+ssh-keygen -t rsa -b 4096 -C EMAIL     # generate an SSH key pair
 ssh-keygen -R HOST                     # remove HOST from known_hosts
 
 # SSH files and permissions
@@ -605,6 +606,7 @@ exec                                    # spawn a new shell to replace current
 TAB=$'\t'                               # TAB literal
 echo "hello" | tee >(cat) >(cat)        # copy stdout to two commands
 set -e                                  # Abort on non-zero NOTE: pipes break it
+set -x                                  # Print commands
 EXTENSION="${FILENAME##*.}"             # Parse file extension
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
 IFS= read -s  -p Password: PASSWORD     # Ask user for password
@@ -948,6 +950,7 @@ decrypto FILE.crypt                     # decrypt to FILE
 shasum -c FILE                          # check SHA hash
 md5sum -c FILE                          # check MD5 hash
 openssl req -newkey rsa:2048 -nodes -x509 -days 365 # generate server key
+openssl req -newkey rsa:4096 -nodes -x509 -days 365 # generate server key, 4096
 zip --encrypt -r DIR DIR                # create encrypted zip archive
 sudo openvpn myconfig.ovpn              # start VPN connection
 gpg -c FILE                             # encrypt file to FILE.gpg
@@ -959,6 +962,10 @@ gpg --verify FILE.asc                   # verify
 gpg --no-default-keyring \              # circumvent OSX keychain
     --keyring ./tmp.keyring
 gpg --allow-non-selfsigned-uid          # allow key
+gpg --gen-key                           # create GPG public/private key pair
+gpg --list-secret-keys --keyid-format LONG # list keys and save
+gpg --armor --export awdeorio@gmail.com > awdeorio-publickey.asc
+gpg --armor --export-secret-keys awdeorio@gmail.com > awdeorio-privatekey.asc
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
@@ -1408,7 +1415,9 @@ DROP TABLE table IF EXISTS table;       # delete table if it exists
 INSERT INTO table (col, ...)            # add a row
   VALUES ('val', ...);                  # ...
 DELETE FROM table WHERE column="value"; # remove a row
-
+GROUP BY
+PARTITION
+RANK
 
 ########################################
 # git
