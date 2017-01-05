@@ -1242,6 +1242,10 @@ source ./venv/bin/activate              # enable, bash
 pip install PACKAGE                     # install PACKAGE into ./venv
 deactivate                              # disable
 
+# install virtualenv locally
+pip install --user virtualenv
+./.local/bin/virtualenv
+
 # Stop and debug
 >>> import pdb; pdb.set_trace();
 
