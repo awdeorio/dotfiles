@@ -702,6 +702,8 @@ cat ips | awk 'BEGIN {FS="."}; {printf "%03d%03d%03d%03d\n", $1, $2, $3, $4}' | 
 # Misc text processing
 cat FILE1                               # print file to terminal
 cat FILE1 FILE2                         # print files to terminal
+less FILE                               # pager.  q to quit
+pygmentize -g                           # syntax highlighting, autodetect lexer
 cat -n                                  # prepend line numbers
 cut -c8-                                # remove first 8 characters of a line
 fold                                    # word-wrap text
