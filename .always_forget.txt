@@ -1212,6 +1212,9 @@ make -k                                 # Keep going after error, if possible
 make -n                                 # Dry run
 make -r                                 # Eliminate built-in implicit rules
 
+# Binary tools
+strings FILE                            # find printable strings in an object
+
 
 ########################################
 # Java
