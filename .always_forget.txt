@@ -1214,6 +1214,9 @@ make -r                                 # Eliminate built-in implicit rules
 
 # Binary tools
 strings FILE                            # find printable strings in an object
+objdump -D file.o                       # disassemble
+hexdump                                 # binary -> hex (check endianness!)
+xxd                                     # binary -> hex (check endianness!)
 
 
 ########################################
