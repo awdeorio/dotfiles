@@ -1,8 +1,9 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;  .emacs - Drew's custom .emacs file.   w00t.
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; .emacs
+;; awdeorio's emacs customizations
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.
+(package-initialize)
 
 ; custom functions
 (load-file "~/.emacs.d/elisp/functions.el")
