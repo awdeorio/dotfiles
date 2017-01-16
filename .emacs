@@ -28,10 +28,14 @@
 (setq mac-option-modifier 'none)
 (setq mac-command-modifier 'meta)
 
+;; Remove scrollbars, menu bars, and toolbars
+; when is a special form of "if", with no else clause, it reads:
+; (when <condition> <code-to-execute-1> <code-to-execute2> ...)
+(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
 ; Misc appearance
-(set-scroll-bar-mode                          -1) ; no scrollbar
-(menu-bar-mode                                -1) ; no menubar
-(tool-bar-mode                                -1) ; no buttonbar
 (setq use-file-dialog                         -1) ; no GTK dialoge boxes
 (setq inhibit-startup-message                  t) ; no startup message
 (setq ring-bell-function                #'ignore) ; no audible bell
@@ -86,6 +90,14 @@
  '(mouse-yank-at-point t)                 ; yank at cursor, not mouse
  '(uniquify-buffer-name-style nil nil (uniquify))
  )
+
+; Emacs Package Manager
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
 
 ; Verilog mode customizations
 (autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
