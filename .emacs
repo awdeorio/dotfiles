@@ -153,13 +153,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; tlc mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'tlc-mode "tlc" "tlc Editing Mode" t)
-(add-to-list 'auto-mode-alist '("\\.tlc\\'" . tlc-mode))
-(setq tlc-indent-function t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; php mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (autoload 'php-mode "php-mode" "Enter PHP mode." t)
 (setq auto-mode-alist (cons '("\\.php\\'" . php-mode) auto-mode-alist))
