@@ -1,20 +1,17 @@
-;; .emacs
-;; awdeorio's emacs customizations
+; .emacs
+; awdeorio's emacs customizations
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.
+; Added by Package.el.  This must come before configurations of
+; installed packages.
 (package-initialize)
 
-; customizations go in ~/.elisp, check this dir first
+; Custom packages go in ~/.elisp
 (setq load-path (append load-path (list (expand-file-name "~/.emacs.d/elisp"))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Customized Keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Required packages
+(require 'redo)
 
-; Command key mapped to meta
-(setq mac-option-modifier 'none)
-(setq mac-command-modifier 'meta)
-
+; Custom keyboard shortcuts
 (global-set-key "\C-ci"                             'indent-to)
 (global-set-key "\C-cl"                             'this-line-to-top-of-window)
 (global-set-key "\C-\M-_"                           'redo)
@@ -27,9 +24,11 @@
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
 (global-set-key "\C-c\C-b"                          'browse-url-at-point)
 
+; Command key mapped to meta in OSX
+(setq mac-option-modifier 'none)
+(setq mac-command-modifier 'meta)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Misc appearance
 (set-scroll-bar-mode                          -1) ; no scrollbar
 (menu-bar-mode                                -1) ; no menubar
 (tool-bar-mode                                -1) ; no buttonbar
@@ -42,7 +41,7 @@
 (setq-default transient-mark-mode              t) ; highlight marked regions
 (show-paren-mode                               t) ; parentheses matching
 
-; window title is name of buffer
+; Window title is name of buffer
 (setq frame-title-format "%b")
 
 ; Disable pop-up boxes in the GUI
@@ -55,12 +54,7 @@
   (let ((use-dialog-box nil))
     ad-do-it))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Defaults ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Set the name of the initial buffer when no file is specified.
-(setq target-buffer (get-buffer "*scratch*"))
-
-; Set the default mode.
+; Default mode
 (setq default-mode 'fundamental-mode)
 
 ; Scroll at bottom of window one line at a time.
@@ -69,7 +63,7 @@
 ; Update string in the first 8 lines looking like Time-stamp: <> or " "
 (add-hook 'write-file-hooks 'time-stamp)
 
-; use 2 spaces instead of tabs
+; Tab settings: 2 spaces
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 2)
 (setq tab-width 2)
@@ -78,22 +72,10 @@
 (defvaralias 'sh-basic-offset 'tab-width)
 (defvaralias 'sh-indentation 'tab-width)
 
-; default browser
-; OSX
-(defun rcy-browse-url-default-macosx-browser (url &optional new-window)
-  (interactive (browse-url-interactive-arg "URL: "))
-  (let ((url
-	 (if (aref (url-generic-parse-url url) 0)
-	     url
-	   (concat "http://" url))))
-    (start-process (concat "open " url) nil "open" url)))
- 
-; OSX
-(setq browse-url-generic-program (executable-find "open")
+; Default browser
+(setq browse-url-generic-program (executable-find "open") ; OSX
       browse-url-browser-function 'browse-url-generic)
-
-; Linux
-; (setq browse-url-generic-program (executable-find "google-chrome")
+; (setq browse-url-generic-program (executable-find "google-chrome") ; Linux
 ;       browse-url-browser-function 'browse-url-generic)
 
 (custom-set-variables
@@ -105,11 +87,7 @@
  '(uniquify-buffer-name-style nil nil (uniquify))
  )
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; verilog mode
+; Verilog mode customizations
 (autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
 (setq auto-mode-alist (cons '("\\.v\\'" . verilog-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.vh\\'" . verilog-mode) auto-mode-alist))
@@ -131,8 +109,7 @@
       verilog-indent-begin-after-if    'declarations
       verilog-auto-lineup              '(none))
 
-
-;; text mode
+; Text mode
 (setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.eml\\'" . text-mode) auto-mode-alist))
 (setq default-fill-column 80)  ; width
@@ -142,46 +119,38 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . visual-line-mode))
 (add-to-list 'auto-mode-alist '("README" . visual-line-mode))
 
-;; PHP mode
+; PHP mode
 (autoload 'php-mode "php-mode" "Enter PHP mode." t)
 (setq auto-mode-alist (cons '("\\.php\\'" . php-mode) auto-mode-alist))
 
-;; Graphviz dot mode
+; Graphviz dot mode
 (autoload 'graphviz-dot-mode "graphviz-dot-mode" "Enter Graphviz mode." t)
 (setq auto-mode-alist (cons '("\\.dot\\'" . graphviz-dot-mode) auto-mode-alist))
 
-;; Redo
-(require 'redo)
-
-;; flyspell mode
+; Spell checking mode
 (autoload 'flyspell-mode-on "flyspell" "On-the-fly ispell." t)
 (add-hook 'latex-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'html-mode-hook 'flyspell-mode)
 
-;; ansi-color mode
-; Add color to a shell running in emacs M-x shell
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-;; outline-mode
+; Outline mode
 (add-hook 'outline-minor-mode-hook       ; C-m is the prefix key
           (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
 (add-hook 'outline-mode-hook             ; C-m is the prefix key
           (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
 
-;; todo.txt mode
-;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
+; Todo.txt mode
+; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
 (require 'todotxt)
 (add-to-list 'auto-mode-alist '("todo.txt" . todotxt-mode))
 (add-to-list 'auto-mode-alist '("bills.*" . todotxt-mode))
-(add-hook 'todotxt-mode-hook 'goto-address-mode) ;; for URLs
-(add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ;; for Dropbo
+(add-hook 'todotxt-mode-hook 'goto-address-mode) ; for URLs
+(add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ; for Dropbox
 
-;; c-mode for Arduino files (.ino)
+; C-mode for Arduino files (.ino)
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
 
-;; tab completion
+; Tab completion
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
         try-expand-dabbrev-all-buffers
@@ -200,13 +169,12 @@
 
 (global-set-key (kbd "TAB") 'clever-hippie-tab)
 
-
-;; Interactive debugging with LLDB
+; Interactive debugging with LLDB
 (load-file "~/.emacs.d/elisp/gud.el")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Custom functions
+; Custom functions
 
 (defun word-count-region (beginning end)
   "Print number of words in the region."
