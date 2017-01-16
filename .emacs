@@ -213,14 +213,6 @@
 ;; (add-to-list 'auto-mode-alist '(".*outline.*" . outline-mode))
 ;(setq outline-minor-mode 1)              ; always enabled
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; smv-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'smv-mode "smv-mode" "SMV mode.")
-(add-to-list 'auto-mode-alist '("\\.smv$" . smv-mode))
-(add-to-list 'auto-mode-alist '("\\.ord$" . smv-ord-mode))
-(add-to-list 'completion-ignored-extensions ".ord")
-(add-to-list 'completion-ignored-extensions ".opt")
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; todo.txt mode
