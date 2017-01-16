@@ -5,11 +5,8 @@
 ;; installed packages.
 (package-initialize)
 
-; custom functions
-(load-file "~/.emacs.d/elisp/functions.el")
-
 ; customizations go in ~/.elisp, check this dir first
-(path-prepend "~/.emacs.d/elisp")
+(setq load-path (append load-path (list (expand-file-name "~/.emacs.d/elisp"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Customized Keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -206,3 +203,40 @@
 
 ;; Interactive debugging with LLDB
 (load-file "~/.emacs.d/elisp/gud.el")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom functions
+
+(defun word-count-region (beginning end)
+  "Print number of words in the region."
+  (interactive "r")
+  (message "Counting words in region ... ")
+
+; 1. Set up appropriate conditions.
+  (save-excursion
+    (let ((count 0))
+      (goto-char beginning)
+
+; 2. Run the while loop.
+      (while (and (< (point) end)
+                  (re-search-forward "\\w+\\W*" end t))
+        (setq count (1+ count)))
+
+; 3. Send a message to the user.
+      (cond ((zerop count)
+             (message
+              "The region does NOT have any words."))
+            ((= 1 count)
+             (message
+              "The region has 1 word."))
+            (t
+             (message
+              "The region has %d words." count))))))
+
+; Count the words in the entire document
+(defun word-count-buffer ()
+  "Count all the words in the buffer"
+  (interactive)
+  (count-words-region (point-min) (point-max) )
+)
