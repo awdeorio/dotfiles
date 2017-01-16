@@ -145,17 +145,6 @@
 (setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.eml\\'" . text-mode) auto-mode-alist))
 (setq default-fill-column 80)  ; width
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; long lines mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (autoload 'longlines-mode "longlines.el" "Minor mode for editing long lines." t)
-;; (add-hook 'text-mode-hook 'longlines-mode)
-;; (setq longlines-wrap-follows-window-size t)
-;; (setq longlines-show-hard-newlines t)
-;; (add-to-list 'auto-mode-alist '("\\.txt\\'" . longlines-mode))
-;; (add-to-list 'auto-mode-alist '("\\.muse\\'" . longlines-mode))
-
-;; NOTE: visual-line-mode supplants longlines-mode since Emacs-23.1
 ;;(add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'latex-mode-hook 'visual-line-mode)
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . visual-line-mode))
