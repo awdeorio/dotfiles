@@ -67,7 +67,7 @@
     ad-do-it))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Defaults ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Defaults ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Set the name of the initial buffer when no file is specified.
 (setq target-buffer (get-buffer "*scratch*"))
 
@@ -118,7 +118,9 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; verilog mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Modes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; verilog mode
 (autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
 (setq auto-mode-alist (cons '("\\.v\\'" . verilog-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.vh\\'" . verilog-mode) auto-mode-alist))
@@ -141,79 +143,56 @@
       verilog-auto-lineup              '(none))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; text mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; text mode
 (setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.eml\\'" . text-mode) auto-mode-alist))
 (setq default-fill-column 80)  ; width
-;;(add-hook 'text-mode-hook 'visual-line-mode)
+;(add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'latex-mode-hook 'visual-line-mode)
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . visual-line-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . visual-line-mode))
 (add-to-list 'auto-mode-alist '("README" . visual-line-mode))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; php mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; PHP mode
 (autoload 'php-mode "php-mode" "Enter PHP mode." t)
 (setq auto-mode-alist (cons '("\\.php\\'" . php-mode) auto-mode-alist))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; graphviz dot mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Graphviz dot mode
 (autoload 'graphviz-dot-mode "graphviz-dot-mode" "Enter Graphviz mode." t)
 (setq auto-mode-alist (cons '("\\.dot\\'" . graphviz-dot-mode) auto-mode-alist))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Redo ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Redo
 (require 'redo)
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; flyspell mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; flyspell mode
 (autoload 'flyspell-mode-on "flyspell" "On-the-fly ispell." t)
 (add-hook 'latex-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'html-mode-hook 'flyspell-mode)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; ansi-color mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ansi-color mode
 ; Add color to a shell running in emacs M-x shell
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; outline-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; outline-mode
 (add-hook 'outline-minor-mode-hook       ; C-m is the prefix key
           (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
 (add-hook 'outline-mode-hook             ; C-m is the prefix key
           (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
-;; (add-to-list 'auto-mode-alist '(".*outline.*" . outline-mode))
-;(setq outline-minor-mode 1)              ; always enabled
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; todo.txt mode
-;;https://github.com/rpdillon/todotxt.el/blob/master/readme.org
-;; (require 'todotxt)
-;; (setq todotxt-file "/home/awdeorio/Dropbox/todo/todo.txt")
-;; (global-set-key (kbd "C-x t") 'todotxt)
+;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
 (require 'todotxt)
 (add-to-list 'auto-mode-alist '("todo.txt" . todotxt-mode))
 (add-to-list 'auto-mode-alist '("bills.*" . todotxt-mode))
 (add-hook 'todotxt-mode-hook 'goto-address-mode) ;; for URLs
 (add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ;; for Dropbo
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; c-mode for Arduino files (.ino)
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
 
-
-;;; tab completion ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; tab completion
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
         try-expand-dabbrev-all-buffers
@@ -233,5 +212,5 @@
 (global-set-key (kbd "TAB") 'clever-hippie-tab)
 
 
-;;(require 'gud)
+;; Interactive debugging with LLDB
 (load-file "~/.emacs.d/elisp/gud.el")
