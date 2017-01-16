@@ -18,11 +18,8 @@
 (setq mac-option-modifier 'none)
 (setq mac-command-modifier 'meta)
 
-(global-set-key "\C-cf"                             'auto-fill-mode)
 (global-set-key "\C-ci"                             'indent-to)
 (global-set-key "\C-cl"                             'this-line-to-top-of-window)
-(global-set-key "\C-cq"                             'query-replace)
-(global-set-key "\C-cr"                             'query-replace-regexp)
 (global-set-key "\C-\M-_"                           'redo)
 (global-set-key "\C-c\C-s"                          'search-forward-regexp)
 (global-set-key "\C-c\C-r"                          'search-backward-regexp)
@@ -30,12 +27,7 @@
 (global-set-key [f3]                                'next-error)
 (global-set-key [f4]                                'kill-compilation)
 (global-set-key [f5]                                'gud-next)
-(global-set-key [f10]                               'gdb)
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
-(global-set-key "\C-c\C-c"                          'comment-region)
-(global-set-key "\C-c\C-d"                          'hungry-delete-forward-ws)
-(global-set-key "\C-c\C-h"                          'hungry-delete-ws)
-(global-set-key [(control c) (control backspace)]   'hungry-delete-ws)
 (global-set-key "\C-c\C-b"                          'browse-url-at-point)
 
 
