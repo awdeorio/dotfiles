@@ -80,11 +80,14 @@
 ; Update string in the first 8 lines looking like Time-stamp: <> or " "
 (add-hook 'write-file-hooks 'time-stamp)
 
-; use spaces instead of tabs
+; use 2 spaces instead of tabs
 (setq-default indent-tabs-mode nil)
-
-; display tabs as 2 spaces
 (setq default-tab-width 2)
+(setq tab-width 2)
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'cperl-indent-level 'tab-width)
+(defvaralias 'sh-basic-offset 'tab-width)
+(defvaralias 'sh-indentation 'tab-width)
 
 ; default browser
 ; OSX
@@ -193,15 +196,6 @@
 ; Add color to a shell running in emacs M-x shell
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; sh-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 's-mode "sh-mode" "Load sh-mode")
-(add-to-list 'auto-mode-alist '("\\.*bashrc.*\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.*cshrc.*\\'" . sh-mode))
-(setq sh-basic-offset 2)
-(setq sh-indentation  2)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
