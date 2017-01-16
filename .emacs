@@ -139,11 +139,6 @@
       verilog-indent-begin-after-if    'declarations
       verilog-auto-lineup              '(none))
 
-; turn tabs into spaces only in verilog mode
-;; (add-hook 'verilog-mode-hook '(lambda ()
-;; (add-hook 'local-write-file-hooks
-;; (lambda() (untabify (point-min) (point-max))))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; text mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
