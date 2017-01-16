@@ -189,12 +189,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; python mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'python-mode "python-mode" "Enter PYTHON mode." t)
-(setq auto-mode-alist (cons '("\\.py\\'" . python-mode) auto-mode-alist))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; makefile mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq auto-mode-alist (cons '("Makefile\..*" . makefile-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("Makefile\..*" . makefile-mode) auto-mode-alist))
