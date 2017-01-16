@@ -124,8 +124,6 @@
 (setq auto-mode-alist (cons '("\\.vh\\'" . verilog-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("testfixture.verilog" . verilog-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("testfixture.template" . verilog-mode) auto-mode-alist))
-
-; user customization for Verilog mode
 (setq verilog-indent-level             2
       verilog-indent-level-module      2
       verilog-indent-level-declaration 2
@@ -165,16 +163,6 @@
 ;; graphviz dot mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (autoload 'graphviz-dot-mode "graphviz-dot-mode" "Enter Graphviz mode." t)
 (setq auto-mode-alist (cons '("\\.dot\\'" . graphviz-dot-mode) auto-mode-alist))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; AucTeX mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;(load "tex-site.el" nil t t)
-;; (load "auctex.el" nil t t)
-;; (setq TeX-auto-save t)
-;; (setq TeX-parse-self t)
-;; ;(setq-default TeX-master nil) ; for multi-file docs (\include or \input)
-;; (load "preview-latex.el" nil t t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
