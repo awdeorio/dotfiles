@@ -263,7 +263,6 @@ export HISTCONTROL="ignoredups"      # ignore duplicates in history
 export FIGNORE="~"                   # don't show these prefixes in tab-comp
 shopt -s cdspell                     # Allow shitty spelling in cd commands
 shopt -s checkwinsize                # keep LINES and COLUMNS up to date
-shopt -s cdable_vars                 # shell vars added cd expansion
 
 # Fancy Prompt
 if [ "$LOGNAME" == "root" ]; then
