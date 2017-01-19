@@ -49,7 +49,7 @@ function emacs {
   elif [ `uname` = "Darwin" ]; then
     /Applications/Emacs.app/Contents/MacOS/Emacs "$@" &
   elif [ "$DISPLAY" ] || [ "$OS" = "Windows_NT" ]; then
-    bgui emacs "$@" &
+    command nohup emacs "$@" &
   else
     # for console
     command emacs "$@"
