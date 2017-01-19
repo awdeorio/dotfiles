@@ -39,8 +39,8 @@ alias R='R --quiet --no-save'
 
 
 ### Editor ####################################################################
-alias e="emacs"
-export EDITOR='emacs'                # my favorite editor
+export EDITOR=emacs
+alias e=$EDITOR
 function emacs {
   # Make emacs start in the background, change window title
   if [ "$1" == "-nw" ]; then
