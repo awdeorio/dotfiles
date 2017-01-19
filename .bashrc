@@ -61,7 +61,6 @@ function emacs {
 
 
 ### Pager #####################################################################
-alias more=less
 alias less="less --shift 5 --ignore-case --chop-long-lines --RAW-CONTROL-CHARS --LONG-PROMPT"
 export PAGER=less
 export LESSOPEN="| lesspipe.sh %s"
