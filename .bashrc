@@ -32,13 +32,10 @@ alias rmb='echo "rm -vf *~" && rm -vf *~'
 alias rmt='[ -d ${HOME}/.Trash/ ] && echo "rm -rvf ${HOME}/.Trash/*" && rm -rvf ${HOME}/.Trash/*'
 alias rmd='[ -d ${HOME}/Downloads/ ] && echo "rm -rvf ${HOME}/Downloads/*" && rm -rvf ${HOME}/Downloads/*'
 alias latex='latex -halt-on-error'
-alias lftps='lftp -e "open -u awdeorio,xx sftp://snoopy.eecs.umich.edu"'
 alias dftp='ssh -R 19999:localhost:22'
 function dftp-get { command scp -r -P19999 "$@" localhost: ; }
-alias shred='shred --remove'
 alias R='R --quiet --no-save'
 #NOTE: see later for ls options
-alias xat='xattr -r -d com.apple.quarantine /Users/awdeorio/mnt/Encrypted_Drew'
 
 
 ### Editor ####################################################################
@@ -143,17 +140,10 @@ fi
 export PYTHONSTARTUP=~/.pythonrc.py
 
 # local Ruby
-# Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # CCache
 path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
-
-
-###############################################################################
-### source local file, if it's there
-[ -f ~/.bashrc-local ] && source ~/.bashrc-local
 
 
 ################################################################################
@@ -161,49 +151,6 @@ path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
 # point for scp and rcp, and it's important to refrain from outputting 
 # anything in those cases.
 [[ $- != *i* ]] && return
-
-
-
-### Make Certain Applications Start in the Background #########################
-function bgui {
-# test for GUI and application, start it in the background
-# Usage: textx_gui(application_name)
-
-  EXE="$1"
-  EXE_FULLPATH=`/usr/bin/which $EXE 2> /dev/null`
-    #echo "exe = $EXE, exe_fullpath = $EXE_FULLPATH"
-
-  if [ ! "$DISPLAY" ] && [ ! "$OS" = "Windows_NT" ]; then
-    echo "bgui Error: No display found."
-    return 1
-  fi
-  if [ ! "$EXE_FULLPATH" ]; then
-    echo "bgui Error: Can't find path to executable $EXE."
-    return 1
-  fi
-  if ! test -x "$EXE_FULLPATH"; then
-    echo "bgui Error: $EXE_FULLPATH is not executable"
-    return 1
-  fi
-
-    # note: $@ already contains the command itself
-  command nohup "$@" &> /dev/null &
-}
-
-# alias skype='bgui skype'
-# alias thunderbird='bgui thunderbird'
-# alias evince='bgui evince'
-# alias acroread='bgui acroread'
-# alias meld='bgui meld'
-# alias firefox='bgui firefox'
-# alias google-chrome='bgui google-chrome'
-# alias soffice='bgui soffice'
-# alias rhythmbox='bgui rhythmbox'
-# alias eog='bgui eog'
-# alias virtualbox='bgui virtualbox'
-# alias eclipse='bgui eclipse'
-# alias pithos='bgui pithos'
-# alias radiotray='bgui radiotray'
 
 
 ### Utility Functions #########################################################
@@ -239,7 +186,6 @@ set -o history                       # enable up-arrow command history
 export HISTIGNORE="&:ls:cd:bg:fg:ll" # ignore these commands in history
 export HISTCONTROL="ignoredups"      # ignore duplicates in history
 export FIGNORE="~"                   # don't show these prefixes in tab-comp
-shopt -s cdspell                     # Allow shitty spelling in cd commands
 shopt -s checkwinsize                # keep LINES and COLUMNS up to date
 
 # Fancy Prompt
@@ -286,7 +232,6 @@ fi
 
 
 ### Bash-completion ###########################################################
-
 if which brew &>/dev/null && [[ -f $(brew --prefix)/etc/bash_completion ]]; then
   # OS X
   . $(brew --prefix)/etc/bash_completion
