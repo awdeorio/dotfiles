@@ -227,28 +227,6 @@ if [ `uname` = "Darwin" ]; then
 fi
 
 
-# check if a process is running
-function psg() {
-  ps ax | grep "$1" | grep -v grep
-}
-
-# auto ping
-function ping {
-  if [ ! "$1" ]; then
-    command ping google.com -c3
-  else
-    command ping "$@"
-  fi
-}
-
-# source bashrc
-function sb {
-  BASHRC_FILE=$HOME/.bashrc
-  echo "source $BASHRC_FILE"
-  source $BASHRC_FILE
-}
-
-
 ### Printing ##################################################################
 # enscript --margins=left:right:top:bottom in postscript points
 # the following gives L=R=T=B=1in
