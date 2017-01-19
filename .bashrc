@@ -156,7 +156,7 @@ path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
 ### Utility Functions #########################################################
 
 # recursively grep for string
-alias gg='grep -r . --binary-files=without-match --exclude-dir ".svn" --exclude "*~" -e'
+alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude "*~" -e'
 
 # Find a file with a pattern in name:
 function ff() { 
