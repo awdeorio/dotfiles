@@ -192,7 +192,6 @@ export HISTIGNORE="&:ls:cd:bg:fg:ll" # ignore these commands in history
 export HISTCONTROL="ignoredups"      # ignore duplicates in history
 export FIGNORE="~"                   # don't show these prefixes in tab-comp
 shopt -s checkwinsize                # keep LINES and COLUMNS up to date
-shopt -s cdable_vars                 # shell vars added cd expansion
 
 # Fancy Prompt
 if [ "$LOGNAME" == "root" ]; then
