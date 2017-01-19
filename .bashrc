@@ -68,7 +68,7 @@ function emacs {
 alias more=less
 alias less="less --shift 5 --ignore-case --chop-long-lines --RAW-CONTROL-CHARS --LONG-PROMPT"
 export PAGER=less
-export LESSOPEN="|${HOME}/bin/lesspipe.sh %s"
+export LESSOPEN="| lesspipe.sh %s"
 
 
 ### Path stuff ################################################################
