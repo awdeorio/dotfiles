@@ -14,7 +14,7 @@ export NFSHOME=/net/trenton/w/awdeorio
 export IFSHOME=/afs/umich.edu/user/a/w/awdeorio
 export WWWHOME=/net/web/w/web/u/a/awdeorio
 export WWWINFERNO=/net/web/w/web/inferno
-export BACKUP=${NFSHOME}/backup/nacho/awdeorio
+export BACKUP=${NFSHOME}/backup/manzana/awdeorio
 export EECS280=/afs/umich.edu/class/eecs280
 
 # set umask for both scp and ssh
