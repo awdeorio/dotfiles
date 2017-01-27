@@ -1546,9 +1546,9 @@ git rebase                              # apply changes from repo
 git push origin feature/F               # push branch to remote
 git checkout develop                    # switch to develop branch
 git merge --no-ff feature/F             # merge F into develop, keep branch info
-git branch -d F                         # delete F branch
+git branch -d feature/F                 # delete F branch
 git push origin develop                 # push to server
-git push origin ":F"                    # remove F branch from server
+git push origin ":feature/F"            # remove F branch from server
 
 # Rename a branch
 git branch -m old_branch new_branch         # Rename branch locally
