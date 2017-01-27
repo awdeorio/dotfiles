@@ -1,34 +1,19 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;  .emacs - Drew's custom .emacs file.   w00t.
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; .emacs
+; awdeorio's emacs customizations
 
-; custom functions
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
+; Added by Package.el.  This must come before configurations of
+; installed packages.
 (package-initialize)
 
-(load-file "~/.emacs.d/elisp/functions.el")
+; Custom packages go in ~/.elisp
+(setq load-path (append load-path (list (expand-file-name "~/.emacs.d/elisp"))))
 
-; customizations go in ~/.elisp, check this dir first
-(path-prepend "~/.emacs.d/elisp")
+; Required packages
+(require 'redo)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Customized Keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-; Command key mapped to meta
-(setq mac-option-modifier 'none)
-(setq mac-command-modifier 'meta)
-
-(global-set-key "\C-cf"                             'auto-fill-mode)
+; Custom keyboard shortcuts
 (global-set-key "\C-ci"                             'indent-to)
 (global-set-key "\C-cl"                             'this-line-to-top-of-window)
-(global-set-key "\C-cq"                             'query-replace)
-(global-set-key "\C-cr"                             'query-replace-regexp)
 (global-set-key "\C-\M-_"                           'redo)
 (global-set-key "\C-c\C-s"                          'search-forward-regexp)
 (global-set-key "\C-c\C-r"                          'search-backward-regexp)
@@ -36,20 +21,21 @@
 (global-set-key [f3]                                'next-error)
 (global-set-key [f4]                                'kill-compilation)
 (global-set-key [f5]                                'gud-next)
-(global-set-key [f10]                               'gdb)
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
-(global-set-key "\C-c\C-c"                          'comment-region)
-(global-set-key "\C-c\C-d"                          'hungry-delete-forward-ws)
-(global-set-key "\C-c\C-h"                          'hungry-delete-ws)
-(global-set-key [(control c) (control backspace)]   'hungry-delete-ws)
 (global-set-key "\C-c\C-b"                          'browse-url-at-point)
 
+; Command key mapped to meta in OSX
+(setq mac-option-modifier 'none)
+(setq mac-command-modifier 'meta)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(set-scroll-bar-mode                          -1) ; no scrollbar
-(menu-bar-mode                                -1) ; no menubar
-(tool-bar-mode                                -1) ; no buttonbar
+;; Remove scrollbars, menu bars, and toolbars
+; when is a special form of "if", with no else clause, it reads:
+; (when <condition> <code-to-execute-1> <code-to-execute2> ...)
+(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+; Misc appearance
 (setq use-file-dialog                         -1) ; no GTK dialoge boxes
 (setq inhibit-startup-message                  t) ; no startup message
 (setq ring-bell-function                #'ignore) ; no audible bell
@@ -59,7 +45,7 @@
 (setq-default transient-mark-mode              t) ; highlight marked regions
 (show-paren-mode                               t) ; parentheses matching
 
-; window title is name of buffer
+; Window title is name of buffer
 (setq frame-title-format "%b")
 
 ; Disable pop-up boxes in the GUI
@@ -72,12 +58,7 @@
   (let ((use-dialog-box nil))
     ad-do-it))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Defaults ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Set the name of the initial buffer when no file is specified.
-(setq target-buffer (get-buffer "*scratch*"))
-
-; Set the default mode.
+; Default mode
 (setq default-mode 'fundamental-mode)
 
 ; Scroll at bottom of window one line at a time.
@@ -86,28 +67,19 @@
 ; Update string in the first 8 lines looking like Time-stamp: <> or " "
 (add-hook 'write-file-hooks 'time-stamp)
 
-; use spaces instead of tabs
+; Tab settings: 2 spaces
 (setq-default indent-tabs-mode nil)
-
-; display tabs as 2 spaces
 (setq default-tab-width 2)
+(setq tab-width 2)
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'cperl-indent-level 'tab-width)
+(defvaralias 'sh-basic-offset 'tab-width)
+(defvaralias 'sh-indentation 'tab-width)
 
-; default browser
-; OSX
-(defun rcy-browse-url-default-macosx-browser (url &optional new-window)
-  (interactive (browse-url-interactive-arg "URL: "))
-  (let ((url
-	 (if (aref (url-generic-parse-url url) 0)
-	     url
-	   (concat "http://" url))))
-    (start-process (concat "open " url) nil "open" url)))
- 
-; OSX
-(setq browse-url-generic-program (executable-find "open")
+; Default browser
+(setq browse-url-generic-program (executable-find "open") ; OSX
       browse-url-browser-function 'browse-url-generic)
-
-; Linux
-; (setq browse-url-generic-program (executable-find "google-chrome")
+; (setq browse-url-generic-program (executable-find "google-chrome") ; Linux
 ;       browse-url-browser-function 'browse-url-generic)
 
 (custom-set-variables
@@ -119,16 +91,20 @@
  '(uniquify-buffer-name-style nil nil (uniquify))
  )
 
+; Emacs Package Manager
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; verilog mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Verilog mode customizations
 (autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
 (setq auto-mode-alist (cons '("\\.v\\'" . verilog-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.vh\\'" . verilog-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("testfixture.verilog" . verilog-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("testfixture.template" . verilog-mode) auto-mode-alist))
-
-; user customization for Verilog mode
 (setq verilog-indent-level             2
       verilog-indent-level-module      2
       verilog-indent-level-declaration 2
@@ -145,181 +121,48 @@
       verilog-indent-begin-after-if    'declarations
       verilog-auto-lineup              '(none))
 
-; turn tabs into spaces only in verilog mode
-;; (add-hook 'verilog-mode-hook '(lambda ()
-;; (add-hook 'local-write-file-hooks
-;; (lambda() (untabify (point-min) (point-max))))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; text mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Text mode
 (setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.eml\\'" . text-mode) auto-mode-alist))
 (setq default-fill-column 80)  ; width
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; long lines mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (autoload 'longlines-mode "longlines.el" "Minor mode for editing long lines." t)
-;; (add-hook 'text-mode-hook 'longlines-mode)
-;; (setq longlines-wrap-follows-window-size t)
-;; (setq longlines-show-hard-newlines t)
-;; (add-to-list 'auto-mode-alist '("\\.txt\\'" . longlines-mode))
-;; (add-to-list 'auto-mode-alist '("\\.muse\\'" . longlines-mode))
-
-;; NOTE: visual-line-mode supplants longlines-mode since Emacs-23.1
-;;(add-hook 'text-mode-hook 'visual-line-mode)
+;(add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'latex-mode-hook 'visual-line-mode)
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . visual-line-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . visual-line-mode))
 (add-to-list 'auto-mode-alist '("README" . visual-line-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; matlab mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'matlab-mode "matlab" "Enter Matlab mode." t)
-(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.matlab\\'" . matlab-mode) auto-mode-alist))
-(autoload 'matlab-shell "matlab" "Interactive Matlab mode." t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; tlc mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'tlc-mode "tlc" "tlc Editing Mode" t)
-(add-to-list 'auto-mode-alist '("\\.tlc\\'" . tlc-mode))
-(setq tlc-indent-function t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; php mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; PHP mode
 (autoload 'php-mode "php-mode" "Enter PHP mode." t)
 (setq auto-mode-alist (cons '("\\.php\\'" . php-mode) auto-mode-alist))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; graphviz dot mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Graphviz dot mode
 (autoload 'graphviz-dot-mode "graphviz-dot-mode" "Enter Graphviz mode." t)
 (setq auto-mode-alist (cons '("\\.dot\\'" . graphviz-dot-mode) auto-mode-alist))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; AucTeX mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;(load "tex-site.el" nil t t)
-;; (load "auctex.el" nil t t)
-;; (setq TeX-auto-save t)
-;; (setq TeX-parse-self t)
-;; ;(setq-default TeX-master nil) ; for multi-file docs (\include or \input)
-;; (load "preview-latex.el" nil t t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Redo ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'redo)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; html helper mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'html-helper-mode "html-helper-mode" "Enter Html Helper mode." t)
-(setq auto-mode-alist (cons '("\\.html\\'" . html-helper-mode) auto-mode-alist))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Spanish Mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'spanish-minor-mode "spanish" "Enter spanish mode." t)
-;(autoload 'spanish-minor-mode "spanish")
-(global-set-key [?\M-\C-S] 'spanish-minor-mode)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; flyspell mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Spell checking mode
 (autoload 'flyspell-mode-on "flyspell" "On-the-fly ispell." t)
 (add-hook 'latex-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'html-mode-hook 'flyspell-mode)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; python mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'python-mode "python-mode" "Enter PYTHON mode." t)
-(setq auto-mode-alist (cons '("\\.py\\'" . python-mode) auto-mode-alist))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; makefile mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq auto-mode-alist (cons '("Makefile\..*" . makefile-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("Makefile\..*" . makefile-mode) auto-mode-alist))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; SLICC mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq auto-mode-alist (cons '("\\.sm\\'" . c++-mode) auto-mode-alist))
-;load-file slicc.el
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; ruby mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'ruby-mode "ruby-mode" "Load ruby-mode")
-(add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; cperl-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'auto-mode-alist '("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; ansi-color mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Add color to a shell running in emacs M-x shell
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; sh-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 's-mode "sh-mode" "Load sh-mode")
-(add-to-list 'auto-mode-alist '("\\.*bashrc.*\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.*cshrc.*\\'" . sh-mode))
-(setq sh-basic-offset 2)
-(setq sh-indentation  2)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; outline-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Outline mode
 (add-hook 'outline-minor-mode-hook       ; C-m is the prefix key
           (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
 (add-hook 'outline-mode-hook             ; C-m is the prefix key
           (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
-;; (add-to-list 'auto-mode-alist '(".*outline.*" . outline-mode))
-;(setq outline-minor-mode 1)              ; always enabled
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; smv-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'smv-mode "smv-mode" "SMV mode.")
-(add-to-list 'auto-mode-alist '("\\.smv$" . smv-mode))
-(add-to-list 'auto-mode-alist '("\\.ord$" . smv-ord-mode))
-(add-to-list 'completion-ignored-extensions ".ord")
-(add-to-list 'completion-ignored-extensions ".opt")
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; todo.txt mode
-;;https://github.com/rpdillon/todotxt.el/blob/master/readme.org
-;; (require 'todotxt)
-;; (setq todotxt-file "/home/awdeorio/Dropbox/todo/todo.txt")
-;; (global-set-key (kbd "C-x t") 'todotxt)
+; Todo.txt mode
+; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
 (require 'todotxt)
 (add-to-list 'auto-mode-alist '("todo.txt" . todotxt-mode))
 (add-to-list 'auto-mode-alist '("bills.*" . todotxt-mode))
-(add-hook 'todotxt-mode-hook 'goto-address-mode) ;; for URLs
-(add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ;; for Dropbo
+(add-hook 'todotxt-mode-hook 'goto-address-mode) ; for URLs
+(add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ; for Dropbox
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; c-mode for Arduino files (.ino)
+; C-mode for Arduino files (.ino)
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
 
-
-;;; tab completion ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Tab completion
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
         try-expand-dabbrev-all-buffers
@@ -338,6 +181,42 @@
 
 (global-set-key (kbd "TAB") 'clever-hippie-tab)
 
-
-;;(require 'gud)
+; Interactive debugging with LLDB
 (load-file "~/.emacs.d/elisp/gud.el")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Custom functions
+
+(defun word-count-region (beginning end)
+  "Print number of words in the region."
+  (interactive "r")
+  (message "Counting words in region ... ")
+
+; 1. Set up appropriate conditions.
+  (save-excursion
+    (let ((count 0))
+      (goto-char beginning)
+
+; 2. Run the while loop.
+      (while (and (< (point) end)
+                  (re-search-forward "\\w+\\W*" end t))
+        (setq count (1+ count)))
+
+; 3. Send a message to the user.
+      (cond ((zerop count)
+             (message
+              "The region does NOT have any words."))
+            ((= 1 count)
+             (message
+              "The region has 1 word."))
+            (t
+             (message
+              "The region has %d words." count))))))
+
+; Count the words in the entire document
+(defun word-count-buffer ()
+  "Count all the words in the buffer"
+  (interactive)
+  (count-words-region (point-min) (point-max) )
+)
