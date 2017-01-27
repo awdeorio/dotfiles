@@ -1632,6 +1632,12 @@ COMMAND > /dev/sda                     # Write directly to HDD
 dd if=/dev/random of=/dev/sda          # Write junk to HDD
 mv ~ /dev/null                         # Move home directory to nowhere
 
+# Password cracking demo
+openssl passwd -1 -salt xyz "password" > passwd.txt
+john --show passwd.txt
+$ cat ~/.john/john.pot 
+$1$xyz$cEUv8aN9ehjhMXG/kSFnM1:password
+
 
 ########################################
 # Command line fun
