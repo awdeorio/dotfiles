@@ -1068,6 +1068,8 @@ brew cleanup
 brew cask list | xargs brew cask install --force
 brew cask cleanup
 pip install --upgrade pip setuptools wheel
+softwareupdate --list
+softwareupdate -i -a
 
 # Wifi management
 ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/sbin
