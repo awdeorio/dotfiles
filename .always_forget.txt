@@ -1061,6 +1061,14 @@ rm ~/.Trash/*                           # Empty trash
 dseditgroup -o create -u USER -p GROUP  # create GROUP
 dseditgroup -o edit -u USER1 -p -a USER2 -t user GROUP # Add USER2 to GROUP
 
+# Upgrade procedure
+brew update
+brew upgrade
+brew cleanup
+brew cask list | xargs brew cask install --force
+brew cask cleanup
+pip install --upgrade pip setuptools wheel
+
 # Wifi management
 ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/sbin
 networksetup -listallhardwareports      # Find network inferface name
