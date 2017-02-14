@@ -37,6 +37,10 @@ function dftp-get { command scp -r -P19999 "$@" localhost: ; }
 alias R='R --quiet --no-save'
 #NOTE: see later for ls options
 
+# OSX
+if [ -d /Applications/Meld.app ]; then
+  alias meld='open -a /Applications/Meld.app --args'
+fi
 
 ### Editor ####################################################################
 export EDITOR=emacs
