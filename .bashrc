@@ -35,6 +35,7 @@ alias latex='latex -halt-on-error'
 alias dftp='ssh -R 19999:localhost:22'
 function dftp-get { command scp -r -P19999 "$@" localhost: ; }
 alias R='R --quiet --no-save'
+alias grip='grip --norefresh --browser'
 #NOTE: see later for ls options
 
 # OSX
