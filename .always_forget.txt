@@ -34,7 +34,9 @@ passwd                                  # change your password
 passwd USER                             # change USER's password
 echo "USER:NEW_PASSWORD" | chpasswd     # change USER's password, batch
 chage -E 2000-01-01 USER                # disable login with past expiration
+usermod --expiredate 1 USER             # same thing
 chage -E -1 USER                        # password never expires
+passwd --lock                           # lock an account (SSH key access OK)
 
 # Machines
 hostname                                # name of this computer
