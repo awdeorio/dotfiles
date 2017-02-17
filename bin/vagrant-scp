@@ -1,0 +1,22 @@
+#!/bin/sh
+# vagrant-scp
+# Copy files into a Vagrant-configured virtual machine
+# By Andrew DeOrio <awdeorio@umich.edu>
+
+# Stop on errors
+set -e
+
+# Get SSH configuration from Vagrant
+SSH_OPTIONS=`\
+vagrant ssh-config | \
+grep -v ^Host | \
+grep -v "^\s*$" | \
+awk -v ORS=' ' '{print "-o " $1 "=" $2}' \
+`
+
+# Print command
+echo scp ${SSH_OPTIONS} "$@"
+
+# Execute
+scp ${SSH_OPTIONS} "$@" || \
+  echo "Transfer failed. Did you use 'default:' as the target?"
