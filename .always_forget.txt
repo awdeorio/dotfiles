@@ -1041,7 +1041,8 @@ md5sum -                                # random password: type, then CTRL-D
 openssl rand -base64 32                 # random string, 32 characters
 echo "USER:`openssl rand -base64 32 | head -c32`" | chpasswd  # ^^^ and set it
 pwgen                                   # random passwords
-cat /dev/random | tr -dc A-Za-z0-9      # random string (insecure)
+cat /dev/random| tr -dc A-Za-z0-9       # random string (insecure)
+cat /dev/random|tr -dc a-f0-9|head -c32 # random hex string (insecure)
 
 
 ########################################
