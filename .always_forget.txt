@@ -948,7 +948,6 @@ fusermount -u MOUNTPOINT                # unmount / Linux
 umoount MOUNTPOINT                      # unmount / Darwin
 encfsctl passwd ROOTDIR                 # change password
 md5sum                                  # compute hash
-md5sum -                                # random password: type, then CTRL-D
 shasum                                  # compute hash
 openssl                                 # CLI to OpenSSL library
 crypto FILE                             # encrypt to FILE.crypt
