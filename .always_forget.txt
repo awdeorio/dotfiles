@@ -157,6 +157,7 @@ nohup nice CMD &                        # lower priority
 nohup CMD < /dev/null > LOG 2>&1        # redirect all streams
 nohup CMD 0<&- &> /dev/null &           # redirect all streams
 lsof                                    # list open files owned by processes
+cat /proc/<PID>/environ | tr '\000' '\n'# inspect environment of running proc
 
 # Commonly used signals
 1  HUP  SIGHUP   hang up; automatic on logout; reload configuration for daemons
