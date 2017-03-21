@@ -270,6 +270,8 @@ curl -H "Content-type: application/json" \         # POST JSON
 curl ifconfig.me                        # what is my IP address?
 curl ipinfo.io/ip                       # what is my IP address?
 dig +short myip.opendns.com @resolver1.opendns.com # what is my IP address?
+vnu --root DIR                          # HTML5/W3C validator
+html5validator --root DIR               # HTML5/W3C validator
 
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
@@ -1280,9 +1282,11 @@ pip install --user virtualenv
 python -m pdb script.py
 
 # Check style
+pycodestyle                             # PEP8 check
 pylint FILE                             # Check FILE
 pylint DIR                              # Check all source files in DIR
-pylint -rn                              # Disable full report (only messages)
+pylint --errors-only --reports=n        # Disable full report (only errors)
+pylint --errors-only --reports=n        # Disable full report (only messages)
 
 # Enable tab-completion and history in Python shell.  Add this to ~/.pythonrc.py
 import readline, rlcompleter
