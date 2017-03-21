@@ -142,6 +142,7 @@ pgrep -af STRING                         # ^^^ full process name & args (GNU)
 pgrep -lf STRING                         # ^^^ full process name & args (BSD)
 pgrep -u USER                           # only match USER's processes
 pkill                                   # ^^^ and kill process
+pkill -f                                # ^^^ full process name & args
 kill PID                                # kill process with PID
 kill -9 PID                             # kill process using signal 9
 killall NAME                            # kill all processes with NAME
