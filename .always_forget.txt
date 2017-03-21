@@ -1232,6 +1232,7 @@ make -n                                 # Dry run
 make -r                                 # Eliminate built-in implicit rules
 
 # Binary tools
+# OSX: brew install binutils; then use gobjdump
 strings FILE                            # find printable strings in an object
 objdump -D file.o                       # disassemble
 hexdump                                 # binary -> hex (check endianness!)
