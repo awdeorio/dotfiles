@@ -1191,6 +1191,7 @@ tar -cvf vmName-NEW.ova vmName{.ovf,-disk1.vmdk,.mf} # repackage
 # Vagrant
 # https://www.vagrantup.com/
 vagrant init                            # create new configuration Vagrantfile
+vagrant init bento/ubuntu-16.04         # create Vagrantfile for Ubuntu 16.04
 vagrant up                              # boot VM, create if necessary
 vagrant up --no-provision               # create VM, but don't isntall anything
 vagrant up --provision                  # boot VM, force installers to run
