@@ -1285,6 +1285,7 @@ python -m pdb script.py
 
 # Check style
 pycodestyle                             # PEP8 check
+pydoctyle                               # PEP257 check
 pylint FILE                             # Check FILE
 pylint DIR                              # Check all source files in DIR
 pylint --errors-only --reports=n        # Disable full report (only errors)
