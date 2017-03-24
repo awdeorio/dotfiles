@@ -1476,6 +1476,10 @@ git clone git@github.com:REPO/PROJECT.git             # github
 git clone https://github.com/REPO/PROJECT.git         # github anonymous
 git init DIR                                          # no server
 
+# Push an existing repository to a remote
+git remote add origin git@github.com:ORGANIZATION/PROJECT.git
+git push -u origin master
+
 # Basic workflow
 git pull                                # update local copy
 $EDITOR FILE                            # work on stuff, modify files
