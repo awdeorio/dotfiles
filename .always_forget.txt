@@ -144,7 +144,10 @@ pgrep -u USER                           # only match USER's processes
 pkill                                   # ^^^ and kill process
 pkill -f                                # ^^^ full process name & args
 kill PID                                # kill process with PID
+kill -PID                               # kill process group with PID
 kill -9 PID                             # kill process using signal 9
+kill -0 PID                             # Check if process is running
+kill -0 PID &>/dev/null && echo running # Check if process is running
 killall NAME                            # kill all processes with NAME
 killall -9 NAME                         # kill all using signal 9
 CMD &                                   # start CMD in the background
@@ -1143,6 +1146,12 @@ apt-cache search <package>              # find packages
 apt-cache showpkg <package>             # get the details on a package
 dpkg --get-selections | grep -v deinstall # list installed packages
 dpkg --get-selections | grep PACKAGE    # see if package is installed
+
+# How to take apart a .deb file
+mkdir tmp && cd tmp
+ar x ../FILE.deb
+tar -xvzf control.tar.gz
+tar -xvzf data.tar.xz
 
 # upstart scripts
 initctl reload-configuration            # reload configs in /etc/init/
