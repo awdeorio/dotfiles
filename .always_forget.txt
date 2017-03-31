@@ -1073,6 +1073,7 @@ brew cleanup
 brew cask list | xargs brew cask install --force
 brew cask cleanup
 pip install --upgrade pip setuptools wheel
+pip3 install --upgrade pip setuptools wheel
 softwareupdate --list
 softwareupdate -i -a
 
