@@ -24,6 +24,9 @@
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
 (global-set-key "\C-c\C-b"                          'browse-url-at-point)
 
+;; No more typing the whole yes or no. Just y or n will do.
+(fset 'yes-or-no-p 'y-or-n-p)
+
 ; Command key mapped to meta in OSX
 (setq mac-option-modifier 'none)
 (setq mac-command-modifier 'meta)
