@@ -171,6 +171,8 @@ cat /proc/<PID>/environ | tr '\000' '\n'# inspect environment of running proc
 9  KILL SIGKILL  non-catchable, non-ignorable kill; "rude shutdown"
 14 ALRM SIGALRM  alarm clock
 15 TERM SIGTERM  software termination signal; "polite shutdown request"
+   EXIT          program exit, any exit code (pseudo-signal, bash only)
+   ERR           program exit, non-zero (pseudo-signal, bash only)
 
 # Paths
 which CMD                               # print path to CMD
