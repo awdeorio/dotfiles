@@ -1277,7 +1277,7 @@ perl -pe 's/\\\\n/ /'                   # remove continuation lines (backslash)
 python -m MODULE                        # load module and execute main()
 python -c "PROGRAM"                     # execute python program
 
-# local package installs
+# Local package installs
 virtualenv venv                         # create
 virtualenv -p python3 venv              # create, Python 3
 source ./venv/bin/activate              # enable, bash
@@ -1285,7 +1285,7 @@ source ./venv/bin/activate              # enable, bash
 pip install PACKAGE                     # install PACKAGE into ./venv
 deactivate                              # disable
 
-# install virtualenv locally
+# Install virtualenv locally
 pip install --user virtualenv
 ./.local/bin/virtualenv
 
@@ -1357,6 +1357,27 @@ python setup.py sdist upload -r pypitest
 # Live deploy to PyPI
 python setup.py register -r pypi
 python setup.py sdist upload -r pypi
+
+
+########################################
+# Python / Django
+# Ref: https://docs.djangoproject.com/en/1.11/intro/tutorial01/
+pip install django                      # install
+brew install django-completion          # bash completion for django (OSX)
+python -m django --version              # check version
+django-admin startproject MYSITE        # create site, including manage.py
+./manage.py runserver                   # development server
+./manage.py runserver 8080              # development server, alternate port
+./manage.py runserver 0:8000            # development server, externally visible
+./manage.py startapp MYAPP              # create app (project has multiple apps)
+./manage.py migrate                     # DB migration.  Creates db tables.
+./manage.py makemigrations MYAPP        # create DB migration scripts
+cat MYAPP/migrations/0001_initial.py    # check out migration script
+./manage.py sqlmigrate polls 0001       # check out SQL migrate would run
+./manage.py check                       # migration dry run
+./manage.py migrate                     # perform migration w/ any new scripts
+./manage.py shell                       # python shell with Django environment
+./manage.py createsuperuser             # create admin user for (w/ web login)
 
 
 ########################################
