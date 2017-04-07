@@ -263,6 +263,7 @@ wget --random-wait -r -p \              # download entire site
 wget --random-wait -r -p \              # download entire site, background
      -e robots=off -U mozilla URL \
      -b -o log
+wget --spider                           # check if file exists
 youtube-dl URL                          # download a youtube video
 curl --verbose                          # watch protocol in action
 curl --trace-ascii log.txt              # watch protocol in action, more detail
