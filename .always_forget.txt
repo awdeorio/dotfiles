@@ -1183,6 +1183,14 @@ systemctl enable SERVICE                # start on boot
 systemctl disable SERVICE               # don't start on boot
 /etc/system/systemd/                    # config file location
 systemctl daemon-reload                 # restart after add or modifying config
+journalctl                              # view logs
+journalctl -b                           # view logs since most recent reboot
+journalctl -n                           # view last 10 logs
+journalctl -f                           # follow log
+journalctl -u nginx.service             # view logs from nginx service
+journalclt --no-pager                   # output for piping
+journalctl -o json                      # output in JSON format
+journalctl -o json-pretty               # output in JSON format
 
 # VirtualBox
 vboxmanage list vms                     # list virtual machines
