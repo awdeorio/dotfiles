@@ -1409,6 +1409,8 @@ sqlite3> .schema                        # show the table creation commands
 sqlite3> .headers on                    # print table column names
 sqlite3> .mode column                   # pretty print table columns
 sqlite3> .show                          # print settings
+sqlite3> PRAGMA foreign_keys;           # check if foreign keys enabled
+sqlite3> PRAGMA foreign_keys = ON;      # enable foreign keys (CASCADE, etc)
 
 # MySQL Linux CLI
 mysqladmin -u root password PASSWORD    # change root password
