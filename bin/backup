@@ -19,7 +19,7 @@ EXCLUDE+=' --exclude Library/***'
 EXCLUDE+=' --exclude Applications/***'
 # EXCLUDE+=' --exclude GoogleDrive/***'
 # EXCLUDE+=' --exclude Dropbox/***'
-# EXCLUDE+=' --exclude virta/medscan/local/***'
+EXCLUDE+=' --exclude virta/medscan/local/***'
 
 # Sanity check that this is my laptop
 if [ `hostname` != "manzana.local" ]; then
