@@ -1026,6 +1026,9 @@ tail -f FILE               # watch file for appends
 # Change a bunch of file extensions
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
 
+# Change a bunch of files to filenames based on their sha1sum
+sha1sum *.jpg | awk '{print $2 " " $1 ".jpg"}' | xargs -L1 cp -v
+
 # Cron
 crontab -l                              # display current crontab
 crontab -r                              # remove current crontab
