@@ -1295,9 +1295,11 @@ python -c "PROGRAM"                     # execute python program
 # Local package installs
 virtualenv venv                         # create
 virtualenv -p python3 venv              # create, Python 3
+python3 -m venv venv                    # create, Python 3
 source ./venv/bin/activate              # enable, bash
 . ./venv/bin/activate                   # enable, csh, etc.
 pip install PACKAGE                     # install PACKAGE into ./venv
+python3 -m pip install PACKAGE          # install PACKAGE into ./venv, Python 3
 deactivate                              # disable
 
 # Install virtualenv locally
