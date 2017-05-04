@@ -8,18 +8,17 @@
 set -o noglob # bug fix: globbing fucks up the *'s in EXCLUDE
 EXCLUDE+=' --exclude *.vmem'
 EXCLUDE+=' --exclude *.vmdk'
-EXCLUDE+=' --exclude *.iso'
-EXCLUDE+=' --exclude .mozilla/firefox/*/Cache/*'
+EXCLUDE+=' --exclude *.vdi'
 EXCLUDE+=' --exclude .Trash/***'
 EXCLUDE+=' --exclude awdeorio/Library/Caches/Google/Chrome/Default/Cache/***'
 EXCLUDE+=' --exclude .dropbox/***'
-EXCLUDE+=' --exclude *.vdi'
 EXCLUDE+=' --exclude nobackup/***'
-EXCLUDE+=' --exclude Library/***'
-EXCLUDE+=' --exclude Applications/***'
+EXCLUDE+=' --exclude virta/medscan/local/***'
+
+# Optional
+# EXCLUDE+=' --exclude Library/***'
 # EXCLUDE+=' --exclude GoogleDrive/***'
 # EXCLUDE+=' --exclude Dropbox/***'
-EXCLUDE+=' --exclude virta/medscan/local/***'
 
 # Sanity check that this is my laptop
 if [ `hostname` != "manzana.local" ]; then
