@@ -143,6 +143,7 @@ if [ -d ${HOME}/local/lib/python2.6 ]; then
   export PYTHONUSERBASE=${HOME}/local
 fi
 export PYTHONSTARTUP=~/.pythonrc.py
+path-prepend /usr/local/opt/sqlite/bin
 
 # local Ruby
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
