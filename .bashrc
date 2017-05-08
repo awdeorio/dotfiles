@@ -18,6 +18,7 @@ umask 002
 
 
 ### Aliases ###################################################################
+alias g="git"
 alias du="du -sh"
 alias dusort="command du -s * .* | sort -n"
 alias df="df -h"
