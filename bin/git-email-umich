@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+set -x
+git config user.email awdeorio@umich.edu
+git commit --amend --reset-author
