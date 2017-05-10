@@ -948,6 +948,7 @@ bzcat FILE.bz2                          # dump compressed file to stdout
 bunzip2 FILE.bz2                        # decompress a single file
 gzip FILE.gz                            # compress a single file
 gunzip FILE.gz                          # decompress a single file
+gunzip -c FILE.gz | ...                 # decompress to stdout
 zcat FILE.gz                            # dump compressed file to stdout
 zgrep FILE.gz                           # grep for compressed files
 zdiff FILE1.gz FILE2.gz                 # diff for compressed files
@@ -1438,6 +1439,8 @@ psql -U DB_USER -h DB_HOST -d DB_NAME   # connect using a TCP connection
 sudo -u postgres psql                   # Start shell, Ubuntu
 dropdb --echo DB                        # Drop a database, verbose
 dropuser --echo USER                    # Remove a user, verbose
+pg_dump DB -f FILE.sql                  # Dump database to file
+pg_dump -t TABLE DB > FILE.sql          # Dump one table to file
 psql -lqt                               # list databases
 \list                                   # list databases
 \l                                      # list databases
@@ -1506,7 +1509,8 @@ DROP TABLE table;                       # delete table
 DROP TABLE table IF EXISTS table;       # delete table if it exists
 INSERT INTO table (col, ...)            # add a row
   VALUES ('val', ...);                  # ...
-DELETE FROM table WHERE column="value"; # remove a row
+DELETE FROM table WHERE column="value"; # remove one row
+DELETE FROM table;                      # remove all rows in table
 GROUP BY
 PARTITION
 RANK
