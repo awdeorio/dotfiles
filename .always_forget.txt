@@ -61,6 +61,9 @@ ls --human-readable                     # human-readable file sizes
 ls --ignore-backups                     # ignore *~ files
 ls --ignore $'Icon\r'"                  # ignore OSX Icon files
 ls --quoting-style=literal              # don't quote for 'File with spaces'
+ls -R                                   # list recursively
+tree                                    # pretty-print recursively
+tree --matchdirs -I 'venv3|*pycache*'   # ^^^ ignore Python "hidden" stuff
 mkdir DIR                               # make a directory
 mkdir -p DIR                            # ^^^ make intermediate dirs as needed
 rmdir DIR                               # remove a directory
