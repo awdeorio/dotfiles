@@ -890,6 +890,7 @@ pdfseparate in.pdf 'out-%d.pdf'         # split pages
 xlhtml                                  # convert excel files
 pdftotext                               # convert pdf to text
 pdftotext -layout                       # convert pdf to text, preserving layout
+pdffonts                                # list fonts in a pdf document
 
 # Date and time
 date '+%s'                                        # current time in seconds
