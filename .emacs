@@ -112,12 +112,23 @@
 ;       browse-url-browser-function 'browse-url-generic)
 
 (custom-set-variables
- '(truncate-lines t)                      ; do not wrap lines
- '(case-fold-search t)                    ; do not require case match in search
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(case-fold-search t)
  '(current-language-environment "English")
  '(mouse-wheel-mode t nil (mwheel))
- '(mouse-yank-at-point t)                 ; yank at cursor, not mouse
- '(uniquify-buffer-name-style nil nil (uniquify))
+ '(mouse-yank-at-point t)
+ '(package-selected-packages (quote (markdown-mode matlab-mode)))
+ '(truncate-lines t)
+ '(uniquify-buffer-name-style nil nil (uniquify)))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 
 ; Emacs Package Manager
@@ -157,7 +168,6 @@
 ;(add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'latex-mode-hook 'visual-line-mode)
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . visual-line-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . visual-line-mode))
 (add-to-list 'auto-mode-alist '("README" . visual-line-mode))
 
 ; PHP mode
@@ -190,6 +200,12 @@
 
 ; C-mode for Arduino files (.ino)
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
+
+; Markdown mode (.md)
+(require 'markdown-mode)
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-hook 'markdown-mode-hook 'visual-line-mode)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
 
 ; Tab completion
 (setq hippie-expand-try-functions-list
