@@ -166,9 +166,12 @@
 (setq auto-mode-alist (cons '("\\.eml\\'" . text-mode) auto-mode-alist))
 (setq default-fill-column 80)  ; width
 ;(add-hook 'text-mode-hook 'visual-line-mode)
-(add-hook 'latex-mode-hook 'visual-line-mode)
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . visual-line-mode))
 (add-to-list 'auto-mode-alist '("README" . visual-line-mode))
+
+; LaTex mode
+(add-hook 'latex-mode-hook 'visual-line-mode)
+(add-hook 'latex-mode-hook 'flyspell-mode)
 
 ; PHP mode
 (autoload 'php-mode "php-mode" "Enter PHP mode." t)
@@ -180,7 +183,6 @@
 
 ; Spell checking mode
 (autoload 'flyspell-mode-on "flyspell" "On-the-fly ispell." t)
-(add-hook 'latex-mode-hook 'flyspell-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'html-mode-hook 'flyspell-mode)
 
