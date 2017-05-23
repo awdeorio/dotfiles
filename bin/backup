@@ -14,6 +14,9 @@ EXCLUDE+=' --exclude awdeorio/Library/Caches/Google/Chrome/Default/Cache/***'
 EXCLUDE+=' --exclude .dropbox/***'
 EXCLUDE+=' --exclude nobackup/***'
 EXCLUDE+=' --exclude virta/medscan/local/***'
+EXCLUDE+=' --exclude .venv/***'
+EXCLUDE+=' --exclude venv/***'
+EXCLUDE+=' --exclude venv3/***'
 
 # Optional
 EXCLUDE+=' --exclude Library/***'
