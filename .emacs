@@ -104,6 +104,8 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'sh-basic-offset 'tab-width)
 (defvaralias 'sh-indentation 'tab-width)
+(defvaralias 'js-indent-level 'tab-width)
+(defvaralias 'js2-basic-offset 'tab-width)
 
 ; Default browser
 (setq browse-url-generic-program (executable-find "open") ; OSX
@@ -120,7 +122,9 @@
  '(current-language-environment "English")
  '(mouse-wheel-mode t nil (mwheel))
  '(mouse-yank-at-point t)
- '(package-selected-packages (quote (markdown-mode matlab-mode)))
+ '(package-selected-packages
+   (quote
+    (jsx-mode json-mode js2-mode markdown-mode matlab-mode)))
  '(truncate-lines t)
  '(uniquify-buffer-name-style nil nil (uniquify)))
 
