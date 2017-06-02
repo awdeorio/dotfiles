@@ -1406,6 +1406,19 @@ cat MYAPP/migrations/0001_initial.py    # check out migration script
 
 
 ########################################
+# JavaScript / Node
+
+# Python + JS Virtual Environments
+python3 -m venv env                     # create virtual environment
+source env/bin/activate                 # activate virtual environment
+pip install PACKAGE                     # install Python packages
+pip install nodeenv                     # install node virtual env utility
+nodeenv -p                              # install local node and npm
+npm install -g webpack                  # install local JS packages
+ls env/lib/node_modules/                # location of JS packages
+
+
+########################################
 # Ruby local install
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 export PATH="$PATH:$HOME/.rvm/bin"
