@@ -1596,7 +1596,7 @@ git reset --soft                        # changes to tracked files are discarded
 git reset --soft HEAD~                  # discard commits that aren't pushed
 git reset --hard                        # reset head to COM, files unchanged
 git rm -r --cached DIR                  # undo git add, without removing files
-git clean -xf                           # restore to "clean repo", DELETES
+git clean -fdx --dry-run                # restore to "clean repo", DELETES
 git commit --amend                      # Combine this commit with previous
 git rev-list -n 1 HEAD -- FILE          # 1. Commit of a deleted file
 git checkout COMMIT^ -- FILE            # 2. Recover deleted file
