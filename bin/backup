@@ -17,6 +17,7 @@ EXCLUDE+=' --exclude virta/medscan/local/***'
 EXCLUDE+=' --exclude .venv/***'
 EXCLUDE+=' --exclude venv/***'
 EXCLUDE+=' --exclude venv3/***'
+EXCLUDE+=' --exclude env/***'
 
 # Optional
 EXCLUDE+=' --exclude Library/***'
