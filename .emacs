@@ -106,6 +106,7 @@
 (defvaralias 'sh-indentation 'tab-width)
 (defvaralias 'js-indent-level 'tab-width)
 (defvaralias 'js2-basic-offset 'tab-width)
+(defvaralias 'jsx-indent-level 'tab-width)
 
 ; Default browser
 (setq browse-url-generic-program (executable-find "open") ; OSX
