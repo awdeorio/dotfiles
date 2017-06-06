@@ -1416,6 +1416,8 @@ pip install nodeenv                     # install node virtual env utility
 nodeenv -p                              # install local node and npm
 npm install -g webpack                  # install local JS packages
 ls env/lib/node_modules/                # location of JS packages
+webpack                                 # build frontend
+webpack --display-error-details         # debug frontend build
 
 
 ########################################
