@@ -1413,11 +1413,18 @@ python3 -m venv env                     # create virtual environment
 source env/bin/activate                 # activate virtual environment
 pip install PACKAGE                     # install Python packages
 pip install nodeenv                     # install node virtual env utility
-nodeenv -p                              # install local node and npm
-npm install -g webpack                  # install local JS packages
-ls env/lib/node_modules/                # location of JS packages
-webpack                                 # build frontend
+nodeenv --python-virtualenv             # install local node and npm
+npm install --global webpack            # install global JS packages
+ls env/lib/node_modules/                # location of global JS packages
+npm install .                           # install local JS package
+webpack                                 # build front end
+webpack --watch                         # continuously build front end
 webpack --display-error-details         # debug frontend build
+
+# Update all dependencies in package.json
+npm install --global npm-check-updates
+npm-check-updates --upgrade
+npm install .
 
 
 ########################################
