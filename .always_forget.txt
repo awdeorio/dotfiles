@@ -1769,3 +1769,4 @@ rig                                    # generate random fake identities
 rev <<< "go hang a salami im a lasagna hog" # palindrome
 figlet STRING                          # print ascii bubble text
 lolcat                                 # rainbow colors (gem install lolcat)
+curl http://wttr.in/ann_arbor          # ascii weather report
