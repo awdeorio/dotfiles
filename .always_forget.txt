@@ -1722,6 +1722,7 @@ export GPG_TTY=$(tty)                   # connect to GPG
 git tag -s TAG                          # create a signed tag
 git tag -v TAG                          # verify signed tag
 git commit -S                           # create a signed commit
+git commit --amend -S                   # sign last commit
 git verify-commit HEAD                  # verify signed commit
 
 # Rebase automatically, resulting in a linear history like Subversion
