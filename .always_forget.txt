@@ -992,6 +992,9 @@ gpg --gen-key                           # create GPG public/private key pair
 gpg --list-secret-keys --keyid-format LONG # list keys and save
 gpg --armor --export awdeorio@gmail.com > awdeorio-publickey.asc
 gpg --armor --export-secret-keys awdeorio@gmail.com > awdeorio-privatekey.asc
+gpg --export -a > ~/allpublickeys.asc   # backup public keys
+gpg --import < ~/allpubkeys.asc         # restore backup of public keys
+gpgconf --kill gpg-agent                # Kill gpg-agent
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
