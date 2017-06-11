@@ -70,6 +70,10 @@ export PAGER=less
 export LESSOPEN="| lesspipe.sh %s"
 
 
+### Encryption ################################################################
+export GPG_TTY=$(tty)
+
+
 ### Path stuff ################################################################
 # remove item from $PATH
 path-remove () {
