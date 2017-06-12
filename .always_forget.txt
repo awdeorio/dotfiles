@@ -510,8 +510,23 @@ $ curl --socks5 localhost:1337 ipinfo.io/ip
 
 # SSH keys
 ssh-keygen                             # generate an SSH key pair
-ssh-keygen -t rsa -b 4096 -C EMAIL     # generate an SSH key pair
+ssh-keygen -t rsa -b 4096 -C EMAIL     # generate an SSH key pair, secure
 ssh-keygen -R HOST                     # remove HOST from known_hosts
+ssh-add -l                             # verify GPG-SSH connection
+ssh-add -L                             # print public key from agent
+
+# GPG + SSH keys
+# Ref https://incenp.org/notes/2015/gnupg-for-ssh-authentication.html
+echo enable-ssh-support >> ~/gpg-agent.conf
+gpgconf --kill gpg-agent
+gpgconf --launch gpg-agent
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpg --with-keygrip --list-keys
+echo KEYGRIP_OF_AUTH_SUBKEY >> ~/.gnupg/sshcontrol
+brew install pinentry-mac
+echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
+ssh-add -l                             # verify GPG-SSH connection
+gpg --export-ssh-key KEYID             # print SSH public key
 
 # SSH files and permissions
 chmod go-w ~/                          # set permissions on local ssh config
@@ -519,6 +534,7 @@ chmod 700 ~/.ssh                       # set permissions on local ssh config
 chmod 644 ~/.ssh/authorized_keys       # set permissions on local ssh config
 ssh-copy-id HOST                       # install public key on HOST
 cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"                # install public key on HOST
+gpg --export-ssh-key awdeorio | ssh HOST "cat >> ~/.ssh/authorized_keys" # w/GPG+SSH
 
 # SSH agent forwarding (github example)
 # https://developer.github.com/guides/using-ssh-agent-forwarding/
@@ -997,9 +1013,9 @@ gpg --armor --export KEYID              # print public key
 gpg --armor --export-secret-keys KEYID  # print private key
 gpg --export -a > ~/allpublickeys.asc   # backup public keys
 gpg --import < ~/allpubkeys.asc         # restore backup of public keys
-gpgconf --kill gpg-agent                # Kill gpg-agent
 gpg --send-keys KEYID                   # Public public key to public keyserver
-
+gpgconf --kill gpg-agent                # Stop gpg-agent
+gpgconf --launch gpg-agent              # Start gpg-agent
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
