@@ -215,8 +215,8 @@
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 
 ; JavaScript modes (.js, .jsx)
-(add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx" . jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.js" . js-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx" . js-jsx-mode))
 
 ; Tab completion
 (setq hippie-expand-try-functions-list
