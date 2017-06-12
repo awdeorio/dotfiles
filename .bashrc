@@ -70,8 +70,11 @@ export PAGER=less
 export LESSOPEN="| lesspipe.sh %s"
 
 
-### Encryption ################################################################
+### GPG and SSH ###############################################################
 export GPG_TTY=$(tty)
+gpgconf --launch gpg-agent  # start or re=use a gpg-agent
+#eval "$(ssh-agent -s)"     # start ssh-agent not needed on OSX
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket) # tell SSH about GPG
 
 
 ### Path stuff ################################################################

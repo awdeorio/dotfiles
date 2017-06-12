@@ -13,4 +13,5 @@ This repository contains all of the configuration files in my home directory.
 ```
 git clone git@github.com:awdeorio/dotfiles.git
 rsync -av dotfiles/ ~/
+rm -rf dotfiles/
 ```
