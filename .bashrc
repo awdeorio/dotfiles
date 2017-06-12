@@ -71,7 +71,7 @@ export LESSOPEN="| lesspipe.sh %s"
 
 
 ### GPG and SSH ###############################################################
-if which gpgconf &> /dev/null; then
+if [ `hostname -s` == 'manzana' ]; then
   export GPG_TTY=$(tty)
   gpgconf --launch gpg-agent  # start or re=use a gpg-agent
   export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket) # tell SSH about GPG
