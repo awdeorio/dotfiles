@@ -1086,7 +1086,9 @@ shuf -i 1-100 -n 1                      # Random number between [1, 100]
 dd bs=1M count=1 if=/dev/urandom of=FILE# create a 1M file with random content
 openssl rand -base64 32                 # random string, 32 characters
 echo "USER:`openssl rand -base64 32 | head -c32`" | chpasswd  # ^^^ and set it
-pwgen                                   # random passwords
+pwgen                                   # random password
+pwgen 16                                # ^^^ with 16 characters
+pwgen -y                                # ^^^ with punctuation
 cat /dev/random| tr -dc A-Za-z0-9       # random string (insecure)
 cat /dev/random|tr -dc a-f0-9|head -c32 # random hex string (insecure)
 

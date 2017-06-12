@@ -70,13 +70,19 @@ export PAGER=less
 export LESSOPEN="| lesspipe.sh %s"
 
 
-### GPG and SSH ###############################################################
+### GPG, SSH and paswords  ###################################################
 # Start gpg-agent and connect SSH agent only if secret keys are available
 if gpg --list-secret-keys awdeorio &> /dev/null; then
   export GPG_TTY=$(tty)
   gpgconf --launch gpg-agent
   export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 fi
+
+# Configure Password Store
+# https://www.passwordstore.org/
+# http://www.tricksofthetrades.net/2015/07/04/notes-pass-unix-password-manager/
+export PASSWORD_STORE_DIR=${HOME}/Dropbox/password-store
+export PASSWORD_STORE_CLIP_TIME=45
 
 
 ### Path stuff ################################################################
