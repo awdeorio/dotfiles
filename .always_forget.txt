@@ -982,19 +982,24 @@ zip --encrypt -r DIR DIR                # create encrypted zip archive
 gpg -c FILE                             # encrypt file to FILE.gpg
 gpg --batch --passphrase-file FILE      # read password from FILE
 gpg -o FILE -d FILE.gpg                 # decrypt file
-gpg --keyserver pool.sks-keyservers.net\# add a public key
-    --recv-key KEY
+gpg --search-keys awdeorio              # search for public key
+gpg --search-keys awdeorio --keyserver pool.sks-keyservers.net
+gpg --recv-key KEYID                    # download public key
+gpg --recv-key --keyserver pool.sks-keyservers.net
 gpg --verify FILE.asc                   # verify
 gpg --no-default-keyring \              # circumvent OSX keychain
     --keyring ./tmp.keyring
 gpg --allow-non-selfsigned-uid          # allow key
-gpg --gen-key                           # create GPG public/private key pair
-gpg --list-secret-keys --keyid-format LONG # list keys and save
-gpg --armor --export awdeorio@gmail.com > awdeorio-publickey.asc
-gpg --armor --export-secret-keys awdeorio@gmail.com > awdeorio-privatekey.asc
+gpg --full-generate-key                 # create GPG public/private key pair
+gpg --secret-keys --keyid-format LONG   # list keys
+gpg -K                                  # list keys
+gpg --armor --export KEYID              # print public key
+gpg --armor --export-secret-keys KEYID  # print private key
 gpg --export -a > ~/allpublickeys.asc   # backup public keys
 gpg --import < ~/allpubkeys.asc         # restore backup of public keys
 gpgconf --kill gpg-agent                # Kill gpg-agent
+gpg --send-keys KEYID                   # Public public key to public keyserver
+
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
