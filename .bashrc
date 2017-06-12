@@ -74,7 +74,7 @@ export LESSOPEN="| lesspipe.sh %s"
 if which gpgconf &> /dev/null; then
   export GPG_TTY=$(tty)
   gpgconf --launch gpg-agent  # start or re=use a gpg-agent
-  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket) # tell SSH about 
+  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket) # tell SSH about GPG
 fi
 
 
