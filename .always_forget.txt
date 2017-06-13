@@ -1037,6 +1037,11 @@ gpg --armor --export-secret-keys KEYID  # print private key
 gpg --export -a > ~/allpublickeys.asc   # backup public keys
 gpg --import < ~/allpubkeys.asc         # restore backup of public keys
 gpg --send-keys KEYID                   # Public public key to public keyserver
+gpg --clearsign FILE                    # Sign a message (output incl orig msg)
+gpg --verify FILE.txt.asc               # Verify a signed message
+gpg --detach-sign FILE                  # Sign a file (output doesn't incl file)
+gpg --verify FILE.sig                   # Verify a signed file
+gpg --list-options show-photos --fingerprint awdeorio  # Show key attached photo
 gpgconf --kill gpg-agent                # Stop gpg-agent
 gpgconf --launch gpg-agent              # Start gpg-agent
 
