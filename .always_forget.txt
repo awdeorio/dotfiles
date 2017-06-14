@@ -1044,6 +1044,7 @@ gpg --verify FILE.sig                   # Verify a signed file
 gpg --list-options show-photos --fingerprint awdeorio  # Show key attached photo
 gpgconf --kill gpg-agent                # Stop gpg-agent
 gpgconf --launch gpg-agent              # Start gpg-agent
+gpg --homedir ~/gnupg_tmp/              # Use another GPG config
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
