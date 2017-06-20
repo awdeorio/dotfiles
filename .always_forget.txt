@@ -1777,6 +1777,12 @@ git commit -S                           # create a signed commit
 git commit --amend -S                   # sign last commit
 git verify-commit HEAD                  # verify signed commit
 
+# Merging somebody else's fork
+git remote add OTHER_REPO OTHER_URL     # Add additional remote
+git fetch OTHER_REPO                    # Get their changes
+git checkout develop                    # Checkout branch you want to merge into
+git merge --no-ff OTHER_REPO/OTHER_BRANCH  # Merge their changes
+
 # Rebase automatically, resulting in a linear history like Subversion
 # Ref: http://stevenharman.net/git-pull-with-automatic-rebase
 git config branch.autosetuprebase always
