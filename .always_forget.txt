@@ -1365,6 +1365,9 @@ pip install PACKAGE                     # install PACKAGE into ./venv
 python3 -m pip install PACKAGE          # install PACKAGE into ./venv, Python 3
 deactivate                              # disable
 
+# Upgrade dependencies
+pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U
+
 # Install virtualenv locally
 pip install --user virtualenv
 ./.local/bin/virtualenv
