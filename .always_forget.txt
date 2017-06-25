@@ -1315,7 +1315,6 @@ C_INCLUDE_PATH
 CPLUS_INCLUDE_PATH
 MANPATH
 
-
 # GNU Make
 make                                    # Build the first target in Makefile
 make -f FILE                            # Use FILE as Makefile
@@ -1331,6 +1330,16 @@ strings FILE                            # find printable strings in an object
 objdump -D file.o                       # disassemble
 hexdump                                 # binary -> hex (check endianness!)
 xxd                                     # binary -> hex (check endianness!)
+
+# LastPass CLI
+brew install lastpass-cli --with-pinentry --with-doc  # install (OSX)
+lpass login awdeorio@gmail.com          # start agent
+lpass status                            # check agent
+lpass ls                                # list saved passwords
+lpass show amazon.com                   # show one saved password
+lpass show --password amazon.com --clip # copy one password to clipboard
+lpass show -p amazon.com -c             # copy one password to clipboard
+lpass export                            # dump to plain text CSV
 
 
 ########################################
