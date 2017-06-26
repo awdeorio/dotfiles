@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Repos are listed at https://github.com/eecs280staff
+
+set -e
+
+REPOS=`ls */ -d | sed 's_/__'`
+
+for REPO in ${REPOS}; do
+  set -x
+  cd ${REPO}
+  git $@
+  cd ..
+  { set +x; } 2> /dev/null
+  echo
+done
