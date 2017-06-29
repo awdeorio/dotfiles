@@ -1340,6 +1340,7 @@ lpass show amazon.com                   # show one saved password
 lpass show --password amazon.com --clip # copy one password to clipboard
 lpass show -p amazon.com -c             # copy one password to clipboard
 lpass export                            # dump to plain text CSV
+lpass edit amazon.com                   # edit entry using $EDITOR
 
 
 ########################################
