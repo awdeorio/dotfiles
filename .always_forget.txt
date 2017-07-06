@@ -661,7 +661,6 @@ $#                                      # argc in bash
 [ $# -lt 1 ] && exit 1                  # check # args and quit
 $@                                      # argv in bash
 $0                                      # argv[0] in bash
-LOGFILE=${TXTFILE%.txt}.log             # change file extension
 set -o verbose                          # echo commands to stdout
 cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 eval                                    # run in current shell
@@ -670,6 +669,7 @@ TAB=$'\t'                               # TAB literal
 echo "hello" | tee >(cat) >(cat)        # copy stdout to two commands
 set -e                                  # Abort on non-zero NOTE: pipes break it
 set -x                                  # Print commands
+STR=$'hello\nworld'                     # String with newlines
 EXTENSION="${FILENAME##*.}"             # Parse file extension
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
 IFS= read -s  -p Password: PASSWORD     # Ask user for password
@@ -802,7 +802,7 @@ sort -k1                                # sort on column 1 (first)
 sort -k1-2                              # sort on columns 1 and 2
 sort -k1 -t,                            # sort on col 1, comma-delimited
 /usr/share/dict/words                   # All the words in the dictionary
-shuf /usr/share/dict/words | head -n1   # random word
+shuf -n1 /usr/share/dict/words          # random word
 
 # CSV files
 cat FILE| head -n1| tr ',' '\n'         # column labels
