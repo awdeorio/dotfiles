@@ -781,6 +781,7 @@ paste <(CMD1) <(CMD2) | column -t       # compare the output of two commands
 tr "\r\n" "\n"  FILE                    # convert line endings to UNIX
 fromdos                                 # convert line endings to UNIX
 dos2unix                                # convert line endings to UNIX (old)
+tr -d '[:space:]'                       # remove whitespace
 tr -d -c ',\n' | awk '{print length}'   # count commas
 shuf                                    # shuffle lines
 file FILE                               # determine encoding of FILE
@@ -1535,7 +1536,11 @@ psql                                    # Start postgresql shell
 psql -a [--echo-all]                    # Echo all input commands and queries
 psql -U DB_USER -h DB_HOST -d DB_NAME   # connect using a TCP connection
 sudo -u postgres psql                   # Start shell, Ubuntu
+createdb DB                             # Create database
 dropdb --echo DB                        # Drop a database, verbose
+createuser USER                         # Create user
+createuser USER --createdb              # Create user with create DB permissions
+createuser USER --superuser             # Create superuser
 dropuser --echo USER                    # Remove a user, verbose
 pg_dump DB -f FILE.sql                  # Dump database to file
 pg_dump -t TABLE DB > FILE.sql          # Dump one table to file
@@ -1549,6 +1554,12 @@ psql -lqt                               # list databases
 \du                                     # list users
 \quit                                   # exit psql CLI
 \q                                      # exit psql CLI
+
+# Check if DB exists
+SELECT 1 FROM pg_database WHERE datname='DB'
+
+# Check if USER exists (do this on the 'postgres' DB)
+SELECT 1 FROM pg_roles WHERE rolname='USER'
 
 # Dump table to CSV, compressed and uncompressed
 psql <<< "COPY table TO 'file.csv' DELIMITER ',' CSV HEADER;"
