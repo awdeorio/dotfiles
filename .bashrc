@@ -261,7 +261,9 @@ if which brew &>/dev/null && [[ -f $(brew --prefix)/etc/bash_completion ]]; then
 elif [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]]; then
   . /usr/share/bash-completion/bash_completion
 fi
-
+for F in `find ${HOME}/.bash_completion.d/ -type f`; do
+  source $F
+done
 
 ### Todotxt setup #############################################################
 export TODO_DIR=${HOME}/Dropbox/lists/todo/work
