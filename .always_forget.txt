@@ -1266,6 +1266,7 @@ vboxmanage startvm NAME                 # start NAME virtual machine
 vboxmanage startvm NAME --type headless # start, headless mode
 vboxmanage controlvm NAME poweroff      # pull plug
 vboxmanage controlvm NAME acpipowerbutton # halt
+vboxmanage unregistervm NAME --delete   # remove
 vboxmanage import FILE.ova              # import OVA
 vboxmanage import FILE.ova --dry-run    # ^^^ just print
 vboxmanage list bridgedifs              # list NICS available for bridging
