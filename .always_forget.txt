@@ -601,7 +601,7 @@ rsync -D                               # preserve devices and special files
 rsync -v                               # verbose
 rsync -z                               # compress
 rsync -P                               # progress bar
-rsync -rvt                             # copy from USB stick
+rsync -rvt                             # copy to/from USB stick
 ftp HOST                               # FTP
 lftp HOST                              # FTP with extra features
 sftp HOST                              # FTP over SSH
@@ -1336,6 +1336,7 @@ xxd                                     # binary -> hex (check endianness!)
 # LastPass CLI
 brew install lastpass-cli --with-pinentry --with-doc  # install (OSX)
 lpass login awdeorio@gmail.com          # start agent
+lpass logout                            # stop agent
 lpass status                            # check agent
 lpass ls                                # list saved passwords
 lpass show amazon.com                   # show one saved password
