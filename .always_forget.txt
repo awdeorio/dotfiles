@@ -1215,8 +1215,9 @@ apt-get purge                           # remove package and config files
 apt-get update                          # update repository
 apt-get upgrade                         # upgrade packages, but NOT kernel
 apt-get dist-upgrade                    # upgrade packages, including kernel
-apt-cache search <package>              # find packages
-apt-cache showpkg <package>             # get the details on a package
+apt-get download PACKAGE                # download .deb
+apt-cache search PACKAGE                # find packages
+apt-cache showpkg PACKAGE               # get the details on a package
 dpkg --get-selections | grep -v deinstall # list installed packages
 dpkg --get-selections | grep PACKAGE    # see if package is installed
 
@@ -1259,6 +1260,14 @@ journalctl -u nginx.service             # view logs from nginx service
 journalclt --no-pager                   # output for piping
 journalctl -o json                      # output in JSON format
 journalctl -o json-pretty               # output in JSON format
+
+# RabbitMQ
+rabbitmqctl list_users                  # list users
+rabbitmqctl list_permissions            # list permissions for all users
+rabbitmqctl list_user_permissions USER  # list permissions for one user
+rabbitmqctl add_user USER PASSWD        # add a user
+rabbitmqctl delete_user USER            # remove a user
+rabbitmqctl set_user_tags USER administrator  # make USER an admin
 
 # VirtualBox
 vboxmanage list vms                     # list virtual machines
@@ -1402,6 +1411,11 @@ pylint --errors-only --reports=n        # Disable full report (only messages)
 # Enable tab-completion and history in Python shell.  Add this to ~/.pythonrc.py
 import readline, rlcompleter
 readline.parse_and_bind("tab: complete")
+
+# Python unittest CLI
+python -m unittest MODULE               # Run all tests in MODULE
+python -m unittest MODULE.CLASS         # Run all tests in CLASS
+python -m unittest MODULE.CLASS.FXN     # Run one test function
 
 # Start a Jupyter (formerly IPython) Notebook server on a remote server
 jupyter-notebook --ip 0.0.0.0 --no-browser
