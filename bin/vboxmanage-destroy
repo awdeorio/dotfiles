@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ -z "${1}" ]; then
+  echo "Usage: $0 VIRTUAL_MACHINE"
+  exit 1
+fi
+VM=$1
+
+set -e  # stop on error
+set -x  # print commands
+VBoxManage controlvm "${VM}" poweroff      # pull plug
+VBoxManage unregistervm "${VM}" --delete   # remove
