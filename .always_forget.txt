@@ -1704,7 +1704,7 @@ git clean -fdx --dry-run                # restore to "clean repo", DELETES
 git commit --amend                      # Combine this commit with previous
 git rev-list -n 1 HEAD -- FILE          # 1. Commit of a deleted file
 git checkout COMMIT^ -- FILE            # 2. Recover deleted file
-git --no-edit revert COMMIT             # revert COMMIT
+git revert COMMIT                       # revert COMMIT
 
 # Temporarily stash work, restoring a clean set of files
 git stash                               # stash current modifications on stack
