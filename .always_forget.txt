@@ -1458,9 +1458,7 @@ git tag -a X.Y
 git push --tags origin master
 
 # Test deploy to PyPI
-# First, make sure passwords are set in ~/.pypirc
 export DISTUTILS_DEBUG="true"  # Debug submission to PyPI
-python setup.py register -r pypitest
 python setup.py sdist upload -r pypitest
 # browse to https://testpypi.python.org/pypi/mailmerge
 
@@ -1787,6 +1785,9 @@ git tag                                 # list tags
 git tag TAG                             # apply lightweight tag
 git tag -a TAG                          # apply annotated tag
 git tag -a TAG REV                      # apply annotated tag to REV commit
+git tag --delete TAG                    # delete a local tag
+git push --delete origin TAG            # delete a remote tag
+git push --delete origin TAG            # git push origin :tagname
 git push --tags                         # make tags public
 git checkout tags/TAG                   # checkout a tag as detacted HEAD
 git describe                            # describe commit using most recent tag
