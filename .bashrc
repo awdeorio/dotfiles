@@ -43,6 +43,7 @@ alias whatismyip='curl ipinfo.io/ip'
 # OSX
 if [ -d /Applications/Meld.app ]; then
   alias meld='open -a /Applications/Meld.app --args'
+  alias chrome='open -a "/Applications/Google Chrome.app" --args'
 fi
 
 ### Editor ####################################################################
