@@ -309,6 +309,10 @@ wget \
   --load-cookies cookies.txt \
   ${BASE_URL}/api/
 
+# HTTPie
+http localhost:8000/api/                # GET
+http -f POST localhost:8000/api K=V     # POST JSON with key K = value V
+
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
 TARGET_HOST $ ncat -lvp 8080 -e /bin/bash --ssl
@@ -1546,6 +1550,7 @@ mysqldump --add-drop-table \            # copy DB from localhost to HOST
 # PostgreSQL
 # https://www.postgresql.org/docs/9.3/static/app-psql.html
 psql                                    # Start postgresql shell
+psql -c QUERY                           # Execute QUERY
 psql -a [--echo-all]                    # Echo all input commands and queries
 psql -U DB_USER -h DB_HOST -d DB_NAME   # connect using a TCP connection
 sudo -u postgres psql                   # Start shell, Ubuntu
