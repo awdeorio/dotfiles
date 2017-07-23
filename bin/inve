@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # inve
 #
@@ -18,6 +18,7 @@ VIRTUAL_ENV_DIRNAMES="
 "
 
 # First, locate the root of the current virtualenv
+# Based on https://gist.github.com/datagrok/2199506#a-system-level-inve
 while [ "$PWD" != "/" ]; do
   # Try all the possible virtual env directory names
   for VIRTUAL_ENV_RELATIVE in ${VIRTUAL_ENV_DIRNAMES}; do
@@ -33,8 +34,19 @@ if [ "$PWD" = "/" ]; then
 	exit 1
 fi
 
-# Activate
-export VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_RELATIVE}"
-export PATH="${VIRTUAL_ENV}/bin:${PATH}"
-unset PYTHON_HOME
-exec "${@:-$SHELL}"
+# Activate.  This works for all shells.  However, if you've modified
+# {VIRTUAL_ENV}/bin/activate then this won't pick up the changes.
+# export VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_RELATIVE}"
+# export PATH="${VIRTUAL_ENV}/bin:${PATH}"
+# unset PYTHON_HOME
+# exec "${@:-$SHELL}"
+
+# Activate.  Bash only.  Source the original activate script, then start a
+# subshell.  Keep in mind:
+# 1. Your ~/.bashrc will be sourced by the subshell
+# 2. The subshell will go out of its way to set its own PS1, ignoring the PS1
+#    set by "source ${ACTIVATE}"
+# 3. All other exported variables will be inherited by the subshell
+ACTIVATE="${PWD}/${VIRTUAL_ENV_RELATIVE}/bin/activate"
+source ${ACTIVATE}
+exec bash
