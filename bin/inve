@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# inve
+#
+# usage: inve [COMMAND [ARGS]]
+#
+# For use with Ian Bicking's virtualenv tool. Attempts to find the root of
+# a virtual environment. Then, executes COMMAND with ARGS in the context of
+# the activated environment. If no COMMAND is given, activate defaults to a
+# subshell.
+
+VIRTUAL_ENV_DIRNAMES="
+  .
+  venv venv2 venv3
+  .venv .venv2 .venv3
+  env env2 env3 .env
+  .env .env2 .env3
+"
+
+# First, locate the root of the current virtualenv
+while [ "$PWD" != "/" ]; do
+  # Try all the possible virtual env directory names
+  for VIRTUAL_ENV in ${VIRTUAL_ENV_DIRNAMES}; do
+	  # Stop here if this the root of a virtualenv
+	  if [ -x ${VIRTUAL_ENV}/bin/python ]; then
+		  break 2  # break out of nested loop
+	  fi
+  done
+	cd ..
+done
+if [ "$PWD" = "/" ]; then
+	echo "Could not activate: no virtual environment found." >&2
+	exit 1
+fi
+
+# Activate
+export VIRTUAL_ENV
+export PATH="$VIRTUAL_ENV/bin:$PATH"
+unset PYTHON_HOME
+exec "${@:-$SHELL}"

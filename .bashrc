@@ -212,6 +212,15 @@ export HISTCONTROL="ignoredups"      # ignore duplicates in history
 export FIGNORE="~"                   # don't show these prefixes in tab-comp
 shopt -s checkwinsize                # keep LINES and COLUMNS up to date
 
+function ps1_context {  
+	# For any of these bits of context that exist, display them and append
+	# a space.  Ref: https://gist.github.com/datagrok/2199506
+	VIRTUAL_ENV_BASE=`basename "$VIRTUAL_ENV"`
+	for v in "$debian_chroot" "$VIRTUAL_ENV_BASE" "$PS1_CONTEXT"; do
+		echo -n "${v:+$v }"
+	done
+}
+
 # Fancy Prompt
 if [ "$LOGNAME" == "root" ]; then
   # root
@@ -221,7 +230,7 @@ elif [ "$SSH_CONNECTION" ]; then
   export PS1='\[\033[00;36m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
 else
   # local machine
-  export PS1='\[\033[01;32m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
+  export PS1='$(ps1_context)\[\033[01;32m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
 fi
 
 # Change the window title of X terminals
