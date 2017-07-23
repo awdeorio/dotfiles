@@ -20,9 +20,9 @@ VIRTUAL_ENV_DIRNAMES="
 # First, locate the root of the current virtualenv
 while [ "$PWD" != "/" ]; do
   # Try all the possible virtual env directory names
-  for VIRTUAL_ENV in ${VIRTUAL_ENV_DIRNAMES}; do
+  for VIRTUAL_ENV_RELATIVE in ${VIRTUAL_ENV_DIRNAMES}; do
 	  # Stop here if this the root of a virtualenv
-	  if [ -x ${VIRTUAL_ENV}/bin/python ]; then
+	  if [ -x ${VIRTUAL_ENV_RELATIVE}/bin/python ]; then
 		  break 2  # break out of nested loop
 	  fi
   done
@@ -34,7 +34,7 @@ if [ "$PWD" = "/" ]; then
 fi
 
 # Activate
-export VIRTUAL_ENV
-export PATH="$VIRTUAL_ENV/bin:$PATH"
+export VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_RELATIVE}"
+export PATH="${VIRTUAL_ENV}/bin:${PATH}"
 unset PYTHON_HOME
 exec "${@:-$SHELL}"
