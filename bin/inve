@@ -34,19 +34,22 @@ if [ "$PWD" = "/" ]; then
 	exit 1
 fi
 
-# Activate.  This works for all shells.  However, if you've modified
-# {VIRTUAL_ENV}/bin/activate then this won't pick up the changes.
+# Simple activate.  This duplicates the functionality of
+# `source $VIRTUAL_ENV/bin/activate`.  However, if you've modified the
+# activation script (the bash version anyways), then the subsheel invoked
+# by this code won't contain those changes.
 # export VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_RELATIVE}"
 # export PATH="${VIRTUAL_ENV}/bin:${PATH}"
 # unset PYTHON_HOME
 # exec "${@:-$SHELL}"
 
-# Activate.  Bash only.  Source the original activate script, then start a
-# subshell.  Keep in mind:
-# 1. Your ~/.bashrc will be sourced by the subshell
-# 2. The subshell will go out of its way to set its own PS1, ignoring the PS1
-#    set by "source ${ACTIVATE}"
-# 3. All other exported variables will be inherited by the subshell
+# Active including customizations in $VIRTUAL_ENV/bin/activate.  We're going to
+# source the original *bash* activation script, then start the subshell of
+# the user's choice, which will inherit the environment variables exported by
+# bash.  Keep in mind that your shell will run its startup script (.bashrc for
+# bash) when starting up the subshell.  That means it will go out of its
+# way to set its own PS1, ignoring the PS1 set by $VIRTUAL_ENV/bin/activate.
+# All other evironment variables will be inherited by the subshell.
 ACTIVATE="${PWD}/${VIRTUAL_ENV_RELATIVE}/bin/activate"
 source ${ACTIVATE}
-exec bash
+exec "${@:-$SHELL}"
