@@ -258,13 +258,13 @@ function ps1_context {
 source ~/.bashrc_colors
 if [ "$LOGNAME" == "root" ]; then
   # root
-  export PS1='${bldred}\u@\h ${bldblue}\W\n\$ ${txtrst}'
+  export PS1='\[${bldred}\]\]\u@\h \[${bldblue}\]\W\n\$ \[${txtrst}\]'
 elif [ "$SSH_CONNECTION" ]; then
   # remote machines
-  export PS1='$(ps1_context)${bldcyn}\u@\h ${bldblu}\W\n\$ ${txtrst}'
+  export PS1='$(ps1_context)\[${bldcyn}\]\u@\h \[${bldblu}\]\W\n\$ \[${txtrst}\]'
 else
   # local machine
-  export PS1='${txtpur}$(ps1_context)${bldgrn}\u@\h ${bldblu}\W\n\$ ${txtrst}'
+  export PS1='\[${txtpur}\]$(ps1_context)\[${bldgrn}\]\u@\h \[${bldblu}\]\W\n\$ \[${txtrst}\]'
 fi
 
 # Change the window title of X terminals
