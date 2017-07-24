@@ -255,15 +255,16 @@ function ps1_context {
 }
 
 # Fancy Prompt
+source ~/.bashrc_colors
 if [ "$LOGNAME" == "root" ]; then
   # root
-  export PS1='\[\033[01;31m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
+  export PS1='${bldred}\u@\h ${bldblue}\w\n\$ ${txtrst}'
 elif [ "$SSH_CONNECTION" ]; then
   # remote machines
-  export PS1='\[\033[00;36m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
+  export PS1='$(ps1_context)${bldcyn}\u@\h ${bldblu}\w\n\$ ${txtrst}'
 else
   # local machine
-  export PS1='$(ps1_context)\[\033[01;32m\]\u@\h \[\033[01;34m\]\w\n\$ \[\033[00m\]'
+  export PS1='$(ps1_context)${bldgrn}\u@\h ${bldblu}\w\n\$ ${txtrst}'
 fi
 
 # Change the window title of X terminals
