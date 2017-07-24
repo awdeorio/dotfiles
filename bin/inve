@@ -1,14 +1,31 @@
 #!/bin/bash
-
+#
 # inve
 #
-# usage: inve [COMMAND [ARGS]]
+# usage: inve
 #
-# For use with Ian Bicking's virtualenv tool. Attempts to find the root of
-# a virtual environment. Then, executes COMMAND with ARGS in the context of
-# the activated environment. If no COMMAND is given, activate defaults to a
-# subshell.
+# Attempts to find the root of a virtual environment by walking the directory
+# tree from "$PWD" to "/".  Then, it activates a subshell using the $SHELL
+# environment variable.
+#
+# A side effect of invoking a subshell is that subshells go out of their way to
+# set PS1.  You could add something like this to your .bashrc to append virtual
+# environment context to your PS1:
+#
+# function ps1_context {
+# 	# For any of these bits of context that exist, display them and append
+# 	# a space.
+#   # https://gist.github.com/datagrok/2199506#dont-mess-with-my-prompt
+# 	virtualenv=`basename "$VIRTUAL_ENV"`
+# 	for v in "$debian_chroot" "$virtualenv" "$PS1_CONTEXT"; do
+# 		echo -n "${v:+$v }"
+# 	done
+# }
+# export PS1="$(ps1_context)"'\u@\h:\w\$ '
+#
+# Basedon https://gist.github.com/datagrok/2199506
 
+# Search for virtual environments in directories with these names
 VIRTUAL_ENV_DIRNAMES="
   .
   venv venv2 venv3
@@ -17,13 +34,13 @@ VIRTUAL_ENV_DIRNAMES="
   .env .env2 .env3
 "
 
-# First, locate the root of the current virtualenv
+# First, locate the root of a virtual environment
 # Based on https://gist.github.com/datagrok/2199506#a-system-level-inve
 while [ "$PWD" != "/" ]; do
   # Try all the possible virtual env directory names
-  for VIRTUAL_ENV_RELATIVE in ${VIRTUAL_ENV_DIRNAMES}; do
+  for DIR in ${VIRTUAL_ENV_DIRNAMES}; do
 	  # Stop here if this the root of a virtualenv
-	  if [ -x ${VIRTUAL_ENV_RELATIVE}/bin/python ]; then
+	  if [ -e "$PWD/${DIR}/bin/activate" ]; then
 		  break 2  # break out of nested loop
 	  fi
   done
@@ -33,23 +50,10 @@ if [ "$PWD" = "/" ]; then
 	echo "Could not activate: no virtual environment found." >&2
 	exit 1
 fi
+VIRTUAL_ENV_FULLPATH="${PWD}/${DIR}"
 
-# Simple activate.  This duplicates the functionality of
-# `source $VIRTUAL_ENV/bin/activate`.  However, if you've modified the
-# activation script (the bash version anyways), then the subsheel invoked
-# by this code won't contain those changes.
-# export VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_RELATIVE}"
-# export PATH="${VIRTUAL_ENV}/bin:${PATH}"
-# unset PYTHON_HOME
-# exec "${@:-$SHELL}"
-
-# Active including customizations in $VIRTUAL_ENV/bin/activate.  We're going to
-# source the original *bash* activation script, then start the subshell of
-# the user's choice, which will inherit the environment variables exported by
-# bash.  Keep in mind that your shell will run its startup script (.bashrc for
-# bash) when starting up the subshell.  That means it will go out of its
-# way to set its own PS1, ignoring the PS1 set by $VIRTUAL_ENV/bin/activate.
-# All other evironment variables will be inherited by the subshell.
-ACTIVATE="${PWD}/${VIRTUAL_ENV_RELATIVE}/bin/activate"
-source ${ACTIVATE}
+# Activate virtual environment using the Bash activatation script, then start
+# the subshell of the user's choice.  The subshell will inherit the environment
+# variables previously exported by bash.
+source "${VIRTUAL_ENV_FULLPATH}/bin/activate"
 exec "${@:-$SHELL}"
