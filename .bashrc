@@ -212,11 +212,44 @@ export HISTCONTROL="ignoredups"      # ignore duplicates in history
 export FIGNORE="~"                   # don't show these prefixes in tab-comp
 shopt -s checkwinsize                # keep LINES and COLUMNS up to date
 
+function find_git_context() {
+  # Based on https://github.com/jimeh/git-aware-prompt
+
+  # Branch
+  local BRANCH
+  local GIT_BRANCH
+  if BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+    if [[ "$branch" == "HEAD" ]]; then
+      BRANCH='detached*'
+    fi
+    GIT_BRANCH="$BRANCH"
+  else
+    GIT_BRANCH=""
+  fi
+
+  # '*' for dirty
+  local STATUS=$(git status --porcelain 2> /dev/null)
+  local GIT_DIRTY
+  if [[ "$STATUS" != "" ]]; then
+    GIT_DIRTY='*'
+  else
+    GIT_DIRTY=''
+  fi
+
+  # Concatenate
+  GIT_CONTEXT="${GIT_BRANCH}${GIT_DIRTY}"
+}
+
 function ps1_context {  
 	# For any of these bits of context that exist, display them and append
 	# a space.  Ref: https://gist.github.com/datagrok/2199506
 	VIRTUAL_ENV_BASE=`basename "$VIRTUAL_ENV"`
-	for v in "$debian_chroot" "$VIRTUAL_ENV_BASE" "$PS1_CONTEXT"; do
+  find_git_context
+	for v in "${GIT_CONTEXT}" \
+             "${debian_chroot}" \
+             "${VIRTUAL_ENV_BASE}" \
+             "${GIT_DIRTY}" \
+             "${PS1_CONTEXT}"; do
 		echo -n "${v:+$v }"
 	done
 }
