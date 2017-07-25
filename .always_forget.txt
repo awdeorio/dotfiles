@@ -620,6 +620,7 @@ exit N                                  # exit N
 true                                    # exit zero
 false                                   # exit non-zero
 trap "FUNC" 1 2 3 15                    # run FUNC on receiving a signal
+trap "kill 0" SIGINT                    # kill all proc in proc group on ctrl-c
 tee FILE                                # copy stdin to both stdout and FILE
 tee FILE1 FILE2                         # copy stdin to stdout, FILE1, FILE2
 tee /dev/stderr                         # copy stdin to both stdout and stderr
