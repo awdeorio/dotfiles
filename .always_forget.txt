@@ -686,6 +686,7 @@ IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
 [ -n "${VAR}" ]                         # set to a non-empty string"
 [ -n "${VAR+set}" ]                     # set, possibly to empty string
 [ -n "${VAR-unset}" ]                   # either unset or set non-empty string
+hash CMD                                # return true if CMD is in PATH
 
 # Bash shell productivity
 cp file{,.bak}                          # Backup a file
