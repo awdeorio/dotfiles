@@ -1451,26 +1451,51 @@ echo '{"json":"obj"}' | python -m json.tool
 
 ####################
 # PyPI howto
+#
 # ref http://peterdowns.com/posts/first-time-with-pypi.html
+# ref https://packaging.python.org/guides/migrating-to-pypi-org/#uploading
 # NOTE: for some stupid reason, you *must* have your password in ~/.pypirc
+#
+# This example is for mailmerge https://github.com/awdeorio/mailmerge
 
-# Edit setup.py and change version
+# Clean up
+git fetch
+git checkout develop
+git rebase
+git status
+git clean -xdf
+
+# Test
+python3 -m venv env
+source env/bin/activate
+./bin/test-style
+./bin/test-functional
+./bin/test-python2-python3
+
+# Edit setup.py and change the version
+$EDITOR setup.py
+git add setup.py
+git commit
+git push origin develop
+
+# Merge develop to master
+git checkout master
+git rebase
+git merge --no-ff develop
 
 # Build a distribution tarball locally
 python setup.py sdist
 
-# Tag a release
+# Tag a release and double check that the versions match
 git tag -a X.Y
+grep version setup.py
+git describe
 git push --tags origin master
 
-# Test deploy to PyPI
+# Deploy to PyPI
 export DISTUTILS_DEBUG="true"  # Debug submission to PyPI
-python setup.py sdist upload -r pypitest
-# browse to https://testpypi.python.org/pypi/mailmerge
-
-# Live deploy to PyPI
-python setup.py register -r pypi
 python setup.py sdist upload -r pypi
+# Browse to https://pypi.python.org/pypi/mailmerge
 
 
 ########################################
@@ -1492,6 +1517,13 @@ cat MYAPP/migrations/0001_initial.py    # check out migration script
 ./manage.py migrate                     # perform migration w/ any new scripts
 ./manage.py shell                       # python shell with Django environment
 ./manage.py createsuperuser             # create admin user for (w/ web login)
+
+####################
+# Python / Django / Django REST Framework Debug URL Routing
+# http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
+./manage.py shell
+from django.urls import reverse
+reverse("api:connectortask-detail", args=[1])
 
 
 ########################################
