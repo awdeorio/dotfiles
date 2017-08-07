@@ -1836,6 +1836,7 @@ git describe --always                   # use commit object as fallback
 # Comparing
 git diff BRANCH1 BRANCH2                # diff two local branches
 git diff master remotes/origin/dataset  # diff two remote branches
+git diff --name-status ref1..ref2       # see what files changed
 git mergetool --tool-help               # list available diff/merge tools
 git config --global diff.tool TOOL      # use TOOL for merging
 git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
