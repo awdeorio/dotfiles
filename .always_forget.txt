@@ -1764,6 +1764,12 @@ git log --oneline                       # less info
 git log --oneline --decorate --graph --all # more info
 git log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold blue)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 
+# Idenitfying commits
+git rev-parse --abbrev-ref HEAD         # Current branch
+git describe --dirty                    # Repo is clean or dirty
+git rev-parse master                    # Commit hash of master
+git rev-parse origin/master             # Commit hash of repo's master
+
 # Versions of a file
 git show REV:FILE                       # Old version of file
 git show HEAD^ FILE                     # last committed version
