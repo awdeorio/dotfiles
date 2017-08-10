@@ -1547,6 +1547,7 @@ webpack --display-error-details         # debug frontend build
 # Update all dependencies in package.json
 npm install --global npm-check-updates
 npm-check-updates --upgrade
+npm-check-updates --upgradeAll
 npm install .
 
 
