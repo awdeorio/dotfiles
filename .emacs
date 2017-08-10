@@ -104,10 +104,6 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'sh-basic-offset 'tab-width)
 (defvaralias 'sh-indentation 'tab-width)
-(defvaralias 'js-indent-level 'tab-width)
-(defvaralias 'js2-basic-offset 'tab-width)
-(defvaralias 'jsx-indent-level 'tab-width)
-(defvaralias 'js-jsx-indent-level 'tab-width)
 
 ; Default browser
 (setq browse-url-generic-program (executable-find "open") ; OSX
@@ -126,7 +122,7 @@
  '(mouse-yank-at-point t)
  '(package-selected-packages
    (quote
-    (jsx-mode json-mode js2-mode markdown-mode matlab-mode)))
+    (json-mode markdown-mode matlab-mode)))
  '(truncate-lines t)
  '(uniquify-buffer-name-style nil nil (uniquify)))
 
@@ -218,6 +214,7 @@
 ; Web Development
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
