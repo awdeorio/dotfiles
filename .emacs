@@ -226,6 +226,7 @@
 (setq web-mode-css-indent-offset 2)
 (setq web-mode-code-indent-offset 2)
 (setq web-mode-attr-indent-offset 2)
+(setq web-mode-enable-auto-indentation nil)
 (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
 (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
 (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
