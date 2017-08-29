@@ -792,6 +792,10 @@ tr -d -c ',\n' | awk '{print length}'   # count commas
 shuf                                    # shuffle lines
 file FILE                               # determine encoding of FILE
 iconv -f UTF-8 -t ASCII//TRANSLIT       # convert UTF8 to ASCII
+recode UTF8..ASCII FILE                 # convert UTF8 to ASCII
+recode ../CR-LF FILE                    # Convert newlines from Unix to DOS
+recode ../Base64 FILE                   # Convert to base64
+recode utf8/Base64..ASCII FILE          # Convert uft8/base64 to ASCII
 head                                    # first 10 lines
 head -n2                                # first 2 lines
 head -n-2                               # all but last 2 lines
