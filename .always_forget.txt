@@ -251,6 +251,7 @@ iftop                                   # display bandwidth usage
 
 # Web Utilities
 python -m SimpleHTTPServer 8000         # start a file server at ./ on port 8000
+python3 -m http.server 8000             # start a file server at ./ on port 8000
 wget https://www.google.com/            # download one page
 wget -m andrewdeorio.com                # download everything
 wget URL -O FILE                        # output to FILE
