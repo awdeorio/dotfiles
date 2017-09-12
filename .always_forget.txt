@@ -792,6 +792,7 @@ tr -d '[:space:]'                       # remove whitespace
 tr -d -c ',\n' | awk '{print length}'   # count commas
 shuf                                    # shuffle lines
 file FILE                               # determine encoding of FILE
+file --mime FILE                        # determine encoding of FILE
 iconv -f UTF-8 -t ASCII//TRANSLIT       # convert UTF8 to ASCII
 recode UTF8..ASCII FILE                 # convert UTF8 to ASCII
 recode ../CR-LF FILE                    # Convert newlines from Unix to DOS
