@@ -1447,10 +1447,10 @@ export PYTHONUSERBASE=${HOME}/local
 # Quick web server serving files in PWD on port 8000
 python -m SimpleHTTPServer
 
-# json pretty-printer
-# See https://stedolan.github.io/jq/tutorial/
-echo '{"json":"obj"}' | python -m json.tool
-echo '{"json":"obj"}' | jq
+# JSON
+echo '{"json":"obj"}' | python -m json.tool    # Pretty-print
+echo '{"json":"obj"}' | jq                     # Pretty-print
+echo '{"json":"obj"}' | jsonlint               # Lint
 
 # Run command line programs as functions in Python
 >>> import sh
