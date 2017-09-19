@@ -368,6 +368,17 @@ $ torsocks curl ipinfo.io/ip
 $ curl ipinfo.io/ip
 141.212.107.235
 
+# Firewall / iptables
+iptables -L                             # List current rules
+iptables -A INPUT -p tcp --dport ssh -j ACCEPT  # Accept SSH traffic
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT   # Accept web traffic
+sudo iptables -A INPUT -j DROP          # Block all other traffice
+iptables -F                             # Flush all rules
+iptables -P INPUT ACCEPT                # 1. Temporarily disable firewall
+iptables -P OUTPUT ACCEPT               # 2. Temporarily disable firewall
+iptables -P FORWARD ACCEPT              # 3. Temporarily disable firewall
+iptables -F                             # 4. Temporarily disable firewall
+
 # Shell communication
 wall                                    # send message to all terminals
 write USER                              # send message to USER
