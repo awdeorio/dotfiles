@@ -299,6 +299,12 @@ else
 fi
 
 
+### Homebrew package manager customization ###################################
+if which brew &> /dev/null; then
+  export HOMEBREW_NO_AUTO_UPDATE=1
+fi
+
+
 ### Bash-completion ###########################################################
 if which brew &>/dev/null && [[ -f $(brew --prefix)/etc/bash_completion ]]; then
   # OS X
