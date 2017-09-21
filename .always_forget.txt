@@ -313,6 +313,11 @@ wget \
 # HTTPie
 http localhost:8000/api/                # GET
 http -f POST localhost:8000/api K=V     # POST JSON with key K = value V
+curl --cookie-jar cookies.txt --form ...# login
+COOKIE=`grep localhost cookies.txt | awk '{print $NF}'`  # cookie
+http --session=./session.json URL \     # Create a new session with HTTPie
+  "Cookie: login=${COOKIE}"
+http --session=./session.json URL       # Use existing session with HTTPie
 
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
