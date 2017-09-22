@@ -312,7 +312,8 @@ wget \
 
 # HTTPie
 http localhost:8000/api/                # GET
-http -f POST localhost:8000/api K=V     # POST JSON with key K = value V
+http POST localhost:8000/api K=V        # POST JSON with key K = value V
+http POST localhost:8000/api K:='{"K":"V"}' # Escaped JSON value
 curl --cookie-jar cookies.txt --form ...# login
 COOKIE=`grep localhost cookies.txt | awk '{print $NF}'`  # cookie
 http --session=./session.json URL \     # Create a new session with HTTPie
