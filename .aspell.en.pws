@@ -1,4 +1,4 @@
-personal_ws-1.1 en 208 
+personal_ws-1.1 en 209 
 structs
 microbenchmarks
 DDR
@@ -131,6 +131,7 @@ debuggability
 SimpleScalar
 CUDA's
 Verilog
+deburring
 Farmington
 location's
 scalability
@@ -152,8 +153,8 @@ among
 traveller's
 pm
 UTMI
-NMI
 PCI
+NMI
 LVP
 ABC
 NoC
