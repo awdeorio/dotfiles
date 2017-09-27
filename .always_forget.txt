@@ -1355,6 +1355,9 @@ C_INCLUDE_PATH
 CPLUS_INCLUDE_PATH
 MANPATH
 
+# gdb, lldb
+# Cheat sheet https://lldb.llvm.org/lldb-gdb.html
+
 # GNU Make
 make                                    # Build the first target in Makefile
 make -f FILE                            # Use FILE as Makefile
