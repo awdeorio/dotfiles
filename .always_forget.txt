@@ -1617,6 +1617,10 @@ psql -c QUERY                           # Execute QUERY
 psql -a [--echo-all]                    # Echo all input commands and queries
 psql -U DB_USER -h DB_HOST -d DB_NAME   # connect using a TCP connection
 sudo -u postgres psql                   # Start shell, Ubuntu
+PGPASSWORD=${DB_PASSWORD} psql          # Specify password at CLI
+psql -d DB                              # Specify database at CLI
+psql -U USERNAME                        # Specify username at CLI
+psql -h HOST                            # Specify host at CLI
 createdb DB                             # Create database
 dropdb --echo DB                        # Drop a database, verbose
 createuser USER                         # Create user
