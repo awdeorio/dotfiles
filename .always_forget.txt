@@ -1570,6 +1570,9 @@ webpack                                 # build front end
 webpack --watch                         # continuously build front end
 webpack --display-error-details         # debug frontend build
 
+# npm
+npm update PACKAGE --save               # Upgrade one package
+
 # Update all dependencies in package.json
 npm install --global npm-check-updates
 npm-check-updates --upgrade
