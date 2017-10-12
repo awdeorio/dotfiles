@@ -1914,6 +1914,10 @@ git config branch.autosetuprebase always
 git config branch.develop.rebase true
 git config branch.autosetuprebase always
 
+# Sub modules (a subdir that is another repo)
+git clone --recursive                   # Clone a repo with submodules
+git submodule update --init             # Use if you forgot --recursive
+
 # Tarballs
 git archive --format tar.gz HEAD > file.tar.gz
 git archive --format tar.gz --prefix PREFIX/ --output FILE.tar.gz master
