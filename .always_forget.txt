@@ -739,6 +739,7 @@ grep -o                                 # only print the matched pattern
 grep -v                                 # invert match
 grep -A10                               # print match + 10 lines after
 grep -B10                               # print match + 10 lines before
+grep -10                                # same as grep -A10 -B10
 grep -a -b -B100 -A100 phrase /dev/sda3 # recover deleted files
 egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
 # grep for tab in bash: Ctrl-V TAB
@@ -748,6 +749,14 @@ fgrep                                   # fixed patterns (no regex), faster
 pcregrep                                # Perl Compatible Regex
 grep -P                                 # Perl regex
 ptargrep                                # grep files insize a tarball
+
+# The Silver Searcher
+# https://github.com/ggreer/the_silver_searcher
+# brew install the_silver_searcher
+ag PATTERN                              # search for PATTERN
+ag --list-file-types                    # supported filetype-specific searches
+ag --python                             # filetype-specific search
+
 
 # sed
 sed -rn '/PATTERN/p'                    # grep work-a-like
