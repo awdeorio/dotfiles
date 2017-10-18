@@ -108,9 +108,10 @@ find . | xargs grep -H PATTERN          # find + grep, grep will print filenames
 find . -print0 | xargs -0 CMD           # handle spaces in filenames
 find . | xargs -n1 CMD                  # process files one at a time
 locate hello.txt                        # search system database for hello.txt
-grep -r SEARCH .                        # recursively search file content
-grep -rI SEARCH .                       # ^^^ ignoring binary files
-git grep SEARCH                         # recursively search git-controled files
+grep -r PATTERN .                       # recursively search file content
+grep -rI PATTERN .                      # ^^^ ignoring binary files
+git grep PATTERN                        # recursively search git-controled files
+ag PATTERN                              # The Silver Searcher, see section below
 
 # Superuser permissions
 su                                      # switch user to root
