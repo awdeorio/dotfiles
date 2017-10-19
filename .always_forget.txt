@@ -1460,6 +1460,9 @@ python -m unittest MODULE               # Run all tests in MODULE
 python -m unittest MODULE.CLASS         # Run all tests in CLASS
 python -m unittest MODULE.CLASS.FXN     # Run one test function
 
+# Python pytest CLI
+pytest FILE::FUNCTION_NAME              # Run one unit test
+
 # Start a Jupyter (formerly IPython) Notebook server on a remote server
 jupyter-notebook --ip 0.0.0.0 --no-browser
 
