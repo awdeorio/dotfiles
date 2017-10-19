@@ -112,6 +112,7 @@ grep -r PATTERN .                       # recursively search file content
 grep -rI PATTERN .                      # ^^^ ignoring binary files
 git grep PATTERN                        # recursively search git-controled files
 ag PATTERN                              # The Silver Searcher, see section below
+ag PATTERN --color | less -r
 
 # Superuser permissions
 su                                      # switch user to root
