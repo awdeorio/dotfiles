@@ -1186,7 +1186,7 @@ dseditgroup -o edit -u USER1 -p -a USER2 -t user GROUP # Add USER2 to GROUP
 brew update
 brew upgrade
 brew cleanup
-brew cask list | xargs brew cask install --force
+brew cask list | xargs brew cask reinstall
 brew cask cleanup
 pip2 install --upgrade pip setuptools wheel
 pip3 install --upgrade pip setuptools wheel
