@@ -2001,3 +2001,6 @@ rev <<< "go hang a salami im a lasagna hog" # palindrome
 figlet STRING                          # print ascii bubble text
 lolcat                                 # rainbow colors (gem install lolcat)
 curl http://wttr.in/ann_arbor          # ascii weather report
+curl wttr.in/:help                     # ascii weather report help
+curl wttr.in?0                         # ascii weather report, only current
+curl wttr.in?n                         # ascii weather report, narrow width
