@@ -1827,6 +1827,7 @@ git rev-parse --abbrev-ref HEAD         # Current branch
 git describe --dirty                    # Repo is clean or dirty
 git rev-parse master                    # Commit hash of master
 git rev-parse origin/master             # Commit hash of repo's master
+git diff-index --quiet HEAD --          # Return non-zero if repo is dirty
 
 # Versions of a file
 git show REV:FILE                       # Old version of file
