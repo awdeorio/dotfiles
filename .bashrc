@@ -321,7 +321,7 @@ done
 ### Todotxt setup #############################################################
 export TODO_DIR=${HOME}/Dropbox/lists/todo/work
 alias t='todo.sh'
-alias et='e ${HOME}/Dropbox/lists/todo/*/todo.txt'
+alias et='e ${HOME}/Dropbox/scratch.txt ${HOME}/Dropbox/lists/todo/*/todo.txt'
 
 # todo toggle
 # switches default todo list
