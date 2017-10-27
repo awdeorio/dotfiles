@@ -41,6 +41,7 @@ alias grip='grip --norefresh --browser'
 #NOTE: see later for ls options
 alias whatismyip='curl ipinfo.io/ip'
 alias weather='curl http://wttr.in/ann_arbor?Tn1'
+alias weather3='curl http://wttr.in/ann_arbor?Tn | less'
 
 # OSX
 if [ -d /Applications/Meld.app ]; then
