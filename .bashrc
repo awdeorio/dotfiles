@@ -40,7 +40,7 @@ alias R='R --quiet --no-save'
 alias grip='grip --norefresh --browser'
 #NOTE: see later for ls options
 alias whatismyip='curl ipinfo.io/ip'
-alias weather='curl http://wttr.in/ann_arbor?0'
+alias weather='curl http://wttr.in/ann_arbor?Tn1'
 
 # OSX
 if [ -d /Applications/Meld.app ]; then
