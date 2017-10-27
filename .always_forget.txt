@@ -633,6 +633,7 @@ rsync -v                               # verbose
 rsync -z                               # compress
 rsync -P                               # progress bar
 rsync -rvt                             # copy to/from USB stick
+rsync --filter=':- .gitignore'         # don't copy files ignored by git
 ftp HOST                               # FTP
 lftp HOST                              # FTP with extra features
 sftp HOST                              # FTP over SSH
