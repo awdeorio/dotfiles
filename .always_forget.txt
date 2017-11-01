@@ -1555,7 +1555,7 @@ git push --tags origin master
 # Deploy to PyPI
 $EDITOR ~/.pypirc                       # Update password
 export DISTUTILS_DEBUG="true"           # Debug submission to PyPI
-python setup.py sdist upload -r pypi
+python3 setup.py sdist upload -r pypi
 # Browse to https://pypi.python.org/pypi/mailmerge
 
 
