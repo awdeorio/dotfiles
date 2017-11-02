@@ -1036,6 +1036,7 @@ tar -xvjf DIR.tar.bz2                   # decompress directory
 tar -xvjOf DIR.tar.bz2                  # cat tarball files to stdout
 tar -tvjf DIR.tar.bz2                   # list contents of tarball
 tar -xvjf DIR.tar.bz2 FILE              # extract FILE from tarball
+tar --disable-copyfile                  # avoid random dot files on OSX
 zip -r DIR DIR                          # create DIR.zip archive
 zip --encrypt -r DIR DIR                # create encrypted zip archive
 bzip2 FILE.bz2                          # compress a single file
