@@ -8,6 +8,8 @@
 adduser USER                            # add USER (Debian)
 adduser --disabled-password --gecos ""  # ^^^ scriptable
 adduser USER GROUP                      # add USER to GROUP (Debian)
+adduser --system --no-create-home --uid 8000 blueflow  # add daemon user
+groupadd --system --gid 8000 nogroup    # add daemon group
 useradd USER                            # add USER, native binary
 useradd -m -G users,wheel -s /bin/bash USER # add new USER manually
 useradd --system                        # no homedir, no passwd, can't log in
