@@ -80,7 +80,7 @@ stat FILE                               # file modification times, etc.
 touch FILE                              # create empty file, if it doesn't exist
 touch FILE                              # update mtime, atime to NOW
 
-# Paths
+# Paths and files
 pwd                                     # current directory
 pwd -P                                  # current directory, absolute path
 readlink -f PATH                        # absolute path (GNU only)
@@ -95,6 +95,12 @@ popd                                    # pop dir off stack and cd there (bash)
 dirs -v                                 # print stack (bash)
 cd ~2                                   # cd to 2nd dir on stack
 cp FILE ~2                              # use ~2 as an alias for a DIR
+
+# Paths and executables
+which CMD                               # print path to CMD
+whereis CMD                             # print all paths to CMD
+export PATH=$PATH:NEW_DIR               # add new directory to PATH (bash)
+type -a CMD                             # include shell functions/aliases (bash)
 
 # Finding files
 find . -name hello.txt                  # find hello.txt, starting at PWD
@@ -181,12 +187,6 @@ cat /proc/<PID>/environ | tr '\000' '\n'# inspect environment of running proc
 15 TERM SIGTERM  software termination signal; "polite shutdown request"
    EXIT          program exit, any exit code (pseudo-signal, bash only)
    ERR           program exit, non-zero (pseudo-signal, bash only)
-
-# Paths
-which CMD                               # print path to CMD
-whereis CMD                             # print all paths to CMD
-export PATH=$PATH:NEW_DIR               # add new directory to PATH (bash)
-type -a CMD                             # include shell functions/aliases (bash)
 
 # Manual network configuration (DHCP)
 killall dhcpcd
@@ -769,7 +769,6 @@ ag PATTERN                              # search for PATTERN
 ag --list-file-types                    # supported filetype-specific searches
 ag --python                             # filetype-specific search
 
-
 # sed
 sed -rn '/PATTERN/p'                    # grep work-a-like
 sed -r                                  # use extended regex
@@ -824,18 +823,9 @@ rev                                     # reverse order of characters
 paste                                   # print two files side-by-side
 paste <(CMD1) <(CMD2) | column -t       # compare the output of two commands
 tr "\r\n" "\n"  FILE                    # convert line endings to UNIX
-fromdos                                 # convert line endings to UNIX
-dos2unix                                # convert line endings to UNIX (old)
 tr -d '[:space:]'                       # remove whitespace
 tr -d -c ',\n' | awk '{print length}'   # count commas
 shuf                                    # shuffle lines
-file FILE                               # determine encoding of FILE
-file --mime FILE                        # determine encoding of FILE
-iconv -f UTF-8 -t ASCII//TRANSLIT       # convert UTF8 to ASCII
-recode UTF8..ASCII FILE                 # convert UTF8 to ASCII
-recode ../CR-LF FILE                    # Convert newlines from Unix to DOS
-recode ../Base64 FILE                   # Convert to base64
-recode utf8/Base64..ASCII FILE          # Convert uft8/base64 to ASCII
 head                                    # first 10 lines
 head -n2                                # first 2 lines
 head -n-2                               # all but last 2 lines
@@ -854,6 +844,20 @@ sort -k1-2                              # sort on columns 1 and 2
 sort -k1 -t,                            # sort on col 1, comma-delimited
 /usr/share/dict/words                   # All the words in the dictionary
 shuf -n1 /usr/share/dict/words          # random word
+
+# File types and file conversion
+file FILE                               # determine encoding of FILE
+file --mime FILE                        # determine encoding of FILE
+iconv -f UTF-8 -t ASCII//TRANSLIT       # convert UTF8 to ASCII
+recode UTF8..ASCII FILE                 # convert UTF8 to ASCII
+recode ../CR-LF FILE                    # Convert newlines from Unix to DOS
+recode ../Base64 FILE                   # Convert to base64
+recode utf8/Base64..ASCII FILE          # Convert uft8/base64 to ASCII
+fromdos                                 # convert line endings to UNIX
+dos2unix                                # convert line endings to UNIX (old)
+pandoc -t gfm X.html -o X.md            # HTML to GitHub flavored markdown
+convert X.jpg X.png                     # JPG to PNG
+in2csv X.xls > X.csv                    # XLS to CSV
 
 # CSV files
 cat FILE| head -n1| tr ',' '\n'         # column labels
