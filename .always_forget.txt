@@ -98,6 +98,7 @@ cp FILE ~2                              # use ~2 as an alias for a DIR
 
 # Paths and executables
 which CMD                               # print path to CMD
+which -a CMD                            # print all paths to CMD (GNU)
 whereis CMD                             # print all paths to CMD
 export PATH=$PATH:NEW_DIR               # add new directory to PATH (bash)
 type -a CMD                             # include shell functions/aliases (bash)
