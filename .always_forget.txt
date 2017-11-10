@@ -1320,6 +1320,9 @@ journalclt --no-pager                   # output for piping
 journalctl -o json                      # output in JSON format
 journalctl -o json-pretty               # output in JSON format
 
+# Nginx
+nginx -t                                # Check syntax of nginx config
+
 # RabbitMQ
 rabbitmqctl list_users                  # list users
 rabbitmqctl list_permissions            # list permissions for all users
@@ -1667,9 +1670,11 @@ psql -U USERNAME                        # Specify username at CLI
 psql -h HOST                            # Specify host at CLI
 createdb DB                             # Create database
 dropdb --echo DB                        # Drop a database, verbose
+psql -c 'SELECT usename FROM pg_user;'  # List users
 createuser USER                         # Create user
 createuser USER --createdb              # Create user with create DB permissions
 createuser USER --superuser             # Create superuser
+psql -c "ALTER ROLE user WITH PASSWORD 'password'"  # Change password
 dropuser --echo USER                    # Remove a user, verbose
 pg_dump DB -f FILE.sql                  # Dump database to file
 pg_dump -t TABLE DB > FILE.sql          # Dump one table to file
