@@ -42,6 +42,7 @@ alias grip='grip --norefresh --browser'
 alias whatismyip='curl ipinfo.io/ip'
 alias weather='curl http://wttr.in/ann_arbor?Tn1'
 alias weather3='curl http://wttr.in/ann_arbor?Tn | less'
+alias vboxmanage=VBoxManage
 
 # OSX
 if [ -d /Applications/Meld.app ]; then
