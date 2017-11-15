@@ -46,8 +46,8 @@ alias vboxmanage=VBoxManage
 
 # OSX
 if [ -d /Applications/Meld.app ]; then
-  alias meld='open -a /Applications/Meld.app --args'
-  alias chrome='open -a "/Applications/Google Chrome.app" --args'
+  alias meld='open -a Meld --args'
+  alias chrome='open -a "Google Chrome" --args'
   alias google-chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 fi
 
