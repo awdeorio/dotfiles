@@ -292,6 +292,7 @@ html5validator --root DIR               # HTML5/W3C validator
 webkit2png https://google.com           # Screenshot web page
 webkit2png google.htm                   # Screenshot saved web page
 ls *.html | xargs -n1 webkit2png        # Screenshot many saved web pages
+speedtest                               # Test upload and download speeds
 
 # Curl: log in with cookies
 curl \
