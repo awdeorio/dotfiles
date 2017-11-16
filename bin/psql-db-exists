@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Check if a postgres database exists
+set -e
+
+# Check args
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 DATABASE"
+  exit 1
+fi
+DATABASE="${1}"
+
+# Switch user on systems that provide a postgres user
+if [ `uname -s` == "Darwin" ]; then
+  SUDO=""
+else
+  SUDO=sudo -Hu postgres
+fi
+
+# Check
+QUERY="SELECT 1 FROM pg_database WHERE datname='${DATABASE}'"
+if [ "`${SUDO} psql postgres -tAc \"${QUERY}\"`" == "1" ]; then
+  echo "$1 exists"
+  exit 0
+else
+  echo "$1 does not exist"
+  exit 1
+fi

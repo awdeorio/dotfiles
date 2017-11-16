@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Check if a postgres user exists
+set -e
+
+# Check args
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 DBUSER"
+  exit 1
+fi
+DBUSER="${1}"
+
+# Switch user on systems that provide a postgres user
+if [ `uname -s` == "Darwin" ]; then
+  SUDO=""
+else
+  SUDO=sudo -Hu postgres
+fi
+
+# Check
+QUERY="SELECT 1 FROM pg_roles WHERE rolname='$DBUSER'"
+if [ "`${SUDO} psql postgres -tAc \"${QUERY}\"`" == "1" ]; then
+  echo "Database user $1 exists"
+  exit 0
+else
+  echo "Database user $1 does not exist"
+  exit 1
+fi
