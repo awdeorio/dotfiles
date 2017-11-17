@@ -1461,6 +1461,10 @@ pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U
 pip install --user virtualenv
 ./.local/bin/virtualenv
 
+# Fancy debugging
+# https://pypi.python.org/pypi/pdbpp/
+$ pip install pdbpp
+
 # Stop and debug
 >>> import pdb; pdb.set_trace();
 
