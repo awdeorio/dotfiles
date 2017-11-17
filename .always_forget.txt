@@ -1068,6 +1068,7 @@ umoount MOUNTPOINT                      # unmount / Darwin
 encfsctl passwd ROOTDIR                 # change password
 md5sum                                  # compute hash
 shasum                                  # compute hash
+shasum -a 256                           # compute hash, SHA256
 openssl                                 # CLI to OpenSSL library
 crypto FILE                             # encrypt to FILE.crypt
 decrypto FILE.crypt                     # decrypt to FILE
