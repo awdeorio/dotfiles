@@ -1261,13 +1261,18 @@ launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 /usr/portage/profiles/use.local.desc
 
 # rpm (Redhat)
-rpm -Uvh foo-1.0-1.i386.rpm             # install a package
-rpm -ev foo.rpm
-rpm -ivh source-package                 # install src in /usr/src/redhat/SOURCES
-                                        # install spec in /usr/src/redhat/SPECS
-rpmbuild -bb thing.spec                 # build rpm
-rpm -Uvh     thing.rpm                  # install rpm
+rpm -vh                                 # verbose, print hash-mark progress bar
+rpm -ivh PACKAGE.rpm                    # install
+rpm -Uvh PACKAGE.rpm                    # upgrade
+rpm -ev PACKAGE.rpm                     # uninstall
 rpm2cpio FILE.rpm | cpio -idmv          # extra files from rpm
+rpmbuild -bp                            # %prep
+rpmbuild -bc                            # %prep, %build
+rpmbuild -bi                            # %prep, %build, %install
+rpmbuild -bl                            # Make sure all %files exist
+rpmbuild -ba                            # Build binary and source packages
+rpmbuild -bs                            # Build only source package
+rpmbuild -bb                            # Build only binary package
 
 # apt (Debian-based systems)
 apt-get install                         # install package
