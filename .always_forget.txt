@@ -1265,6 +1265,8 @@ rpm -vh                                 # verbose, print hash-mark progress bar
 rpm -ivh PACKAGE.rpm                    # install
 rpm -Uvh PACKAGE.rpm                    # upgrade
 rpm -ev PACKAGE.rpm                     # uninstall
+rpm --replacefiles                      # allow overwriting config files
+rpm --force                             # replace files and packages
 rpm2cpio FILE.rpm | cpio -idmv          # extra files from rpm
 rpmbuild -bp                            # %prep
 rpmbuild -bc                            # %prep, %build
