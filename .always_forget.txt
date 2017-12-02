@@ -1264,7 +1264,7 @@ launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 rpm -vh                                 # verbose, print hash-mark progress bar
 rpm -ivh PACKAGE.rpm                    # install
 rpm -Uvh PACKAGE.rpm                    # upgrade
-rpm -ev PACKAGE.rpm                     # uninstall
+rpm -ev PACKAGE                         # uninstall
 rpm --replacefiles                      # allow overwriting config files
 rpm --force                             # replace files and packages
 rpm2cpio FILE.rpm | cpio -idmv          # extra files from rpm
