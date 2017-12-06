@@ -25,7 +25,7 @@ EXCLUDE+=' --exclude GoogleDrive/***'
 EXCLUDE+=' --exclude Dropbox/***'
 
 # Sanity check that this is my laptop
-if [ `hostname` != "manzana.local" ]; then
+if [ `hostname` != "locky.local" ]; then
   echo "Error: \$HOSTNAME=$HOSTNAME"
   exit 1
 fi
