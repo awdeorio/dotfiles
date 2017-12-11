@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# tex2csv
+#
+# Convert a LaTex table to CSV
+
+# Parse command line arguments
+if [ -z "${1}" ]; then
+  echo "Usage: $0 FILE.tex"
+  exit 1
+fi
+TEXFILE="${1}"
+
+# Stop on errors
+set -e
+
+# Convert
+CSVFILE="${TEXFILE%.tex}.csv"
+echo "${TEXFILE} -> ${CSVFILE}"
+detex ${TEXFILE} | sed -r 's/ *& */,/g' > ${CSVFILE}
