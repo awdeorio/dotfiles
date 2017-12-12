@@ -6,17 +6,14 @@
 
 # Don't backup these files
 set -o noglob # bug fix: globbing fucks up the *'s in EXCLUDE
-EXCLUDE+=' --exclude *.vmem'
-EXCLUDE+=' --exclude *.vmdk'
-EXCLUDE+=' --exclude *.vdi'
 EXCLUDE+=' --exclude .Trash/***'
-EXCLUDE+=' --exclude awdeorio/Library/Caches/Google/Chrome/Default/Cache/***'
 EXCLUDE+=' --exclude .dropbox/***'
+EXCLUDE+=' --exclude .vagrant.d/***'
 EXCLUDE+=' --exclude nobackup/***'
-EXCLUDE+=' --exclude virta/medscan/local/***'
+
+# Python Virtual environments
 EXCLUDE+=' --exclude .venv/***'
 EXCLUDE+=' --exclude venv/***'
-EXCLUDE+=' --exclude venv3/***'
 EXCLUDE+=' --exclude env/***'
 
 # Optional
