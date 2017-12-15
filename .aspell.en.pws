@@ -1,4 +1,4 @@
-personal_ws-1.1 en 209 
+personal_ws-1.1 en 210 
 structs
 microbenchmarks
 DDR
@@ -56,6 +56,7 @@ pedagogies
 Chico's
 synthesizable
 GCS's
+executables
 mispredicted
 Ammons
 HDL
@@ -129,9 +130,9 @@ Drew's
 Bennington
 debuggability
 SimpleScalar
+deburring
 CUDA's
 Verilog
-deburring
 Farmington
 location's
 scalability
@@ -153,8 +154,8 @@ among
 traveller's
 pm
 UTMI
-PCI
 NMI
+PCI
 LVP
 ABC
 NoC
