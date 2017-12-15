@@ -8,5 +8,5 @@ VM=$1
 
 set -e  # stop on error
 set -x  # print commands
-VBoxManage controlvm "${VM}" poweroff      # pull plug
+VBoxManage controlvm "${VM}" poweroff || true  # pull plug
 VBoxManage unregistervm "${VM}" --delete   # remove
