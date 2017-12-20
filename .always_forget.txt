@@ -1404,6 +1404,9 @@ MANPATH
 
 # gdb, lldb
 # Cheat sheet https://lldb.llvm.org/lldb-gdb.html
+g++ -g FILE.cpp                         # Compile with debug symbols
+gdb a.out                               # Start gdb
+gdb -tui a.out                          # Start gdb "CLI-based" GUI
 
 # GNU Make
 make                                    # Build the first target in Makefile
