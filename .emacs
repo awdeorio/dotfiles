@@ -10,6 +10,9 @@
 
 ; Required packages
 (require 'redo)
+(require 'gud-lldb)
+
+(setq lldb-show-main t)
 
 ; Custom keyboard shortcuts
 (global-set-key "\C-ci"                             'indent-to)
@@ -250,9 +253,6 @@
    (t (indent-for-tab-command))))
 
 (global-set-key (kbd "TAB") 'clever-hippie-tab)
-
-; Interactive debugging with LLDB
-(load-file "~/.emacs.d/elisp/gud.el")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
