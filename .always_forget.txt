@@ -1486,6 +1486,10 @@ $ pip install pdbpp
 # Start a program in debug mode
 python -m pdb script.py
 
+# Start a program in debug mode, inside emacs
+M-x pdb
+Run pdb (like this): python3 -m pdb FILE.py
+
 # Check style
 pycodestyle                             # PEP8 check
 pydoctyle                               # PEP257 check
