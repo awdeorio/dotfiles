@@ -642,6 +642,14 @@ ftp HOST                               # FTP
 lftp HOST                              # FTP with extra features
 sftp HOST                              # FTP over SSH
 
+# nmap
+nmap HOST                               # what ports are open?  On host.
+nmap 192.168.0.0/24                     # what ports are open?  Many hosts.
+nmap -A                                 # OS, version, script and traceroute
+nmap -T4                                # Limit delay (faster results)
+nmap -sn -PR 192.168.0.0/24             # which hosts are up my subnet?
+nmap -O                                 # OS detection
+
 # Shell scripting
 yes                                     # keep printing "y" over and over
 yes STRING                              # keep printing STRING over and over
