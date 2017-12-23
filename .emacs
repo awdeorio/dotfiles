@@ -5,8 +5,11 @@
 ; installed packages.
 (package-initialize)
 
-; Custom packages go in ~/.elisp
-(setq load-path (append load-path (list (expand-file-name "~/.emacs.d/elisp"))))
+; Custom packages go in ~/.emacs.d/elisp
+; https://www.emacswiki.org/emacs/LoadPath
+(let ((default-directory  "~/.emacs.d/elisp/"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
 
 ; Required packages
 (require 'redo)
