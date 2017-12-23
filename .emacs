@@ -12,8 +12,6 @@
 (require 'redo)
 (require 'gud-lldb)
 
-(setq lldb-show-main t)
-
 ; Custom keyboard shortcuts
 (global-set-key "\C-ci"                             'indent-to)
 (global-set-key "\C-cl"                             'this-line-to-top-of-window)
@@ -31,8 +29,6 @@
 (setq mac-command-modifier 'meta)
 
 ;; Remove scrollbars, menu bars, and toolbars
-; when is a special form of "if", with no else clause, it reads:
-; (when <condition> <code-to-execute-1> <code-to-execute2> ...)
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -89,7 +85,7 @@
 ; Default mode
 (setq default-mode 'fundamental-mode)
 
-; Scroll at bottom of window one line at a time.
+; Smooth scrolling (one line at a time)
 (setq scroll-step 1)
 
 ; Update string in the first 8 lines looking like Time-stamp: <> or " "
