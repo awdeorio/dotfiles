@@ -20,10 +20,6 @@
 (global-set-key "\C-\M-_"                           'redo)
 (global-set-key "\C-c\C-s"                          'search-forward-regexp)
 (global-set-key "\C-c\C-r"                          'search-backward-regexp)
-(global-set-key [f2]                                'compile)
-(global-set-key [f3]                                'next-error)
-(global-set-key [f4]                                'kill-compilation)
-(global-set-key [f5]                                'gud-next)
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
 (global-set-key "\C-c\C-b"                          'browse-url-at-point)
 
