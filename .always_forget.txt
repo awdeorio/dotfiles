@@ -1266,13 +1266,13 @@ launchctl unload  /System/Library/LaunchDaemons/ssh.plist  # stop SSH server
 launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 
 ########################################
-# Other Linux Distros
+# Linux Distro or Package Specifics
 
 # emerge (Gentoo)
 /usr/portage/profiles/use.desc
 /usr/portage/profiles/use.local.desc
 
-# rpm (Redhat)
+# rpm (RedHat)
 rpm -vh                                 # verbose, print hash-mark progress bar
 rpm -ivh PACKAGE.rpm                    # install
 rpm -Uvh PACKAGE.rpm                    # upgrade
@@ -1288,6 +1288,14 @@ rpmbuild -bl                            # Make sure all %files exist
 rpmbuild -ba                            # Build binary and source packages
 rpmbuild -bs                            # Build only source package
 rpmbuild -bb                            # Build only binary package
+
+# SELinux
+sestatus                                # Show status and policy
+tail /var/log/audit/audit.log           # See permission denials
+setsebool -P httpd_can_network_connect 1# Allow HTTP daemon connect to network
+yum install attr                        # Install getfattr
+getfattr -m security.selinux -d FILE    # Show extended attributes of a file
+ls -lZ FILE                             # Show extended attributes of a file
 
 # apt (Debian-based systems)
 apt-get install                         # install package
