@@ -27,9 +27,9 @@
 ;; No more typing the whole yes or no. Just y or n will do.
 (fset 'yes-or-no-p 'y-or-n-p)
 
-; Command key mapped to meta in OSX
-(setq mac-option-modifier 'none)
-(setq mac-command-modifier 'meta)
+; macOS modifier keys
+(setq mac-command-modifier 'meta) ; Command == Meta
+(setq mac-option-modifier 'super) ; Option == Super
 
 ;; Remove scrollbars, menu bars, and toolbars
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
