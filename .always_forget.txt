@@ -1295,7 +1295,9 @@ tail /var/log/audit/audit.log           # See permission denials
 setsebool -P httpd_can_network_connect 1# Allow HTTP daemon connect to network
 yum install attr                        # Install getfattr
 getfattr -m security.selinux -d FILE    # Show extended attributes of a file
-ls -lZ FILE                             # Show extended attributes of a file
+ls -Z FILE                              # Show extended attributes of a file
+chcon -v --type=httpd_sys_content_t     # Give web server access to a dir
+chcon -Rv --type=httpd_sys_content_t    # Give web server access to a dir+files
 
 # apt (Debian-based systems)
 apt-get install                         # install package
