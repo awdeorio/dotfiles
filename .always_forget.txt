@@ -1290,6 +1290,7 @@ rpmbuild -bs                            # Build only source package
 rpmbuild -bb                            # Build only binary package
 
 # SELinux
+# https://wiki.centos.org/HowTos/SELinux
 sestatus                                # Show status and policy
 tail /var/log/audit/audit.log           # See permission denials
 setsebool -P httpd_can_network_connect 1# Allow HTTP daemon connect to network
