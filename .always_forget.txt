@@ -1272,7 +1272,7 @@ launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 /usr/portage/profiles/use.desc
 /usr/portage/profiles/use.local.desc
 
-# rpm (RedHat)
+# rpm (RedHat and derivatives)
 rpm -vh                                 # verbose, print hash-mark progress bar
 rpm -ivh PACKAGE.rpm                    # install
 rpm -Uvh PACKAGE.rpm                    # upgrade
@@ -1288,6 +1288,13 @@ rpmbuild -bl                            # Make sure all %files exist
 rpmbuild -ba                            # Build binary and source packages
 rpmbuild -bs                            # Build only source package
 rpmbuild -bb                            # Build only binary package
+
+# yum (RedHat and derivatives)
+yum update                              # Update repository
+yum install PACKAGE                     # Install PACKAGE system-wide
+yum install yum-utils                   # Install dev tools, step 1
+yum groupinstall development            # Install dev tools, step 2
+yum install epel-release                # Extra Packages for Enterprise Linux
 
 # SELinux
 # https://wiki.centos.org/HowTos/SELinux
