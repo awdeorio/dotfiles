@@ -282,6 +282,7 @@ curl --data "query=aa" http://localhost:5000/query # send POST request
 curl -H "Content-type: application/json" \         # POST JSON
      -X POST http://127.0.0.1:5000/ \
      -d '{"message":"Hello Data"}'
+curl --user-agent "Mozilla/5.0"         # Fake the user agent
 curl ifconfig.me                        # what is my IP address?
 curl ipinfo.io/ip                       # what is my IP address?
 httping HOST:PORT                       # check if an HTTP server is up
