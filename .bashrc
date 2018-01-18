@@ -18,7 +18,7 @@ umask 002
 
 
 ### Aliases ###################################################################
-alias g="git"
+# NOTE: emacs, git, ls, and less  aliases appear later
 alias du="du -sh"
 alias dusort="command du -s * .* | sort -n"
 alias df="df -h"
@@ -38,18 +38,24 @@ alias dftp='ssh -R 19999:localhost:22'
 function dftp-get { command scp -r -P19999 "$@" localhost: ; }
 alias R='R --quiet --no-save'
 alias grip='grip --norefresh --browser'
-#NOTE: see later for ls options
 alias whatismyip='curl ipinfo.io/ip'
 alias weather='curl http://wttr.in/ann_arbor?Tn1'
 alias weather3='curl http://wttr.in/ann_arbor?Tn | less'
 alias vboxmanage=VBoxManage
+alias et='e ${HOME}/Dropbox/scratch.txt ${HOME}/Dropbox/lists/todo/*/todo.txt'
 
 # OSX
 if [ -d /Applications/Meld.app ]; then
   alias meld='open -a Meld --args'
+fi
+if which mdfind &> /dev/null; then
+  alias locate='mdfind -name'
+fi
+if test -d /Applications/Google\ Chrome.app; then
   alias chrome='open -a "Google Chrome" --args'
   alias google-chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 fi
+
 
 ### Editor ####################################################################
 export EDITOR=emacs
@@ -83,12 +89,6 @@ if gpg --list-secret-keys awdeorio &> /dev/null; then
   gpgconf --launch gpg-agent
   export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 fi
-
-# Configure Password Store
-# https://www.passwordstore.org/
-# http://www.tricksofthetrades.net/2015/07/04/notes-pass-unix-password-manager/
-export PASSWORD_STORE_DIR=${HOME}/Dropbox/password-store
-export PASSWORD_STORE_CLIP_TIME=45
 
 
 ### Path stuff ################################################################
@@ -143,9 +143,11 @@ fi
 [ -d ${CPATH} ]              && export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${CPATH}
 [ -d ${HOME}/local/man ]     && export MANPATH=${HOME}/local/man:${MANPATH}
 
-# OS X GNU Coreutils
+# OSX GNU Coreutils
 path-prepend /usr/local/opt/coreutils/libexec/gnubin
-[ -d /usr/local/opt/coreutils/libexec/gnuman ] && export MATHPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+if [ -d /usr/local/opt/coreutils/libexec/gnuman ]; then
+  export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+fi
 
 # local perl module installs
 if [ -d ${HOME}/local/lib/perl5 ]; then
@@ -168,9 +170,6 @@ fi
 export PYTHONSTARTUP=~/.pythonrc.py
 path-prepend /usr/local/opt/sqlite/bin
 
-# local Ruby
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
 # CCache
 path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
 
@@ -191,16 +190,6 @@ alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude 
 function ff() { 
     find . -type f -iwholename '*'$*'*' ;
 }
-
-# Find a file with pattern $1 in name and Execute $2 on it:
-function fe() {
-  find . -type f -iname '*'$1'*' -exec "${2:-file}" {} \;  ;
-}
-
-# Alias for locate on OSX
-if [ `uname` = "Darwin" ]; then
-  alias locate='mdfind -name'
-fi
 
 
 ### Printing ##################################################################
@@ -318,23 +307,6 @@ fi
 for F in `find ${HOME}/.bash_completion.d/ -type f`; do
   source $F
 done
-
-### Todotxt setup #############################################################
-export TODO_DIR=${HOME}/Dropbox/lists/todo/work
-alias t='todo.sh'
-alias et='e ${HOME}/Dropbox/scratch.txt ${HOME}/Dropbox/lists/todo/*/todo.txt'
-
-# todo toggle
-# switches default todo list
-function tt {
-  TODO_DIRS=(`ls -d Dropbox/lists/todo/*/`)
-  NEW_DIR_IDX=0
-  if [ "$TODO_DIR" == "${TODO_DIRS[$NEW_DIR_IDX]}" ]; then
-    NEW_DIR_IDX=1;
-  fi
-  echo "TODO_DIR=${TODO_DIRS[$NEW_DIR_IDX]}"
-  export TODO_DIR="${TODO_DIRS[$NEW_DIR_IDX]}";
-}
 
 
 # Clear History at the very end
