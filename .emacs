@@ -1,10 +1,6 @@
 ; .emacs
 ; awdeorio's emacs customizations
 
-; Added by Package.el.  This must come before configurations of
-; installed packages.
-(package-initialize)
-
 ; Custom packages go in ~/.emacs.d/elisp
 ; https://www.emacswiki.org/emacs/LoadPath
 (let ((default-directory  "~/.emacs.d/elisp/"))
@@ -71,9 +67,8 @@
 (global-font-lock-mode                         t) ; show syntax highlighting
 (setq-default transient-mark-mode              t) ; highlight marked regions
 (show-paren-mode                               t) ; parentheses matching
-
-; Window title is name of buffer
-(setq frame-title-format "%b")
+(setq-default truncate-lines                   t) ; truncate long lines
+(setq frame-title-format "%b")                    ; Window title = buffer name
 
 ; Disable pop-up boxes in the GUI
 (defadvice yes-or-no-p (around prevent-dialog activate)
@@ -109,27 +104,7 @@
 ; (setq browse-url-generic-program (executable-find "google-chrome") ; Linux
 ;       browse-url-browser-function 'browse-url-generic)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(case-fold-search t)
- '(current-language-environment "English")
- '(mouse-wheel-mode t nil (mwheel))
- '(mouse-yank-at-point t)
- '(package-selected-packages
-   (quote
-    (json-mode markdown-mode matlab-mode)))
- '(truncate-lines t)
- '(uniquify-buffer-name-style nil nil (uniquify)))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(setq-default truncate-lines t)
 
 ; Emacs Package Manager
 (require 'package)
