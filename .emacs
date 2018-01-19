@@ -98,6 +98,9 @@
 (defvaralias 'sh-basic-offset 'tab-width)
 (defvaralias 'sh-indentation 'tab-width)
 
+; Automatically close parentheses, braces, etc.
+(electric-pair-mode 1)
+
 ; Default browser
 (setq browse-url-generic-program (executable-find "open") ; OSX
       browse-url-browser-function 'browse-url-generic)
