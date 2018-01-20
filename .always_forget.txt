@@ -758,9 +758,11 @@ bg                                      # Restart command in background
 # grep
 grep PATTERN                            # search for pattern
 grep -E PATTERN                         # extended regex
+grep -E '(PATTERN1|PATTERN2)'           # two patterns
 egrep PATTERN                           # extended regex
 grep -o                                 # only print the matched pattern
 grep -v                                 # invert match
+grep -Ev '(PATTERN1|PATTERN2)'          # invert two matches
 grep -A10                               # print match + 10 lines after
 grep -B10                               # print match + 10 lines before
 grep -10                                # same as grep -A10 -B10
