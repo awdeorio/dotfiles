@@ -190,6 +190,14 @@ cat /proc/<PID>/environ | tr '\000' '\n'# inspect environment of running proc
    EXIT          program exit, any exit code (pseudo-signal, bash only)
    ERR           program exit, non-zero (pseudo-signal, bash only)
 
+# Environment
+env                                     # List environment variables
+env -i CMD                              # Run CMD with empty environment
+echo $PATH                              # Command search path
+echo $PS1                               # Shell prompt
+echo $LD_LIBRARY_PATH                   # run time library resolution
+echo $MANPATH                           # man search dirs
+
 # Manual network configuration (DHCP)
 killall dhcpcd
 ifconfig eth1 down
@@ -1432,13 +1440,14 @@ g++ -E FILE.cpp -o FILE.ii              # stop after preprocessing
 g++ -S FILE.ii -o FILE.s                # stop after compilation proper
 g++ -c FILE.s -o FILE.o                 # stop after assembling
 g++ FILE.o -o FILE                      # stop after linking (all done!)
-LIBARY_PATH                             # environment vars for tool installs
-LD_LIBRARY_PATH
-LD_RUN_PATH
-CPATH
-C_INCLUDE_PATH
-CPLUS_INCLUDE_PATH
-MANPATH
+echo $LD_LIBRARY_PATH                   # run time library resolution
+echo $LIBARY_PATH                       # gcc static library search path
+echo $LD_RUN_PATH                       # gcc link time library resolution
+echo $CPATH                             # gcc search path, as in -I
+echo $C_INCLUDE_PATH                    # ^^^ for C
+echo $CPLUS_INCLUDE_PATH                # ^^^ for C++
+pmd cpd --language cpp --minimum-tokens 50 --files *.cpp  # Code duplication
+oclint *.cpp                            # Style
 
 # gdb, lldb
 # Cheat sheet https://lldb.llvm.org/lldb-gdb.html
