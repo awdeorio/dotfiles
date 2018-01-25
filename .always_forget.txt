@@ -122,6 +122,7 @@ grep -rI PATTERN .                      # ^^^ ignoring binary files
 git grep PATTERN                        # recursively search git-controled files
 ag PATTERN                              # The Silver Searcher, see section below
 ag PATTERN --color | less -r
+ag -l                                   # Filenames only
 
 # Superuser permissions
 su                                      # switch user to root
@@ -294,6 +295,11 @@ webkit2png https://google.com           # Screenshot web page
 webkit2png google.htm                   # Screenshot saved web page
 ls *.html | xargs -n1 webkit2png        # Screenshot many saved web pages
 speedtest                               # Test upload and download speeds
+
+# Echo server
+npm install --global http-echo-server   # Install
+http-echo-server                        # Run
+http POST localhost:56406 key=value     # Test
 
 # Curl: log in with cookies
 curl \
