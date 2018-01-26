@@ -1423,9 +1423,10 @@ vagrant ssh                             # connect to VM
 vagrant ssh-config                      # list SSH configuration
 vagrant halt                            # halt VM
 vagrant reload                          # reboot VM
-VAGRANT_VAGRANTFILE=Vagrantfile2 vagrant up # alternate Vagrantfile
 vagrant global-status                   # all VMs on this machine
 vagrant global-status --prune           # remove machines whose configs are gone
+VAGRANT_VAGRANTFILE=Vagrantfile2        # alternate Vagrantfile
+VAGRANT_DOTFILE_PATH=/path/to/.vagrant  # useful together with ^^^
 
 # C++ tools
 g++ -g                                  # compile with debug support
