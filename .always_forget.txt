@@ -1893,6 +1893,7 @@ git push                                # push the commit(s) to server
 
 # Undo
 git checkout FILE                       # revert FILE to last checked-in version
+git reset PATH                          # undo git add
 git reset --soft                        # changes to tracked files are discarded
 git reset --soft HEAD~                  # discard commits that aren't pushed
 git reset --hard                        # reset head to COM, files unchanged
