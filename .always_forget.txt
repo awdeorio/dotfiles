@@ -817,7 +817,8 @@ sed -nr 's/@@  ([0-9]+\.?[0-9]*) ns total time to execute/\1/p'
 sed '1s/before/after/'                  # replace first line
 sed -rn "s/^.*(PATTERN1).*(PATTERN2).*$/\1\t\2/p" # extract two fields
 tac | sed -n '1,/PATTERN/p' | tac       # print from last match to end of file
-sed '/PATTERN1/s/PATTERN2/PATTERN3/'    # Match P1, then apply query-replace
+sed '/PATTERN1/s/PATTERN2/PATTERN3/'    # match P1, then apply query-replace
+perl -0pe 's/QUERY/REPLACE/sm'          # multiline regex query-replace
 
 # awk
 awk '/Iowa/,/Montana/'                  # print lines between Iowa & Montana
@@ -1498,6 +1499,8 @@ perl -V                                 # debug environment
 PERL5LIB                                # environment variable for tool installs
 cpan -i PACKAGE                         # install package
 perl -pe 's/\\\\n/ /'                   # remove continuation lines (backslash)
+perl -0pe 's/QUERY/REPLACE/sm'          # multiline regex query-replace
+perl -i -pe                             # edit in place (like sed -i)
 
 
 ########################################
