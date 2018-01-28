@@ -60,14 +60,20 @@ fi
 ### Editor ####################################################################
 export EDITOR=emacs
 alias e=$EDITOR
+
 function emacs {
-  # Make emacs start in the background, change window title
+  # Make emacs start in the background on GUIs
   if [ "$1" == "-nw" ]; then
+    # -nw option takes precedence
     command emacs "$@"
-    return
-  elif [ `uname` = "Darwin" ]; then
+  elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    # Don't try to use GUI on SSH connections
+    command emacs -nw "$@"
+  elif [ -e /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
+    # OSX GUI
     /Applications/Emacs.app/Contents/MacOS/Emacs "$@" &
   elif [ "$DISPLAY" ] || [ "$OS" = "Windows_NT" ]; then
+    # Linux and Cygwin GUI
     command nohup emacs "$@" &
   else
     # for console
