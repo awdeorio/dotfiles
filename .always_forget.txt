@@ -79,6 +79,8 @@ dircolors -b ${HOME}/.DIR_COLORS        # ^^^ with custom colors
 stat FILE                               # file modification times, etc.
 touch FILE                              # create empty file, if it doesn't exist
 touch FILE                              # update mtime, atime to NOW
+ln -s FILE1 FILE2                       # create soft link
+ln -s -t DIR FILE                       # create soft link in DIR
 
 # Paths and files
 pwd                                     # current directory
