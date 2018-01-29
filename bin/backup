@@ -16,6 +16,9 @@ EXCLUDE+=' --exclude .venv/***'
 EXCLUDE+=' --exclude venv/***'
 EXCLUDE+=' --exclude env/***'
 
+# Virtual machines
+EXCLUDE+=' --exclude *.vmdk'
+
 # Optional
 EXCLUDE+=' --exclude Library/***'
 EXCLUDE+=' --exclude GoogleDrive/***'
