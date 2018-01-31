@@ -1234,6 +1234,7 @@ dseditgroup -o create -u USER -p GROUP  # create GROUP
 dseditgroup -o edit -u USER1 -p -a USER2 -t user GROUP # Add USER2 to GROUP
 
 # Upgrade procedure
+# Do this on primary laptop, backup laptop, and desktop
 brew update
 brew upgrade
 brew cleanup
@@ -1243,6 +1244,8 @@ pip2 install --upgrade pip setuptools wheel
 pip3 install --upgrade pip setuptools wheel
 softwareupdate --list
 softwareupdate -i -a
+cd ~ && git fetch -p && git rebase      # update Git-controlled dot files
+backup                                  # primary laptop only
 
 # Wifi management
 ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/sbin
