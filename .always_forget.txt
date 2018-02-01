@@ -1917,6 +1917,14 @@ git stash                               # stash current modifications on stack
 git stash list                          # view stash stack
 git stash pop                           # "unstash" top of stack
 
+# Commit only part of a file
+# https://stackoverflow.com/questions/1085162/commit-only-part-of-a-file-in-git
+git add --patch FILE                    # stage part of a file for commit
+git add -N                              # if file isn't in repo, do this first
+git diff --staged                       # check that you staged correct changes
+git reset -p                            # unstage mistakenly added hunks
+git commit -v                           # view commit while you edit commit msg
+
 # Ignore some files (don't version them)
 echo '*~' > .gitignore                  # ignore emacs backup files
 git add .gitignore                      # git should track ignore file itself
@@ -1931,7 +1939,7 @@ git log --oneline --decorate --graph --all # more info
 git log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold blue)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 git reflog -10                          # See last 10 actions
 
-# Idenitfying commits
+# Identifying commits
 git rev-parse --abbrev-ref HEAD         # Current branch
 git describe --dirty                    # Repo is clean or dirty
 git rev-parse master                    # Commit hash of master
