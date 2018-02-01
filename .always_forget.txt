@@ -1450,31 +1450,42 @@ echo $CPATH                             # gcc search path, as in -I
 echo $C_INCLUDE_PATH                    # ^^^ for C
 echo $CPLUS_INCLUDE_PATH                # ^^^ for C++
 
-# valgrind dynamic analysis
+# Debug with gdb
 g++ -g                                  # compile
-valgrind -v --leak-check=full ./a.out   # check for memory errors
+gdb ./a.out                             # run
+gdb -tui ./a.out                        # run, "CLI-based" GUI
 
-# gcov coverage
+# Debug with lldb
+# Cheat sheet https://lldb.llvm.org/lldb-gdb.html
+g++ --version                           # verify that g++ is really clang
+g++ -g                                  # compile
+lldb ./a.out                            # run
+
+# Dynamic analysis with valgrind
+g++ -g                                  # compile
+valgrind -v --leak-check=full ./a.out   # run
+
+# Static analysis
+pmd cpd --language cpp --minimum-tokens 50 --files *.cpp  # code duplication
+oclint *.cpp                            # style
+
+# Profile with gprof
+g++ -pg                                 # compile
+gprof ./a.out gmon.out > analysis.txt     # analyze
+
+# Profile with perf
+g++ -g                                  # compile
+perf record -g ./a.out                  # run
+perf report                             # analyze
+
+# Coverage with gcov
 # To measure coverage of a suite of unit and system tests, be sure to compile
 # using the separate compilation model.
+g++ --version                           # verify that g++ is GNU, not clang
 g++ -g --coverage FILE.cpp              # compile
 ./a.out                                 # run
 gcov FILE.cpp                           # analyze
 grep '^#####' test.cpp.gcov             # show lines that didn't execute
-
-# gprof profiling
-g++ -pg                                 # compile with profiling support
-gprof a.out gmon.out > analysis.txt     # profile
-
-# gdb debugging
-# Cheat sheet https://lldb.llvm.org/lldb-gdb.html
-g++ -g FILE.cpp                         # Compile with debug symbols
-gdb a.out                               # Start gdb
-gdb -tui a.out                          # Start gdb "CLI-based" GUI
-
-# Static analysis
-pmd cpd --language cpp --minimum-tokens 50 --files *.cpp  # Code duplication
-oclint *.cpp                            # Style
 
 # GNU Make
 make                                    # Build the first target in Makefile
