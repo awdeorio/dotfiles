@@ -1434,15 +1434,11 @@ vagrant global-status --prune           # remove machines whose configs are gone
 VAGRANT_VAGRANTFILE=Vagrantfile2        # alternate Vagrantfile
 VAGRANT_DOTFILE_PATH=/path/to/.vagrant  # useful together with ^^^
 
-# C++ tools
+# C++ compilation
+gcc -Wall -Werror -std=c89 -ansi        # compile ISO C
+g++ -Wall -Werror -pedantic             # compile ISO C++
+g++ -Wall -Werror -pedantic -std=c++11  # compile ISO C++11
 g++ -g                                  # compile with debug support
-valgrind -v --leak-check=full ./a.out   # check for memory errors
-g++ -pg                                 # compile with profiling support
-gprof EXE gmon.out > analysis.txt       # profile
-g++ -g --coverage FILE.cpp              # coverage: compile
-./a.out                                 # coverage: run
-gcov FILE.cpp                           # coverage: analyze
-cat test.cpp.gcov | grep '^#####'       # coverage: lines that didn't execute
 g++ -E FILE.cpp -o FILE.ii              # stop after preprocessing
 g++ -S FILE.ii -o FILE.s                # stop after compilation proper
 g++ -c FILE.s -o FILE.o                 # stop after assembling
@@ -1453,14 +1449,32 @@ echo $LD_RUN_PATH                       # gcc link time library resolution
 echo $CPATH                             # gcc search path, as in -I
 echo $C_INCLUDE_PATH                    # ^^^ for C
 echo $CPLUS_INCLUDE_PATH                # ^^^ for C++
-pmd cpd --language cpp --minimum-tokens 50 --files *.cpp  # Code duplication
-oclint *.cpp                            # Style
 
-# gdb, lldb
+# valgrind dynamic analysis
+g++ -g                                  # compile
+valgrind -v --leak-check=full ./a.out   # check for memory errors
+
+# gcov coverage
+# To measure coverage of a suite of unit and system tests, be sure to compile
+# using the separate compilation model.
+g++ -g --coverage FILE.cpp              # compile
+./a.out                                 # run
+gcov FILE.cpp                           # analyze
+grep '^#####' test.cpp.gcov             # show lines that didn't execute
+
+# gprof profiling
+g++ -pg                                 # compile with profiling support
+gprof a.out gmon.out > analysis.txt     # profile
+
+# gdb debugging
 # Cheat sheet https://lldb.llvm.org/lldb-gdb.html
 g++ -g FILE.cpp                         # Compile with debug symbols
 gdb a.out                               # Start gdb
 gdb -tui a.out                          # Start gdb "CLI-based" GUI
+
+# Static analysis
+pmd cpd --language cpp --minimum-tokens 50 --files *.cpp  # Code duplication
+oclint *.cpp                            # Style
 
 # GNU Make
 make                                    # Build the first target in Makefile
