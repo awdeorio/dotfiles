@@ -154,10 +154,15 @@ top                                     # dynamic view of processes
 top -H                                  # dynamic view of threads
 top -b -n7 -d0.5 | grep ^Cpu | sed 1d | grep -oE '[0-9]+\.?[0-9]*% *id' | grep -oE '[0-9]+\.?[0-9]*' | awk '{sum+=$0} END {print sum/NR}' # CPU usage (%)
 htop                                    # fancy performance monitor
+  "M"                                   # htop sort by memory usage
+  "P"                                   # htop sort by processor usage
+  "T"                                   # htop sort by time
+  "p"                                   # htop toggle process fullname/basename
+  "t"                                   # htop toggle tree view
 nmon                                    # fancy performance monitor
 pgrep STRING                            # search for processes, return PID
-pgrep -af STRING                         # ^^^ full process name & args (GNU)
-pgrep -lf STRING                         # ^^^ full process name & args (BSD)
+pgrep -af STRING                        # ^^^ full process name & args (GNU)
+pgrep -lf STRING                        # ^^^ full process name & args (BSD)
 pgrep -u USER                           # only match USER's processes
 pkill                                   # ^^^ and kill process
 pkill -f                                # ^^^ full process name & args
