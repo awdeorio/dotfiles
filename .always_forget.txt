@@ -1443,6 +1443,16 @@ vagrant global-status --prune           # remove machines whose configs are gone
 VAGRANT_VAGRANTFILE=Vagrantfile2        # alternate Vagrantfile
 VAGRANT_DOTFILE_PATH=/path/to/.vagrant  # useful together with ^^^
 
+# Environment Modules
+# http://modules.sourceforge.net/
+module load vscode                      # add software to PATH
+module load vscode/1.19.2               # add specific SW version to PATH
+module unload vscode                    # remove software from PATH
+module switch vscode/1.19.2             # change version
+module list                             # show loaded modules
+module clear                            # clear all loaded modules
+module apropos                          # search modules
+
 # C++ compilation
 gcc -Wall -Werror -std=c89 -ansi        # compile ISO C
 g++ -Wall -Werror -pedantic             # compile ISO C++
