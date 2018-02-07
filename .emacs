@@ -134,12 +134,12 @@
   )
 
 ; Text mode
-(setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.eml\\'" . text-mode) auto-mode-alist))
-(setq default-fill-column 80)  ; width
-;(add-hook 'text-mode-hook 'visual-line-mode)
-(add-to-list 'auto-mode-alist '("\\.txt\\'" . visual-line-mode))
-(add-to-list 'auto-mode-alist '("README" . visual-line-mode))
+;; (setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
+;; (setq auto-mode-alist (cons '("\\.eml\\'" . text-mode) auto-mode-alist))
+;; (setq default-fill-column 80)  ; width
+;; ;(add-hook 'text-mode-hook 'visual-line-mode)
+;; (add-to-list 'auto-mode-alist '("\\.txt\\'" . visual-line-mode))
+;; (add-to-list 'auto-mode-alist '("README" . visual-line-mode))
 
 ; LaTex mode
 (add-hook 'latex-mode-hook 'visual-line-mode)
@@ -157,12 +157,15 @@
           (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
 
 ; Todo.txt mode
+; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
 ; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
-(require 'todotxt)
-(add-to-list 'auto-mode-alist '("todo.txt" . todotxt-mode))
-(add-to-list 'auto-mode-alist '("bills.*" . todotxt-mode))
-(add-hook 'todotxt-mode-hook 'goto-address-mode) ; for URLs
-(add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ; for Dropbox
+(use-package todotxt
+  :mode ("todo.txt" . todotxt-mode)
+  :mode ("bills.*" . todotxt-mode)
+  :config
+  (add-hook 'todotxt-mode-hook 'goto-address-mode) ; for URLs
+  (add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ; for Dropbox
+)
 
 ; C-mode for Arduino files (.ino)
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
