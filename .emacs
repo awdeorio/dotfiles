@@ -215,6 +215,14 @@
   :ensure t
   )
 
+;; fly-check
+;; Intellisense syntax checking
+;; http://www.flycheck.org/en/latest/
+(use-package flycheck
+  :commands flycheck-mode
+  :ensure t
+)
+
 ; Tab completion
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
