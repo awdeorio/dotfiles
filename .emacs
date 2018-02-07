@@ -253,9 +253,8 @@
 ;; Company TNG: https://github.com/company-mode/company-mode/issues/526
 (use-package company
   :config
-  ;; default configuration
-  (company-tng-configure-default)
-  (global-company-mode)
+  (company-tng-configure-default)       ; use default configuration
+  (global-company-mode)                 ; enable tab completion in all modes
   :ensure t
   )
 
