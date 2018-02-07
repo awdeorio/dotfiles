@@ -7,13 +7,9 @@
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
-; Required packages
-(require 'redo)
-
 ; Custom keyboard shortcuts
 (global-set-key "\C-ci"                             'indent-to)
 (global-set-key "\C-cl"                             'this-line-to-top-of-window)
-(global-set-key "\C-\M-_"                           'redo)
 (global-set-key "\C-c\C-s"                          'search-forward-regexp)
 (global-set-key "\C-c\C-r"                          'search-backward-regexp)
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
@@ -102,6 +98,16 @@
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
+
+;; More intuitive Undo/Redo
+;; https://www.emacswiki.org/emacs/UndoTree
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  (global-set-key "\C-\M-_" 'redo)
+  :ensure
+  )
+
 
 ;; GUD mode for LLDB
 (use-package gud-lldb
