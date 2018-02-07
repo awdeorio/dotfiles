@@ -248,24 +248,16 @@
   :ensure t
 )
 
-; Tab completion
-(setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill))
-
-(defun clever-hippie-tab (arg)
-  "Ordinary tab or dabbrev"
-  (interactive "*P")
-  (cond
-   ((and transient-mark-mode mark-active)
-    (indent-region (region-beginning) (region-end) nil))
-   ((and (eq (char-syntax (preceding-char)) ?w)
-         (not (= (current-column) 0)))
-    (hippie-expand arg))
-   (t (indent-for-tab-command))))
-
-(global-set-key (kbd "TAB") 'clever-hippie-tab)
+;; Tab completion
+;; Company docs: https://company-mode.github.io/
+;; Company TNG: https://github.com/company-mode/company-mode/issues/526
+(use-package company
+  :commands company-mode
+  :config
+  ;; default configuration
+  (company-tng-configure-default)
+  :ensure t
+  )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
