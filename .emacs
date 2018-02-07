@@ -9,7 +9,6 @@
 
 ; Required packages
 (require 'redo)
-(require 'gud-lldb)
 
 ; Custom keyboard shortcuts
 (global-set-key "\C-ci"                             'indent-to)
@@ -109,35 +108,56 @@
 
 (setq-default truncate-lines t)
 
-; Emacs Package Manager
+; Package Management
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 
+;; use-package
+;;
+;; Installed with this reference
+;; http://cachestocaches.com/2015/8/getting-started-use-package/
+;;
+;; Configured with this reference
+;; https://github.com/jwiegley/use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+
+;; GUD mode for LLDB
+(use-package gud-lldb
+  :commands gud-lldb
+)
+
 ; Verilog mode customizations
-(autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
-(setq auto-mode-alist (cons '("\\.v\\'" . verilog-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.vh\\'" . verilog-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("testfixture.verilog" . verilog-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("testfixture.template" . verilog-mode) auto-mode-alist))
-(setq verilog-indent-level             2
-      verilog-indent-level-module      2
-      verilog-indent-level-declaration 2
-      verilog-indent-level-behavioral  2
-      verilog-indent-level-directive   2
-      verilog-case-indent              2
-      verilog-cexp-indent              2
-      verilog-case-indent              2
-      verilog-auto-newline             nil
-      verilog-auto-indent-on-newline   nil
-      verilog-tab-always-indent        t
-      verilog-auto-endcomments         t
-      verilog-minimum-comment-distance 40
-      verilog-indent-begin-after-if    'declarations
-      verilog-auto-lineup              '(none))
+(use-package verilog-mode
+  :mode "\\.v\\'"
+  :mode "\\.vh\\'"
+  :mode "testfixture.verilog"
+  :mode "testfixture.template"
+  :config
+  (setq verilog-indent-level             2
+        verilog-indent-level-module      2
+        verilog-indent-level-declaration 2
+        verilog-indent-level-behavioral  2
+        verilog-indent-level-directive   2
+        verilog-case-indent              2
+        verilog-cexp-indent              2
+        verilog-case-indent              2
+        verilog-auto-newline             nil
+        verilog-auto-indent-on-newline   nil
+        verilog-tab-always-indent        t
+        verilog-auto-endcomments         t
+        verilog-minimum-comment-distance 40
+        verilog-indent-begin-after-if    'declarations
+        verilog-auto-lineup              '(none))
+  ; can't use :ensure because this package isn't available on package manager
+  )
 
 ; Text mode
 (setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
@@ -150,14 +170,6 @@
 ; LaTex mode
 (add-hook 'latex-mode-hook 'visual-line-mode)
 (add-hook 'latex-mode-hook 'flyspell-mode)
-
-; PHP mode
-(autoload 'php-mode "php-mode" "Enter PHP mode." t)
-(setq auto-mode-alist (cons '("\\.php\\'" . php-mode) auto-mode-alist))
-
-; Graphviz dot mode
-(autoload 'graphviz-dot-mode "graphviz-dot-mode" "Enter Graphviz mode." t)
-(setq auto-mode-alist (cons '("\\.dot\\'" . graphviz-dot-mode) auto-mode-alist))
 
 ; Spell checking mode
 (autoload 'flyspell-mode-on "flyspell" "On-the-fly ispell." t)
@@ -182,35 +194,43 @@
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
 
 ; Markdown mode (.md)
-(require 'markdown-mode)
-(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-(autoload 'gfm-mode "markdown-mode"
-   "Major mode for editing GitHub Flavored Markdown files" t)
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-(add-hook 'markdown-mode-hook 'visual-line-mode)
-(add-hook 'markdown-mode-hook 'flyspell-mode)
+(use-package markdown-mode
+  ; load and enable markdown-mode for *.md files
+  :mode "\\.md\\'"
+  ; run this code after loading markdown-mode
+  :config
+  (autoload 'gfm-mode "markdown-mode"
+    "Major mode for editing GitHub Flavored Markdown files" t)
+  (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+  (add-hook 'markdown-mode-hook 'visual-line-mode)
+  (add-hook 'markdown-mode-hook 'flyspell-mode)
+  ; automatically install markdown-mode using package manager on first use
+  :ensure t
+  )
 
 ; Web Development
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(setq web-mode-markup-indent-offset 2)
-(setq web-mode-css-indent-offset 2)
-(setq web-mode-code-indent-offset 2)
-(setq web-mode-attr-indent-offset 2)
-(setq web-mode-enable-auto-indentation nil)
-(add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
-(add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
-(add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
-(add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
+(use-package web-mode
+  :mode "\\.jsx?\\'"
+  :mode "\\.html?\\'"
+  :mode "\\.phtml\\'"
+  :mode "\\.tpl\\.php\\'"
+  :mode "\\.[agj]sp\\'"
+  :mode "\\.as[cp]x\\'"
+  :mode "\\.erb\\'"
+  :mode "\\.mustache\\'"
+  :mode "\\.djhtml\\'"
+  :config
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-attr-indent-offset 2)
+  (setq web-mode-enable-auto-indentation nil)
+  (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
+  :ensure t
+  )
 
 ; Tab completion
 (setq hippie-expand-try-functions-list
@@ -230,3 +250,16 @@
    (t (indent-for-tab-command))))
 
 (global-set-key (kbd "TAB") 'clever-hippie-tab)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (web-mode use-package markdown-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
