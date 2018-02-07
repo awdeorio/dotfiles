@@ -106,9 +106,8 @@
   :config
   (global-undo-tree-mode)
   (global-set-key "\C-\M-_" 'redo)
-  :ensure
+  :ensure t
   )
-
 
 ;; GUD mode for LLDB
 (use-package gud-lldb
@@ -220,8 +219,10 @@
 ;; Intellisense syntax checking
 ;; http://www.flycheck.org/en/latest/
 (use-package flycheck
-  :commands flycheck-mode
   :config
+
+  ;; enable in all modes
+  (global-flycheck-mode)
 
   ;; disable jshint since we prefer eslint checking
   ;; http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html
