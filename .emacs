@@ -252,10 +252,10 @@
 ;; Company docs: https://company-mode.github.io/
 ;; Company TNG: https://github.com/company-mode/company-mode/issues/526
 (use-package company
-  :commands company-mode
   :config
   ;; default configuration
   (company-tng-configure-default)
+  (global-company-mode)
   :ensure t
   )
 
