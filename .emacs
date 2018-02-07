@@ -49,9 +49,6 @@
   (let ((use-dialog-box nil))
     ad-do-it))
 
-; Default mode
-(setq default-mode 'fundamental-mode)
-
 ; Smooth scrolling (one line at a time)
 (setq scroll-step 1)
 
@@ -140,27 +137,13 @@
   )
 
 ; Text mode
-;; (setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
-;; (setq auto-mode-alist (cons '("\\.eml\\'" . text-mode) auto-mode-alist))
-;; (setq default-fill-column 80)  ; width
-;; ;(add-hook 'text-mode-hook 'visual-line-mode)
-;; (add-to-list 'auto-mode-alist '("\\.txt\\'" . visual-line-mode))
-;; (add-to-list 'auto-mode-alist '("README" . visual-line-mode))
+(setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
+(add-hook 'text-mode-hook 'visual-line-mode)  ; wrap long lines
+(add-hook 'text-mode-hook 'flyspell-mode)     ; spell check
 
-; LaTex mode
+; LaTeX mode
 (add-hook 'latex-mode-hook 'visual-line-mode)
 (add-hook 'latex-mode-hook 'flyspell-mode)
-
-; Spell checking mode
-(autoload 'flyspell-mode-on "flyspell" "On-the-fly ispell." t)
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'html-mode-hook 'flyspell-mode)
-
-; Outline mode
-(add-hook 'outline-minor-mode-hook       ; C-m is the prefix key
-          (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
-(add-hook 'outline-mode-hook             ; C-m is the prefix key
-          (lambda () (local-set-key "\C-m" outline-mode-prefix-map)))
 
 ; Todo.txt mode
 ; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
