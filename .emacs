@@ -154,6 +154,7 @@
   :config
   (add-hook 'todotxt-mode-hook 'goto-address-mode) ; for URLs
   (add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ; for Dropbox
+  (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
 )
 
 ; C-mode for Arduino files (.ino)
