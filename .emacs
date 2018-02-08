@@ -251,3 +251,13 @@
   (global-company-mode)                 ; enable tab completion in all modes
   :ensure t
   )
+
+;; Python backend for tab completion
+;; https://github.com/syohex/emacs-company-jedi
+;; You may need to:
+;; $ pip install virtualenv
+(use-package company-jedi
+  :init
+  (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
+  :ensure t
+  )
