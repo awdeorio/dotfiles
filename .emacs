@@ -159,7 +159,7 @@
 ; C-mode for Arduino files (.ino)
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
 
-; Markdown mode (.md)
+;; Markdown mode (.md)
 (use-package markdown-mode
   ; load and enable markdown-mode for *.md files
   :mode "\\.md\\'"
@@ -171,6 +171,13 @@
   (add-hook 'markdown-mode-hook 'visual-line-mode)
   (add-hook 'markdown-mode-hook 'flyspell-mode)
   ; automatically install markdown-mode using package manager on first use
+  :ensure t
+  )
+
+;; Markdown ToC generator
+(use-package markdown-toc
+  :commands markdown-toc-generate-toc
+  :commands markdown-toc-refresh-toc
   :ensure t
   )
 
@@ -241,16 +248,3 @@
   (global-company-mode)                 ; enable tab completion in all modes
   :ensure t
   )
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (web-mode use-package markdown-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
