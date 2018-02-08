@@ -175,6 +175,7 @@
   )
 
 ;; Markdown ToC generator
+;; https://github.com/ardumont/markdown-toc
 (use-package markdown-toc
   :commands markdown-toc-generate-toc
   :commands markdown-toc-refresh-toc
