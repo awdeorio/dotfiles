@@ -1487,6 +1487,7 @@ valgrind -v --leak-check=full ./a.out   # run
 # Static analysis
 pmd cpd --language cpp --minimum-tokens 50 --files *.cpp  # code duplication
 oclint *.cpp                            # style
+cppcheck *.cpp                          # undefined behavior checks
 
 # Profile with gprof
 g++ -pg                                 # compile
