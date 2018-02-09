@@ -7,6 +7,12 @@
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
+;; Emacs automatically saved information in a separate file
+;; https://stackoverflow.com/questions/5052088/what-is-custom-set-variables-and-faces-in-my-emacs
+(setq custom-file "~/.emacs.d/custom.el")
+(unless (file-exists-p custom-file)
+  (write-region "" nil custom-file))
+
 ; Custom keyboard shortcuts
 (global-set-key "\C-ci"                             'indent-to)
 (global-set-key "\C-cl"                             'this-line-to-top-of-window)
