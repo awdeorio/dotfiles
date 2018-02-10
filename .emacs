@@ -29,7 +29,7 @@
 (setq mac-option-modifier 'super) ; Option == Super
 
 ;; Remove scrollbars, menu bars, and toolbars
-(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;; (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
@@ -167,6 +167,9 @@
 ; C-mode for Arduino files (.ino)
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
 
+;; C++-mode for .h files
+(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
+
 ;; Markdown mode (.md)
 (use-package markdown-mode
   ; load and enable markdown-mode for *.md files
@@ -244,6 +247,9 @@
       (when (and eslint (file-executable-p eslint))
         (setq-local flycheck-javascript-eslint-executable eslint))))
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
+  ;; C++11
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
   :ensure t
 )
