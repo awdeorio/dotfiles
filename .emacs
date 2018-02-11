@@ -81,8 +81,7 @@
 
 (setq-default truncate-lines t)
 
-; Package Management
-;; Update package-archive lists
+;; Package Management
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -90,16 +89,11 @@
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 
-;; Install 'use-package' if necessary
+;; Bootstrap 'use-package' and enable it
 ;; http://cachestocaches.com/2015/8/getting-started-use-package/
-;;
-;; Configured with this reference
-;; https://github.com/jwiegley/use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
-;; Enable use-package
 (eval-when-compile
   (require 'use-package))
 
@@ -110,6 +104,7 @@
   (global-undo-tree-mode)
   (global-set-key "\C-\M-_" 'redo)
   :ensure t
+  :defer t
   )
 
 ;; GUD mode for LLDB
@@ -217,7 +212,6 @@
   :ensure t
   )
 
-;; fly-check
 ;; Intellisense syntax checking
 ;; http://www.flycheck.org/en/latest/
 (use-package flycheck
@@ -252,16 +246,32 @@
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
   :ensure t
+  :defer t
 )
 
-;; Tab completion
+;; Autocomplete for words and filenames.  M-/ auto-completes a word
+;; from other words in the buffer and filenames.
+(eval-after-load "dabbrev" '(defalias 'dabbrev-expand 'hippie-expand))
+(setq hippie-expand-try-functions-list
+      '(try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill
+        try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-all-abbrevs
+        try-expand-list
+        try-expand-line
+        ))
+
+;; Autocomplete for code
 ;; Company docs: https://company-mode.github.io/
 ;; Company TNG: https://github.com/company-mode/company-mode/issues/526
 (use-package company
   :config
   (company-tng-configure-default)       ; use default configuration
-  (global-company-mode)                 ; enable tab completion in all modes
+  (global-company-mode)
   :ensure t
+  :defer t                              ; lazy loading
   )
 
 ;; Python backend for tab completion
@@ -269,6 +279,7 @@
 ;; You may need to:
 ;; $ pip install virtualenv
 (use-package company-jedi
+  :after company                        ; lazy loading
   :init
   (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
   :ensure t
