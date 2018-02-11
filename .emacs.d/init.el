@@ -1,88 +1,88 @@
-; .emacs
-; awdeorio's emacs customizations
+;;; init.el --- awdeorio's emacs customizations
+;;;
+;;; Commentary:
+;;; A few rare packages are provided in ~/.emacs.d/elisp/ .  More packages are
+;;; automatically downloaded by use-package and placed in ~/.emacs.d/elpa/ .
+;;;
+;;; Code:
 
-; Custom packages go in ~/.emacs.d/elisp
-; https://www.emacswiki.org/emacs/LoadPath
+
+;; User-provided packages go in ~/.emacs.d/elisp
+;; https://www.emacswiki.org/emacs/LoadPath
 (let ((default-directory  "~/.emacs.d/elisp/"))
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; Emacs automatically saved information in a separate file
+;; Relocate automatically modified files.  These are lines added to
+;; the file when you use the customise system. They're generated when
+;; you use customize-*. By default, the customisation options are
+;; stored in the init.el (or .emacs) file. You don't usually edit
+;; these by hand.
 ;; https://stackoverflow.com/questions/5052088/what-is-custom-set-variables-and-faces-in-my-emacs
 (setq custom-file "~/.emacs.d/custom.el")
-(unless (file-exists-p custom-file)
-  (write-region "" nil custom-file))
+(unless (file-exists-p custom-file) (write-region "" nil custom-file))
 
-; Custom keyboard shortcuts
+;; Modified keyboard shortcuts
 (global-set-key "\C-ci"                             'indent-to)
-(global-set-key "\C-cl"                             'this-line-to-top-of-window)
 (global-set-key "\C-c\C-s"                          'search-forward-regexp)
 (global-set-key "\C-c\C-r"                          'search-backward-regexp)
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
-(global-set-key "\C-c\C-b"                          'browse-url-at-point)
 (global-set-key [(control \')]                      'other-window)
 
-;; No more typing the whole yes or no. Just y or n will do.
-(fset 'yes-or-no-p 'y-or-n-p)
-
-; macOS modifier keys
+;; macOS modifier keys
 (setq mac-command-modifier 'meta) ; Command == Meta
 (setq mac-option-modifier 'super) ; Option == Super
+
+;; Open link in browser.  Settings for OSX.
+(setq browse-url-browser-function (quote browse-url-generic))
+(defvar browse-url-generic-program "open")
+(global-set-key "\C-c\C-b" 'browse-url-at-point)
+
+;; Dialog settings.  No more typing the whole yes or no. Just y or n
+;; will do. Disable GUI dialogs and use emacs text interface.
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq use-dialog-box nil)
 
 ;; Remove scrollbars, menu bars, and toolbars
 ;; (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-; Misc appearance
-(setq use-file-dialog                         -1) ; no GTK dialoge boxes
-(setq inhibit-startup-message                  t) ; no startup message
-(setq ring-bell-function                #'ignore) ; no audible bell
-(setq line-number-mode                         t) ; show line numbers
-(setq column-number-mode                       t) ; show column numbers
-(global-font-lock-mode                         t) ; show syntax highlighting
-(setq-default transient-mark-mode              t) ; highlight marked regions
-(show-paren-mode                               t) ; parentheses matching
-(setq-default truncate-lines                   t) ; truncate long lines
-(setq frame-title-format "%b")                    ; Window title = buffer name
+;; Don't show a startup message
+(setq inhibit-startup-message t)
 
-; Disable pop-up boxes in the GUI
-(defadvice yes-or-no-p (around prevent-dialog activate)
-  "Prevent yes-or-no-p from activating a dialog"
-  (let ((use-dialog-box nil))
-    ad-do-it))
-(defadvice y-or-n-p (around prevent-dialog-yorn activate)
-  "Prevent y-or-n-p from activating a dialog"
-  (let ((use-dialog-box nil))
-    ad-do-it))
+;; Don't ring the terminal bell or flash the screen
+(setq ring-bell-function 'ignore)
 
-; Smooth scrolling (one line at a time)
-(setq scroll-step 1)
+;; Show line and column numbers
+(setq line-number-mode t)
+(setq column-number-mode t)
 
-; Update string in the first 8 lines looking like Time-stamp: <> or " "
-(add-hook 'write-file-hooks 'time-stamp)
+;; Show syntax highlighting
+(global-font-lock-mode t)
 
-; Tab settings: 2 spaces
-(setq-default indent-tabs-mode nil)
-(setq default-tab-width 2)
-(setq tab-width 2)
-(defvaralias 'c-basic-offset 'tab-width)
-(defvaralias 'cperl-indent-level 'tab-width)
-(defvaralias 'sh-basic-offset 'tab-width)
-(defvaralias 'sh-indentation 'tab-width)
+;; Highlight marked regions
+(setq-default transient-mark-mode t)
 
-; Automatically close parentheses, braces, etc.
-(electric-pair-mode 1)
-
-; Default browser
-(setq browse-url-generic-program (executable-find "open") ; OSX
-      browse-url-browser-function 'browse-url-generic)
-; (setq browse-url-generic-program (executable-find "google-chrome") ; Linux
-;       browse-url-browser-function 'browse-url-generic)
-
+;; Truncate long lines
 (setq-default truncate-lines t)
 
-;; Package Management
+;; Parentheses
+(electric-pair-mode 1)                  ; automatically close parentheses, etc.
+(show-paren-mode t)                     ; show matching parentheses
+
+;; Smooth scrolling (one line at a time)
+(setq scroll-step 1)
+
+;; Update string in the first 8 lines looking like Time-stamp: <> or " "
+(add-hook 'write-file-hooks 'time-stamp)
+
+;; Tab settings: 2 spaces.  See also: language-specific customizations below.
+(setq-default indent-tabs-mode nil)
+(setq tab-width 2)
+
+;; Package Management.  Configure the built-in emacs package manager to use
+;; several publicly available repositories.
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -90,15 +90,26 @@
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 
-;; Bootstrap 'use-package' and enable it
+;; Bootstrap 'use-package' and enable it.  Later, 'use-package- will
+;; download and install third-party packages automatically.
 ;; http://cachestocaches.com/2015/8/getting-started-use-package/
+;;
+;; EXAMPLE:
+;; (use-package foo-mode
+;;   :after bar      ; load after bar package
+;;   :mode "\\.foo"  ; load and enable foo-mode for *.foo files
+;;   :init           ; run this code when init.el is read
+;;   :config         ; run this code after loading foo-mode
+;;   :ensure t       ; automatically install foo-mode if not present
+;;   :defer t        ; defer loading for performance (usually the default)
+;; )
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
 
-;; More intuitive Undo/Redo
+;; More intuitive undo/redo.  M-_ undo, C-M-_ redo
 ;; https://www.emacswiki.org/emacs/UndoTree
 (use-package undo-tree
   :config
@@ -108,12 +119,14 @@
   :defer t
   )
 
-;; GUD mode for LLDB
+;; Integrated debugging mode for LLDB.  However, prefer GDB over LLDB
+;; because GDB integration is much better.
+;; https://www.reddit.com/r/emacs/comments/6qbwjl/seriously_how_can_i_use_lldb_in_emacs/
 (use-package gud-lldb
   :commands gud-lldb
 )
 
-; Verilog mode customizations
+;; Verilog mode customizations
 (use-package verilog-mode
   :mode "\\.v\\'"
   :mode "\\.vh\\'"
@@ -135,21 +148,21 @@
         verilog-minimum-comment-distance 40
         verilog-indent-begin-after-if    'declarations
         verilog-auto-lineup              '(none))
-  ; can't use :ensure because this package isn't available on package manager
+  ;; can't use :ensure because this package isn't available on package manager
   )
 
-; Text mode
+;; Text mode
 (setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
 (add-hook 'text-mode-hook 'visual-line-mode)  ; wrap long lines
 (add-hook 'text-mode-hook 'flyspell-mode)     ; spell check
 
-; LaTeX mode
-(add-hook 'latex-mode-hook 'visual-line-mode)
-(add-hook 'latex-mode-hook 'flyspell-mode)
+;; LaTeX mode
+(add-hook 'latex-mode-hook 'visual-line-mode) ; wrap long lines
+(add-hook 'latex-mode-hook 'flyspell-mode)    ; spell check
 
-; Todo.txt mode
-; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
-; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
+;; Todo.txt mode
+;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
+;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
 (use-package todotxt
   :mode ("todo.txt" . todotxt-mode)
   :mode ("bills.*" . todotxt-mode)
@@ -159,12 +172,6 @@
   (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (flyspell-mode -1))) ; disable
 )
-
-; C-mode for Arduino files (.ino)
-(add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))
-
-;; C++-mode for .h files
-(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
 
 ;; Markdown mode (.md)
 (use-package markdown-mode
@@ -189,7 +196,21 @@
   :ensure t
   )
 
-; Web Development
+;; Shell programming
+(defvaralias 'sh-basic-offset 'tab-width)
+(defvaralias 'sh-indentation 'tab-width)
+
+;; Perl programming
+(defvaralias 'cperl-indent-level 'tab-width)
+
+;; C programming
+(defvaralias 'c-basic-offset 'tab-width)              ; indentation
+(add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))  ; c-mode for Arduino
+
+;; C++ programming
+(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))  ; assume C++ for .h files
+
+;; Web Development
 (use-package web-mode
   :mode "\\.jsx?\\'"
   :mode "\\.html?\\'"
@@ -275,7 +296,7 @@
   :defer t                              ; lazy loading
   )
 
-;; Python backend for tab completion
+;; Python backend for autocomplete
 ;; https://github.com/syohex/emacs-company-jedi
 ;; You may need to:
 ;; $ pip install virtualenv
