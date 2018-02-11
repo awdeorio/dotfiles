@@ -1524,7 +1524,7 @@ hexdump                                 # binary -> hex (check endianness!)
 xxd                                     # binary -> hex (check endianness!)
 
 # LastPass CLI
-brew install lastpass-cli --with-pinentry --with-doc  # install (OSX)
+brew install lastpass-cli --with-pinentry  # install (OSX)
 lpass login awdeorio@gmail.com          # start agent
 lpass logout                            # stop agent
 lpass status                            # check agent
