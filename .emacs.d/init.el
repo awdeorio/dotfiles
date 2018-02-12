@@ -175,13 +175,15 @@
 
 ;; Markdown mode (.md)
 (use-package markdown-mode
-  :mode "\\.md\\'"
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . markdown-mode))
   :config
-  (autoload 'gfm-mode "markdown-mode"
-    "Major mode for editing GitHub Flavored Markdown files" t)
-  (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-  (add-hook 'markdown-mode-hook 'visual-line-mode)
-  (add-hook 'markdown-mode-hook 'flyspell-mode)
+  :init
+  (setq markdown-command "multimarkdown")
+  (add-hook 'markdown-mode-hook 'visual-line-mode) ; wrap long lines
+  (add-hook 'markdown-mode-hook 'flyspell-mode) ; check spelling
   (setq markdown-fontify-code-blocks-natively t) ; syntax highlight code blocks
   :ensure t
   )
