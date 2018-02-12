@@ -1,4 +1,4 @@
-personal_ws-1.1 en 210 
+personal_ws-1.1 en 211 
 structs
 microbenchmarks
 DDR
@@ -55,8 +55,8 @@ ESC
 pedagogies
 Chico's
 synthesizable
-GCS's
 executables
+GCS's
 mispredicted
 Ammons
 HDL
@@ -80,6 +80,7 @@ writeback
 IDs
 CHouse
 Vicis
+customizations
 misordering
 HKN
 SimPoint
@@ -154,8 +155,8 @@ among
 traveller's
 pm
 UTMI
-NMI
 PCI
+NMI
 LVP
 ABC
 NoC
