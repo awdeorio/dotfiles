@@ -175,16 +175,14 @@
 
 ;; Markdown mode (.md)
 (use-package markdown-mode
-  ; load and enable markdown-mode for *.md files
   :mode "\\.md\\'"
-  ; run this code after loading markdown-mode
   :config
   (autoload 'gfm-mode "markdown-mode"
     "Major mode for editing GitHub Flavored Markdown files" t)
   (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
   (add-hook 'markdown-mode-hook 'visual-line-mode)
   (add-hook 'markdown-mode-hook 'flyspell-mode)
-  ; automatically install markdown-mode using package manager on first use
+  (setq markdown-fontify-code-blocks-natively t) ; syntax highlight code blocks
   :ensure t
   )
 
