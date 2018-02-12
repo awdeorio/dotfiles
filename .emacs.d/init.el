@@ -203,8 +203,16 @@
 ;; Perl programming
 (defvaralias 'cperl-indent-level 'tab-width)
 
+;; C and C++ programming.  Build with C-c m.  Rebuild with C-c c.  Put
+;; this in c-mode-base-map because c-mode-map, c++-mode-map, and so
+;; on, inherit from it.
+(add-hook 'c-initialization-hook
+          (lambda () (define-key c-mode-base-map (kbd "C-c m") 'compile)))
+(add-hook 'c-initialization-hook
+          (lambda () (define-key c-mode-base-map (kbd "C-c c") 'recompile)))
+(defvaralias 'c-basic-offset 'tab-width) ; indentation
+
 ;; C programming
-(defvaralias 'c-basic-offset 'tab-width)              ; indentation
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))  ; c-mode for Arduino
 
 ;; C++ programming
