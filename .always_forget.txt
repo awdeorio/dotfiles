@@ -1980,6 +1980,7 @@ git commit                              # git should track ignore file itself
 git rev-parse HEAD                      # print hash of current commit
 git log                                 # commit history
 git log FILE                            # commit history for one file
+git log --stat                          # show insertions and deletions
 git log --oneline                       # less info
 git log --oneline --decorate --graph --all # more info
 git log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold blue)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
