@@ -1451,7 +1451,8 @@ module unload vscode                    # remove software from PATH
 module switch vscode/1.19.2             # change version
 module list                             # show loaded modules
 module clear                            # clear all loaded modules
-module apropos                          # search modules
+module apropos                          # search module name and description
+module avail -t 2>&1 | grep vscode      # search module name
 
 # C++ compilation
 gcc -Wall -Werror -std=c89 -ansi        # compile ISO C
