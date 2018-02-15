@@ -197,11 +197,11 @@
   )
 
 ;; Shell programming
-(setq-default sh-basic-offset 'tab-width)
-(setq-default sh-indentation 'tab-width)
+(setq-default sh-basic-offset tab-width)
+(setq-default sh-indentation tab-width)
 
 ;; Perl programming
-(setq-default cperl-indent-level 'tab-width)
+(setq-default cperl-indent-level tab-width)
 
 ;; C and C++ programming.  Build with C-c m.  Rebuild with C-c c.  Put
 ;; this in c-mode-base-map because c-mode-map, c++-mode-map, and so
@@ -210,7 +210,7 @@
           (lambda () (define-key c-mode-base-map (kbd "C-c m") 'compile)))
 (add-hook 'c-initialization-hook
           (lambda () (define-key c-mode-base-map (kbd "C-c c") 'recompile)))
-(setq-default c-basic-offset 'tab-width) ; indentation
+(setq-default c-basic-offset tab-width) ; indentation
 
 ;; C programming
 (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))  ; c-mode for Arduino
