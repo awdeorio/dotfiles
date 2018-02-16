@@ -174,6 +174,8 @@
 )
 
 ;; Markdown mode (.md)
+;; Only works on Emacs 24.4 +
+(when (and (>= emacs-major-version 24) (>= emacs-minor-version 4))
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
@@ -187,14 +189,18 @@
   (setq markdown-fontify-code-blocks-natively t) ; syntax highlight code blocks
   :ensure t
   )
+)
 
 ;; Markdown ToC generator
 ;; https://github.com/ardumont/markdown-toc
+;; Only works on Emacs 24.4 +
+(when (and (>= emacs-major-version 24) (>= emacs-minor-version 4))
 (use-package markdown-toc
   :commands markdown-toc-generate-toc
   :commands markdown-toc-refresh-toc
   :ensure t
   )
+)
 
 ;; Shell programming
 (setq-default sh-basic-offset tab-width)
@@ -308,9 +314,12 @@
 ;; https://github.com/syohex/emacs-company-jedi
 ;; You may need to:
 ;; $ pip install virtualenv
+;; Only works on Emacs 24.4 +
+(when (and (>= emacs-major-version 24) (>= emacs-minor-version 4))
 (use-package company-jedi
   :after company                        ; lazy loading
   :init
   (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
   :ensure t
   )
+)
