@@ -1779,6 +1779,12 @@ sqlite3> .show                          # print settings
 sqlite3> PRAGMA foreign_keys;           # check if foreign keys enabled
 sqlite3> PRAGMA foreign_keys = ON;      # enable foreign keys (CASCADE, etc)
 
+# CSV to sqlite3
+echo -ne '.mode csv\n.import FILE.csv DB_NAME\n' | sqlite3 FILE.db
+sqlite3 FILE.db
+sqlite3> .mode csv
+sqlite3> .import FILE.csv
+
 # MySQL Linux CLI
 mysqladmin -u root password PASSWORD    # change root password
 mysql -u root -pPASSWORD                # connect to db (NO SPACE!!!)
