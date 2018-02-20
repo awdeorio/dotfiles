@@ -114,9 +114,8 @@
 (use-package undo-tree
   :config
   (global-undo-tree-mode)
-  (global-set-key "\C-\M-_" 'redo)
+  (global-set-key "\C-\M-_" 'undo-tree-redo)
   :ensure t
-  :defer t
   )
 
 ;; Integrated debugging mode for LLDB.  However, prefer GDB over LLDB
