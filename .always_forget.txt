@@ -1249,8 +1249,7 @@ brew upgrade
 brew cleanup
 brew cask upgrade
 brew cask cleanup
-pip2 install --upgrade pip setuptools wheel
-pip3 install --upgrade pip setuptools wheel
+pip install --upgrade pip setuptools wheel
 softwareupdate --list
 softwareupdate -i -a
 cd ~ && git fetch -p && git rebase      # update Git-controlled dot files
