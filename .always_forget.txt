@@ -1468,6 +1468,7 @@ echo $LD_RUN_PATH                       # gcc link time library resolution
 echo $CPATH                             # gcc search path, as in -I
 echo $C_INCLUDE_PATH                    # ^^^ for C
 echo $CPLUS_INCLUDE_PATH                # ^^^ for C++
+ldd EXE                                 # show dynamically loaded libraries
 
 # Debug with gdb
 g++ -g                                  # compile
