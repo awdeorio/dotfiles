@@ -1463,9 +1463,9 @@ g++ -S FILE.ii -o FILE.s                # stop after compilation proper
 g++ -c FILE.s -o FILE.o                 # stop after assembling
 g++ FILE.o -o FILE                      # stop after linking (all done!)
 echo $LD_LIBRARY_PATH                   # run time library resolution
-echo $LIBARY_PATH                       # gcc static library search path
+echo $LIBARY_PATH                       # gcc static library search path, gcc -L
 echo $LD_RUN_PATH                       # gcc link time library resolution
-echo $CPATH                             # gcc search path, as in -I
+echo $CPATH                             # gcc search path, gcc -I
 echo $C_INCLUDE_PATH                    # ^^^ for C
 echo $CPLUS_INCLUDE_PATH                # ^^^ for C++
 ldd EXE                                 # show dynamically loaded libraries
@@ -1484,6 +1484,16 @@ lldb ./a.out                            # run
 # Dynamic analysis with valgrind
 g++ -g                                  # compile
 valgrind -v --leak-check=full ./a.out   # run
+
+# Dynamic analysis with address sanitizer
+clang++ -fsanitize=address              # Compile (OSX)
+g++ -fsanitize=address                  # Compile (GNU)
+./a.out                                 # Run
+
+# Dynamic analysis with bounds checking
+clang++ -fsanitize=address              # Compile (OSX)
+g++ -D_GLIBCXX_DEBUG                    # Compile (GNU)
+./a.out                                 # Run
 
 # Static analysis
 pmd cpd --language cpp --minimum-tokens 50 --files *.cpp  # code duplication
