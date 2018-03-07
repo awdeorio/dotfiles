@@ -81,6 +81,9 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
+;; Line length for features like fill-paragraph (M-q)
+(setq-default fill-column 80)
+
 ;; Package Management.  Configure the built-in emacs package manager to use
 ;; several publicly available repositories.
 (require 'package)
