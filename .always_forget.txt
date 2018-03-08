@@ -1485,10 +1485,12 @@ lldb ./a.out                            # run
 g++ -g                                  # compile
 valgrind -v --leak-check=full ./a.out   # run
 
-# Dynamic analysis with address sanitizer
+# Dynamic analysis with address sanitizer (ASAN)
 clang++ -fsanitize=address              # Compile (OSX)
 g++ -fsanitize=address                  # Compile (GNU)
 ./a.out                                 # Run
+ASAN_OPTIONS=help=1 ./a.out             # Help
+ASAN_OPTIONS=verbosity=2 ./a.out        # Verbose
 
 # Dynamic analysis with bounds checking
 clang++ -fsanitize=address              # Compile (OSX)
