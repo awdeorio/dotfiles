@@ -259,26 +259,37 @@ function ps1_context {
 
 # Fancy Prompt
 source ~/.bashrc_colors
-if [ "$LOGNAME" == "root" ]; then
-  # root
-  export PS1='\[${bldred}\]\]\u@\h \[${bldblue}\]\W\n\$ \[${txtrst}\]'
-elif [ "$SSH_CONNECTION" ]; then
-  # remote machines
-  export PS1='$(ps1_context)\[${bldcyn}\]\u@\h \[${bldblu}\]\W\n\$ \[${txtrst}\]'
-else
-  # local machine
-  export PS1='\[${txtpur}\]$(ps1_context)\[${bldgrn}\]\u@\h \[${bldblu}\]\W\n\$ \[${txtrst}\]'
-fi
+case "$TERM" in
+  xterm*|rxvt*|Eterm*|eterm*|screen*)
+    # If the terminal supports colors, then use fancy terminal
+    if [ "$LOGNAME" == "root" ]; then
+      # root
+      PS1='\[${bldred}\]\]\u@\h \[${bldblue}\]\W\n\$ \[${txtrst}\]'
+    elif [ "$SSH_CONNECTION" ]; then
+      # remote machines
+      PS1='\[${txtblk}\]$(ps1_context)\[${bldcyn}\]\u@\h \[${bldblu}\]\W\n\$ \[${txtrst}\]'
+    else
+      # local machine
+      PS1='\[${txtpur}\]$(ps1_context)\[${bldgrn}\]\u@\h \[${bldblu}\]\W\n\$ \[${txtrst}\]'
+    fi
+    ;;
+  *)
+    # Default no color, no fanciness
+    PS1='$ '
+    ;;
+esac
+export PS1
 
 # Change the window title of X terminals
-case $TERM in
-  xterm*|rxvt|Eterm|eterm)
+case "$TERM" in
+  xterm*|rxvt*|Eterm*|eterm*)
     PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
     ;;
-  screen)
+  screen*)
     PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
     ;;
 esac
+export PROMPT_COMMAND
 
 # Colorized output
 LS=ls
