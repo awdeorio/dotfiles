@@ -84,6 +84,17 @@
 ;; Line length for features like fill-paragraph (M-q)
 (setq-default fill-column 80)
 
+;; Remote file editing with TRAMP Configure TRAMP to use the same SSH
+;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignore my
+;; SSH config, so configure the same settings here.
+;; https://www.emacswiki.org/emacs/TrampMode
+;; https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
+(setq tramp-default-method "ssh")
+(setq tramp-ssh-controlmaster-options
+      (concat
+       "-o ControlPath=~/.ssh/master-%%r@%%h:%%p "
+       "-o ControlMaster=auto -o ControlPersist=yes"))
+
 ;; Package Management.  Configure the built-in emacs package manager to use
 ;; several publicly available repositories.
 (require 'package)
