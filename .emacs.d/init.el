@@ -84,17 +84,6 @@
 ;; Line length for features like fill-paragraph (M-q)
 (setq-default fill-column 80)
 
-;; Remote file editing with TRAMP Configure TRAMP to use the same SSH
-;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignore my
-;; SSH config, so configure the same settings here.
-;; https://www.emacswiki.org/emacs/TrampMode
-;; https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
-(setq tramp-default-method "ssh")
-(setq tramp-ssh-controlmaster-options
-      (concat
-       "-o ControlPath=~/.ssh/master-%%r@%%h:%%p "
-       "-o ControlMaster=auto -o ControlPersist=yes"))
-
 ;; Package Management.  Configure the built-in emacs package manager to use
 ;; several publicly available repositories.
 (require 'package)
@@ -295,7 +284,7 @@
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
   :ensure t
-  :defer t
+  :defer 1  ; lazy loading
 )
 
 ;; Autocomplete for words and filenames.  M-/ auto-completes a word
@@ -320,7 +309,7 @@
   (company-tng-configure-default)       ; use default configuration
   (global-company-mode)
   :ensure t
-  :defer t                              ; lazy loading
+  :defer 1  ; lazy loading
   )
 
 ;; Python backend for autocomplete
@@ -335,4 +324,19 @@
   (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
   :ensure t
   )
+)
+
+;; Remote file editing with TRAMP.  Configure TRAMP to use the same SSH
+;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignore my
+;; SSH config's multiplexing configuration, so configure the same settings here.
+;; https://www.emacswiki.org/emacs/TrampMode
+;; https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
+(use-package tramp
+  :config
+  (setq tramp-default-method "ssh")
+  (setq tramp-ssh-controlmaster-options
+        (concat
+         "-o ControlPath=~/.ssh/master-%%r@%%h:%%p "
+         "-o ControlMaster=auto -o ControlPersist=yes"))
+  :defer 1  ; lazy loading
 )
