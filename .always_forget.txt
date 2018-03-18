@@ -1252,6 +1252,7 @@ brew cleanup
 brew cask upgrade
 brew cask cleanup
 pip install --upgrade pip setuptools wheel
+pip install --upgrade jupyter matplotlib pandas numpy scipy
 softwareupdate --list
 softwareupdate -i -a
 cd ~ && git fetch -p && git rebase      # update Git-controlled dot files
