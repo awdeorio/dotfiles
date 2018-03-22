@@ -1598,6 +1598,8 @@ pip install --user virtualenv
 # Fancy debugging
 # https://pypi.python.org/pypi/pdbpp/
 $ pip install pdbpp
+import pdb; pdb.set_trace()
+> sticky
 
 # Stop and debug
 >>> import pdb; pdb.set_trace();
