@@ -279,7 +279,7 @@ wget URL -O FILE                        # output to FILE
 wget --random-wait                      # avoid a blacklist with random timing
 wget -r                                 # recursive (default max depth 5)
 wget -p                                 # include all files, including images
-wget -e robots=off                      # disregard robots.tx
+wget -e robots=off                      # disregard robots.txt
 wget -U mozilla                         # browser identity
 wget --limit-rate=20k                   # reduce download rate
 wget -b                                 # background
