@@ -280,15 +280,12 @@ wget --random-wait                      # avoid a blacklist with random timing
 wget -r                                 # recursive (default max depth 5)
 wget -p                                 # include all files, including images
 wget -e robots=off                      # disregard robots.tx
-wget -U mozilla                         # browser identity
+wget -U mozilla/5.0                     # User-agent (browser identity)
 wget --limit-rate=20k                   # reduce download rate
 wget -b                                 # background
 wget -o FILE                            # log output
-wget --random-wait -r -p \              # download entire site
-     -e robots=off -U mozilla URL
-wget --random-wait -r -p \              # download entire site, background
-     -e robots=off -U mozilla URL \
-     -b -o log
+wget --random-wait -r -p -e robots=off -U mozilla/5.0 URL  # crawler
+wget --random-wait -r -p -e robots=off -U mozilla/5.0 URL -b -o log  # crawler
 wget --spider                           # check if file exists
 youtube-dl URL                          # download a youtube video
 curl --verbose                          # watch protocol in action
