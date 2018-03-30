@@ -25,8 +25,14 @@
 #
 # Basedon https://gist.github.com/datagrok/2199506
 
+# Sanity check for SHELL variable
+if [ -z "${SHELL}" ]; then
+  echo "Error: \$SHELL variable not set."
+  exit 1
+fi
+
 # Search for virtual environments in directories with these names
-VIRTUAL_ENV_DIRNAMES="
+VIRTUAL_ENV_BASENAMES="
   .
   venv venv2 venv3
   .venv .venv2 .venv3
@@ -34,13 +40,17 @@ VIRTUAL_ENV_DIRNAMES="
   .env .env2 .env3
 "
 
+# Save PWD
+INVE_OLDPWD="`pwd`"
+
 # First, locate the root of a virtual environment
 # Based on https://gist.github.com/datagrok/2199506#a-system-level-inve
-while [ "$PWD" != "/" ]; do
+while [ "${PWD}" != "/" ]; do
   # Try all the possible virtual env directory names
-  for DIR in ${VIRTUAL_ENV_DIRNAMES}; do
+  for VIRTUAL_ENV_BASENAME in ${VIRTUAL_ENV_BASENAMES}; do
 	  # Stop here if this the root of a virtualenv
-	  if [ -e "$PWD/${DIR}/bin/activate" ]; then
+    ACTIVATE="${PWD}/${VIRTUAL_ENV_BASENAME}/bin/activate"
+	  if [ -e "${ACTIVATE}" ]; then
 		  break 2  # break out of nested loop
 	  fi
   done
@@ -50,10 +60,13 @@ if [ "$PWD" = "/" ]; then
 	echo "Could not activate: no virtual environment found." >&2
 	exit 1
 fi
-VIRTUAL_ENV_FULLPATH="${PWD}/${DIR}"
+
+# Restore PWD
+cd "${INVE_OLDPWD}"
 
 # Activate virtual environment using the Bash activatation script, then start
 # the subshell of the user's choice.  The subshell will inherit the environment
 # variables previously exported by bash.
-source "${VIRTUAL_ENV_FULLPATH}/bin/activate"
+echo "${ACTIVATE}"
+source "${ACTIVATE}"
 exec "${@:-$SHELL}"
