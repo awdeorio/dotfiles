@@ -2002,6 +2002,7 @@ git commit -v                           # view commit while you edit commit msg
 echo '*~' > .gitignore                  # ignore emacs backup files
 git add .gitignore                      # git should track ignore file itself
 git commit                              # git should track ignore file itself
+git config --global core.excludesfile ~/.gitignore_global  # global gitigore
 
 # History
 git rev-parse HEAD                      # print hash of current commit
