@@ -40,6 +40,13 @@ usermod --expiredate 1 USER             # same thing
 chage -E -1 USER                        # password never expires
 passwd --lock                           # lock an account (SSH key access OK)
 
+# Help
+man CMD                                 # User manual for CMD
+man -w                                  # Show search path for man pages
+echo $MANPATH                           # Additional man search dirs
+apropos                                 # Search commands and descriptions
+whatis CMD                              # Short description of a command
+
 # Machines
 hostname                                # name of this computer
 uname                                   # operating system name
