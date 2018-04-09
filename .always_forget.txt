@@ -1029,7 +1029,7 @@ pdftk PATH/*.pdf cat output output.pdf  # join pages
 pdfjoin *.pdf                           # join pages
 pdfunite *.pdf out.pdf                  # join pages
 pdftk FILE.pdf burst                    # split pages
-pdfseparate in.pdf 'out-%d.pdf'         # split pages
+pdfseparate FILE 'page-%02d.pdf'        # split pages
 xlhtml                                  # convert excel files
 pdftotext                               # convert pdf to text
 pdftotext -layout                       # convert pdf to text, preserving layout
