@@ -1467,6 +1467,7 @@ gcc -Wall -Werror -std=c89 -ansi        # compile ISO C
 g++ -Wall -Werror -pedantic             # compile ISO C++
 g++ -Wall -Werror -pedantic -std=c++11  # compile ISO C++11
 g++ -g                                  # compile with debug support
+g++ -Wfatal-errors                      # stop after one error
 g++ -E FILE.cpp -o FILE.ii              # stop after preprocessing
 g++ -S FILE.ii -o FILE.s                # stop after compilation proper
 g++ -c FILE.s -o FILE.o                 # stop after assembling
