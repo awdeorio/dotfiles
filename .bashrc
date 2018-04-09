@@ -46,6 +46,10 @@ alias weather='curl http://wttr.in/ann_arbor?Tn1'
 alias weather3='curl http://wttr.in/ann_arbor?Tn | less'
 alias vboxmanage=VBoxManage
 alias et='e ${HOME}/Dropbox/scratch.txt ${HOME}/Dropbox/lists/todo/*/todo.txt'
+alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude "*~" -e'
+function ff() { find . -type f -iwholename '*'$*'*' ; }
+alias fb="find . -name '*~'"
+alias fbrm="find . -name '*~' -exec rm -v {} \;"
 
 # OSX
 if [ -d /Applications/Meld.app ]; then
@@ -188,17 +192,6 @@ path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
 # point for scp and rcp, and it's important to refrain from outputting 
 # anything in those cases.
 [[ $- != *i* ]] && return
-
-
-### Utility Functions #########################################################
-
-# recursively grep for string
-alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude "*~" -e'
-
-# Find a file with a pattern in name:
-function ff() { 
-    find . -type f -iwholename '*'$*'*' ;
-}
 
 
 ### Printing ##################################################################
