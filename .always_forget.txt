@@ -1671,7 +1671,7 @@ echo '{"json":"obj"}' | jsonlint               # Lint
 
 # XML
 # Pretty-print
-cat FILE.xml | python -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()'
+cat FILE.xml | python2 -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()'
 
 # Run command line programs as functions in Python
 >>> import sh
