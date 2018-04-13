@@ -1584,6 +1584,12 @@ perl -i -pe                             # edit in place (like sed -i)
 python -m MODULE                        # load module and execute main()
 python -c "PROGRAM"                     # execute python program
 
+# Search path for libraries
+echo $PYTHONPATH                        # Add to search path
+echo $PYTHONUSERBASE                    # Base dir, e.g., ${HOME}/.local
+python -c 'import sys; print("\n".join(sys.path))'
+python FILE                             # basedir FILE is add to PYTHONPATH
+
 # Local package installs
 virtualenv venv                         # create
 virtualenv -p python3 venv              # create, Python 3
@@ -1657,12 +1663,9 @@ runipy -o NOTEBOOK.ipynb # save output of each cell back to NOTEBOOK.ipynb
 
 ipython nbconvert --to=notebook --ClearOutputPreprocessor.enabled=True --ExecutePreprocessor.enabled=True --output=OUTPUT.ipynb INPUT.ipynb
 
-# include path for local packages
-export PYTHONPATH=${HOME}/local/lib/python2.6:${PYTHONPATH}
-export PYTHONUSERBASE=${HOME}/local
-
 # Quick web server serving files in PWD on port 8000
-python -m SimpleHTTPServer
+python2 -m SimpleHTTPServer
+python3 -m http.server
 
 # JSON
 echo '{"json":"obj"}' | python -m json.tool    # Pretty-print
@@ -1672,10 +1675,6 @@ echo '{"json":"obj"}' | jsonlint               # Lint
 # XML
 # Pretty-print
 cat FILE.xml | python2 -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()'
-
-# Run command line programs as functions in Python
->>> import sh
->>> ls('-l')
 
 
 ####################
