@@ -924,6 +924,8 @@ csvgrep -c COLUMN[S] -r PATTERN         # search for regex PATTERN in column
 csvsort -c COLUMN[S]                    # sort, keyed on COLUMN[S]
 csvsort -c COLUMN[S] -r                 # ^^^ reverse sort
 csvjoin -c COLUMN A.csv B.csv           # join two files on COLUMN
+csvjoin -cUMID -I                       # join on UMID, with strings match
+csvjoin -cUMID -I --outer roster.csv scantron.csv  # join roster w/ scantron
 csvstack A.csv B.csv                    # stack https://goo.gl/CN8JaI
 csvsql --db sqlite:///DB.db --insert    # CSV -> SQL https://goo.gl/9FMLf1
 csvjson                                 # CSV -> JSON
