@@ -18,6 +18,7 @@ EXCLUDE+=' --exclude env/***'
 
 # Virtual machines
 EXCLUDE+=' --exclude *.vmdk'
+EXCLUDE+=' --exclude *.vdi'
 
 # Optional
 EXCLUDE+=' --exclude Library/***'
