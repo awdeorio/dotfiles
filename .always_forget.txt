@@ -1870,6 +1870,7 @@ psql -c "COPY (<select query>) TO STDOUT WITH CSV"
 sudo -H sudo -u postgres psql DB <<< "COPY () TO STDOUT DELIMITER ',' CSV HEADER;"
 
 # Microsoft SQL Server (2005, 2008, 2012, 2014)
+SELECT @@VERSION                        # Microsoft Server SQL version
 SELECT TOP 10 * FROM table;             # return 10 results
 
 # Show databases
