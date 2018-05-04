@@ -262,6 +262,7 @@ lsof -n -i                              # who's using which ports?
 nc HOST PORT                            # intiate connection "cat over a socket"
 nc -l HOST PORT                         # listen for incoming connection
 nc -v -z HOST PORT                      # check connection to HOST on PORT
+ncat -w 2 -v HOST PORT                  # check connection to HOST on PORT
 traceroute                              # route packets take to network host
 telnet HOST 80                          # connect to web server
 openssl s_client -quiet -connect www.google.com:443 # ^^^ with SSL
