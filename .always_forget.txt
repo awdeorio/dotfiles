@@ -1933,6 +1933,13 @@ GROUP BY
 PARTITION
 RANK
 
+# ODBC  https://github.com/mkleehammer/pyodbc/wiki
+odbcinst -j                             # Show location of ini files
+cat /etc/obdbcinst.ini                  # Driver .so locations
+cat /etc/obdbc.ini                      # DSN description (shortcut, optional)
+isql                                    # unixODBC command line tool
+
+
 ########################################
 # git
 
