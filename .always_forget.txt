@@ -1261,7 +1261,7 @@ brew cask upgrade
 brew cask cleanup
 pip2 install --upgrade pip setuptools wheel
 pip3 install --upgrade pip setuptools wheel
-pip3 install --upgrade jupyter matplotlib pandas numpy scipy
+pip3 install --upgrade jupyter matplotlib pandas numpy scipy grip
 softwareupdate --list
 softwareupdate -i -a
 cd ~ && git fetch -p && git rebase      # update Git-controlled dot files
@@ -1987,6 +1987,10 @@ git branch                              # check your branch
 git diff master origin/master           # see changes
 git merge origin/master                 # this will be a FF if no local changes
 git rebase origin/master                # 
+
+# Forking work flow: merging a pull request
+# https://gist.github.com/Chaser324/ce0505fbed06b947d962#accepting-and-merging-a-pull-request
+
 
 # Commit
 git branch                              # check your branch
