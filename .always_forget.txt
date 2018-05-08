@@ -1326,6 +1326,7 @@ rpm -Uvh --replacepkgs PACKAGE.rpm      # reinstall
 rpm -ev PACKAGE                         # uninstall
 rpm --replacefiles                      # allow overwriting config files
 rpm --force                             # replace files and packages
+rpm -q PACKAGE                          # check if PACKAGE is installed
 rpm2cpio FILE.rpm | cpio -idmv          # extract files from rpm
 rpmbuild -bp                            # %prep
 rpmbuild -bc                            # %prep, %build
