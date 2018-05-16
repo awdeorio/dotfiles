@@ -1,4 +1,4 @@
-personal_ws-1.1 en 212 
+personal_ws-1.1 en 213 
 structs
 microbenchmarks
 DDR
@@ -41,6 +41,7 @@ CoSMa's
 Opteron
 checker's
 website
+programmatically
 awdeorio
 multimeter
 multimeters
@@ -155,8 +156,8 @@ among
 traveller's
 pm
 UTMI
-NMI
 PCI
+NMI
 LVP
 ABC
 NoC
@@ -184,8 +185,8 @@ FSM's
 CUDA
 Virtutech
 Debapriya
-Dacota
 sanitizer
+Dacota
 Simics
 stuffsack
 AMD
