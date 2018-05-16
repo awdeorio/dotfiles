@@ -1781,6 +1781,8 @@ webpack --watch                         # continuously build front end
 webpack --display-error-details         # debug frontend build
 
 # npm
+npm install --save-prod PACKAGE         # Install and add to package.json (prod)
+npm install --save-dev PACKAGE          # Install and add to package.json (dev)
 npm update PACKAGE --save               # Upgrade one package
 
 # Update all dependencies in package.json
