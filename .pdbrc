@@ -1,0 +1,6 @@
+# PDB configuration
+# pdbpp respects these configuration parameters, too
+
+# Tab completion
+import rlcompleter
+pdb.Pdb.complete = rlcompleter.Completer(locals()).complete
