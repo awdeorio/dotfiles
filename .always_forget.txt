@@ -1089,6 +1089,7 @@ st                                      # statistics about a stream of numbers
 # Compression
 tar -cjf DIR.tar.bz2 DIR/               # compress directory
 tar -xvjf DIR.tar.bz2                   # decompress directory
+tar -xvjf DIR.tar.bz2 -C DIR            # decompress to target DIR
 tar -xvjOf DIR.tar.bz2                  # cat tarball files to stdout
 tar -tvjf DIR.tar.bz2                   # list contents of tarball
 tar -xvjf DIR.tar.bz2 FILE              # extract FILE from tarball
@@ -1659,6 +1660,9 @@ pytest --last-failed                    # Rerun only tests that failed last run
 pytest --showlocals                     # Dump local variables for debugging
 pytest --reuse-db                       # Reuse test DB
 pytest --create-db                      # Re-create test DB
+
+# Python Source Distributions
+python setup.py sdist                   # Create dist in ./dist/
 
 # Start a Jupyter (formerly IPython) Notebook server on a remote server
 jupyter-notebook --ip 0.0.0.0 --no-browser
