@@ -1608,6 +1608,11 @@ pip install PACKAGE                     # install PACKAGE into ./venv
 python3 -m pip install PACKAGE          # install PACKAGE into ./venv, Python 3
 deactivate                              # disable
 
+# pipenv
+pip3 install pipenv                     # System-wide pipenv install
+pipenv --where                          # Output project home path
+pipenv --venv                           # Output project virtual env path
+
 # Upgrade dependencies
 pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U
 
