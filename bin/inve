@@ -34,10 +34,10 @@ fi
 # Search for virtual environments in directories with these names
 VIRTUAL_ENV_BASENAMES="
   .
-  venv venv2 venv3
-  .venv .venv2 .venv3
   env env2 env3 .env
   .env .env2 .env3
+  venv venv2 venv3
+  .venv .venv2 .venv3
 "
 
 # Save PWD
