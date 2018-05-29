@@ -1660,6 +1660,7 @@ pytest FILE::FXN                        # Run one test function
 pytest FILE::CLASS::FXN                 # Run one test member function
 pytest --pdb                            # Drop to pdb after a failure
 pytest -x                               # Exit on first error
+pytest -s                               # Do not capture stdout
 pytest --runxfail                       # Run tests marked as expected failures
 pytest --last-failed                    # Rerun only tests that failed last run
 pytest --showlocals                     # Dump local variables for debugging
