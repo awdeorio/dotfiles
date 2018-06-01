@@ -20,9 +20,3 @@ sys._getframe(1).f_globals['Pdb'].complete = complete
 
 # set use_rawinput to 1 as tab completion relies on rawinput being used
 sys._getframe(1).f_locals['self'].use_rawinput = 1
-
-
-
-
-# Tab completion
-# pdb.Pdb.complete = rlcompleter.Completer(locals()).complete
