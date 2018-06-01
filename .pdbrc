@@ -1,5 +1,9 @@
+# -*- mode: python; -*-
 # PDB configuration
-# pdbpp respects these configuration parameters, too
+#
+# NOTE .pdbrc only allows things you can type at the pdp prompt.  That means
+# you can't include functions or scripts.  Put those in .pdbrc.py
+
 
 # Tab completion
 import rlcompleter
