@@ -2145,6 +2145,7 @@ git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
 # Merging
 git merge develop                       # merge develop into current branch
 git cherry-pick 62ecb3                  # merge *one* commit into current branch
+git cherry-pick A^..B                   # ^^^ commits A thru B, inclusive
 git checkout --theirs PATH/FILE         # conflict: keep their file
 git checkout --ours PATH/FILE           # conflict: keep my file
 git commit                              # conflict: I'm done, finish merge
