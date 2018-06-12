@@ -1906,6 +1906,9 @@ FIXME
 
 SELECT * FROM <schema>.[<table>]        # handle table names with spaces
 
+# MSSQL column names
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'myTable'
+
 # Oracle SQL
 SELECT * FROM table WHERE ROWNUM <= 10  # return 10 results
 
@@ -1952,7 +1955,10 @@ RANK
 odbcinst -j                             # Show location of ini files
 cat /etc/obdbcinst.ini                  # Driver .so locations
 cat /etc/obdbc.ini                      # DSN description (shortcut, optional)
-isql                                    # unixODBC command line tool
+isql DB USERNAME PASSWORD               # unixODBC command line tool
+iusql                                   # ^^^ with UTF8 support
+isql -b <<< QUERY                       # Batch mode
+isql -b -c -d, <<< QUERY                # Dump CSV
 
 
 ########################################
