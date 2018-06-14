@@ -1759,7 +1759,7 @@ django-admin startproject MYSITE        # create site, including manage.py
 ./manage.py startapp MYAPP              # create app (project has multiple apps)
 ./manage.py migrate                     # DB migration.  Creates db tables.
 ./manage.py makemigrations MYAPP        # create DB migration scripts
-./manage.py makemigrations -m NAME      # ^^^ with a name
+./manage.py makemigrations -n NAME      # ^^^ with a name
 cat MYAPP/migrations/0001_initial.py    # check out migration script
 ./manage.py sqlmigrate polls 0001       # check out SQL migrate would run
 ./manage.py check                       # migration dry run
