@@ -2150,6 +2150,7 @@ git diff --name-status ref1..ref2       # see what files changed
 git mergetool --tool-help               # list available diff/merge tools
 git config --global diff.tool TOOL      # use TOOL for merging
 git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
+https://github.com/REPO/compare/HASH1...HASH2  # Visualize diff on GitHub
 
 # Merging
 git merge develop                       # merge develop into current branch
