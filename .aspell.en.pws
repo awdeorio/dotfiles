@@ -1,4 +1,4 @@
-personal_ws-1.1 en 213 
+personal_ws-1.1 en 214 
 structs
 microbenchmarks
 DDR
@@ -40,6 +40,7 @@ VCS
 CoSMa's
 Opteron
 checker's
+soffit
 website
 programmatically
 awdeorio
@@ -156,8 +157,8 @@ among
 traveller's
 pm
 UTMI
-PCI
 NMI
+PCI
 LVP
 ABC
 NoC
