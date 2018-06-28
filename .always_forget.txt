@@ -1615,6 +1615,11 @@ deactivate                              # disable
 pip3 install pipenv                     # System-wide pipenv install
 pipenv --where                          # Output project home path
 pipenv --venv                           # Output project virtual env path
+pipenv --three                          # Create virtual environment, Pipfile
+pipenv install PACKAGE                  # Install PACKAGE into venv
+pipenv uninstall PACKAGE                # Remove PACKAGE from venv
+pipenv shell                            # Activate virtual environment
+pipenv run CMD                          # Run CMD in virtual environment
 
 # Upgrade dependencies
 pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U
