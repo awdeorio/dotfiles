@@ -1831,7 +1831,7 @@ sqlite3> .show                          # print settings
 sqlite3> PRAGMA foreign_keys;           # check if foreign keys enabled
 sqlite3> PRAGMA foreign_keys = ON;      # enable foreign keys (CASCADE, etc)
 
-# CSV to sqlite3
+# sqlite3 load from CSV
 echo -ne '.mode csv\n.import FILE.csv DB_NAME\n' | sqlite3 FILE.db
 sqlite3 FILE.db
 sqlite3> .mode csv
@@ -1850,8 +1850,8 @@ mysqldump --add-drop-table \            # copy DB from localhost to HOST
   OLD_DB_NAME | ssh -C HOST \
   "mysql -uUSER -pPASS NEW_DB_NAME”
 
-# PostgreSQL
-# https://www.postgresql.org/docs/9.3/static/app-psql.html
+# PostgreSQL Linux CLI
+# https://www.postgresql.org/docs/current/static/app-psql.html
 psql                                    # Start postgresql shell
 psql -c QUERY                           # Execute QUERY
 psql -a [--echo-all]                    # Echo all input commands and queries
@@ -1872,25 +1872,25 @@ dropuser --echo USER                    # Remove a user, verbose
 pg_dump DB -f FILE.sql                  # Dump database to file
 pg_dump -t TABLE DB > FILE.sql          # Dump one table to file
 psql -lqt                               # list databases
-\list                                   # list databases
-\l                                      # list databases
-\connect DB                             # connect to database
-\c URL                                  # connect to database using URL
-\dt                                     # list tables
-\d+ TABLE                               # display schema
-\du                                     # list users
-\quit                                   # exit psql CLI
-\q                                      # exit psql CLI
+psql> \list                             # list databases
+psql> \l                                # list databases
+psql> \connect DB                       # connect to database
+psql> \c URL                            # connect to database using URL
+psql> \dt                               # list tables
+psql> \d+ TABLE                         # display schema
+psql> \du                               # list users
+psql> \quit                             # exit psql CLI
+psql> \q                                # exit psql CLI
 
-# Check if DB exists
+# Postgres check if DB exists
 SELECT 1 FROM pg_database WHERE datname='DB'
 $ psql postgres -tAc "SELECT 1 AS result FROM pg_database WHERE datname='DB'"
 
-# Check if USER exists (do this on the 'postgres' DB)
-SELECT 1 FROM pg_roles WHERE rolname='USER'
+# Postgres check if USER exists (do this on the 'postgres' DB)
+psql> SELECT 1 FROM pg_roles WHERE rolname='USER'
 $ psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='USER'"
 
-# Dump table to CSV, compressed and uncompressed
+# Postgres dump table to CSV, compressed and uncompressed
 psql <<< "COPY table TO 'file.csv' DELIMITER ',' CSV HEADER;"
 psql <<< "COPY table TO STDOUT DELIMITER ',' CSV HEADER;" | gzip -f >FILE.csv.gz
 psql -c "COPY (<select query>) TO STDOUT WITH CSV"
@@ -1919,6 +1919,9 @@ SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'myTable'
 
 # Oracle SQL
 SELECT * FROM table WHERE ROWNUM <= 10  # return 10 results
+
+# Oracle SQL version
+SELECT * FROM v$version
 
 # Print column names
 SELECT COLUMN_NAME FROM ALL_TAB_COLUMNS WHERE TABLE_NAME='<name>'
