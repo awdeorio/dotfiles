@@ -1612,10 +1612,12 @@ python3 -m pip install PACKAGE          # install PACKAGE into ./venv, Python 3
 deactivate                              # disable
 
 # pipenv
+# Docs: https://docs.pipenv.org/  http://docs.pipenv.org/advanced/
 pip3 install pipenv                     # System-wide pipenv install
 pipenv --where                          # Output project home path
 pipenv --venv                           # Output project virtual env path
 pipenv --three                          # Create virtual environment, Pipfile
+PIPENV_VENV_IN_PROJECT pipenv --three   # ^^^ inside $(pwd)/.venv/
 pipenv install PACKAGE                  # Install PACKAGE into venv
 pipenv uninstall PACKAGE                # Remove PACKAGE from venv
 pipenv shell                            # Activate virtual environment
