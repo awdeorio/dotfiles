@@ -50,6 +50,7 @@ alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude 
 function ff() { find . -type f -iwholename '*'$*'*' ; }
 alias fb="find . -name '*~'"
 alias fbrm="find . -name '*~' -exec rm -v {} \;"
+alias pytest="pytest -vv --tb=line"
 
 # OSX
 if [ -d /Applications/Meld.app ]; then
