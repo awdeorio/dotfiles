@@ -1962,6 +1962,7 @@ DROP TABLE table;                       # delete table
 DROP TABLE table IF EXISTS table;       # delete table if it exists
 INSERT INTO table (col, ...)            # add a row
   VALUES ('val', ...);                  # ...
+UPDATE table SET col=val WHERE cond;    # update a row
 DELETE FROM table WHERE column="value"; # remove one row
 DELETE FROM table;                      # remove all rows in table
 GROUP BY
