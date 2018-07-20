@@ -183,6 +183,7 @@ if [ -d ${HOME}/local/lib/python2.6 ]; then
 fi
 export PYTHONSTARTUP=~/.pythonrc.py
 path-prepend /usr/local/opt/sqlite/bin
+eval "$(pyenv init -)"  # required by pyenv to modify PATH
 
 # CCache
 path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
