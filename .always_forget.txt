@@ -1780,6 +1780,10 @@ cat MYAPP/migrations/0001_initial.py    # check out migration script
 ./manage.py migrate                     # perform migration w/ any new scripts
 ./manage.py shell                       # python shell with Django environment
 ./manage.py createsuperuser             # create admin user for (w/ web login)
+./manage.py loaddata FILE               # Load database from JSON FILE
+./manage.py dumpdata                    # Dump database to JSON
+./manage.py dumpdata APP                # ^^^ for single APP
+./manage.py dumpdata APP.MODEL          # ^^^ for single model
 
 ####################
 # Python / Django / Django REST Framework Debug URL Routing
