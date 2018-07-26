@@ -1626,6 +1626,7 @@ pipenv run CMD                          # Run CMD in virtual environment
 # pyenv: install different Python versions
 pyenv install --list                    # List available version
 pyenv install 3.6.6                     # Install Python-3.6.6
+pyenv shell 3.6.6                       # Set 3.6.6 as default python temp
 
 # Upgrade dependencies
 pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U
