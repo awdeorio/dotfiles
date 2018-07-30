@@ -746,8 +746,11 @@ eval                                    # run in current shell
 exec                                    # spawn a new shell to replace current
 TAB=$'\t'                               # TAB literal
 echo "hello" | tee >(cat) >(cat)        # copy stdout to two commands
+set -u                                  # error on unset variables
 set -e                                  # Abort on non-zero NOTE: pipes break it
+set -o pipefile                         # ^^^ for pipes
 set -x                                  # Print commands
+set -euxo pipefail
 STR=$'hello\nworld'                     # String with newlines
 EXTENSION="${FILENAME##*.}"             # Parse file extension
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
