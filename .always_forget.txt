@@ -1120,7 +1120,7 @@ unzip FILE.zip -d DIR                   # decompress to DIR
 encfs ROOTDIR MOUNTPOINT                # (first time) create encrypted virtual folder
 encfs ROOTDIR MOUNTPOINT                # mount
 fusermount -u MOUNTPOINT                # unmount / Linux
-umoount MOUNTPOINT                      # unmount / Darwin
+umount MOUNTPOINT                       # unmount / Darwin
 encfsctl passwd ROOTDIR                 # change password
 md5sum                                  # compute hash
 shasum                                  # compute hash
