@@ -1132,6 +1132,7 @@ shasum -c FILE                          # check SHA hash
 md5sum -c FILE                          # check MD5 hash
 openssl req -newkey rsa:2048 -nodes -x509 -days 365 # generate server key
 openssl req -newkey rsa:4096 -nodes -x509 -days 365 # generate server key, 4096
+openssl s_client -showcerts -connect www.google.com:443  # Show certificate
 zip --encrypt -r DIR DIR                # create encrypted zip archive
 gpg -c FILE                             # encrypt file to FILE.gpg
 gpg --batch --passphrase-file FILE      # read password from FILE
