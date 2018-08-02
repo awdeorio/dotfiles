@@ -1210,7 +1210,8 @@ sha1sum *.jpg | awk '{print $2 " " $1 ".jpg"}' | xargs -L1 cp -v
 crontab -l                              # display current crontab
 crontab -r                              # remove current crontab
 crontab -e                              # edit current crontab
-# /etc/crontab format
+/etc/cron.d/                            # cron configs picked up automatically
+/etc/crontab format:
  +---------------- minute (0 - 59)
  |  +------------- hour (0 - 23)
  |  |  +---------- day of month (1 - 31)
