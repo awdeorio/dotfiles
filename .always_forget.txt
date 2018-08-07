@@ -124,6 +124,7 @@ find . -type f                          # plain files
 find . -type d                          # directories
 find . -name '*~' -exec rm -v {} \;     # remove tilde files
 find . -name '*~' | xargs rm -v         # remove tilde files
+find . -name GLOB -depth -delete        # remove files
 find . -exec grep -H PATTERN {} \;      # find + grep, grep will print filenames
 find . | xargs grep -H PATTERN          # find + grep, grep will print filenames
 find . -print0 | xargs -0 CMD           # handle spaces in filenames
