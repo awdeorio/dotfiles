@@ -1,5 +1,5 @@
 #!/bin/bash
 
 for branch in `git branch -r | grep -v HEAD`; do
-  echo -e `git show --format="%ci %cr" $branch | head -n 1` $branch;
+  echo -e `git show --format="%ci %cr %ae" $branch | head -n 1` $branch;
 done | sort -r
