@@ -1044,6 +1044,7 @@ xlhtml                                  # convert excel files
 pdftotext                               # convert pdf to text
 pdftotext -layout                       # convert pdf to text, preserving layout
 pdffonts                                # list fonts in a pdf document
+pdfcrop --margins 0 INFILE OUTFILE      # Remove whitespace around pdf
 textutil -convert txt FILE.rtf          # rtf to txt
 
 # Date and time
