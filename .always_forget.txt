@@ -1648,6 +1648,7 @@ pip install --user virtualenv
 $ pip install pdbpp
 import pdb; pdb.set_trace()
 > sticky
+> pp OBJECT  # pretty-print OBJECT, especially good for lists
 
 # Stop and debug
 >>> import pdb; pdb.set_trace();
