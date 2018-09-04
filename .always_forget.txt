@@ -1268,9 +1268,8 @@ dseditgroup -o edit -u USER1 -p -a USER2 -t user GROUP # Add USER2 to GROUP
 # Do this on primary laptop, backup laptop, and desktop
 brew update
 brew upgrade
-brew cleanup
 brew cask upgrade
-brew cask cleanup
+brew cleanup
 pip2 install --upgrade pip setuptools wheel pipenv
 pip3 install --upgrade pip setuptools wheel pipenv
 pip3 install --upgrade jupyter matplotlib pandas numpy scipy grip
