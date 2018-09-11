@@ -911,6 +911,7 @@ dos2unix                                # convert line endings to UNIX (old)
 pandoc -t gfm X.html -o X.md            # HTML to GitHub flavored markdown
 convert X.jpg X.png                     # JPG to PNG
 in2csv X.xls > X.csv                    # XLS to CSV
+tidy -im FILE.html                      # Reformat and re-indent HTML file
 
 # CSV files
 cat FILE| head -n1| tr ',' '\n'         # column labels
