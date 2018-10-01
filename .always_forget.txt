@@ -136,6 +136,7 @@ git grep PATTERN                        # recursively search git-controled files
 ag PATTERN                              # The Silver Searcher, see section below
 ag PATTERN --color | less -r
 ag -l                                   # Filenames only
+ag --ignore '*test*'                    # Ignore files/directories with "test"
 
 # Superuser permissions
 su                                      # switch user to root
