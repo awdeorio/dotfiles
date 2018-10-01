@@ -53,9 +53,6 @@ alias fbrm="find . -name '*~' -exec rm -v {} \;"
 alias pytest="pytest -vv --tb=line"
 
 # OSX
-if [ -d /Applications/Meld.app ]; then
-  alias meld='open -a Meld --args'
-fi
 if which mdfind &> /dev/null; then
   alias locate='mdfind -name'
 fi
