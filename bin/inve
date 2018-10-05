@@ -67,6 +67,11 @@ cd "${INVE_OLDPWD}"
 # Activate virtual environment using the Bash activatation script, then start
 # the subshell of the user's choice.  The subshell will inherit the environment
 # variables previously exported by bash.
-echo "${ACTIVATE}"
+echo "source ${ACTIVATE}"
 source "${ACTIVATE}"
+ENV_FILE="${INVE_OLDPWD}/.env"
+if [ -e "${ENV_FILE}" ]; then
+  echo "source ${ENV_FILE}"
+  source "${ENV_FILE}"
+fi
 exec "${@:-$SHELL}"
