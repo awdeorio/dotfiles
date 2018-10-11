@@ -41,6 +41,8 @@ chage -E 2000-01-01 USER                # disable login with past expiration
 usermod --expiredate 1 USER             # same thing
 chage -E -1 USER                        # password never expires
 passwd --lock                           # lock an account (SSH key access OK)
+USER=$(stat -c '%U' PATH)               # check user in a script
+GROUP=$(stat -c '%G' PATH)              # check group in a scrip
 
 # Help
 man CMD                                 # User manual for CMD
