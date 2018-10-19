@@ -226,6 +226,11 @@
 ;; C++ programming
 (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))  ; assume C++ for .h files
 
+;; Go programming
+(use-package go-mode
+  :ensure t
+)
+
 ;; Web Development
 (use-package web-mode
   :mode "\\.jsx?\\'"
