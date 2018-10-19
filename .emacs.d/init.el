@@ -241,6 +241,13 @@
 (use-package go-mode
   :ensure t
 )
+(use-package company-go
+  ;; Autocomplete
+  :after company                        ; lazy loading
+  :init
+  (add-hook 'go-mode-hook (lambda () (add-to-list 'company-backends 'company-go)))
+  :ensure t
+)
 
 ;; Web Development
 (use-package web-mode
