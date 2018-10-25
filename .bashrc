@@ -185,6 +185,10 @@ eval "$(pyenv init -)"  # required by pyenv to modify PATH
 # CCache
 path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
 
+# Go (golang)
+export GOPATH=${HOME}/.go
+path-append ${GOPATH}/bin
+
 
 ################################################################################
 # Test for an interactive shell.  There is no need to set anything past this 
