@@ -244,9 +244,10 @@
 (use-package company-go
   ;; Autocomplete
   ;; Requires gocode:
-  ;;   $ export GOPATH=${HOME}/go
+  ;;   $ export GOPATH=${HOME}/.go
   ;;   $ export PATH=${PATH}:${GOPATH}/bin
   ;;   $ go get -u github.com/nsf/gocode
+  ;;   $ go get -u github.com/nsf/godef
   :after company                        ; lazy loading
   :init
   (add-hook 'go-mode-hook (lambda () (add-to-list 'company-backends 'company-go)))
