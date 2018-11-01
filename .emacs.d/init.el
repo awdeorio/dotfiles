@@ -253,6 +253,11 @@
   (add-hook 'go-mode-hook (lambda () (add-to-list 'company-backends 'company-go)))
   :ensure t
 )
+(use-package go-dlv
+  ;; Integrated debugger support
+  ;; $ go get -u github.com/derekparker/delve/cmd/dlv
+  :ensure t
+)
 
 ;; Web Development
 (use-package web-mode
