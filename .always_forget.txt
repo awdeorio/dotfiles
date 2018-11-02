@@ -324,9 +324,11 @@ ls *.html | xargs -n1 webkit2png        # Screenshot many saved web pages
 speedtest                               # Test upload and download speeds
 
 # Echo server
-npm install --global http-echo-server   # Install
-http-echo-server                        # Run
-http POST localhost:56406 key=value     # Test
+http POST httpbin.org/anything x=y      # Public echo server test
+echo -e "HTTP/1.1 200 OK\n\n{}\n" | nc -l -p 8000  # Local CLI echo server
+npm install --global http-echo-server   # http-echo-server install
+http-echo-server                        # http-echo-server run
+http POST localhost:56406 key=value     # http-echo-server test
 
 # Curl: log in with cookies
 curl \
