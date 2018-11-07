@@ -2001,6 +2001,8 @@ isql -b -c -d, <<< QUERY                # Dump CSV
 
 ########################################
 # git
+#
+# Lots of good examples https://github.com/k88hudson/git-flight-rules
 
 # One-time setup for a user
 git config --global user.name "Name"    # Your name for author when committing
