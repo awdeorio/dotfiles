@@ -251,6 +251,7 @@
   :after company                        ; lazy loading
   :init
   (add-hook 'go-mode-hook (lambda () (add-to-list 'company-backends 'company-go)))
+  (add-hook 'before-save-hook 'gofmt-before-save)
   :ensure t
 )
 (use-package go-dlv
