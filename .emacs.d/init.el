@@ -240,6 +240,12 @@
 
 ;; Go programming
 (use-package go-mode
+  :mode "\\go\\'"
+  :init
+  (add-hook 'before-save-hook 'gofmt-before-save)  ; Call gofmt before save
+  :bind (("M-." . godef-jump)    ; Jump to definition
+         ("M-*" . pop-tag-mark)  ; Go back
+         )
   :ensure t
 )
 (use-package company-go
@@ -247,12 +253,12 @@
   ;; Requires gocode:
   ;;   $ export GOPATH=${HOME}/.go
   ;;   $ export PATH=${PATH}:${GOPATH}/bin
+  ;;   $ go get golang.org/x/tools/cmd/...
   ;;   $ go get -u github.com/nsf/gocode
   ;;   $ go get -u github.com/nsf/godef
   :after company                        ; lazy loading
   :init
   (add-hook 'go-mode-hook (lambda () (add-to-list 'company-backends 'company-go)))
-  (add-hook 'before-save-hook 'gofmt-before-save)
   :ensure t
 )
 (use-package go-dlv
