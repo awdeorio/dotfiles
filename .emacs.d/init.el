@@ -239,9 +239,19 @@
 (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))  ; assume C++ for .h files
 
 ;; Go programming
+;;
+;; Requires gocode:
+;;   $ export GOPATH=${HOME}/.go
+;;   $ export PATH=${PATH}:${GOPATH}/bin
+;;   $ go get golang.org/x/tools/cmd/...
+;;   $ go get -u github.com/nsf/gocode
+;;   $ go get -v github.com/rogpeppe/godef
+;;   $ go get -u github.com/derekparker/delve/cmd/dlv
+;; Ref: "Configure Emacs as a Go Editor From Scratch"
+;; https://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
 (use-package go-mode
-  :mode "\\go\\'"
-  :init
+  :mode "\\.go\\'"
+  :config
   (add-hook 'before-save-hook 'gofmt-before-save)  ; Call gofmt before save
   :bind (("M-." . godef-jump)    ; Jump to definition
          ("M-*" . pop-tag-mark)  ; Go back
@@ -250,20 +260,14 @@
 )
 (use-package company-go
   ;; Autocomplete
-  ;; Requires gocode:
-  ;;   $ export GOPATH=${HOME}/.go
-  ;;   $ export PATH=${PATH}:${GOPATH}/bin
-  ;;   $ go get golang.org/x/tools/cmd/...
-  ;;   $ go get -u github.com/nsf/gocode
-  ;;   $ go get -u github.com/nsf/godef
-  :after company                        ; lazy loading
+  :after company  ; lazy loading
   :init
   (add-hook 'go-mode-hook (lambda () (add-to-list 'company-backends 'company-go)))
   :ensure t
 )
 (use-package go-dlv
   ;; Integrated debugger support
-  ;; $ go get -u github.com/derekparker/delve/cmd/dlv
+  :after go-mode  ; lazy loading
   :ensure t
 )
 
