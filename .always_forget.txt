@@ -472,6 +472,11 @@ cvlc v4l2:///dev/video0 :v4l2-standard= :live-caching=300 :sout="#transcode{vcod
 # View live video stream
 vlc http://HOST:8080/stream.wmv
 mplayer http://HOST:8080/stream.wmv
+# Create GIF from video
+# ffmpeg -r N means reduce to N fps
+# gifsicle --delay=N means delay N*10 ms between frames
+ffmpeg -i "$INFILE" -pix_fmt rgb8 -r 10 -f gif - | \
+    gifsicle --delay=10 --optimize=3 > "$OUTFILE"
 
 # Images
 mogrify -rotate 90                     # rotate
