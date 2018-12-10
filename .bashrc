@@ -23,7 +23,7 @@ export LANG=en_US.UTF-8
 ### Aliases ###################################################################
 # NOTE: emacs, git, ls, and less  aliases appear later
 alias du="du -sh"
-function dusort { find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -h | sort -h ; }
+function dusort { find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h ; }
 alias df="df -h"
 alias cdd="cd .."
 alias grep="grep --color"
