@@ -166,7 +166,7 @@
   )
 
 ;; Text mode
-(setq auto-mode-alist (cons '("README" . text-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("README\\'" . text-mode) auto-mode-alist))
 (add-hook 'text-mode-hook 'visual-line-mode)  ; wrap long lines
 (add-hook 'text-mode-hook 'flyspell-mode)     ; spell check
 
@@ -192,8 +192,7 @@
 (when (and (>= emacs-major-version 24) (>= emacs-minor-version 4))
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . gfm-mode)
+  :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
   :config
   :init
