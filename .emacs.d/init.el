@@ -243,6 +243,7 @@
 ;;   $ export GOPATH=${HOME}/.go
 ;;   $ export PATH=${PATH}:${GOPATH}/bin
 ;;   $ go get golang.org/x/tools/cmd/...
+;;   $ go get -v -u golang.org/x/lint/golint
 ;;   $ go get -u github.com/nsf/gocode
 ;;   $ go get -v github.com/rogpeppe/godef
 ;;   $ go get -u github.com/derekparker/delve/cmd/dlv
