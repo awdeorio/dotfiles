@@ -1842,6 +1842,11 @@ npm-check-updates --upgrade
 npm-check-updates --upgradeAll
 npm install .
 
+########################################
+# GoLang
+
+$ go test -v                            # Run all unit tests
+$ go test -run TESTNAME                 # Run one unit test
 
 ########################################
 # Ruby local install
