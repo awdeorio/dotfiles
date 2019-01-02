@@ -239,14 +239,15 @@
 
 ;; Go programming
 ;;
-;; Requires gocode:
+;; Install Go tools
 ;;   $ export GOPATH=${HOME}/.go
 ;;   $ export PATH=${PATH}:${GOPATH}/bin
-;;   $ go get golang.org/x/tools/cmd/...
-;;   $ go get -v -u golang.org/x/lint/golint
-;;   $ go get -u github.com/nsf/gocode
-;;   $ go get -v github.com/rogpeppe/godef
-;;   $ go get -u github.com/derekparker/delve/cmd/dlv
+;;   $ go get golang.org/x/tools/cmd/...               # godoc
+;;   $ go get -v -u golang.org/x/lint/golint           # golint
+;;   $ go get -u github.com/nsf/gocode                 # gocode
+;;   $ go get -v github.com/rogpeppe/godef             # godef
+;;   $ go get -u github.com/derekparker/delve/cmd/dlv  # dlv
+;;
 ;; Ref: "Configure Emacs as a Go Editor From Scratch"
 ;; https://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
 (use-package go-mode
