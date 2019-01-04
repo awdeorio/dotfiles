@@ -51,6 +51,7 @@ function ff() { find . -type f -iwholename '*'$*'*' ; }
 alias fb="find . -name '*~'"
 alias fbrm="find . -name '*~' -exec rm -v {} \;"
 alias pytest="pytest -vv --tb=line"
+alias meld='/Applications/Meld.app/Contents/MacOS/Meld'
 
 # OSX
 if which mdfind &> /dev/null; then
