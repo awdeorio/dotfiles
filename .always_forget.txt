@@ -1093,6 +1093,7 @@ wdiff FILE1 FILE2                       # diff word-by-word
 colordiff                               # same as diff, but with color
 diff ... | colordiff                    # colorize diff output
 wdiff ... | colordiff                   # colorize wdiff output
+diff --brief -r DIR1 DIR2               # compare directories recursively
 
 # Shell math
 expr 1 / 2                              # integer only
