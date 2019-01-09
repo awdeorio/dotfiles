@@ -1,6 +1,6 @@
 [user]
 	name = Andrew DeOrio
-	signingkey = BB6201BA07530070
+	signingKey = BB6201BA07530070
 [color]
 	diff = auto
 	status = auto
@@ -18,3 +18,5 @@
 	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
+[commit]
+	gpgSign = true

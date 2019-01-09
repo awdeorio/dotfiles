@@ -2036,6 +2036,9 @@ git config user.email "email"           # email address for one project
 git config --global color.diff auto     # colors: git diff
 git config --global color.status auto   # colors: git status
 git config --global color.branch auto   # colors: git branch
+git config --global commit.gpgSign true # Sign commits by default
+git config --global user.signingKey BB6201BA07530070  # which key to sign with
+
 
 # One-time setup for a project
 git clone ssh://USERNAME@SERVER/~/opt/git/PROJECT.git # server
