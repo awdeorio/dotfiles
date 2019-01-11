@@ -220,6 +220,8 @@
 (setq-default sh-indentation tab-width)
 
 ;; Perl programming
+;; cperl-mode is preferred to perl-mode
+(defalias 'perl-mode 'cperl-mode)
 (setq-default cperl-indent-level tab-width)
 
 ;; C and C++ programming.  Build with C-c m.  Rebuild with C-c c.  Put
