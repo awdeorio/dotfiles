@@ -2078,7 +2078,9 @@ git merge origin/master                 # this will be a FF if no local changes
 git rebase origin/master                # 
 
 # Forking work flow: merging a pull request
-# https://gist.github.com/Chaser324/ce0505fbed06b947d962#accepting-and-merging-a-pull-request
+# https://help.github.com/articles/committing-changes-to-a-pull-request-branch-created-from-a-fork/
+git clone git@github.com:USER/REPO.git  # Clone other USER's fork of the repo
+git remote add upstream git@github.com:awdeorio/mailmerge.git
 
 # Commit
 git branch                              # check your branch
