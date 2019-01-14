@@ -1705,6 +1705,9 @@ pytest --showlocals                     # Dump local variables for debugging
 pytest --reuse-db                       # Reuse test DB
 pytest --create-db                      # Re-create test DB
 
+# Python tox CLI
+tox                                     # Run all tests
+
 # Python Source Distributions
 python setup.py sdist                   # Create dist in ./dist/
 
