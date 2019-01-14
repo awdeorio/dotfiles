@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# txt2pdf
+#
+# Andrew DeOrio <awdeorio@umich.edu>
+#
+# Convert plain text to pdf.
+
+# Stop on errors
+set -euo pipefail
+
+# Check arguments
+if [ "$#" != 1 ]; then
+  echo "Usage: $0 FILE.txt"
+  exit 1
+fi
+if [[ "$1" != *.txt ]]; then
+  echo "Error: $1 is not a .txt file"
+  exit 1
+fi
+TXTFILE="$1"
+PDFFILE="${TXTFILE%.txt}.pdf"
+
+# Convert
+enscript --quiet "$TXTFILE" -o - | ps2pdf - "$PDFFILE"
