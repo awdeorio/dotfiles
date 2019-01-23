@@ -1755,10 +1755,8 @@ git clean -xdf
 # Test
 python3 -m venv env
 source env/bin/activate
-pip install -e .
-./bin/test-style
-./bin/test-functional
-./bin/test-python2-python3
+pip install -e .[dev]
+tox
 
 # Edit setup.py and change the version
 $EDITOR setup.py
