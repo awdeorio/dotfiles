@@ -1698,6 +1698,7 @@ pytest                                  # Run all tests
 pytest FILE::FXN                        # Run one test function
 pytest FILE::CLASS::FXN                 # Run one test member function
 pytest --pdb                            # Drop to pdb after a failure
+pytest --trace                          # Drop to pdb at beginning of test
 pytest -x                               # Exit on first error
 pytest -s                               # Do not capture stdout
 pytest --runxfail                       # Run tests marked as expected failures
