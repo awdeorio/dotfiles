@@ -50,7 +50,7 @@ alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude 
 function ff() { find . -type f -iwholename '*'$*'*' ; }
 alias fb="find . -name '*~'"
 alias fbrm="find . -name '*~' -exec rm -v {} \;"
-alias pytest="pytest -vv --tb=line"
+#alias pytest="pytest -vv --tb=line"
 alias meld='/Applications/Meld.app/Contents/MacOS/Meld'
 
 # OSX
@@ -181,7 +181,7 @@ if [ -d ${HOME}/local/lib/python2.6 ]; then
 fi
 export PYTHONSTARTUP=~/.pythonrc.py
 path-prepend /usr/local/opt/sqlite/bin
-eval "$(pyenv init -)"  # required by pyenv to modify PATH
+#eval "$(pyenv init -)"  # required by pyenv to modify PATH
 
 # CCache
 path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
