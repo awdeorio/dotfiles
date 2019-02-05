@@ -1178,6 +1178,7 @@ gpg --list-options show-photos --fingerprint awdeorio  # Show key attached photo
 gpgconf --kill gpg-agent                # Stop gpg-agent
 gpgconf --launch gpg-agent              # Start gpg-agent
 gpg --homedir ~/gnupg_tmp/              # Use another GPG config
+gpg --encrypt --recipient you@you.com message.txt  # Sign and seal message.txt
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
