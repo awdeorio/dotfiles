@@ -47,7 +47,7 @@ alias weather3='curl http://wttr.in/ann_arbor?Tn | less'
 alias vboxmanage=VBoxManage
 alias et='e ${HOME}/Dropbox/scratch.txt ${HOME}/Dropbox/lists/todo/*/todo.txt'
 alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude "*~" -e'
-function ff() { find . -type f -iwholename '*'$*'*' ; }
+function ff() { find . -iwholename '*'$*'*' ; }
 alias fb="find . -name '*~'"
 alias fbrm="find . -name '*~' -exec rm -v {} \;"
 #alias pytest="pytest -vv --tb=line"
