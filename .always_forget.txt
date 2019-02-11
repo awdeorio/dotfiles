@@ -158,7 +158,10 @@ newgrp GROUP                            # change default group temporarily
 ps                                      # display my processes
 ps -u USER                              # ^^^ USER's processes
 ps -ax                                  # all processes on the machine
-ps -axM                                 # all processes and threads
+ps -axM                                 # all processes and threads (BSD)
+ps axm                                  # all processes and threads (GNU)
+ps -M                                   # threads (BSD)
+ps -m                                   # threads (GNU)
 ps -ww                                  # don't chop long lines
 ps -c                                   # basename of executable instead of full
 ps -axvcm                               # sort by memory usage
@@ -266,7 +269,8 @@ netstat -l numeric-ports | grep 80      # what's using port 80?
 sudo fuser -v -n tcp 80                 # who's using port 80?
 lsof -n -i                              # who's using which ports?
 nc HOST PORT                            # intiate connection "cat over a socket"
-nc -l -p PORT                           # listen for incoming connection
+nc -l -p PORT                           # listen for incoming connection (GNU)
+nc -l localhost PORT                    # listen for incoming connection (BSD)
 nc -v -z HOST PORT                      # check connection to HOST on PORT
 ncat -w 2 -v HOST PORT                  # check connection to HOST on PORT
 traceroute                              # route packets take to network host
