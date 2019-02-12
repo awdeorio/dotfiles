@@ -11,10 +11,11 @@ EXCLUDE+=' --exclude .dropbox/***'
 EXCLUDE+=' --exclude .vagrant.d/***'
 EXCLUDE+=' --exclude nobackup/***'
 
-# Python Virtual environments
+# Python and JavaScript Virtual environments
 EXCLUDE+=' --exclude .venv/***'
 EXCLUDE+=' --exclude venv/***'
 EXCLUDE+=' --exclude env/***'
+EXCLUDE+=' --exclude node_modules/***'
 
 # Virtual machines
 EXCLUDE+=' --exclude *.vmdk'
