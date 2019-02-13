@@ -2089,6 +2089,7 @@ git rebase origin/master                #
 # https://help.github.com/articles/committing-changes-to-a-pull-request-branch-created-from-a-fork/
 git clone git@github.com:USER/REPO.git  # Clone other USER's fork of the repo
 git remote add upstream git@github.com:awdeorio/mailmerge.git
+git fetch upstream
 
 # Commit
 git branch                              # check your branch
