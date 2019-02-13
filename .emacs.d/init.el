@@ -388,3 +388,9 @@
          "-o ControlMaster=auto -o ControlPersist=yes"))
   :defer 1  ; lazy loading
 )
+
+;; YAML mode
+(use-package yaml-mode
+  :mode "\\.yml\\'"
+  :ensure t
+)
