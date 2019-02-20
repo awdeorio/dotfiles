@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# FIXME: directories containing a mix of Git-controlled and non-git-controlled
+# files.  E.g., .ssh/, .gpg/, .emacs.d/
+
+# Stop on errors
+set -Eeuo pipefail
+
+# Directory containing the source controlled dot files
+SRCDIR=$(cd $(dirname $0) && pwd -P)
+
+# Check for conflicting files in home directory, files that would be clobbered
+for FILE in $(ls -A "$SRCDIR"); do
+  # Ignore this script
+  case "$FILE" in
+    "install"   ) continue ;;
+    "README.md" ) continue ;;
+    ".git"      ) continue ;;
+    ".gitignore") continue ;;
+  esac
+
+  if [ -e "${HOME}/${FILE}" ]; then
+    echo "Error: conflicting file ${HOME}/${FILE}"
+    CONFLICTS+="${FILE} "
+  fi
+done
+if [ -n "${CONFLICTS-}" ]; then
+  echo "Refuse to clobeer.  Try:"
+  echo "cd ${HOME}"
+  echo "rm -rf ${CONFLICTS}"
+  exit 1
+fi
+
+# Symlink each file from source controlled repo to home directory
+for FILE in $(ls -A "$SRCDIR"); do
+  case "$FILE" in
+    "install"   ) continue ;;
+    "README.md" ) continue ;;
+    ".git"      ) continue ;;
+    ".gitignore") continue ;;
+  esac
+
+  ln -sv ${SRCDIR}/${FILE} ${HOME}/${FILE}
+done
