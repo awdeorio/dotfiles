@@ -269,6 +269,9 @@ netstat -l numeric-ports | grep 80      # what's using port 80?
 sudo fuser -v -n tcp 80                 # who's using port 80?
 lsof -n -i                              # who's using which ports?
 nc HOST PORT                            # intiate connection "cat over a socket"
+nc -c                                   # close connection after send (GNU)
+nc -q                                   # close connection after send (BSD)
+nc                                      # close connection after send (BSD)
 nc -l -p PORT                           # listen for incoming connection (GNU)
 nc -l localhost PORT                    # listen for incoming connection (BSD)
 nc -v -z HOST PORT                      # check connection to HOST on PORT
@@ -720,6 +723,7 @@ mktemp -d                               # create a temporary directory
 basename /bin/bash                      # returns "bash"
 dirname /bin/bash                       # return "/bin"
 sleep                                   # sleep (1, 1s, 1m, etc.)
+seq 10 | xargs -n1 echo "hello"         # do something N times (see also {1..N})
 
 # Bash shell scripting
 echo "hello world"                      # print stdout
@@ -780,6 +784,7 @@ IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
 [ -n "${VAR+set}" ]                     # set, possibly to empty string
 [ -n "${VAR-unset}" ]                   # either unset or set non-empty string
 hash CMD                                # return true if CMD is in PATH
+echo {1..10}                            # expands to 1 2 3 ... 10
 
 # Bash shell productivity
 cp file{,.bak}                          # Backup a file
