@@ -246,6 +246,7 @@ edit /etc/resolv.conf
   > nameserver 141.213.13.31
 
 # Network Utilities
+# Cheat sheet https://pbs.twimg.com/media/DzP-KfpV4AA4TH2.jpg
 ping google.com                         # Check if a host is up
 ping -c3 google.com                     # Only send 3 packets
 ping -Iwlan0 google.com                 # Ping with a specific NIC
@@ -290,7 +291,14 @@ tcpdump -S "tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0" # 3-way handshake
 tcpdump -S "port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)" #  3-way handshake on port 80
 tcpdump -S "host web.eecs.umich.edu and port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)"   # 3-way handshake on port 80
 tcpdump -S -s0 -A port 80               # Sniff HTTP packets in ASCII format
+tshark                                  # CLI packet analysis
+tshark -nr FILE.pcap                    # CLI packet analysis from file
 iftop                                   # display bandwidth usage
+ngrep                                   # grep for network
+mitmproxy                               # spy on SSL connections
+p0f                                     # OS fingerprinting
+ntop                                    # See what's using network bandwidth
+iftop                                   # See what's using network bandwidth
 
 # Web Utilities
 python -m SimpleHTTPServer 8000         # start a file server at ./ on port 8000
@@ -320,6 +328,7 @@ curl -H "Content-type: application/json" \         # POST JSON
 curl --user-agent "Mozilla/5.0"         # Fake the user agent
 curl ifconfig.me                        # what is my IP address?
 curl ipinfo.io/ip                       # what is my IP address?
+ipcalc                                  # see what an IP or CIDR means
 httping HOST:PORT                       # check if an HTTP server is up
 curl --output /dev/null --silent --insecure --head --fail URL # check HTTP up
 dig +short myip.opendns.com @resolver1.opendns.com # what is my IP address?
@@ -700,6 +709,7 @@ nmap -A                                 # OS, version, script and traceroute
 nmap -T4                                # Limit delay (faster results)
 nmap -sn -PR 192.168.0.0/24             # which hosts are up my subnet?
 nmap -O                                 # OS detection
+zenmap                                  # GUI for nmap
 
 # Shell scripting
 yes                                     # keep printing "y" over and over
