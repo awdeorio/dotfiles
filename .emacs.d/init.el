@@ -189,7 +189,7 @@
 
 ;; Markdown mode (.md)
 ;; Only works on Emacs 24.4 +
-(when (and (>= emacs-major-version 24) (>= emacs-minor-version 4))
+(unless (version< emacs-version "24.4")
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode (("\\.md\\'" . gfm-mode)
@@ -207,7 +207,7 @@
 ;; Markdown ToC generator
 ;; https://github.com/ardumont/markdown-toc
 ;; Only works on Emacs 24.4 +
-(when (and (>= emacs-major-version 24) (>= emacs-minor-version 4))
+(unless (version< emacs-version "24.4")
 (use-package markdown-toc
   :commands markdown-toc-generate-toc
   :commands markdown-toc-refresh-toc
@@ -365,7 +365,7 @@
 ;; You may need to:
 ;; $ pip install virtualenv
 ;; Only works on Emacs 24.4 +
-(when (and (>= emacs-major-version 24) (>= emacs-minor-version 4))
+(unless (version< emacs-version "24.4")
 (use-package company-jedi
   :after company                        ; lazy loading
   :init
