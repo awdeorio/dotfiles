@@ -734,6 +734,7 @@ basename /bin/bash                      # returns "bash"
 dirname /bin/bash                       # return "/bin"
 sleep                                   # sleep (1, 1s, 1m, etc.)
 seq 10 | xargs -n1 echo "hello"         # do something N times (see also {1..N})
+printf                                  # C-workalike print function
 
 # Bash shell scripting
 echo "hello world"                      # print stdout
@@ -794,7 +795,8 @@ IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
 [ -n "${VAR+set}" ]                     # set, possibly to empty string
 [ -n "${VAR-unset}" ]                   # either unset or set non-empty string
 hash CMD                                # return true if CMD is in PATH
-echo {1..10}                            # expands to 1 2 3 ... 10
+echo {1..10}                            # expands to 1 2 3 ... 10 (see also seq)
+printf 'a%.0s' {1..10}                  # Repeat letter 'a' 10 times
 
 # Bash shell productivity
 cp file{,.bak}                          # Backup a file
