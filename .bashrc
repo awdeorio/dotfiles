@@ -195,6 +195,11 @@ export GOPATH=${HOME}/.go
 path-append ${GOPATH}/bin
 path-append $(go env GOROOT)/bin
 
+# Ruby
+export GEM_HOME=${HOME}/.gem
+path-append ${HOME}/.gem/bin
+path-prepend /usr/local/opt/ruby/bin
+
 
 ################################################################################
 # Test for an interactive shell.  There is no need to set anything past this 
