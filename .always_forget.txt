@@ -107,8 +107,9 @@ realpath DIR                            # absolute path of DIR
 pushd DIR                               # push DIR onto stack (bash)
 popd                                    # pop dir off stack and cd there (bash)
 dirs -v                                 # print stack (bash)
-cd ~2                                   # cd to 2nd dir on stack
-cp FILE ~2                              # use ~2 as an alias for a DIR
+cd ~2                                   # cd to 2nd dir on stack (bash)
+cp FILE ~2                              # use ~2 as an alias for a DIR (bash)
+cp -L                                   # Copy files pointed to by symlinks
 
 # Paths and executables
 which CMD                               # print path to CMD
