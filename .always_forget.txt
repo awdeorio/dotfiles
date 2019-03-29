@@ -2309,6 +2309,9 @@ git push origin master                  # (normal git flow)
 git lfs status                          # staged (uncommitted) changes
 git lfs ls-files                        # files managed by git-lfs (committed)
 
+# Avoid checking out all commits in repo with a long history
+git clone --depth N                     # Clone with truncated history
+
 # Render github-style Markdown
 pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
