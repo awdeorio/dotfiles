@@ -248,17 +248,20 @@ edit /etc/resolv.conf
 
 # Network Utilities
 # Cheat sheet https://pbs.twimg.com/media/DzP-KfpV4AA4TH2.jpg
-ping google.com                         # Check if a host is up
-ping -c3 google.com                     # Only send 3 packets
-ping -Iwlan0 google.com                 # Ping with a specific NIC
-host www.google.com                     # DNS lookup
-dig www.google.com                      # DNS lookup
-dig +short www.google.com               # DNS lookup, scriptable
+ping HOST                               # Check if a host is up
+ping -c3 HOST                           # Only send 3 packets
+ping -Iwlan0 HOST                       # Ping with a specific NIC
+host HOST                               # DNS lookup
+dig HOST                                # DNS lookup
+dig +short HOST                         # DNS lookup, scriptable
+dig +trace HOST                         # DNS lookup with full tree
+dig +trace +all HOST                    # DNS lookup with full tree, max detail
 nslookup                                # DNS lookup
-nslookup -type=ns eecs.umich.edu        # DNS with authoritative name servers
-dig -x 141.212.106.7                    # reverse DNS lookup
-dig +short -x 141.212.106.7             # reverse DNS lookup, scriptable
-whois www.google.com                    # domain name registration info
+nslookup -type=ns HOST                  # DNS with authoritative name servers
+dig -x IP                               # reverse DNS lookup
+dig +short -x IP                        # reverse DNS lookup, scriptable
+cat /etc/resolv.conf                    # what are my DNS servers?
+whois HOST                              # domain name registration info
 nmap HOST                               # what ports are open?
 nmap -A -T4 HOST                        # what ports are open?
 nmap -sn -PR 192.168.0.0/24             # which hosts are up my subnet?
