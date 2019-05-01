@@ -1123,6 +1123,7 @@ colordiff                               # same as diff, but with color
 diff ... | colordiff                    # colorize diff output
 wdiff ... | colordiff                   # colorize wdiff output
 diff --brief -r DIR1 DIR2               # compare directories recursively
+python2 -c "a=open('FILE1').read(); b=open('FILE2').read(); import sys; sys.exit(not a in b)"  # FILE1 is contained by FILE2
 
 # Shell math
 expr 1 / 2                              # integer only
