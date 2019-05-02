@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
-# FIXME check platform
-set -Eeuxo pipefail
+
+# Stop on errors
+set -Eeuo pipefail
+
+# Copy output to log file
+LOGFILE=upgrade.log
+echo "Logging to ${LOGFILE}"
+exec > >(tee ${LOGFILE}); exec 2>&1;
+
+# Cache sudo permissions
 sudo -v
+
+# Print commands
+set -x
+
+# Upgrade
 brew update
 brew upgrade
 brew cask upgrade
