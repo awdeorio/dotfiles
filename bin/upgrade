@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# FIXME check platform
+set -Eeuxo pipefail
+sudo -v
+brew update
+brew upgrade
+brew cask upgrade
+brew cleanup
+pip2 install --upgrade pip setuptools wheel
+pip3 install --upgrade pip setuptools wheel
+pip3 install --upgrade jupyter matplotlib pandas numpy scipy grip
+softwareupdate -i -a
