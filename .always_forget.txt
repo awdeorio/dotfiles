@@ -2354,3 +2354,4 @@ curl http://wttr.in/ann_arbor          # ascii weather report
 curl wttr.in/:help                     # ascii weather report help
 curl wttr.in?0                         # ascii weather report, only current
 curl wttr.in?n                         # ascii weather report, narrow width
+curl parrot.live                       # dancing ASCII parrot
