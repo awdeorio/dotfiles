@@ -1503,6 +1503,8 @@ tar -cvf vmName-NEW.ova vmName{.ovf,-disk1.vmdk,.mf} # repackage
 # https://www.vagrantup.com/
 vagrant init                            # create new configuration Vagrantfile
 vagrant init bento/ubuntu-16.04         # create Vagrantfile for Ubuntu 16.04
+vagrant init centos/7                   # create Vagrantfile for Centos 7
+vagrant init fedora/30-cloud-base       # create Vagrantfile for Fedora
 vagrant up                              # boot VM, create if necessary
 vagrant up --no-provision               # create VM, but don't isntall anything
 vagrant up --provision                  # boot VM, force installers to run
