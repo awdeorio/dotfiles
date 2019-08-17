@@ -191,7 +191,7 @@ path-prepend /usr/local/opt/sqlite/bin
 path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
 
 # Go (golang)
-if type -a go > /dev/null; then
+if type -a go &> /dev/null; then
   export GOPATH=${HOME}/.go
   path-append ${GOPATH}/bin
   path-append $(go env GOROOT)/bin
