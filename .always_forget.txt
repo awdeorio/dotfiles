@@ -1,3 +1,4 @@
+-*- eval: (visual-line-mode 0) -*- #
 # .always_forget.txt
 #
 # awdeorio's UNIX cheat sheet
