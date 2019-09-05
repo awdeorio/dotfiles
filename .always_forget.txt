@@ -2058,6 +2058,12 @@ GROUP BY
 PARTITION
 RANK
 
+# SQL Common Table Expressions
+# Basically "named sub queries"
+# https://blog.expensify.com/2015/09/25/the-simplest-sqlite-common-table-expression-tutorial/
+WITH x AS (SELECT * FROM y)
+SELECT * from y
+
 # ODBC  https://github.com/mkleehammer/pyodbc/wiki
 odbcinst -j                             # Show location of ini files
 cat /etc/obdbcinst.ini                  # Driver .so locations
