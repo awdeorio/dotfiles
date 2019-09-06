@@ -122,17 +122,20 @@ type -a CMD                             # include shell functions/aliases (bash)
 # Finding files
 find . -name hello.txt                  # find hello.txt, starting at PWD
 find / -name hello.txt                  # find hello.txt, starting at /
-find . '*.txt'                          # txt files
-find . '*hello*'                        # anything with "hello" in the filename
-find . -type f                          # plain files
-find . -type d                          # directories
-find . -name '*~' -exec rm -v {} \;     # remove tilde files
-find . -name '*~' | xargs rm -v         # remove tilde files
-find . -name GLOB -depth -delete        # remove files
-find . -exec grep -H PATTERN {} \;      # find + grep, grep will print filenames
-find . | xargs grep -H PATTERN          # find + grep, grep will print filenames
-find . -print0 | xargs -0 CMD           # handle spaces in filenames
-find . | xargs -n1 CMD                  # process files one at a time
+find '*.txt'                            # txt files
+find '*hello*'                          # anything with "hello" in the filename
+find -type f                            # plain files
+find -type d                            # directories
+find -name '*~' -exec rm -v {} \;       # remove tilde files
+find -name '*~' | xargs rm -v           # remove tilde files
+find -name GLOB -depth -delete          # remove files
+find -exec grep -H PATTERN {} \;        # find + grep, grep will print filenames
+find | xargs grep -H PATTERN            # find + grep, grep will print filenames
+find -print0 | xargs -0 CMD             # handle spaces in filenames
+find | xargs -n1 CMD                    # process files one at a time
+find -mtime 3 -type f                   # files modified exactly 3 days ago
+find -mtime -3 -type f                  # files modified less than 3 days ago
+find -mtime +3 -type f                  # files modified more than 3 days ago
 locate hello.txt                        # search system database for hello.txt
 grep -r PATTERN .                       # recursively search file content
 grep -rI PATTERN .                      # ^^^ ignoring binary files
