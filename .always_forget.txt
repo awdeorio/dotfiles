@@ -915,6 +915,7 @@ column -t                               # format columns in tabular data
 column -tns, FILE.csv                   # pretty-print a csv file
 test `tail -c 1 file`                   # test if file ends in newline
 expand                                  # converts tabs into spaces
+unexpand                                # convert spaces to tabs
 tac                                     # reverse order of lines
 rev                                     # reverse order of characters
 paste                                   # print two files side-by-side
@@ -1873,6 +1874,8 @@ npm install .                           # install local JS package
 webpack                                 # build front end
 webpack --watch                         # continuously build front end
 webpack --display-error-details         # debug frontend build
+npm install -g uglify-js                # install uglifyjs
+uglifyjs --beautify FILE.gs             # pretty print JavaScript
 
 # npm
 npm install --save-prod PACKAGE         # Install and add to package.json (prod)
