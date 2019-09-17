@@ -655,6 +655,7 @@ brew install pinentry-mac
 echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
 ssh-add -l                             # verify GPG-SSH connection
 gpg --export-ssh-key KEYID             # print SSH public key
+echo RELOADAGENT | gpg-connect-agent   # reload gpg agent
 
 # SSH files and permissions
 chmod go-w ~/                          # set permissions on local ssh config
@@ -1215,6 +1216,7 @@ gpgconf --kill gpg-agent                # Stop gpg-agent
 gpgconf --launch gpg-agent              # Start gpg-agent
 gpg --homedir ~/gnupg_tmp/              # Use another GPG config
 gpg --encrypt --recipient you@you.com message.txt  # Sign and seal message.txt
+echo RELOADAGENT | gpg-connect-agent    # reload GPG agent
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
