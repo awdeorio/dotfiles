@@ -1674,6 +1674,13 @@ pip install PACKAGE                     # install PACKAGE into ./venv
 python3 -m pip install PACKAGE          # install PACKAGE into ./venv, Python 3
 deactivate                              # disable
 
+# pip
+pip install PACKAGE                     # install Python package
+pip install --upgrade PACKAGE           # upgrade Python package
+pip install --upgrade PACKAGE           # upgrade Python package
+pip install -e .                        # install local Python package for dev
+pip install --upgrade --upgrade-strategy=eager -e .  # upgrade setup.py
+
 # pipenv
 # Docs: https://docs.pipenv.org/  http://docs.pipenv.org/advanced/
 pip3 install pipenv                     # System-wide pipenv install
