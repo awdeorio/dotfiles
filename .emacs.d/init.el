@@ -133,6 +133,11 @@
   :ensure t
   )
 
+;; Dark Mode Theme
+(use-package spacemacs-common
+    :ensure spacemacs-theme
+    :config (load-theme 'spacemacs-dark t))
+
 ;; Integrated debugging mode for LLDB.  However, prefer GDB over LLDB
 ;; because GDB integration is much better.
 ;; https://www.reddit.com/r/emacs/comments/6qbwjl/seriously_how_can_i_use_lldb_in_emacs/
