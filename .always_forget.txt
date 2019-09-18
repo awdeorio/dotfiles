@@ -1694,7 +1694,8 @@ pipenv shell                            # Activate virtual environment
 pipenv run CMD                          # Run CMD in virtual environment
 
 # pyenv: install different Python versions
-pyenv install --list                    # List available version
+pyenv versions                          # List installed versions
+pyenv install --list                    # List versions available for install
 pyenv install 3.6.6                     # Install Python-3.6.6
 pyenv shell 3.6.6                       # Set 3.6.6 as default python temp
 pyenv global 3.6.6                      # Set 3.6.6 as global python version
