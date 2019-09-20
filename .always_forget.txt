@@ -1061,6 +1061,7 @@ aklog -cell eecs.umich.edu -k UMICH.EDU # AFS tokens for EECS cell
 gssklog -cell engin.umich.edu           # AFS tokens for ENGIN cell
 fs listacl [FILE|DIR]                   # list ACLs (permissions)
 fs setacl -dir DIR -acl USER rlidwk     # give USER access to directory
+fs quota                                # check storage quota
 find DIR -type d -exec fs setacl -dir {} -acl USER rlidwk \;  # give USER access to DIR, recursively
 find DIR -type d -exec fs setacl -dir {} -acl USER rlidwka \; # give USER access to DIR, recursively, with admin (note the "a")
 
