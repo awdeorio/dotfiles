@@ -8,22 +8,10 @@
 # tree from "$PWD" to "/".  Then, it activates a subshell using the $SHELL
 # environment variable.
 #
-# A side effect of invoking a subshell is that subshells go out of their way to
-# set PS1.  You could add something like this to your .bashrc to append virtual
-# environment context to your PS1:
-#
-# function ps1_context {
-# 	# For any of these bits of context that exist, display them and append
-# 	# a space.
-#   # https://gist.github.com/datagrok/2199506#dont-mess-with-my-prompt
-# 	virtualenv=`basename "$VIRTUAL_ENV"`
-# 	for v in "$debian_chroot" "$virtualenv" "$PS1_CONTEXT"; do
-# 		echo -n "${v:+$v }"
-# 	done
-# }
-# export PS1="$(ps1_context)"'\u@\h:\w\$ '
-#
-# Basedon https://gist.github.com/datagrok/2199506
+# Basedon https://datagrok.org/python/activate/
+
+# Stop on errors
+set -Eeuo pipefail
 
 # Sanity check for SHELL variable
 if [ -z "${SHELL}" ]; then
@@ -32,13 +20,7 @@ if [ -z "${SHELL}" ]; then
 fi
 
 # Search for virtual environments in directories with these names
-VIRTUAL_ENV_BASENAMES="
-  .
-  env env2 env3 .env
-  .env .env2 .env3
-  venv venv2 venv3
-  .venv .venv2 .venv3
-"
+VIRTUAL_ENV_BASENAMES=". .venv venv env"
 
 # Save PWD
 INVE_OLDPWD="`pwd`"
@@ -49,8 +31,8 @@ while [ "${PWD}" != "/" ]; do
   # Try all the possible virtual env directory names
   for VIRTUAL_ENV_BASENAME in ${VIRTUAL_ENV_BASENAMES}; do
 	  # Stop here if this the root of a virtualenv
-    ACTIVATE="${PWD}/${VIRTUAL_ENV_BASENAME}/bin/activate"
-	  if [ -e "${ACTIVATE}" ]; then
+    VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_BASENAME}"
+	  if [ -e "${VIRTUAL_ENV}/bin/activate" ]; then
 		  break 2  # break out of nested loop
 	  fi
   done
@@ -64,14 +46,25 @@ fi
 # Restore PWD
 cd "${INVE_OLDPWD}"
 
-# Activate virtual environment using the Bash activatation script, then start
-# the subshell of the user's choice.  The subshell will inherit the environment
-# variables previously exported by bash.
-echo "source ${ACTIVATE}"
-source "${ACTIVATE}"
+# Load .env file if there is one
+# set -a causes viarbales defined to be exported
 ENV_FILE="${INVE_OLDPWD}/.env"
 if [ -e "${ENV_FILE}" ]; then
-  echo "source ${ENV_FILE}"
+  set -a
+  echo "Loading .env environment variables ..."
+  echo "  ${ENV_FILE}"
   source "${ENV_FILE}"
+  set +a
 fi
+
+# Activate virtual environment
+echo "Launching subshell in virtual environment ..."
+export VIRTUAL_ENV
+export PATH="${VIRTUAL_ENV}/bin:$PATH"
+unset PYTHONHOME
+echo "  ${VIRTUAL_ENV}"
+
+# Start the user's preferred subshell, replacing this process with the shell.
+# The subshell inherits the environment variables previously exported by this
+# script.
 exec "${@:-$SHELL}"
