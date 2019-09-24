@@ -389,13 +389,9 @@ http -a USERNAME:PASSWORD               # Authenticate with basic HTTP auth
 http --verify=no                        # Do not check SSL certificate
 
 # HTTPie and session cookies
-# 1. Log in with curl
-# 2. Scrape cookie content from curl's cookies.txt
-# 3. Create a new HTTPie session file
-# 4. Reuse HTTPie session file
-curl --cookie-jar cookies.txt --form ...
-COOKIE=`grep localhost cookies.txt | awk '{print $NF}'`
-http --session=./session.json URL "Cookie: login=${COOKIE}"
+# 1. Log in using an HTML form, saving cookies to file session.json
+# 2. Reuse HTTPie file session.json
+http --session=./session.json --form POST URL username=X password=Y
 http --session=./session.json URL
 
 # Backdoor shell using netcat
