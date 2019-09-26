@@ -51,20 +51,19 @@ cd "${INVE_OLDPWD}"
 ENV_FILE="${INVE_OLDPWD}/.env"
 if [ -e "${ENV_FILE}" ]; then
   set -a
-  echo "Loading .env environment variables ..."
-  echo "  ${ENV_FILE}"
+  echo "source ${ENV_FILE}"
   source "${ENV_FILE}"
   set +a
 fi
 
 # Activate virtual environment
-echo "Launching subshell in virtual environment ..."
-export VIRTUAL_ENV
-export PATH="${VIRTUAL_ENV}/bin:$PATH"
-unset PYTHONHOME
-echo "  ${VIRTUAL_ENV}"
+set -u
+echo "source ${VIRTUAL_ENV}/bin/activate"
+set +u
+source "${VIRTUAL_ENV}/bin/activate"
 
 # Start the user's preferred subshell, replacing this process with the shell.
 # The subshell inherits the environment variables previously exported by this
 # script.
+echo "exec ${@:-$SHELL}"
 exec "${@:-$SHELL}"
