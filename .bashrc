@@ -178,14 +178,16 @@ if [ -d ${HOME}/local/lib/perl5 ]; then
   export PERL5LIB;
 fi
 
-# local python module installs
-if [ -d ${HOME}/local/lib/python2.6 ]; then
-  export PYTHONPATH=${HOME}/local/lib/python2.6:${PYTHONPATH}
-  export PYTHONUSERBASE=${HOME}/local
+# Python
+#export PYTHONSTARTUP=~/.pythonrc.py
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
 fi
-export PYTHONSTARTUP=~/.pythonrc.py
-path-prepend /usr/local/opt/sqlite/bin
-#eval "$(pyenv init -)"  # required by pyenv to modify PATH
+
+# SQLite3 on macOS
+if [ -d /usr/local/opt/sqlite/bin ]; then
+  path-prepend /usr/local/opt/sqlite/bin
+fi
 
 # CCache
 path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
