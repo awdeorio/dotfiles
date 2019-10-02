@@ -1630,6 +1630,15 @@ lpass export                            # dump to plain text CSV
 lpass edit amazon.com                   # edit entry using $EDITOR
 encfs --extpass 'lpass show ID --password' # LastPass + encfs
 
+# JSON
+echo '{"json":"obj"}' | python -m json.tool    # Pretty-print
+echo '{"json":"obj"}' | jq                     # Pretty-print
+echo '{"json":"obj"}' | jsonlint               # Lint
+
+# XML
+# Pretty-print
+cat FILE.xml | python2 -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()'
+
 
 ########################################
 # Java
@@ -1653,32 +1662,28 @@ perl -i -pe                             # edit in place (like sed -i)
 
 # Options
 python -m MODULE                        # load module and execute main()
-python -c "PROGRAM"                     # execute python program
+python -c "CODE"                        # execute CODE
 
 # Search path for libraries
-echo $PYTHONPATH                        # Add to search path
+echo $PYTHONPATH                        # Python library search path
 echo $PYTHONUSERBASE                    # Base dir, e.g., ${HOME}/.local
 python -c 'import sys; print("\n".join(sys.path))'
-python FILE                             # basedir FILE is add to PYTHONPATH
 
-# Local package installs
-virtualenv venv                         # create
-virtualenv -p python3 venv              # create, Python 3
-python3 -m venv venv                    # create, Python 3
+# Python virtual environment
+virtualenv venv                         # create, Python2
+python3 -m venv .venv                   # create, Python3
 source ./venv/bin/activate              # enable, bash
 . ./venv/bin/activate                   # enable, csh, etc.
-pip install PACKAGE                     # install PACKAGE into ./venv
-python3 -m pip install PACKAGE          # install PACKAGE into ./venv, Python 3
 deactivate                              # disable
 
-# pip
+# Python pip
 pip install PACKAGE                     # install Python package
-pip install --upgrade PACKAGE           # upgrade Python package
 pip install --upgrade PACKAGE           # upgrade Python package
 pip install -e .                        # install local Python package for dev
 pip install --upgrade --upgrade-strategy=eager -e .  # upgrade setup.py
+pip install --user PACKAGE              # install to ~/.local/
 
-# pipenv
+# Python pipenv
 # Docs: https://docs.pipenv.org/  http://docs.pipenv.org/advanced/
 pip3 install pipenv                     # System-wide pipenv install
 pipenv --where                          # Output project home path
@@ -1690,55 +1695,39 @@ pipenv uninstall PACKAGE                # Remove PACKAGE from venv
 pipenv shell                            # Activate virtual environment
 pipenv run CMD                          # Run CMD in virtual environment
 
-# pyenv: install different Python versions
+# Python pyenv
 pyenv versions                          # List installed versions
 pyenv install --list                    # List versions available for install
 pyenv install 3.6.6                     # Install Python-3.6.6
 pyenv shell 3.6.6                       # Set 3.6.6 as default python temp
 pyenv global 3.6.6                      # Set 3.6.6 as global python version
 
-# Upgrade dependencies
-pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U
+# Python debugging with pdb
+>>> import pdb; pdb.set_trace();        # Break, enter debug shell
+>>> breakpoint()                        # Break, enter debug shell (Python3)
+python -m pdb script.py                 # Break at beginning of program
 
-# Install virtualenv locally
-pip install --user virtualenv
-./.local/bin/virtualenv
-
-# Fancy debugging
-# https://pypi.python.org/pypi/pdbpp/
+# Python debugging with pdbpp https://pypi.python.org/pypi/pdbpp/
 $ pip install pdbpp
-import pdb; pdb.set_trace()
-> sticky
+>>> import pdb; pdb.set_trace()         # Break, enter debug shell
+> sticky                                # Show code listing with shell prompt
 > pp OBJECT                             # pretty-print OBJECT
 
-# Stop and debug
->>> import pdb; pdb.set_trace();
-
-# Start a program in debug mode
-python -m pdb script.py
-
-# Start a program in debug mode, inside emacs
+# Python debugging with pdb inside Emacs
 M-x pdb
 Run pdb (like this): python3 -m pdb FILE.py
 
-# Check style
+# Python style
 pycodestyle                             # PEP8 check
 pydoctyle                               # PEP257 check
-pylint FILE                             # Check FILE
-pylint DIR                              # Check all source files in DIR
-pylint --errors-only --reports=n        # Disable full report (only errors)
-pylint --errors-only --reports=n        # Disable full report (only messages)
+pylint                                  # Bug and quality check
 
-# Enable tab-completion and history in Python shell.  Add this to ~/.pythonrc.py
-import readline, rlcompleter
-readline.parse_and_bind("tab: complete")
-
-# Python unittest CLI
+# Python unittest
 python -m unittest MODULE               # Run all tests in MODULE
 python -m unittest MODULE.CLASS         # Run all tests in CLASS
 python -m unittest MODULE.CLASS.FXN     # Run one test function
 
-# Python pytest CLI
+# Python pytest
 python -m pytest                        # Run all tests
 pytest                                  # Run all tests
 pytest FILE::FXN                        # Run one test function
@@ -1752,6 +1741,7 @@ pytest --last-failed                    # Rerun only tests that failed last run
 pytest --showlocals                     # Dump local variables for debugging
 pytest --reuse-db                       # Reuse test DB
 pytest --create-db                      # Re-create test DB
+pytest -vvsx                            # Verbose, show stdout, stop on error
 
 # Python tox CLI
 tox                                     # Run all tests
@@ -1762,15 +1752,6 @@ python setup.py sdist                   # Create dist in ./dist/
 # Quick web server serving files in PWD on port 8000
 python2 -m SimpleHTTPServer
 python3 -m http.server
-
-# JSON
-echo '{"json":"obj"}' | python -m json.tool    # Pretty-print
-echo '{"json":"obj"}' | jq                     # Pretty-print
-echo '{"json":"obj"}' | jsonlint               # Lint
-
-# XML
-# Pretty-print
-cat FILE.xml | python2 -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()'
 
 
 ########################################
