@@ -179,10 +179,9 @@ if [ -d ${HOME}/local/lib/perl5 ]; then
 fi
 
 # Python
-#export PYTHONSTARTUP=~/.pythonrc.py
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+# if command -v pyenv 1>/dev/null 2>&1; then
+#   eval "$(pyenv init -)"
+# fi
 
 # SQLite3 on macOS
 if [ -d /usr/local/opt/sqlite/bin ]; then

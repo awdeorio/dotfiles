@@ -1667,6 +1667,7 @@ python -c "CODE"                        # execute CODE
 # Search path for libraries
 echo $PYTHONPATH                        # Python library search path
 echo $PYTHONUSERBASE                    # Base dir, e.g., ${HOME}/.local
+echo $PYTHONSTARTUP                     # Interactive interpreter startup
 python -c 'import sys; print("\n".join(sys.path))'
 
 # Python virtual environment
