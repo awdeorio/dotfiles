@@ -2155,7 +2155,8 @@ git push                                # push the commit(s) to server
 git checkout FILE                       # revert FILE to last checked-in version
 git reset PATH                          # undo git add
 git reset --soft                        # changes to tracked files are discarded
-git reset --soft HEAD~                  # discard commits that aren't pushed
+git reset --soft HEAD~                  # discard one commit not pushed
+git reset --hard origin/BRANCH          # discard all commits not pushed
 git reset --hard                        # reset head to COM, files unchanged
 git rm -r --cached PATH                 # undo git add, without removing files
 git clean -fdx --dry-run                # restore to "clean repo", DELETES
