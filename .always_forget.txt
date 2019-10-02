@@ -1709,7 +1709,7 @@ pip install --user virtualenv
 $ pip install pdbpp
 import pdb; pdb.set_trace()
 > sticky
-> pp OBJECT  # pretty-print OBJECT, especially good for lists
+> pp OBJECT                             # pretty-print OBJECT
 
 # Stop and debug
 >>> import pdb; pdb.set_trace();
@@ -1759,17 +1759,6 @@ tox                                     # Run all tests
 # Python Source Distributions
 python setup.py sdist                   # Create dist in ./dist/
 
-# Start a Jupyter (formerly IPython) Notebook server on a remote server
-jupyter-notebook --ip 0.0.0.0 --no-browser
-
-# Execute a Jupyter Notebook in headless mode.  Clears all output, runs the
-# entire notebook, and writes the result to an output .ipynb file
-# NOTE: `ipython nbconvert` is buggy and incorrectly times out long jobs
-pip install runipy
-runipy -o NOTEBOOK.ipynb # save output of each cell back to NOTEBOOK.ipynb
-
-ipython nbconvert --to=notebook --ClearOutputPreprocessor.enabled=True --ExecutePreprocessor.enabled=True --output=OUTPUT.ipynb INPUT.ipynb
-
 # Quick web server serving files in PWD on port 8000
 python2 -m SimpleHTTPServer
 python3 -m http.server
@@ -1782,6 +1771,29 @@ echo '{"json":"obj"}' | jsonlint               # Lint
 # XML
 # Pretty-print
 cat FILE.xml | python2 -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()'
+
+
+########################################
+# Python / IPython
+# AKA Jupyter Notebook, `ipdb`, or Django's `manage.py shell`
+
+# Execute a Jupyter Notebook in headless mode.  Clears all output, runs the
+# entire notebook, and writes the result to an output .ipynb file
+# NOTE: `ipython nbconvert` is buggy and incorrectly times out long jobs
+pip install runipy
+runipy -o NOTEBOOK.ipynb
+
+# Jupyter Notebook server on a remote server
+jupyter-notebook --ip 0.0.0.0 --no-browser
+
+# Jupyter Notebook on a remote server behind a firewall (local port forwarding)
+remotehost> jupyter-notebook
+localhost > ssh -vnNTL 8888:localhost:8888 $REMOTEHOST
+localhost > open http://localhost:8888
+
+# Jupyter Notebook cell magic
+%load_ext autoreload                    # Automatically reload source code now
+%autoreload 2                           # ^^^ every time before executing code
 
 
 ####################
