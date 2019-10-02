@@ -1706,6 +1706,7 @@ pyenv global 3.6.6                      # Set 3.6.6 as global python version
 >>> import pdb; pdb.set_trace();        # Break, enter debug shell
 >>> breakpoint()                        # Break, enter debug shell (Python3)
 python -m pdb script.py                 # Break at beginning of program
+>>> pdb.Pdb(skip=['django.*']).set_trace()  # Do not step into library code
 
 # Python debugging with pdbpp https://pypi.python.org/pypi/pdbpp/
 $ pip install pdbpp
@@ -1851,8 +1852,10 @@ cat MYAPP/migrations/0001_initial.py    # check out migration script
 ./manage.py dumpdata APP                # ^^^ for single APP
 ./manage.py dumpdata APP.MODEL          # ^^^ for single model
 
-####################
-# Python / Django / Django REST Framework Debug URL Routing
+# Django debugging
+>>> pdb.Pdb(skip=['django.*']).set_trace()  # Do not step into django code
+
+# Django REST Framework Debug URL Routing
 # http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
 ./manage.py shell
 from django.urls import reverse
