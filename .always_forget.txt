@@ -1898,6 +1898,10 @@ NODE_DEBUG='*' node test.js             # Enable all debug messages
 NODE_DEBUG=timer node test.js           # Enable only timer debug messages
 node --trace-events-enabled --trace-event-categories node.async_hooks --trace-event-file-pattern log.json test.js  # VERY detailed debug info
 
+# fetch() in node
+npm install node-fetch                  # Install node-fetch
+const fetch = require("node-fetch");    # Import node-fetch in your program
+
 
 ########################################
 # GoLang
