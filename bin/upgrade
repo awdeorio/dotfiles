@@ -14,12 +14,22 @@ sudo -v
 # Print commands
 set -x
 
-# Upgrade
+# Update Emacs packages
+command emacs \
+  --load ${HOME}/.emacs.d/init.el \
+  --funcall auto-package-update-now \
+  --batch
+
+# Update Python packages
+pip2 install --upgrade pip setuptools wheel
+pip3 install --upgrade pip setuptools wheel
+pip3 install --upgrade jupyter matplotlib pandas numpy scipy grip
+
+# Update Homebrew packages
 brew update
 brew upgrade
 brew cask upgrade
 brew cleanup
-pip2 install --upgrade pip setuptools wheel
-pip3 install --upgrade pip setuptools wheel
-pip3 install --upgrade jupyter matplotlib pandas numpy scipy grip
+
+# Update macOS packages
 softwareupdate -i -a

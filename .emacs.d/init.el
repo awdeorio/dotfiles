@@ -114,13 +114,13 @@
 (eval-when-compile
   (require 'use-package))
 
-;; Automatically update packages installed by use-package each week
+;; Automatically update packages installed by use-package periodically
 (use-package auto-package-update
   :ensure t
   :config
   (setq auto-package-update-delete-old-versions t)
   ;;(setq auto-package-update-hide-results t)
-  (setq auto-package-update-interval 7)
+  (setq auto-package-update-interval 30)  ;; every 30 days
   (auto-package-update-maybe)
   )
 
