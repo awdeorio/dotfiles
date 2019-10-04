@@ -25,6 +25,13 @@ pip2 install --upgrade pip setuptools wheel
 pip3 install --upgrade pip setuptools wheel
 pip3 install --upgrade jupyter matplotlib pandas numpy scipy grip
 
+# Update Ruby packages
+gem update --system
+gem cleanup
+pushd ${HOME}
+gem update
+popd
+
 # Update Homebrew packages
 brew update
 brew upgrade
