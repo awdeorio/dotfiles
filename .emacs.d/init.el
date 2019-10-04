@@ -205,6 +205,7 @@
   (add-hook 'markdown-mode-hook 'visual-line-mode) ; wrap long lines
   (add-hook 'markdown-mode-hook 'flyspell-mode) ; check spelling
   (setq markdown-fontify-code-blocks-natively t) ; syntax highlight code blocks
+  (setq markdown-gfm-use-electric-backquote nil) ; no interactive code block insertion
   :ensure t
   )
 )
