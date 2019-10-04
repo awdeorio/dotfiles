@@ -1922,9 +1922,14 @@ $ godoc -http=:6060                     # Render package docs
 $ open http://localhost:6060/pkg/github.com/USERNAME/PACKGE/  # See package docs
 
 ########################################
-# Ruby local install
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-export PATH="$PATH:$HOME/.rvm/bin"
+# Ruby
+
+$GEM_HOME                               # Ruby library install root
+gem install PACKAGE                     # Install PACKAGE
+gem update --system                     # Upgrade installed packages
+gem cleanup                             # Remove old versions
+gem list                                # List installed packages
+gem outdated                            # List installed and outdated packages
 
 
 ########################################
