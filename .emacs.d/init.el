@@ -117,10 +117,8 @@
 (use-package auto-package-update
   :ensure t
   :config
+  (setq auto-package-update-prompt-before-update t)
   (setq auto-package-update-delete-old-versions t)
-  ;;(setq auto-package-update-hide-results t)
-  (setq auto-package-update-interval 30)  ;; every 30 days
-  (auto-package-update-maybe)
   )
 
 ;; More intuitive undo/redo.  M-_ undo, C-M-_ redo
