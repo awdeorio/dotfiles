@@ -1,7 +1,7 @@
 #!/bin/bash
 
-nohup \
-  /Applications/Emacs.app/Contents/MacOS/Emacs \
+nohup emacsclient -c \
+  ${HOME}/Dropbox/lists/todo/home/todo.txt \
+  ${HOME}/Dropbox/lists/todo/work/todo.txt \
   ${HOME}/Dropbox/scratch.txt \
-  ${HOME}/Dropbox/lists/todo/*/todo.txt \
   &> /dev/null &

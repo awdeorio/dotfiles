@@ -45,7 +45,6 @@ alias whatismyip='curl ipinfo.io/ip'
 alias weather='curl http://wttr.in/ann_arbor?Tn1'
 alias weather3='curl http://wttr.in/ann_arbor?Tn | less'
 alias vboxmanage=VBoxManage
-alias et='e ${HOME}/Dropbox/scratch.txt ${HOME}/Dropbox/lists/todo/*/todo.txt'
 alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude "*~" -e'
 function ff() { find . -iwholename '*'$*'*' ; }
 alias fb="find . -name '*~'"
