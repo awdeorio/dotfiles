@@ -221,12 +221,16 @@ cat /proc/<PID>/environ | tr '\000' '\n'# inspect environment of running proc
    ERR           program exit, non-zero (pseudo-signal, bash only)
 
 # Environment
+printenv                                # List environment variables
 env                                     # List environment variables
+set                                     # List env vars, local vars, functions
+echo $VARIABLE                          # Print one environment variable
+printenv VARIABLE                       # Print one environment variable
 env -i CMD                              # Run CMD with empty environment
-echo $PATH                              # Command search path
-echo $PS1                               # Shell prompt
-echo $LD_LIBRARY_PATH                   # run time library resolution
-echo $MANPATH                           # man search dirs
+$PATH                                   # Command search path
+$PS1                                    # Shell prompt
+$LD_LIBRARY_PATH                        # Run time library resolution
+$MANPATH                                # man search dirs
 
 # Manual network configuration (DHCP)
 killall dhcpcd
