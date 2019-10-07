@@ -68,28 +68,11 @@ fi
 
 
 ### Editor ####################################################################
-export EDITOR=emacs
-alias e=$EDITOR
-
-function emacs {
-  # Make emacs start in the background on GUIs
-  if [ "$1" == "-nw" ]; then
-    # -nw option takes precedence
-    command emacs "$@"
-  elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    # Don't try to use GUI on SSH connections
-    command emacs -nw "$@"
-  elif [ -e /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
-    # OSX GUI
-    /Applications/Emacs.app/Contents/MacOS/Emacs "$@" &
-  elif [ "$DISPLAY" ] || [ "$OS" = "Windows_NT" ]; then
-    # Linux and Cygwin GUI
-    command nohup emacs "$@" &
-  else
-    # for console
-    command emacs "$@"
-  fi
-}
+export EDITOR="emacsclient -c"   # Open a new window w/ existing daemon
+export VISUAL="$EDITOR"          # Here for historical reasons
+export ALTERNATE_EDITOR=""       # Start a new emacs daemon if none exists
+export SUDO_EDITOR="$EDITOR"     # Editor used by sudoedit and sudo -e
+alias e="$EDITOR"
 
 
 ### Pager #####################################################################
