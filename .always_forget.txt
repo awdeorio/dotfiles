@@ -345,6 +345,7 @@ curl -H "Content-type: application/json" \         # POST JSON
 curl --user-agent "Mozilla/5.0"         # Fake the user agent
 curl ifconfig.me                        # what is my IP address?
 curl ipinfo.io/ip                       # what is my IP address?
+curl https://freegeoip.app/json/IP      # geolocation data for IP address
 ipcalc                                  # see what an IP or CIDR means
 httping HOST:PORT                       # check if an HTTP server is up
 curl --output /dev/null --silent --insecure --head --fail URL # check HTTP up
