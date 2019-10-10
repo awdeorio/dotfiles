@@ -397,3 +397,25 @@
   :mode "\\.yml\\'"
   :ensure t
 )
+
+;; Code folding
+;;
+;; In programming major modes, hs-minor-mode provides folding functionality.
+;; In text modes, outline-minor-mode provides folding functionality.  We use
+;; fold-dwim to integrate the different folding behaviors in different minor
+;; modes.
+(use-package hideshow
+  :hook ((prog-mode . hs-minor-mode))  ; Enable folding in programming modes
+  :defer 1
+  :config
+
+  (use-package fold-dwim
+    :ensure t
+    :hook ((text-mode . outline-minor-mode))  ; Enable folding in text mode
+    :config
+    (global-set-key (kbd "<f7>")      'fold-dwim-toggle)
+    (global-set-key (kbd "<M-f7>")    'fold-dwim-hide-all)
+    (global-set-key (kbd "<S-M-f7>")  'fold-dwim-show-all)
+    :defer 1
+    )
+  )
