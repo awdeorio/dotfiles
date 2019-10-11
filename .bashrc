@@ -67,11 +67,11 @@ fi
 
 
 ### Editor ####################################################################
-export EDITOR="emacsclient -c"   # Open a new window w/ existing daemon
-export VISUAL="$EDITOR"          # Here for historical reasons
-export ALTERNATE_EDITOR=""       # Start a new emacs daemon if none exists
-export SUDO_EDITOR="$EDITOR"     # Editor used by sudoedit and sudo -e
-export GIT_EDITOR="$EDITOR"      # Editor used by git commit
+export EDITOR="emacsclient -n -c"      # Open a new window w/ existing daemon
+export VISUAL="$EDITOR"                # Here for historical reasons
+export ALTERNATE_EDITOR=""             # Start a new emacs daemon if none exists
+export SUDO_EDITOR="$EDITOR"           # Editor used by sudoedit and sudo -e
+export GIT_EDITOR="emacsclient -t -c"  # Editor used by git commit
 alias e="$EDITOR"
 
 
