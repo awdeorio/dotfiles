@@ -133,7 +133,8 @@
 ;; Dark Mode Theme
 (use-package spacemacs-common
     :ensure spacemacs-theme
-    :config (load-theme 'spacemacs-dark t))
+    ;:config (load-theme 'spacemacs-dark t)
+    )
 
 ;; Integrated debugging mode for LLDB.  However, prefer GDB over LLDB
 ;; because GDB integration is much better.
