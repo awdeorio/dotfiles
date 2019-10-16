@@ -40,3 +40,7 @@ brew cleanup
 
 # Update macOS packages
 softwareupdate -i -a
+
+# Finished
+set +x
+echo "$0 success"
