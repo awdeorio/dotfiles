@@ -2296,6 +2296,7 @@ git mergetool --tool-help               # list available diff/merge tools
 git config --global diff.tool TOOL      # use TOOL for merging
 git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
 https://github.com/REPO/compare/HASH1...HASH2  # Visualize diff on GitHub
+gitk --all                              # GUI history and diff
 
 # Merging
 git merge develop                       # merge develop into current branch
