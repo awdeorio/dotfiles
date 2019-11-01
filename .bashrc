@@ -162,6 +162,7 @@ if [ -d ${HOME}/local/lib/perl5 ]; then
 fi
 
 # Python
+path-append ${HOME}/.pyenv/shims
 # if command -v pyenv 1>/dev/null 2>&1; then
 #   eval "$(pyenv init -)"
 # fi
