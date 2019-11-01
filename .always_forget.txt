@@ -1755,6 +1755,7 @@ pytest --cov MODULE                     # Measure coverage with pytest-cov
 
 # Python tox CLI
 tox                                     # Run all tests
+tox -e py3                              # Run one test environment
 
 # Python Source Distributions
 python setup.py sdist                   # Create dist in ./dist/
