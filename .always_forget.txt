@@ -1708,6 +1708,7 @@ pyenv install 3.6.6                     # Install Python-3.6.6
 pyenv shell 3.6.6                       # Set 3.6.6 as default python temp
 pyenv global 3.6.6                      # Set 3.6.6 as global python version
 pyenv root                              # Location of local Python installs
+eval "$(pyenv init -)"                  # Activate pyenv in bashrc
 
 # Python debugging with pdb
 >>> import pdb; pdb.set_trace();        # Break, enter debug shell
