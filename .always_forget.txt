@@ -1752,6 +1752,7 @@ pytest --reuse-db                       # Reuse test DB
 pytest --create-db                      # Re-create test DB
 pytest -vvsx                            # Verbose, show stdout, stop on error
 pytest --cov MODULE                     # Measure coverage with pytest-cov
+coverage annotate                       # Create *.py,cover showing LOC coverage
 
 # Python tox CLI
 tox                                     # Run all tests
