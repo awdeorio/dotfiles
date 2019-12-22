@@ -1832,7 +1832,7 @@ git describe
 git push --tags origin master
 
 # Deploy to Test PyPI and browse to https://test.pypi.org/project/mailmerge/
-twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+twine upload --sign --repository-url https://test.pypi.org/legacy/ dist/*
 
 # Test install.  It will install, but not run because we didn't install deps.
 python3 -m venv env3
@@ -1843,7 +1843,7 @@ virtualenv -ppython2 env2
 ./env2/bin/mailmerge
 
 # Deploy to PyPI and browse to https://pypi.org/project/mailmerge/
-twine upload dist/*
+twine upload --sign dist/*
 
 # Test deploy
 pip3 install --upgrade mailmerge
