@@ -1792,9 +1792,7 @@ localhost > open http://localhost:8888
 ####################
 # PyPI howto
 #
-# ref http://peterdowns.com/posts/first-time-with-pypi.html
-# ref https://packaging.python.org/guides/migrating-to-pypi-org/#uploading
-# NOTE: for some stupid reason, you *must* have your password in ~/.pypirc
+# https://packaging.python.org/tutorials/packaging-projects/
 #
 # This example is for mailmerge https://github.com/awdeorio/mailmerge
 
@@ -1820,22 +1818,35 @@ git push origin develop
 # Merge develop to master
 git checkout master
 git rebase
-git merge --no-ff develop
+git merge --no-ff origin/develop
 
-# Build a distribution tarball locally
-python setup.py sdist
+# Build distribution binary and source tarball locally
+pip3 install --upgrade pip setuptools wheel
+python3 setup.py sdist bdist_wheel --universal
+ls dist/*-py2.py3-none-any.whl dist/*.tar.gz
 
 # Tag a release and double check that the versions match
-git tag -a X.Y
-grep version setup.py
+git tag -a X.Y.Z
+grep version= setup.py
 git describe
 git push --tags origin master
 
-# Deploy to PyPI
-$EDITOR ~/.pypirc                       # Update password
-export DISTUTILS_DEBUG="true"           # Debug submission to PyPI
-python3 setup.py sdist upload -r pypi
-# Browse to https://pypi.python.org/pypi/mailmerge
+# Deploy to Test PyPI and browse to https://test.pypi.org/project/mailmerge/
+twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+# Test install.  It will install, but not run because we didn't install deps.
+python3 -m venv env3
+./env3/bin/python -m pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
+./env3/bin/mailmerge
+virtualenv -ppython2 env2
+./env2/bin/python -m pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
+./env2/bin/mailmerge
+
+# Deploy to PyPI and browse to https://pypi.org/project/mailmerge/
+twine upload dist/*
+
+# Test deploy
+pip3 install --upgrade mailmerge
 
 
 ########################################
