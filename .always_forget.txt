@@ -2173,6 +2173,10 @@ git clone git@github.com:USER/REPO.git  # Clone other USER's fork of the repo
 git remote add upstream git@github.com:awdeorio/mailmerge.git
 git fetch upstream
 
+# Merge upstream into fork
+# https://gist.github.com/Chaser324/ce0505fbed06b947d962
+git remote add upstream https://github.com/awdeorio/mailmerge.git
+
 # Commit
 git branch                              # check your branch
 git status                              # check file modifications
