@@ -1171,6 +1171,7 @@ zdiff FILE1.gz FILE2.gz                 # diff for compressed files
 cat FILE.txt | gzip -f > FILE.txt.gz    # pipe into gzip
 unzip FILE.zip                          # decompress
 unzip FILE.zip -d DIR                   # decompress to DIR
+7za e FILE.7z                           # decompress 7 zip format (p7zip)
 
 # Encryption
 encfs ROOTDIR MOUNTPOINT                # (first time) create encrypted virtual folder
