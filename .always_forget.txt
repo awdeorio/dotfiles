@@ -2371,6 +2371,9 @@ git lfs ls-files                        # files managed by git-lfs (committed)
 git clone --depth N                     # Clone with truncated history
 git clone --depth N --no-single-branch  # ^^^ with N commits from every branch
 
+# Remove git committed passwords, large files and other nuisances
+# BGF Repo Cleaner https://rtyley.github.io/bfg-repo-cleaner/
+
 # Render github-style Markdown
 pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
