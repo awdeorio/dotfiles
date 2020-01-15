@@ -144,6 +144,7 @@ ag PATTERN                              # The Silver Searcher, see section below
 ag PATTERN --color | less -r
 ag -l                                   # Filenames only
 ag --ignore '*test*'                    # Ignore files/directories with "test"
+ag -f                                   # Follow symlinks
 
 # Superuser permissions
 su                                      # switch user to root
