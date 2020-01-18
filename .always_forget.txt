@@ -1753,6 +1753,8 @@ pytest --showlocals                     # Dump local variables for debugging
 pytest --reuse-db                       # Reuse test DB
 pytest --create-db                      # Re-create test DB
 pytest -vvsx                            # Verbose, show stdout, stop on error
+pytest --log-cli-level=INFO             # Change log level
+pytest -p no:logging                    # Override log level, e.g. in pytest.ini
 pytest --cov MODULE                     # Measure coverage with pytest-cov
 coverage annotate                       # Create *.py,cover showing LOC coverage
 
