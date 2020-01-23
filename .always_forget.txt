@@ -1949,6 +1949,7 @@ $ open http://localhost:6060/pkg/github.com/USERNAME/PACKGE/  # See package docs
 # Ruby
 
 $GEM_HOME                               # Ruby library install root
+gem env                                 # sanity check gem paths
 gem install PACKAGE                     # Install PACKAGE
 gem update --system                     # Upgrade installed packages
 gem cleanup                             # Remove old versions
