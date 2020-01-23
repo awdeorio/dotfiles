@@ -1900,6 +1900,7 @@ nodeenv --python-virtualenv             # install local node and npm
 npm install --global webpack            # install global JS packages
 ls env/lib/node_modules/                # location of global JS packages
 npm install .                           # install local JS package
+npx PACKAGE                             # run PACKAGE command line tool
 webpack                                 # build front end
 webpack --watch                         # continuously build front end
 webpack --display-error-details         # debug frontend build
