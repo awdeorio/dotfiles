@@ -3,19 +3,32 @@
 #
 # Drew's script to back up laptop to server
 
+# Stop on errors
+set -Eeuo pipefail
+
+ # Bug fix: globbing causes problems with '*' in EXCLUDE strings
+set -o noglob
+
+# Synchronized files
+EXCLUDE+=' --exclude Dropbox/***'
+EXCLUDE+=' --exclude GoogleDrive/***'
+EXCLUDE+=' --exclude GoogleDriveHome/***'
+EXCLUDE+=' --exclude GoogleDriveWork/***'
 
 # Don't backup these files
-set -o noglob # bug fix: globbing fucks up the *'s in EXCLUDE
 EXCLUDE+=' --exclude .Trash/***'
 EXCLUDE+=' --exclude .dropbox/***'
 EXCLUDE+=' --exclude .vagrant.d/***'
 EXCLUDE+=' --exclude nobackup/***'
 
-# Python and JavaScript Virtual environments
+# Python, JavaScript and Ruby third party libraries
 EXCLUDE+=' --exclude .venv/***'
 EXCLUDE+=' --exclude venv/***'
 EXCLUDE+=' --exclude env/***'
 EXCLUDE+=' --exclude node_modules/***'
+EXCLUDE+=' --exclude .gem/***'
+EXCLUDE+=' --exclude .npm/***'
+EXCLUDE+=' --exclude .bundle/***'
 
 # Virtual machines
 EXCLUDE+=' --exclude *.vmdk'
@@ -27,7 +40,7 @@ EXCLUDE+=' --exclude GoogleDrive/***'
 EXCLUDE+=' --exclude Dropbox/***'
 
 # Sanity check that this is my laptop
-if [ `hostname` != "manzana.local" ]; then
+if [ `hostname` != "manco.local" ]; then
   echo "Error: \$HOSTNAME=$HOSTNAME"
   exit 1
 fi
@@ -41,12 +54,17 @@ fi
 # Trap C-c and exit
 trap exit 2
 
+# Print commands
+set -x
+
 # Perform backup
 # -a               archive mode; same as -rlptgoD (no -H)
 # -v               increase verbosity
 # -z               compress data during transfer
 # --delete         delete extraneous files from dest dirs
 # -x               avoid crossing a  filesystem  boundary  when recursing
-CMD="rsync -avzx --delete $EXCLUDE $HOME awdeorio@trenton.eecs.umich.edu:backup/manzana $@"
-echo $CMD
-$CMD
+rsync \
+  -avzx --delete $EXCLUDE \
+  $HOME \
+  awdeorio@trenton.eecs.umich.edu:backup/manco \
+  $@
