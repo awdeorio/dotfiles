@@ -1755,6 +1755,7 @@ pytest --create-db                      # Re-create test DB
 pytest -vvsx                            # Verbose, show stdout, stop on error
 pytest --log-cli-level=INFO             # Change log level
 pytest -p no:logging                    # Override log level, e.g. in pytest.ini
+pytest --collect-only --verbosity=-1    # List test names
 pytest --cov MODULE                     # Measure coverage with pytest-cov
 coverage annotate                       # Create *.py,cover showing LOC coverage
 
