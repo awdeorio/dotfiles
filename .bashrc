@@ -323,6 +323,12 @@ for F in `find ${HOME}/.bash_completion.d/ -type f`; do
 done
 
 
+### Disable warning default shell xsh on macOS Catalina and higher
+if [ `uname -s` = "Darwin" ]; then
+  export BASH_SILENCE_DEPRECATION_WARNING=1
+fi
+
+
 ### Git customization #########################################################
 # Alias "g" to "git" and don't break bash completion
 alias g=git
