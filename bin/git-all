@@ -12,7 +12,6 @@ REPOS=$(ls -d */.git | sed 's/\/\.git$//')
 for REPO in ${REPOS}; do
   pushd ${REPO} > /dev/null
   echo "==> ${REPO} <=="
-  echo "\$ git $@"
   git $@
   echo
   popd > /dev/null
