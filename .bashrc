@@ -54,6 +54,7 @@ alias gs='git status'
 alias gd='git diff'
 alias gr='git rebase'
 alias gf='git fetch -p'
+alias gb='git branch'
 alias ag='ag --ignore "*bundle.js"'
 
 # OSX
