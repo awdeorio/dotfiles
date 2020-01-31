@@ -50,6 +50,7 @@ function ff() { find . -iwholename '*'$*'*' ; }
 alias fb="find . -name '*~'"
 alias fbrm="find . -name '*~' -exec rm -v {} \;"
 #alias pytest="pytest -vv --tb=line"
+alias pylint='pylint --output-format=colorized'
 alias gs='git status'
 alias gd='git diff'
 alias gr='git rebase'

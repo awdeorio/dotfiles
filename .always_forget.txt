@@ -1732,6 +1732,7 @@ Run pdb (like this): python3 -m pdb FILE.py
 pycodestyle                             # PEP8 check
 pydoctyle                               # PEP257 check
 pylint                                  # Bug and quality check
+pylint --output-format colorized        # Colored output
 
 # Python unittest
 python -m unittest MODULE               # Run all tests in MODULE
