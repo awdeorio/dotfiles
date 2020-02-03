@@ -66,6 +66,9 @@ if test -d /Applications/Google\ Chrome.app; then
   alias chrome='open -a "Google Chrome" --args'
   alias google-chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 fi
+if [ `uname -s` = "Darwin" ]; then
+  alias meld='rm -rvf "${HOME}/.local/share/meld" "${HOME}/Library/Preferences/org.gnome.meld.plist" "${HOME}/Library/Saved Application State/org.gnome.meld.savedState/" && meld'
+fi
 
 
 ### Editor ####################################################################
