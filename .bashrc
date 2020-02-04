@@ -172,6 +172,13 @@ path-append ${HOME}/.pyenv/shims
 #   eval "$(pyenv init -)"
 # fi
 
+# Pytest bash completion
+# https://docs.pytest.org/en/latest/bash-completion.html
+# $ pip3 install argcomplete
+if type -a register-python-argcomplete &> /dev/null; then
+  eval "$(register-python-argcomplete pytest)"
+fi
+
 # SQLite3 on macOS
 if [ -d /usr/local/opt/sqlite/bin ]; then
   path-prepend /usr/local/opt/sqlite/bin
