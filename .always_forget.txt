@@ -1806,19 +1806,15 @@ localhost > open http://localhost:8888
 git fetch
 git checkout develop
 git rebase
-git status
 git clean -xdf
+git status
 
 # Test
-python3 -m venv env
-source env/bin/activate
-pip install -e .[dev]
 tox
 
 # Edit setup.py and change the version
 $EDITOR setup.py
-git add setup.py
-git commit -m "version bump"
+git commit -m "version bump" setup.py
 git push origin develop
 
 # Merge develop to master
@@ -1827,6 +1823,8 @@ git rebase
 git merge --no-ff origin/develop
 
 # Build distribution binary and source tarball locally
+python3 -m venv .venv
+source .venv/bin/activate
 pip3 install --upgrade pip setuptools wheel
 python3 setup.py sdist bdist_wheel --universal
 ls dist/*-py2.py3-none-any.whl dist/*.tar.gz
@@ -1842,17 +1840,19 @@ twine upload --sign --repository-url https://test.pypi.org/legacy/ dist/*
 
 # Test install.  It will install, but not run because we didn't install deps.
 python3 -m venv env3
-./env3/bin/python -m pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
-./env3/bin/mailmerge
+source env3/bin/activate
+pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
+mailmerge --version  # Expect module not found error
 virtualenv -ppython2 env2
-./env2/bin/python -m pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
-./env2/bin/mailmerge
+pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
+mailmerge --version  # Expect module not found error
 
 # Deploy to PyPI and browse to https://pypi.org/project/mailmerge/
 twine upload --sign dist/*
 
 # Test deploy
 pip3 install --upgrade mailmerge
+mailmerge --version
 
 
 ########################################
