@@ -1981,17 +1981,24 @@ sqlite3> .mode csv
 sqlite3> .import FILE.csv
 
 # MySQL Linux CLI
-mysqladmin -u root password PASSWORD    # change root password
-mysql -u root -pPASSWORD                # connect to db (NO SPACE!!!)
 mysql.server start                      # start SQL server
-mysql -u user db -p                     # open db
+mysqladmin -u root password PASSWORD    # change root password
+mysql -u root                           # connect, no password
+mysql -u root -pPASSWORD                # connect, w/password, NO SPACE
+mysql -u root -p                        # connect, prompt password
+mysql -u user -p DB                     # connect and open DB
 mysql -u user -p < SCRIPT               # run script
 mysqldump -u user -pPASSWD DB > file.db # dump database to file
 mysqldump --add-drop-table \            # copy DB from localhost to HOST
   --extended-insert --force \
   --log-error=error.log -uUSER -pPASS \
   OLD_DB_NAME | ssh -C HOST \
-  "mysql -uUSER -pPASS NEW_DB_NAME”
+  "mysql -uUSER -pPASS NEW_DB_NAME"
+mysql> source monday.sql                # run script
+mysql> SELECT * FROM table \            # dump to CSV
+       INTO OUTFILE '/Users/awdeorio/out.csv' \
+       FIELDS TERMINATED BY ',' \
+       LINES TERMINATED BY '\n'
 
 # PostgreSQL Linux CLI
 # https://www.postgresql.org/docs/current/static/app-psql.html
@@ -2069,7 +2076,7 @@ SELECT * FROM v$version
 # Print column names
 SELECT COLUMN_NAME FROM ALL_TAB_COLUMNS WHERE TABLE_NAME='<name>'
 
-# SQL tid bits
+# SQL
 PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
 TIMESTAMP DEFAULT CURRENT_TIMESTAMP     # avoid initializing timestamps
 FOREIGN KEY (child_id)                  # add foreign key constraint to col
@@ -2082,6 +2089,12 @@ SELECT a.*, b.*                         # 2-way join AKA inner join
 SELECT a.*, b.*, c.*                    # 3-way join AKA inner join
   FROM (a JOIN b ON a.id=b.id)
   JOIN c ON (b.id=c.id);
+SELECT                                  # Join same table twice
+  students.email AS student,
+  staff.email AS staff,
+  FROM queue
+  JOIN users AS students ON queue.student_id=students.id
+  JOIN users AS staff ON queue.staff_id=staff.id
 SELECT MAX(id) FROM table               # last auto-generated id from table
 SELECT LAST_INSERT_ID()                 # last auto-generated id, globally
 SELECT * FROM table ORDER BY x ASC;     # sort on x, ascending
