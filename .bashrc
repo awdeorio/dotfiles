@@ -72,13 +72,12 @@ fi
 
 
 ### Editor ####################################################################
-export EDITOR="emacsclient -n -c"      # Open a new window w/ existing daemon
+# export EDITOR="emacsclient -n -c"      # Open a new window w/ existing daemon
+export EDITOR="emacs"
 export VISUAL="$EDITOR"                # Here for historical reasons
-export ALTERNATE_EDITOR=""             # Start a new emacs daemon if none exists
-export SUDO_EDITOR="$EDITOR"           # Editor used by sudoedit and sudo -e
-export GIT_EDITOR="emacsclient -t -c"  # Editor used by git commit
-alias e="$EDITOR"
-
+export SUDO_EDITOR="emacs -nw"         # Editor used by sudoedit and sudo -e
+export GIT_EDITOR="emacs -nw"          # Editor used by git commit
+function e { emacs "$@" & }
 
 ### Pager #####################################################################
 export PAGER="less --shift 5 --ignore-case --chop-long-lines --RAW-CONTROL-CHARS --LONG-PROMPT"
