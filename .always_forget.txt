@@ -1907,7 +1907,7 @@ webpack                                 # build front end
 webpack --watch                         # continuously build front end
 webpack --display-error-details         # debug frontend build
 npm install -g uglify-js                # install uglifyjs
-uglifyjs --beautify FILE.gs             # pretty print JavaScript
+uglifyjs --beautify FILE.js             # pretty print JavaScript
 
 # npm
 npm install --save-prod PACKAGE         # Install and add to package.json (prod)
