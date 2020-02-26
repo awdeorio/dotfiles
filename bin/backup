@@ -19,6 +19,7 @@ EXCLUDE+=' --exclude GoogleDriveWork/***'
 EXCLUDE+=' --exclude .Trash/***'
 EXCLUDE+=' --exclude .dropbox/***'
 EXCLUDE+=' --exclude .vagrant.d/***'
+EXCLUDE+=' --exclude .docker/***'
 EXCLUDE+=' --exclude nobackup/***'
 
 # Python, JavaScript and Ruby third party libraries
