@@ -1974,6 +1974,14 @@ sqlite3> .show                          # print settings
 sqlite3> PRAGMA foreign_keys;           # check if foreign keys enabled
 sqlite3> PRAGMA foreign_keys = ON;      # enable foreign keys (CASCADE, etc)
 
+# sqlite3 dump to CSV (2 ways)
+sqlite3 -header -csv FILE.db < query.sql > dump.csv
+sqlite3 FILE.db
+sqlite3> .headers on
+sqlite3> .mode csv
+sqlite3> .output dump.csv
+sqlite3> SELECT * FROM table;
+
 # sqlite3 load from CSV
 echo -ne '.mode csv\n.import FILE.csv DB_NAME\n' | sqlite3 FILE.db
 sqlite3 FILE.db
