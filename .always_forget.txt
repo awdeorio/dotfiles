@@ -2409,6 +2409,13 @@ pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
 grip -b --norefresh README.md           # ^^^ limit github API usage
 
+# GitHub CLI tool (gh)
+gh issue list                           # show issues
+gh issue view 324                       # open issue 324 in a browser
+gh pr create                            # create pull request from this branch
+gh pr status                            # check status of all PRs
+gh pr checkout 255                      # checkout branch for PR 255
+
 
 ########################################
 # Nasty things
