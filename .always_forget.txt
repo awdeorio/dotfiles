@@ -1158,21 +1158,23 @@ tar -xvjf DIR.tar.bz2 FILE              # extract FILE from tarball
 tar --disable-copyfile                  # avoid random dot files on OSX
 tar --exclude '*__pycache__*'           # exclude Python temp files
 tar -c --dereference                    # include pointee of symlinks
-zip -r DIR DIR                          # create DIR.zip archive
-zip --encrypt -r DIR DIR                # create encrypted zip archive
-bzip2 FILE.bz2                          # compress a single file
-bzcat FILE.bz2                          # dump compressed file to stdout
-bunzip2 FILE.bz2                        # decompress a single file
-gzip FILE.gz                            # compress a single file
-gunzip FILE.gz                          # decompress a single file
-gunzip -c FILE.gz | ...                 # decompress to stdout
-zcat FILE.gz                            # dump compressed file to stdout
-zgrep FILE.gz                           # grep for compressed files
-zdiff FILE1.gz FILE2.gz                 # diff for compressed files
-cat FILE.txt | gzip -f > FILE.txt.gz    # pipe into gzip
+zip -r DIR DIR                          # compress DIR to DIR.zip
+zip --encrypt -r DIR DIR                # compress and encrypt DIR
 unzip FILE.zip                          # decompress
 unzip FILE.zip -d DIR                   # decompress to DIR
+bzip2 FILE                              # compress
+bunzip2 FILE.bz2                        # decompress
+bzcat FILE.bz2                          # decompress to stdout
+gzip FILE                               # compress
+cat FILE.txt | gzip -f > FILE.txt.gz    # compress from stdin
+gunzip FILE.gz                          # decompress
+gunzip -c FILE.gz | ...                 # decompress to stdout
+zcat FILE.gz                            # decompress to stdout
+zgrep FILE.gz                           # grep compressed file
+zdiff FILE1.gz FILE2.gz                 # diff compressed file
 7za e FILE.7z                           # decompress 7 zip format (p7zip)
+xz FILE                                 # compress
+unxz FILE.xz                            # decompress
 
 # Encryption
 encfs ROOTDIR MOUNTPOINT                # (first time) create encrypted virtual folder
