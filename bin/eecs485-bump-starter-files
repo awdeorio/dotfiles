@@ -1,0 +1,6 @@
+#!/bin/bash
+set -Eeuxo pipefail
+
+git clean -xdf starter-files/
+tar -czf docs/starter_files.tar.gz starter_files/
+git commit -m "bump starter files" docs/starter_files.tar.gz
