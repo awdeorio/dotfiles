@@ -21,7 +21,6 @@ command emacs \
   --batch
 
 # Update Python packages
-pip2 install --upgrade pip setuptools wheel
 pip3 install --upgrade pip setuptools wheel
 pip3 install --upgrade jupyter matplotlib pandas numpy scipy grip
 
