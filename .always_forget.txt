@@ -1224,6 +1224,33 @@ gpg --homedir ~/gnupg_tmp/              # Use another GPG config
 gpg --encrypt --recipient you@you.com message.txt  # Sign and seal message.txt
 echo RELOADAGENT | gpg-connect-agent    # reload GPG agent
 
+# Example: encrypt a file with awdeorio's public key
+curl -sSL https://andrewdeorio.com/assets/awdeorio.asc | gpg --import -
+gpg --always-trust -r awdeorio -e sendme.txt
+
+# Example: decrypt a file encrypted with your public key
+gpg -d sendme.txt.gpg > sendme.txt
+
+# Example: encrypt a directory with awdeorio's public key
+curl -sSL https://andrewdeorio.com/assets/awdeorio.asc | gpg --import -
+tar -cz sendme | gpg --always-trust -r awdeorio -e -o sendme.tar.gz.gpg
+
+# Example: decrypt a directory encrypted with your public key
+gpg -d sendme.tar.gz.gpg | tar -xz
+
+# Example: encrypt a file with a key
+echo "hello world" > sendme.txt
+gpg -c sendme.txt
+
+# Example: decrypt file with a key
+gpg -d sendme.txt.gpg > sendme.txt
+
+# Example: enrypt a directory with a key
+tar -cz sendme | gpg -c -o sendme.tar.gz.gpg
+
+# Example: decrypt a directory with a key
+gpg -d sendme.tar.gz.gpg | tar -xz
+
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
 screen /dev/ttyACM0 9600                # text input/output at 9600 Baud
