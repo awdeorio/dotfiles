@@ -1194,62 +1194,80 @@ openssl req -newkey rsa:2048 -nodes -x509 -days 365 # generate server key
 openssl req -newkey rsa:4096 -nodes -x509 -days 365 # generate server key, 4096
 openssl s_client -showcerts -connect www.google.com:443  # Show certificate
 zip --encrypt -r DIR DIR                # create encrypted zip archive
-gpg -c FILE                             # encrypt file to FILE.gpg
-gpg --batch --passphrase-file FILE      # read password from FILE
-gpg -o FILE -d FILE.gpg                 # decrypt file
-gpg --search-keys awdeorio              # search for public key
-gpg --search-keys awdeorio --keyserver pool.sks-keyservers.net
-gpg --recv-key KEYID                    # download public key
-gpg --recv-key --keyserver pool.sks-keyservers.net
-gpg --verify FILE.asc                   # verify
-gpg --no-default-keyring \              # circumvent OSX keychain
-    --keyring ./tmp.keyring
-gpg --allow-non-selfsigned-uid          # allow key
-gpg --full-generate-key                 # create GPG public/private key pair
-gpg --secret-keys --keyid-format LONG   # list keys
-gpg -K                                  # list keys
-gpg --armor --export KEYID              # print public key
-gpg --armor --export-secret-keys KEYID  # print private key
-gpg --export -a > ~/allpublickeys.asc   # backup public keys
-gpg --import < ~/allpubkeys.asc         # restore backup of public keys
-gpg --send-keys KEYID                   # Public public key to public keyserver
-gpg --clearsign FILE                    # Sign a message (output incl orig msg)
-gpg --verify FILE.txt.asc               # Verify a signed message
-gpg --detach-sign FILE                  # Sign a file (output doesn't incl file)
-gpg --verify FILE.sig                   # Verify a signed file
-gpg --list-options show-photos --fingerprint awdeorio  # Show key attached photo
+
+# GPG configuration
+gpg --homedir ~/gnupg_tmp/              # Use another GPG config
+GNUPGHOME=~/gnupg_tmp gpg               # Use another GPG config
+
+# GPG Agent
 gpgconf --kill gpg-agent                # Stop gpg-agent
 gpgconf --launch gpg-agent              # Start gpg-agent
-gpg --homedir ~/gnupg_tmp/              # Use another GPG config
-gpg --encrypt --recipient you@you.com message.txt  # Sign and seal message.txt
-echo RELOADAGENT | gpg-connect-agent    # reload GPG agent
+echo RELOADAGENT | gpg-connect-agent    # Reload gpg-agent
 
-# Example: encrypt a file with awdeorio's public key
+# GPG public key management
+gpg -k                                  # List public keys
+gpg -K                                  # List secret keys
+gpg --search-keys awdeorio              # Search for public key
+gpg --search-keys awdeorio --keyserver pgp.mit.edu  # Change key server
+gpg --recv-key KEYID                    # Download and add public key
+gpg --recv-key --keyserver pool.sks-keyservers.net  KEYID  # Change key server
+
+# GPG create key pair
+gpg --full-generate-key                 # Create GPG public/private key pair
+gpg --armor --export KEYID              # Print public key
+gpg --armor --export-secret-keys KEYID  # Print private key
+gpg --export -a > ~/allpublickeys.asc   # Backup public keys
+gpg --import < ~/allpubkeys.asc         # Restore backup of public keys
+gpg --send-keys KEYID                   # Public key to public keyserver
+gpg --list-options show-photos --fingerprint KEYID  # Show attached photo
+
+# GPG asymmetric encryption (sign and seal)
+gpg --encrypt --recipient awdeorio@umich.edu MESSAGE.txt  # Encrypt
+gpg -e -r awdeorio@umich.edu MESSAGE.txt                  # Encrypt
+gpg --decrypt MESSAGE.txt.gpg                             # Decrypt
+gpg -d MESSAGE.txt.gpg                                    # Decrypt
+
+# GPG symmetric encryption
+gpg --symmetric MESSAGE.txt                               # Encrypt
+gpg -c MESSAGE.txt                                        # Encrypt
+gpg --decrypt MESSAGE.txt.gpg                             # Decrypt
+gpg -d MESSAGE.txt.gpg                                    # Decrypt
+gpg -c --batch --passphrase $KEY MESSAGE.txt              # Encrypt, pw in var
+gpg -d --batch --passphrase $KEY MESSAGE.txt.gpg          # Decrypt, pw in var
+gpg -c --batch --passphrase-file key.txt MESSAGE.txt      # Encrypt, pw in file
+gpg -d --batch --passphrase-file key.txt MESSAGE.txt.gpg  # Decrypt, pw in file
+
+# GPG example: encrypt a file with awdeorio's public key
 curl -sSL https://andrewdeorio.com/assets/awdeorio.asc | gpg --import -
-gpg --always-trust -r awdeorio -e sendme.txt
+gpg --always-trust -r awdeorio -e FILE.txt
+gpg -d FILE.txt.gpg > FILE.txt          # Only awdeorio can decrypt
 
-# Example: decrypt a file encrypted with your public key
-gpg -d sendme.txt.gpg > sendme.txt
-
-# Example: encrypt a directory with awdeorio's public key
+# GPG example: encrypt a directory with awdeorio's public key
 curl -sSL https://andrewdeorio.com/assets/awdeorio.asc | gpg --import -
-tar -cz sendme | gpg --always-trust -r awdeorio -e -o sendme.tar.gz.gpg
+tar -cz FILE | gpg --always-trust -r awdeorio -e -o FILE.tar.gz.gpg
+gpg -d FILE.tar.gz.gpg | tar -xz        # Only awdeorio can decrypt
 
-# Example: decrypt a directory encrypted with your public key
-gpg -d sendme.tar.gz.gpg | tar -xz
+# GPG example: encrypt a file with a key
+gpg -c FILE.txt                         # Encrypt with prompt for key
+gpg -d FILE.txt.gpg > FILE.txt          # Decrypt with prompt for key
 
-# Example: encrypt a file with a key
-echo "hello world" > sendme.txt
-gpg -c sendme.txt
+# GPG example: enrypt a directory with a key
+tar -cz DIR/ | gpg -c -o DIR.tar.gz.gpg # Encrypt with prompt for key
+gpg -d DIR.tar.gz.gpg | tar -xz         # Decrypt with prompt for key
 
-# Example: decrypt file with a key
-gpg -d sendme.txt.gpg > sendme.txt
+# GPG example: sign a message with your private key.  The output will include
+# the original plaintext and a signature created using your private key.  Good
+# for voting by email.  Verifiable that you wrote this message.
+# https://futureboy.us/pgp.html#SigningPlaintext
+gpg --clearsign FILE.txt                # Sign
+gpg --verify FILE.txt.asc               # Verify signed message
 
-# Example: enrypt a directory with a key
-tar -cz sendme | gpg -c -o sendme.tar.gz.gpg
-
-# Example: decrypt a directory with a key
-gpg -d sendme.tar.gz.gpg | tar -xz
+# GPG example: sign an executable with your private key.  The output will
+# include *only* the signature create using your private key.  Good for making
+# sure an executable wasn't modified.
+# https://futureboy.us/pgp.html#DetachedSignature
+gpg --detach-sign FILE.exe              # Sign
+gpg --verify FILE.exe.sig               # Verify signed FILE.exe
 
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
