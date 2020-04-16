@@ -2,7 +2,7 @@
 #
 # inve
 #
-# usage: inve
+# usage: inve [VIRTUAL_ENV]
 #
 # Attempts to find the root of a virtual environment by walking the directory
 # tree from "$PWD" to "/".  Then, it activates a subshell using the $SHELL
@@ -25,26 +25,31 @@ VIRTUAL_ENV_BASENAMES=". .venv venv env"
 # Save PWD
 INVE_OLDPWD="`pwd`"
 
-# First, locate the root of a virtual environment
-# Based on https://gist.github.com/datagrok/2199506#a-system-level-inve
-while [ "${PWD}" != "/" ]; do
-  # Try all the possible virtual env directory names
-  for VIRTUAL_ENV_BASENAME in ${VIRTUAL_ENV_BASENAMES}; do
-	  # Stop here if this the root of a virtualenv
-    VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_BASENAME}"
-	  if [ -e "${VIRTUAL_ENV}/bin/activate" ]; then
-		  break 2  # break out of nested loop
-	  fi
+if [ -n "${1-}" ]; then
+  # Virtual environment root specified as argument
+  VIRTUAL_ENV="$1"
+else
+  # Search up for the root of a virtual environment
+  # Based on https://gist.github.com/datagrok/2199506#a-system-level-inve
+  while [ "${PWD}" != "/" ]; do
+    # Try all the possible virtual env directory names
+    for VIRTUAL_ENV_BASENAME in ${VIRTUAL_ENV_BASENAMES}; do
+	    # Stop here if this the root of a virtualenv
+      VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_BASENAME}"
+	    if [ -e "${VIRTUAL_ENV}/bin/activate" ]; then
+		    break 2  # break out of nested loop
+	    fi
+    done
+	  cd ..
   done
-	cd ..
-done
-if [ "$PWD" = "/" ]; then
-	echo "Could not activate: no virtual environment found." >&2
-	exit 1
-fi
+  if [ "$PWD" = "/" ]; then
+	  echo "Could not activate: no virtual environment found." >&2
+	  exit 1
+  fi
 
-# Restore PWD
-cd "${INVE_OLDPWD}"
+  # Restore PWD
+  cd "${INVE_OLDPWD}"
+fi
 
 # Load .env file if there is one
 # set -a causes viarbales defined to be exported
@@ -65,5 +70,5 @@ source "${VIRTUAL_ENV}/bin/activate"
 # Start the user's preferred subshell, replacing this process with the shell.
 # The subshell inherits the environment variables previously exported by this
 # script.
-echo "exec ${@:-$SHELL}"
-exec "${@:-$SHELL}"
+echo "exec ${SHELL}"
+exec "${SHELL}"
