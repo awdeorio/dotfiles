@@ -6,7 +6,9 @@ set -Eeuo pipefail
 # Copy output to log file
 LOGFILE=upgrade.log
 echo "Logging to ${LOGFILE}"
-exec > >(tee ${LOGFILE}); exec 2>&1;
+exec > >(tee -a ${LOGFILE}); exec 2>&1;
+echo "$0"
+date
 
 # Cache sudo permissions
 sudo -v
