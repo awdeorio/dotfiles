@@ -1282,6 +1282,11 @@ gpg --verify FILE.txt.asc               # Verify signed message
 gpg --detach-sign FILE.exe              # Sign
 gpg --verify FILE.exe.sig               # Verify signed FILE.exe
 
+# Keybase https://keybase.io/docs/the_app/install_macos
+keybase help                            # Show subcommands
+keybase prove twitter                   # Link a twitter account
+keybase id br                           # Show info on user "br"
+
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
 screen /dev/ttyACM0 9600                # text input/output at 9600 Baud
