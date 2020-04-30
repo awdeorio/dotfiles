@@ -801,6 +801,8 @@ set -u                                  # error on unset variables
 set -e                                  # Abort on non-zero NOTE: pipes break it
 set -o pipefile                         # ^^^ for pipes
 set -x                                  # Print commands
+set +x                                  # Stop print commands
+{ set +x; } 2>/dev/null                 # Stop print commands silently
 set -Eeuxo pipefail                     # Stop on errors, print commands
 STR=$'hello\nworld'                     # String with newlines
 EXTENSION="${FILENAME##*.}"             # Parse file extension
