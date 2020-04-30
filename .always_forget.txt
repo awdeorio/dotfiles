@@ -400,6 +400,12 @@ http --verify=no                        # Do not check SSL certificate
 http --session=./session.json --form POST URL username=X password=Y
 http --session=./session.json URL
 
+# Jekyll static web sites
+jekyll doctor                           # Verify config files
+jekyll build                            # Build site to _site/
+jekyll serve                            # Start live dev server
+bundle exec jekyll                      # Locally installed Jekyll
+
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
 TARGET_HOST $ ncat -lvp 8080 -e /bin/bash --ssl
