@@ -1479,6 +1479,7 @@ yum install epel-release                # Extra Packages for Enterprise Linux
 yum list installed                      # Show installed packages
 yum repolist                            # Show enabled package repos
 yum repolist -v                         # Show all package repos
+yum -y                                  # Assume "yes" and don't ask
 
 # SELinux
 # https://wiki.centos.org/HowTos/SELinux
