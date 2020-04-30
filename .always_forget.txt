@@ -1595,6 +1595,32 @@ vagrant global-status --prune           # remove machines whose configs are gone
 VAGRANT_VAGRANTFILE=Vagrantfile2        # alternate Vagrantfile
 VAGRANT_DOTFILE_PATH=/path/to/.vagrant  # useful together with ^^^
 
+# Docker
+docker-machine start [default]          # Start Linux VM (macOS only)
+docker-machine stop [default]           # Stop Linux VM (macOS only)
+docker-machine status [default]         # Status of Linux VM (macOS only)
+eval "$(docker-machine env default)"    # Set Docker env vars
+docker ps                               # Show running containers
+docker run jameslp/eecs485:19           # Run container, download if needed
+docker run -it                          # Run interactive with pseudo-TTY
+docker run -d
+docker run --rm
+docker cp FILE CONTAINER:DEST           # Copy from host into running container
+docker exec CONTAINER CMD               # Run CMD in running container
+docker attach $CONTAINER                # Attach terminal to running container
+
+# Docker: install Linux VM on macOS
+brew install docker docker-machine      # Install
+brew cask install virtualbox            # Install
+docker-machine create --driver virtualbox default  # Create Linux VM
+docker-machine start                    # Start Linux VM
+docker-machine status [default]         # Status of Linux VM
+docker-machine ls                       # Show Docker VMs
+docker-machine env default              # Show Docker environment variables
+eval "$(docker-machine env default)"    # Set Docker environment variables
+docker run hello-world                  # Run sanity check docker machine
+docker-machine stop default             # Stop Linux VM
+
 # Environment Modules
 # http://modules.sourceforge.net/
 module load vscode                      # add software to PATH
