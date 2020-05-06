@@ -56,6 +56,7 @@ whatis CMD                              # Short description of a command
 hostname                                # name of this computer
 uname                                   # operating system name
 uname -a                                # info about OS, compiler, etc.
+$OSTYPE                                 # operating system name (bash)
 cat /proc/cpuinfo                       # CPU size/features
 cat /proc/meminfo                       # memory size/features
 uptime                                  # time since power on
