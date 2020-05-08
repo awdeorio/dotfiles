@@ -167,6 +167,9 @@ fi
 
 # Python
 path-append ${HOME}/.pyenv/shims
+for DIR in "$(ls -d /usr/local/opt/python@*)"; do
+  path-append "${DIR}/bin"
+done
 # if command -v pyenv 1>/dev/null 2>&1; then
 #   eval "$(pyenv init -)"
 # fi
