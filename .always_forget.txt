@@ -524,6 +524,8 @@ ffmpeg -i "$INFILE" -pix_fmt rgb8 -r 10 -f gif - | \
 # Images
 mogrify -rotate 90                     # rotate
 mogrify -resize 640x640                # reduce resolution
+imageoptim FILE.jpg                    # reduce file size
+imageoptim '*.jpg'                     # reduce file size
 exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' # date/time += 3 yr 2 mos
 convert FILE.png FILE.jpg              # convert image file type
