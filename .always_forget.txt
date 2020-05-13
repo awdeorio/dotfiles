@@ -1628,6 +1628,10 @@ eval "$(docker-machine env default)"    # Set Docker environment variables
 docker run hello-world                  # Run sanity check docker machine
 docker-machine stop default             # Stop Linux VM
 
+# Docker: install on Ubuntu
+# https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
+TBD
+
 # Environment Modules
 # http://modules.sourceforge.net/
 module load vscode                      # add software to PATH
