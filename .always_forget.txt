@@ -57,6 +57,7 @@ hostname                                # name of this computer
 uname                                   # operating system name
 uname -a                                # info about OS, compiler, etc.
 $OSTYPE                                 # operating system name (bash)
+[[ "$OSTYPE" == "darwin"* ]]            # Check for macOS
 cat /proc/cpuinfo                       # CPU size/features
 cat /proc/meminfo                       # memory size/features
 uptime                                  # time since power on
@@ -728,6 +729,7 @@ rsync --delete                         # delete files on target
 rsync --filter=':- .gitignore'         # don't copy files ignored by git
 rsync --exclude '.git*'                # don't copy git metadata
 rsync --exclude 'folder/***'           # don't copy contents of folder
+rsync -e "ssh -i KEY.pem" ubuntu@HOST: # rsync to AWS/Ubuntu
 ftp HOST                               # FTP
 lftp HOST                              # FTP with extra features
 sftp HOST                              # FTP over SSH
@@ -1584,6 +1586,7 @@ tar -cvf vmName-NEW.ova vmName{.ovf,-disk1.vmdk,.mf} # repackage
 # https://www.vagrantup.com/
 vagrant init                            # create new configuration Vagrantfile
 vagrant init bento/ubuntu-16.04         # create Vagrantfile for Ubuntu 16.04
+vagrant init bento/ubuntu-18.04         # create Vagrantfile for Ubuntu 18.04
 vagrant init centos/7                   # create Vagrantfile for Centos 7
 vagrant init fedora/30-cloud-base       # create Vagrantfile for Fedora
 vagrant up                              # boot VM, create if necessary
@@ -1737,6 +1740,9 @@ encfs --extpass 'lpass show ID --password' # LastPass + encfs
 echo '{"json":"obj"}' | python -m json.tool    # Pretty-print
 echo '{"json":"obj"}' | jq                     # Pretty-print
 echo '{"json":"obj"}' | jsonlint               # Lint
+jq '.'                                  # Identity filter
+jq '.results'                           # Filter value from key "results"
+jq '."results"[]["name"]'               # Filter nested values from a list
 
 # XML
 # Pretty-print
@@ -2512,8 +2518,6 @@ gh pr create                            # create pull request from this branch
 gh pr status                            # check status of all PRs
 gh pr checkout 255                      # checkout branch for PR 255
 
-
-########################################
 # Nasty things
 rm -rf /                               # Delete everything
 :(){ :|: & };:                         # Fork bomb (bash)
@@ -2527,8 +2531,6 @@ john --show passwd.txt
 $ cat ~/.john/john.pot 
 $1$xyz$cEUv8aN9ehjhMXG/kSFnM1:password
 
-
-########################################
 # Command line fun
 cowthink                               # ascii art of a fow w/ thought bubble
 cowsay STRING                          # ascii art of a cow w/ speech bubble
@@ -2548,3 +2550,6 @@ curl wttr.in/:help                     # ascii weather report help
 curl wttr.in?0                         # ascii weather report, only current
 curl wttr.in?n                         # ascii weather report, narrow width
 curl parrot.live                       # dancing ASCII parrot
+
+# Emacs
+apt-get install emacs-nox              # Quick install on a Debian-based server
