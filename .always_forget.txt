@@ -19,7 +19,8 @@ delgroup GROUP                          # remove a group
 usermod -u UID USER                     # change UID
 usermod -g GID USER                     # change default group
 groupmod -g GID group                   # change GID of group
-gpasswd -a USER GROUP                   # add awdeorio to audio group
+gpasswd -a USER GROUP                   # add USER to GROUP
+usermod -aG GROUP USER                  # add USER to GROUP
 smbpasswd -a USER                       # new Samba user
 chsh -s /usr/local/bin/bash USER        # change default shell
 id                                      # print user and group ID #'s
@@ -1606,6 +1607,9 @@ VAGRANT_DOTFILE_PATH=/path/to/.vagrant  # useful together with ^^^
 docker-machine start [default]          # Start Linux VM (macOS only)
 docker-machine stop [default]           # Stop Linux VM (macOS only)
 docker-machine status [default]         # Status of Linux VM (macOS only)
+sudo systemctl start docker             # Start service (Linux only)
+systemctl status docker                 # Status service (Linux only)
+sudo systemctl stop docker              # Stop server (Linux only)
 eval "$(docker-machine env default)"    # Set Docker env vars
 docker ps                               # Show running containers
 docker run jameslp/eecs485:19           # Run container, download if needed
@@ -1630,7 +1634,13 @@ docker-machine stop default             # Stop Linux VM
 
 # Docker: install on Ubuntu
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
-TBD
+apt update
+apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+apt update
+sudo usermod -aG docker ${USER}
+docker run hello-world
 
 # Environment Modules
 # http://modules.sourceforge.net/
