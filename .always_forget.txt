@@ -1537,6 +1537,7 @@ initctl emit EVENT                      # manually emit an event
 systemctl start SERVICE                 # start
 systemctl stop SERVICE                  # stop
 systemctl status SERVICE                # status
+systemctl is-active --quiet service     # status, from a script
 systemctl reload SERVICE                # reload config
 systemctl restart SERVICE               # restart
 systemctl enable SERVICE                # start on boot
@@ -1757,6 +1758,7 @@ echo '{"json":"obj"}' | jsonlint               # Lint
 jq '.'                                  # Identity filter
 jq '.results'                           # Filter value from key "results"
 jq '."results"[]["name"]'               # Filter nested values from a list
+python -c 'import sys, json; print json.load(sys.stdin)["results"]'  # ^^^
 
 # XML
 # Pretty-print
