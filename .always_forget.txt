@@ -308,6 +308,8 @@ tcpdump -S "tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0" # 3-way handshake
 tcpdump -S "port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)" #  3-way handshake on port 80
 tcpdump -S "host web.eecs.umich.edu and port 80 and (tcp[tcpflags] & (tcp-syn|tcp-ack|tcp-fin) != 0)"   # 3-way handshake on port 80
 tcpdump -S -s0 -A port 80               # Sniff HTTP packets in ASCII format
+tcpdump -w FILE.pcap                    # Save raw packet data to FILE
+tcpdump -r FILE.pcap                    # Read and parse packet data from FILE
 tshark                                  # CLI packet analysis
 tshark -r FILE.pcap                     # ^^^ from file
 tshark -Tfields -e text                 # ^^^ any sent text
