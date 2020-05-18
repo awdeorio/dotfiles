@@ -772,6 +772,7 @@ seq 10 | xargs -n1 echo "hello"         # do something N times (see also {1..N})
 printf                                  # C-workalike print function
 
 # Bash shell scripting
+bash -n SCRIPT                          # Bash script syntax check
 echo "hello world"                      # print stdout
 echo "hello world" >&2                  # print to stderr
 echo "hello world" > FILE               # print file
@@ -2380,6 +2381,8 @@ git reflog -10                          # See last 10 actions
 # Identifying commits
 git rev-parse --abbrev-ref HEAD         # Current branch
 git describe --dirty                    # Repo is clean or dirty
+git describe --match=NeVeRmAtCh --always --abbrev=8 --dirty # COMMIT[-dirty]
+git rev-parse HEAD                      # Commit hash of current branch
 git rev-parse master                    # Commit hash of master
 git rev-parse origin/master             # Commit hash of repo's master
 git diff-index --quiet HEAD --          # Return non-zero if repo is dirty
