@@ -1180,7 +1180,6 @@ tar -xvjf DIR.tar.bz2 FILE              # extract FILE from tarball
 tar --disable-copyfile                  # avoid random dot files on OSX
 tar --exclude '*__pycache__*'           # exclude Python temp files
 tar -c --dereference                    # include pointee of symlinks
-tar -c --options '!timestamp'           # do not include a timestamp
 zip -r DIR DIR                          # compress DIR to DIR.zip
 zip --encrypt -r DIR DIR                # compress and encrypt DIR
 unzip FILE.zip                          # decompress
