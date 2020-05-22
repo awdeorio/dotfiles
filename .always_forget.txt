@@ -1526,13 +1526,27 @@ apt-get remove                          # remove package
 apt-get purge                           # remove package and config files
 apt-get update                          # update repository
 apt-get upgrade                         # upgrade packages, but NOT kernel
+apt-get autoremove                      # remove unused package deps
 apt-get dist-upgrade                    # upgrade packages, including kernel
 apt-get download PACKAGE                # download .deb
 apt-cache search PACKAGE                # find packages
-apt-cache showpkg PACKAGE               # get the details on a package
+apt-cache show PACKAGE                  # get the details on a package
 dpkg --get-selections | grep -v deinstall # list installed packages
 dpkg --get-selections | grep PACKAGE    # see if package is installed
 dpkg -i PACKAGE.deb                     # Install
+
+# apt vs. apt-get and apt-cache
+apt install                             # AKA apt-get install
+apt remove                              # AKA apt-get remove
+apt purge                               # AKA	apt-get purge
+apt update                              # AKA aapt-get update
+apt upgrade                             # AKA apt-get upgrade
+apt autoremove                          # AKA apt-get autoremove
+apt full-upgrade                        # AKA apt-get dist-upgrade
+apt search                              # AKA apt-cache search
+apt show                                # AKA apt-cache show
+apt list                                # List installed, upgradable etc
+apt edit-sources                        # Modify package repos
 
 # How to take apart a .deb file
 mkdir tmp && cd tmp
