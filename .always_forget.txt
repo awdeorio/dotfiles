@@ -774,9 +774,6 @@ pv                                      # monitor progress of data thru a pipe
 exit N                                  # exit N
 true                                    # exit zero
 false                                   # exit non-zero
-trap "FUNC" 1 2 3 15                    # run FUNC on receiving a signal
-trap "kill 0" SIGINT                    # kill all proc in proc group on ctrl-c
-trap cleanup SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM ERR  # all but clean exit
 tee FILE                                # copy stdin to both stdout and FILE
 tee FILE1 FILE2                         # copy stdin to stdout, FILE1, FILE2
 tee /dev/stderr                         # copy stdin to both stdout and stderr
@@ -854,6 +851,21 @@ IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
 hash CMD                                # return true if CMD is in PATH
 echo {1..10}                            # expands to 1 2 3 ... 10 (see also seq)
 printf 'a%.0s' {1..10}                  # Repeat letter 'a' 10 times
+trap "FUNC" 1 2 3 15                    # run FUNC on receiving a signal
+trap "kill 0" SIGINT                    # kill all proc in proc group on ctrl-c
+trap cleanup SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM ERR  # all but clean exit
+
+# Bash script error handling
+# https://medium.com/@dirk.avery/the-bash-trap-trap-ce6083f36700
+set -e
+trap 'catch $? $LINENO' EXIT
+catch() {
+  echo "catching!"
+  if [ "$1" != "0" ]; then
+    # error handling goes here
+    echo "Error $1 occurred on $2"
+  fi
+}
 
 # Bash shell productivity
 cp file{,.bak}                          # Backup a file
