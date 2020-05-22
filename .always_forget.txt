@@ -295,6 +295,8 @@ nc -l localhost PORT                    # listen for incoming connection (BSD)
 nc -v -z HOST PORT                      # check connection to HOST on PORT
 ncat -w 2 -v HOST PORT                  # check connection to HOST on PORT
 traceroute                              # route packets take to network host
+[sudo] mtr HOST                         # dynamically updated traceroute info
+mtr --no-dns --report --report-cycles 60# one report generated over 60s
 telnet HOST 80                          # connect to web server
 openssl s_client -quiet -connect www.google.com:443 # ^^^ with SSL
 tcpdump                                 # watch packets on all network ifcs
@@ -369,6 +371,23 @@ echo -e "HTTP/1.1 200 OK\n\n{}\n" | nc -l -p 8000  # Local CLI echo server
 npm install --global http-echo-server   # http-echo-server install
 http-echo-server                        # http-echo-server run
 http POST localhost:56406 key=value     # http-echo-server test
+
+# Curl: test website loading speed / latency
+curl \
+  https://www.google.com \
+  --silent \
+  -o /dev/null \
+  --write-out \
+'%{url_effective}
+Lookup:\t\t%{time_namelookup}
+Connect:\t%{time_connect}
+App Connect:\t%{time_appconnect}
+Redirect:\t%{time_redirect}
+Pre-transfer:\t%{time_pretransfer}
+Start-transfer:\t%{time_starttransfer}
+------------------------
+Total Time:\t%{time_total}
+'
 
 # Curl: log in with cookies
 curl \
