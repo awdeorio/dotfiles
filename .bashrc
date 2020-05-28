@@ -190,8 +190,8 @@ fi
 path-prepend /usr/lib/ccache/bin || path-prepend /usr/lib/ccache
 
 # Go (golang)
+export GOPATH=${HOME}/.go
 if type -a go &> /dev/null; then
-  export GOPATH=${HOME}/.go
   path-append ${GOPATH}/bin
   path-append $(go env GOROOT)/bin
 fi
