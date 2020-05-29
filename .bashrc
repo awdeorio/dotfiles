@@ -46,10 +46,20 @@ alias weather='curl http://wttr.in/ann_arbor?Tn1'
 alias weather3='curl http://wttr.in/ann_arbor?Tn | less'
 alias vboxmanage=VBoxManage
 alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude "*~" -e'
-function ff() { find . -iwholename '*'$*'*' ; }
+function ff() {
+  find . \
+       -iwholename '*'$*'*' \
+       -not -iwholename '*/env/*' \
+       -not -iwholename '*/venv/*' \
+       -not -iwholename '*/node_modules/*' \
+       -not -iwholename '*/__pycache__*' \
+       -not -iwholename '*/tmp*' \
+       -not -iwholename '*.cache*' \
+       -not -path '*/\.*' \
+    ;
+}
 alias fb="find . -name '*~'"
 alias fbrm="find . -name '*~' -exec rm -v {} \;"
-#alias pytest="pytest -vv --tb=line"
 alias pylint='pylint --output-format=colorized'
 alias gs='git status'
 alias gd='git diff'
