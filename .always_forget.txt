@@ -2325,7 +2325,6 @@ git config --global color.branch auto   # colors: git branch
 git config --global commit.gpgSign true # Sign commits by default
 git config --global user.signingKey BB6201BA07530070  # which key to sign with
 
-
 # One-time setup for a project
 git clone ssh://USERNAME@SERVER/~/opt/git/PROJECT.git # server
 git clone git@github.com:REPO/PROJECT.git             # github
@@ -2515,6 +2514,7 @@ git config --global diff.tool TOOL      # use TOOL for merging
 git config --global diff.tool --directory TOOL # use TOOL for dir merging, too
 https://github.com/REPO/compare/HASH1...HASH2  # Visualize diff on GitHub
 gitk --all                              # GUI history and diff
+git ls-files                            # List files under version control
 
 # Merging
 git merge develop                       # merge develop into current branch
