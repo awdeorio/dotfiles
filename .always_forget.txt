@@ -1810,8 +1810,8 @@ jq '."results"[]["name"]'               # Filter nested values from a list
 python -c 'import sys, json; print json.load(sys.stdin)["results"]'  # ^^^
 
 # XML
-# Pretty-print
-cat FILE.xml | python2 -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()'
+cat FILE.xml | python2 -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()'  # Pretty print
+cat FILE.xml | xmlstarlet format        # Pretty print
 
 
 ########################################
