@@ -20,3 +20,5 @@
 	process = git-lfs filter-process
 [commit]
 	gpgSign = true
+[push]
+	default = simple
