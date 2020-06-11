@@ -755,6 +755,7 @@ rsync -e "ssh -i KEY.pem" ubuntu@HOST: # rsync to AWS/Ubuntu
 ftp HOST                               # FTP
 lftp HOST                              # FTP with extra features
 sftp HOST                              # FTP over SSH
+tftp                                   # TFTP, e.g., for firmware flashing
 
 # nmap
 nmap HOST                               # what ports are open?  On host.
@@ -2622,3 +2623,6 @@ curl parrot.live                       # dancing ASCII parrot
 
 # Emacs
 apt-get install emacs-nox              # Quick install on a Debian-based server
+
+# Chrome
+chrome://flags/#allow-insecure-localhost  # Allow homemade certs
