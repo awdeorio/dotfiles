@@ -2626,3 +2626,18 @@ apt-get install emacs-nox              # Quick install on a Debian-based server
 
 # Chrome
 chrome://flags/#allow-insecure-localhost  # Allow homemade certs
+
+# AWS Elastic Beanstalk
+# https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-getting-started.html
+pip freeze > requirements.txt
+eb init -p python-3.6 insta485 --region us-east-2  # Create application
+eb init                                 # Configure application
+eb open                                 # Open application in browser
+eb config                               # Modify configuration and push to AWS
+eb deploy                               # Push source code changes to AWS
+eb status                               # Check deployment status
+eb events                               # Recent eb console messages
+eb logs                                 # Recent web server lots
+eb console                              # Open EB web console
+eb terminate                            # Stop application
+eb ssh                                  # SSH into web server
