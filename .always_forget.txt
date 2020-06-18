@@ -2165,6 +2165,8 @@ mysql -u root -p                        # connect, prompt password
 mysql -u user -p DB                     # connect and open DB
 mysql -u user -p < SCRIPT               # run script
 mysqldump -u user -pPASSWD DB > file.db # dump database to file
+mysql -u [user] db < FILE.sql           # restore db from file
+mysql -e 'SHOW DATABASES'               # run SQL at the CLI
 mysqldump --add-drop-table \            # copy DB from localhost to HOST
   --extended-insert --force \
   --log-error=error.log -uUSER -pPASS \
@@ -2178,10 +2180,15 @@ mysql> SELECT * FROM table \            # dump to CSV
 mysql> CREATE DATABASE mydb;            # Create db
 mysql> USE mydb;                        # Set default db
 
+mysql> USE db                           # Default database for future commands
+mysql> SHOW DATABASES                   # List databases
+mysql> SHOW TABLES                      # List tables
+
 # PostgreSQL Linux CLI
 # https://www.postgresql.org/docs/current/static/app-psql.html
 psql                                    # Start postgresql shell
 psql -c QUERY                           # Execute QUERY
+psql -f FILE.sql                        # Read commands from FILE.sql
 psql -a [--echo-all]                    # Echo all input commands and queries
 psql -U DB_USER -h DB_HOST -d DB_NAME   # connect using a TCP connection
 sudo -u postgres psql                   # Start shell, Ubuntu
@@ -2190,6 +2197,7 @@ psql -d DB                              # Specify database at CLI
 psql -U USERNAME                        # Specify username at CLI
 psql -h HOST                            # Specify host at CLI
 createdb DB                             # Create database
+psql> CREATE DATABASE db;               # Create database
 dropdb --echo DB                        # Drop a database, verbose
 psql -c 'SELECT usename FROM pg_user;'  # List users
 createuser USER                         # Create user
