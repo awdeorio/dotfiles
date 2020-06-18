@@ -2631,13 +2631,21 @@ curl parrot.live                       # dancing ASCII parrot
 
 # Emacs
 apt-get install emacs-nox              # Quick install on a Debian-based server
+yum install emacs-nox                  # Quick install on a Redhat-based server
 
 # Chrome
 chrome://flags/#allow-insecure-localhost  # Allow homemade certs
 
+# AWS CLI
+# brew install awscli
+aws configure                           # Initialize access key and secret key
+aws --output text                       # Unix pipe friendly output
+aws --output json                       # JSON output
+aws ec2 describe-instances              # Show EC2 instances
+aws s3 ls                               # Show buckets
+
 # AWS Elastic Beanstalk
 # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-getting-started.html
-pip freeze > requirements.txt
 eb init -p python-3.6 insta485 --region us-east-2  # Create application
 eb init                                 # Configure application
 eb open                                 # Open application in browser
