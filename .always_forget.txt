@@ -2188,7 +2188,7 @@ mysql> SHOW TABLES                      # List tables
 # https://www.postgresql.org/docs/current/static/app-psql.html
 psql                                    # Start postgresql shell
 psql -c QUERY                           # Execute QUERY
-psql -f FILE.sql                        # Read commands from FILE.sql
+psql -f FILE.sql -v ON_ERROR_STOP=1     # Read commands from FILE.sql
 psql -a [--echo-all]                    # Echo all input commands and queries
 psql -U DB_USER -h DB_HOST -d DB_NAME   # connect using a TCP connection
 sudo -u postgres psql                   # Start shell, Ubuntu
@@ -2665,3 +2665,6 @@ eb logs                                 # Recent web server lots
 eb console                              # Open EB web console
 eb terminate                            # Stop application
 eb ssh                                  # SSH into web server
+eb config save --cfg my-app-v1          # Save current env's current config
+eb config put my-app-v1                 # Upload config after modification
+eb restore                              # Rebuild a terminated environment
