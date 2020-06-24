@@ -1675,6 +1675,7 @@ docker run --rm
 docker cp FILE CONTAINER:DEST           # Copy from host into running container
 docker exec CONTAINER CMD               # Run CMD in running container
 docker attach $CONTAINER                # Attach terminal to running container
+docker images                           # List available images
 
 # Docker: install Linux VM on macOS
 brew install docker docker-machine      # Install
