@@ -420,3 +420,9 @@
     :defer 1
     )
   )
+
+;; Dockerfile syntax highlighting
+(use-package dockerfile-mode
+  :mode "Dockerfile\\'"
+  :ensure t
+)
