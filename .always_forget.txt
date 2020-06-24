@@ -343,6 +343,11 @@ wget --random-wait -r -p -e robots=off -U mozilla/5.0 URL  # crawler
 wget --random-wait -r -p -e robots=off -U mozilla/5.0 URL -b -o log  # crawler
 wget --spider                           # check if file exists
 youtube-dl URL                          # download a youtube video
+curl                                    # download a single web page
+curl -v                                 # include headers
+curl -L                                 # follow redirects
+curl -k                                 # insecure mode, ignore SSL certs
+curl -I                                 # headers only
 curl --verbose                          # watch protocol in action
 curl --trace-ascii log.txt              # watch protocol in action, more detail
 curl --trace-ascii log.txt --trace-time # include timing
@@ -2651,6 +2656,9 @@ aws s3 cp FILE BUCKET                   # Copy FILE to BUCKET
 aws s3 cp DIR/ s3://BUCKET/ --recursive # Copy contents of DIR to BUCKET
 aws s3 rm BUCKET/FILE                   # Remove FILE
 aws s3 rm BUCKET/DIR --recursive        # Remove DIR
+
+# AWS RDS CLI
+aws rds describe-db-instances           # List database instances
 
 # AWS Elastic Beanstalk
 # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-getting-started.html
