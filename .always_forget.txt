@@ -1677,6 +1677,9 @@ docker exec CONTAINER CMD               # Run CMD in running container
 docker attach $CONTAINER                # Attach terminal to running container
 docker images                           # List available images
 docker images -a                        # List all images
+docker system prune                     # Remove dangling images
+docker system prune -a                  # Remove stopped images
+
 
 # Docker: install Linux VM on macOS
 brew install docker docker-machine      # Install
@@ -2663,6 +2666,73 @@ aws s3 rm BUCKET/DIR --recursive        # Remove DIR
 
 # AWS RDS CLI
 aws rds describe-db-instances           # List database instances
+
+# AWS ECR CLI
+aws ecr describe-repositories           # List repos and get ARN
+aws ecr describe-images --repository-name REPO  # List images in REPO
+aws ecr list-images --repository-name insta485
+
+# AWS ECS CLI
+aws ecs create-cluster --cluster-name Insta485-Cluster  # Create
+aws ecs list-clusters                       # List
+aws ecs delete-cluster --cluster NAME       # Destroy
+aws ecs register-task-definition --cli-input-json file://FILENAME  # Create
+aws ecs list-task-definitions           # List
+aws ecs deregister-task-definition --task-definition # Destroy
+
+# AWS CloudWatch CLI
+aws logs create-log-group --log-group-name insta485-log
+aws logs describe-log-groups
+aws logs delete-log-group --log-group-name NAME
+
+# AWS ELB CLI: load balancer create, list, destroy
+# https://aws.amazon.com/getting-started/hands-on/build-modern-app-fargate-lambda-dynamodb-python/module-two/
+aws elbv2 create-load-balancer \
+  --name insta485-nlb \
+  --scheme internet-facing \
+  --type network \
+  --subnets REPLACE_ME_PUBLIC_SUBNET1 REPLACE_ME_PUBLIC_SUBNET2
+aws elbv2 describe-load-balancer
+aws elbv2 delete-load-balancer \
+  --load-balancer-arn REPLACE_ME_ARN
+
+# AWS ELB CLI: target group create, list, destroy
+aws elbv2 create-target-group \
+  --name Insta485-TargetGroup \
+  --port 8000 \
+  --protocol TCP \
+  --target-type ip \
+  --vpc-id $VPC_ID \
+  --health-check-interval-seconds 10 \
+  --health-check-path / \
+  --health-check-protocol HTTP \
+  --healthy-threshold-count 3 \
+  --unhealthy-threshold-count
+aws elbv2 describe-target-groups
+aws elbv2 delete-target-group \
+  --target-group-arn $ARN
+
+# AWS ELB CLI: listener create, list, destroy
+aws elbv2 create-listener \
+  --default-actions TargetGroupArn=REPLACE_ME_NLB_TARGET_GROUP_ARN,Type=forward
+  --load-balancer-arn REPLACE_ME_NLB_ARN \
+  --port 80 \
+  --protocol TCP
+aws elbv2 describe-listeners \
+  --load-balancer-arn $ARN
+
+# AWS ELB CLI: service linked role create, list, destroy
+aws iam create-service-linked-role
+aws iam list-roles
+aws iam delete-service-linked-role
+
+# AWS ELB CLI: service create, list, destroy
+aws ecs create-service \
+  --cli-input-json file://insta485-service-definition.json
+aws ecs list-services --cluster Insta485-Cluster
+aws ecs describe-services \
+  --cluster Insta485-Cluster \
+  --services Insta485-Service
 
 # AWS Elastic Beanstalk
 # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-getting-started.html
