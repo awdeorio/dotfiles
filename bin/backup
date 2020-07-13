@@ -37,6 +37,7 @@ EXCLUDE+=' --exclude .bundle/***'
 # Virtual machines
 EXCLUDE+=' --exclude *.vmdk'
 EXCLUDE+=' --exclude *.vdi'
+EXCLUDE+=' --exclude *.ova'
 
 # Optional
 EXCLUDE+=' --exclude Library/***'
