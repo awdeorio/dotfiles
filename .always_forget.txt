@@ -2596,6 +2596,9 @@ git fetch --depth M                     # Deeper a shallow clone
 # Remove git committed passwords, large files and other nuisances
 # BGF Repo Cleaner https://rtyley.github.io/bfg-repo-cleaner/
 
+# Visual practice with git
+# https://learngitbranching.js.org/
+
 # Render github-style Markdown
 pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
