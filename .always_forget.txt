@@ -1486,7 +1486,10 @@ brew cask list                          # list installed packages
 
 # Services
 brew services list                      # list startup services
-brew services [start|stop|restart] SVC  # start/stop/restart SVC
+brew services run SERVICES              # Start w/o register launch at login
+brew services start SERVICE             # Start and register launch at login
+brew services stop SERVICE              # Stop and unregister launch at login
+brew services restart SERVICE           # Restart and register launch at login
 launchctl unload  /System/Library/LaunchDaemons/ssh.plist  # stop SSH server
 launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 
