@@ -67,6 +67,7 @@ alias gr='git rebase'
 alias gf='git fetch -p'
 alias gb='git branch'
 alias ag='ag --ignore "*bundle.js"'
+alias phs='python3 -m http.server --bind localhost 8000'
 
 # OSX
 if which mdfind &> /dev/null; then
