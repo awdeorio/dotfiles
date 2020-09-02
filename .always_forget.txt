@@ -1302,6 +1302,16 @@ curl -sSL https://andrewdeorio.com/assets/awdeorio.asc | gpg --import -
 gpg --always-trust -r awdeorio -e FILE.txt
 gpg -d FILE.txt.gpg > FILE.txt          # Only awdeorio can decrypt
 
+# GPG example: encrypt a file with awdeorio's public key, long version
+mkdir ~/gnupgtmp
+export GNUPGHOME=~/gnupgtmp
+chmod 700 $GNUPGHOME
+wget https://andrewdeorio.com/assets/awdeorio.asc
+gpg --import awdeorio.asc
+gpg -r awdeorio -e secret.txt
+unset GNUPGHOME
+gpg -d secret.txt.gpg  # Only awdeorio can decrypt
+
 # GPG example: encrypt a directory with awdeorio's public key
 curl -sSL https://andrewdeorio.com/assets/awdeorio.asc | gpg --import -
 tar -cz FILE | gpg --always-trust -r awdeorio -e -o FILE.tar.gz.gpg
