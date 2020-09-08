@@ -34,17 +34,17 @@ else
   while [ "${PWD}" != "/" ]; do
     # Try all the possible virtual env directory names
     for VIRTUAL_ENV_BASENAME in ${VIRTUAL_ENV_BASENAMES}; do
-	    # Stop here if this the root of a virtualenv
+      # Stop here if this the root of a virtualenv
       VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_BASENAME}"
-	    if [ -e "${VIRTUAL_ENV}/bin/activate" ]; then
-		    break 2  # break out of nested loop
-	    fi
+      if [ -e "${VIRTUAL_ENV}/bin/activate" ]; then
+        break 2  # break out of nested loop
+      fi
     done
-	  cd ..
+    cd ..
   done
   if [ "$PWD" = "/" ]; then
-	  echo "Could not activate: no virtual environment found." >&2
-	  exit 1
+    echo "Could not activate: no virtual environment found." >&2
+    exit 1
   fi
 
   # Restore PWD
@@ -52,7 +52,7 @@ else
 fi
 
 # Load .env file if there is one
-# set -a causes viarbales defined to be exported
+# set -a causes defined variables to be exported
 ENV_FILE="${INVE_OLDPWD}/.env"
 if [ -e "${ENV_FILE}" ]; then
   set -a
