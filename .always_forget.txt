@@ -1672,14 +1672,22 @@ vagrant global-status --prune           # remove machines whose configs are gone
 VAGRANT_VAGRANTFILE=Vagrantfile2        # alternate Vagrantfile
 VAGRANT_DOTFILE_PATH=/path/to/.vagrant  # useful together with ^^^
 
-# Docker
-docker-machine start [default]          # Start Linux VM (macOS only)
-docker-machine stop [default]           # Stop Linux VM (macOS only)
-docker-machine status [default]         # Status of Linux VM (macOS only)
-sudo systemctl start docker             # Start service (Linux only)
-systemctl status docker                 # Status service (Linux only)
-sudo systemctl stop docker              # Stop server (Linux only)
+# Docker Server on macOS
+open /Applications/Docker.ap            # Start VM
+docker version                          # Verify connection
+
+# Docker Server on macOS (deprecated)
+docker-machine start [default]          # Start Linux VM
+docker-machine stop [default]           # Stop Linux VM
+docker-machine status [default]         # Status of Linux VM
 eval "$(docker-machine env default)"    # Set Docker env vars
+
+# Docker Server on Linux
+sudo systemctl start docker             # Start service
+systemctl status docker                 # Status service
+sudo systemctl stop docker              # Stop server
+
+# Docker
 docker ps                               # Show running containers
 docker run jameslp/eecs485:19           # Run container, download if needed
 docker run -it                          # Run interactive with pseudo-TTY
@@ -1692,7 +1700,6 @@ docker images                           # List available images
 docker images -a                        # List all images
 docker system prune                     # Remove dangling images
 docker system prune -a                  # Remove stopped images
-
 
 # Docker: install Linux VM on macOS
 brew install docker docker-machine      # Install
