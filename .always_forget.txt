@@ -1890,6 +1890,7 @@ pip install --upgrade --upgrade-strategy=eager -e .  # upgrade setup.py
 pip install --user PACKAGE              # install to ~/.local/
 pip list                                # list install packages
 pip freeze                              # ^^^ in requirements format
+pip freeze --exclude-editable           # ^^^ excluding editable package
 
 # Python pipenv
 # Docs: https://docs.pipenv.org/  http://docs.pipenv.org/advanced/
