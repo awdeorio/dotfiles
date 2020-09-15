@@ -46,18 +46,22 @@ alias weather='curl http://wttr.in/ann_arbor?Tn1'
 alias weather3='curl http://wttr.in/ann_arbor?Tn | less'
 alias vboxmanage=VBoxManage
 alias gg='grep -r . --binary-files=without-match --exclude-dir ".git" --exclude "*~" -e'
+function raf(){
+  grep "$@" ~/.always_forget.txt 
+}
+alias raff="cat .always_forget.txt | fzf"
 function ff() {
   find . \
-       -iwholename '*'$*'*' \
-       -not -iwholename '*/env/*' \
-       -not -iwholename '*/venv/*' \
-       -not -iwholename '*/node_modules/*' \
-       -not -iwholename '*/__pycache__*' \
-       -not -iwholename '*/tmp*' \
-       -not -iwholename '*.cache*' \
-       -not -path '*/\.*' \
+    -iwholename '*'$*'*' \
+    -not -iwholename '*/env/*' \
+    -not -iwholename '*/venv/*' \
+    -not -iwholename '*/node_modules/*' \
+    -not -iwholename '*/__pycache__*' \
+    -not -iwholename '*/tmp*' \
+    -not -iwholename '*.cache*' \
+    -not -path '*/\.*' \
     ;
-}
+  }
 alias fb="find . -name '*~'"
 alias fbrm="find . -name '*~' -exec rm -v {} \;"
 alias pylint='pylint --output-format=colorized'
@@ -108,28 +112,28 @@ fi
 ### Path stuff ################################################################
 # remove item from $PATH
 path-remove () {
-  local IFS=':'
-  local NEWPATH
-  for DIR in $PATH; do
-    if [ "$DIR" != "$1" ]; then
-      NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
-    fi
-  done
-  export PATH=${NEWPATH};
+local IFS=':'
+local NEWPATH
+for DIR in $PATH; do
+  if [ "$DIR" != "$1" ]; then
+    NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
+  fi
+done
+export PATH=${NEWPATH};
 }
 
 # add item to end of $PATH, uniquely
 path-append () {
-  [ -d $1 ] || return 1    # make sure directory exists
-  path-remove $1           # remove the directory
-  export PATH=${PATH}:${1} # append the directory
+[ -d $1 ] || return 1    # make sure directory exists
+path-remove $1           # remove the directory
+export PATH=${PATH}:${1} # append the directory
 }
 
 # add item to beginning of $PATH, uniquely
 path-prepend () {
-  [ -d $1 ] || return 1     # make sure directory exists    
-  path-remove $1            # remove the directory
-  export PATH=${1}:${PATH}  # append the directory
+[ -d $1 ] || return 1     # make sure directory exists    
+path-remove $1            # remove the directory
+export PATH=${1}:${PATH}  # append the directory
 }
 
 path-append /usr/local/bin
@@ -263,18 +267,18 @@ function find_git_context() {
 }
 
 function ps1_context {  
-	# For any of these bits of context that exist, display them and append
-	# a space.  Ref: https://gist.github.com/datagrok/2199506
-	VIRTUAL_ENV_BASE=`basename "$VIRTUAL_ENV"`
+  # For any of these bits of context that exist, display them and append
+  # a space.  Ref: https://gist.github.com/datagrok/2199506
+  VIRTUAL_ENV_BASE=`basename "$VIRTUAL_ENV"`
   find_git_context
-	for v in "${GIT_CONTEXT}" \
-             "${debian_chroot}" \
-             "${VIRTUAL_ENV_BASE}" \
-             "${GIT_DIRTY}" \
-             "${PS1_CONTEXT}"; do
-		echo -n "${v:+$v }"
-	done
-}
+  for v in "${GIT_CONTEXT}" \
+    "${debian_chroot}" \
+    "${VIRTUAL_ENV_BASE}" \
+    "${GIT_DIRTY}" \
+    "${PS1_CONTEXT}"; do
+      echo -n "${v:+$v }"
+    done
+  }
 
 # Fancy Prompt
 source ~/.bashrc_colors
