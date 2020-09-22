@@ -295,6 +295,8 @@ nc -l localhost PORT                    # listen for incoming connection (BSD)
 nc -v -z HOST PORT                      # check connection to HOST on PORT
 ncat -w 2 -v HOST PORT                  # check connection to HOST on PORT
 traceroute                              # route packets take to network host
+curl https://freegeoip.app/json/        # IP geolocation
+open https://github.com/stefansundin/traceroute-mapper  # ^^^ visualization
 [sudo] mtr HOST                         # dynamically updated traceroute info
 mtr --no-dns --report --report-cycles 60# one report generated over 60s
 telnet HOST 80                          # connect to web server
@@ -324,6 +326,13 @@ mitmproxy                               # spy on SSL connections
 p0f                                     # OS fingerprinting
 ntop                                    # See what's using network bandwidth
 iftop                                   # See what's using network bandwidth
+
+# Example: observing an HTTP request
+echo '<html><body>Hello world!</body></html>' > index.html   # Simple HTML
+python3 -m http.server                                       # Start server
+sudo tcpdump -i lo0 port 8000 -w get.pcap                    # Start tcpdump
+curl -v 127.0.0.1:8000/index.html                            # Request
+tshark -r get.pcap -Tfields -e _ws.col.Protocol -e _ws.col.Info -e http.file_data  # Read pcap
 
 # Web Utilities
 python -m SimpleHTTPServer 8000         # start a file server at ./ on port 8000
