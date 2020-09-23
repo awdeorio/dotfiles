@@ -320,6 +320,7 @@ tshark -Tfields -e text                 # ^^^ any sent text
 tshark -Tfields -e http.file_data       # ^^^ HTTP payload
 tshark -Tfields -e _ws.col.Protocol -e _ws.col.Info  # Manually specify defaults
 tshark -Tfields -e _ws.col.Protocol -e _ws.col.Info -e http.file_data  # HTTP, defaults
+tshark -O http -Y "http.request || http.response"  # HTTP with headers
 iftop                                   # display bandwidth usage
 ngrep                                   # grep for network
 mitmproxy                               # spy on SSL connections
