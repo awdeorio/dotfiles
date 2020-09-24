@@ -71,5 +71,5 @@ set -x
 rsync \
   -avzx --delete $EXCLUDE \
   $HOME \
-  awdeorio@trenton.eecs.umich.edu:backup/manco \
+  awdeorio@newberry.eecs.umich.edu:backup/manco \
   $@
