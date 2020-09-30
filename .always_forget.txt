@@ -1020,7 +1020,7 @@ shuf -n1 /usr/share/dict/words          # random word
 # File types and file conversion
 file FILE                               # determine encoding of FILE
 file --mime FILE                        # determine encoding of FILE
-iconv -f UTF-8 -t ASCII//TRANSLIT       # convert UTF8 to ASCII
+iconv -c -f UTF-8 -t ASCII//TRANSLIT    # convert UTF8 to ASCII
 recode UTF8..ASCII FILE                 # convert UTF8 to ASCII
 recode ../CR-LF FILE                    # Convert newlines from Unix to DOS
 recode ../Base64 FILE                   # Convert to base64
@@ -1167,6 +1167,7 @@ pdftotext -layout                       # convert pdf to text, preserving layout
 pdffonts                                # list fonts in a pdf document
 pdfcrop --margins 0 INFILE OUTFILE      # Remove whitespace around pdf
 textutil -convert txt FILE.rtf          # rtf to txt
+lynx --dump FILE.html > FILE.txt        # HTML to txt
 
 # Date and time
 date '+%s'                                        # current time in seconds
