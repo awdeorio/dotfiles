@@ -1,0 +1,7 @@
+#!/bin/bash
+set -Eeuxo pipefail
+
+python3 -m http.server --bind localhost 8000 &
+sleep 1  # FIXME wait for port 8000
+open -a Firefox -n --args --new-window http://localhost:8000
+fg
