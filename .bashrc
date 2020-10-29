@@ -79,7 +79,8 @@ if test -d /Applications/Google\ Chrome.app; then
 fi
 if test -d /Applications/Firefox.app; then
   alias firefox='open -a Firefox --args'
-  alias fp='open -a Firefox -n --args --private-window'
+  alias firefox-private='open -a Firefox -n --args --private-window'
+  alias firefox-new-window='open -a Firefox -n --args --new-window'
 fi
 if [ `uname -s` = "Darwin" ]; then
   alias meld='rm -rvf "${HOME}/.local/share/meld" "${HOME}/Library/Preferences/org.gnome.meld.plist" "${HOME}/Library/Saved Application State/org.gnome.meld.savedState/" && meld'
