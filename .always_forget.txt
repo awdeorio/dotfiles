@@ -1687,7 +1687,7 @@ VAGRANT_DOTFILE_PATH=/path/to/.vagrant  # useful together with ^^^
 
 # Docker Server on macOS
 brew cask install docker                # Install
-open /Applications/Docker.ap            # Start VM
+open /Applications/Docker.app           # Start VM
 docker version                          # Verify connection
 
 # Docker Server on Linux
