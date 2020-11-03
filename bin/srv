@@ -1,7 +1,32 @@
 #!/bin/bash
-set -Eeuxo pipefail
 
-python3 -m http.server --bind localhost 8000 &
-sleep 1  # FIXME wait for port 8000
-open -a Firefox -n --args --new-window http://localhost:8000
-fg
+# Stop on errors
+set -Eeuo pipefail
+
+# Start server
+python3 -m http.server --bind localhost 8000 & PID=$!
+
+# Register handler to kill server on exit, ctrl-C, etc.
+function cleanup() {
+  echo "cleanup()"
+  sync
+  set -x
+  kill ${PID}
+  #pkill -TERM -P ${PID} &> /dev/null
+}
+trap cleanup SIGINT SIGTERM SIGSTOP ERR
+
+# FIXME error check for open port or crashed server in a loop
+
+# Make sure server is running
+sleep 1
+if ! kill -0 ${PID} &> /dev/null; then
+  echo "Error: server failed to start"
+  exit 1
+fi
+
+# Open browser tab
+open -a Firefox --args http://localhost:8000
+
+# Wait for all processes to exit
+wait
