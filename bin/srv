@@ -26,7 +26,7 @@ if ! kill -0 ${PID} &> /dev/null; then
 fi
 
 # Open browser tab
-open -a Firefox --args http://localhost:8000
+open http://localhost:8000
 
 # Wait for all processes to exit
 wait
