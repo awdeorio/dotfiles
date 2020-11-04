@@ -978,12 +978,12 @@ cat ips | awk 'BEGIN {FS="."}; {printf "%03d%03d%03d%03d\n", $1, $2, $3, $4}' | 
 
 # Misc text processing
 cat FILE1                               # print file to terminal
-cat FILE1 FILE2                         # print files to terminal
+cat FILE1 FILE2                         # Concatenate and ^^^
+cat -n                                  # prepend line numbers
+fold                                    # word-wrap text
+cut -c8-                                # remove first 8 characters of a line
 less FILE                               # pager.  q to quit
 pygmentize -g                           # syntax highlighting, autodetect lexer
-cat -n                                  # prepend line numbers
-cut -c8-                                # remove first 8 characters of a line
-fold                                    # word-wrap text
 column -t                               # format columns in tabular data
 column -tns, FILE.csv                   # pretty-print a csv file
 test `tail -c 1 file`                   # test if file ends in newline
@@ -1016,6 +1016,10 @@ sort -k1 -t,                            # sort on col 1, comma-delimited
 sort -h                                 # sort human readable, e.g., from du -h
 /usr/share/dict/words                   # All the words in the dictionary
 shuf -n1 /usr/share/dict/words          # random word
+split FILE                              # split FILE into 1000 line files
+split -                                 # ^^^ stdin
+split -l10 FILE                         # split FILE into 10 line files
+csplit '/^TO:/' '{*}' -                 # split stdin, match on "TO"
 
 # File types and file conversion
 file FILE                               # determine encoding of FILE
