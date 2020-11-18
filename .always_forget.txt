@@ -140,6 +140,7 @@ find -mtime 3 -type f                   # files modified exactly 3 days ago
 find -mtime -3 -type f                  # files modified less than 3 days ago
 find -mtime +3 -type f                  # files modified more than 3 days ago
 find . -not -path '*/\.git*'            # ignore .git dir
+find . -type f -not -wholename '*\.git*' -exec file {} \; | grep CRLF  # Windows line endings
 locate hello.txt                        # search system database for hello.txt
 grep -r PATTERN .                       # recursively search file content
 grep -rI PATTERN .                      # ^^^ ignoring binary files
