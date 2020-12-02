@@ -182,6 +182,7 @@
 ;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
 (use-package todotxt
   :mode ("todo.txt" . todotxt-mode)
+  :mode ("someday.txt" . todotxt-mode)
   :mode ("bills.*" . todotxt-mode)
   :config
   (add-hook 'todotxt-mode-hook 'goto-address-mode) ; for URLs
