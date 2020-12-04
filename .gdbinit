@@ -16,5 +16,8 @@ set print demangle on
 set demangle-style gnu-v3
 set print sevenbit-strings off
 
+# Do not confirm quit
+set confirm off
+
 # GDB on OSX
 set startup-with-shell off
