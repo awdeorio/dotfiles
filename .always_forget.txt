@@ -2685,6 +2685,10 @@ curl parrot.live                       # dancing ASCII parrot
 # Emacs
 apt-get install emacs-nox              # Quick install on a Debian-based server
 yum install emacs-nox                  # Quick install on a Redhat-based server
+emacs --batch -l ~/.emacs.d/init.el    # Process init file at the CLI
+emacs --batch -l ~/.emacs.d/init.el \
+  --funcall auto-package-update-now    # Update all packages
+emacs --batch --funcall byte-recompile-directory  # Recompile all .el files
 
 # Chrome
 chrome://flags/#allow-insecure-localhost  # Allow homemade certs
