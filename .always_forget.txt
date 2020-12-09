@@ -1465,7 +1465,6 @@ dseditgroup -o edit -u USER1 -p -a USER2 -t user GROUP # Add USER2 to GROUP
 # Do this on primary laptop, backup laptop, and desktop
 brew update
 brew upgrade
-brew cask upgrade
 brew cleanup
 pip2 install --upgrade pip setuptools wheel
 pip3 install --upgrade pip setuptools wheel
@@ -1502,16 +1501,10 @@ brew uninstall PACKAGE                  # remove PACKAGE
 brew update                             # update package index
 brew upgrade                            # upgrade installed packages
 brew cleanup                            # remove tarballs, installers, etc.
-brew list                               # list all installed packages
+brew list                               # list installed casks and formulae
 brew outdated                           # list outdated packages
 brew update                             # update package index (includes cask)
-brew cask upgrade                       # upgrade installed packages
-brew cask cleanup                       # remove .dmg installers
 brew linkapps                           # link to /Applications/
-brew cask install PACKAGE               # install .dmg PACKAGE
-brew cask uninstall PACKAGE             # remove .dmg PACKAGE
-brew cask install https://raw.githubusercontent.com/caskroom/homebrew-cask/e8816187ae43f52b598f15f45b3453e22727ac99/Casks/virtualbox.rb   # Downgrade a .dmg package  https://www.jverdeyen.be/mac/downgrade-brew-cask-application/
-brew cask list                          # list installed packages
 
 # Services
 brew services list                      # list startup services

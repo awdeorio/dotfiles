@@ -36,7 +36,6 @@ popd
 # Update Homebrew packages
 brew update
 brew upgrade
-brew cask upgrade
 brew cleanup
 
 # Update macOS packages
