@@ -144,13 +144,10 @@ path-append /usr/sbin
 path-append /bin
 path-append /sbin
 path-prepend ${HOME}/bin
-path-append ${HOME}/local/bin
-path-append ${HOME}/local/sbin
-path-append ${HOME}/.rvm/bin   # Add RVM to PATH for scripting
-if [ `whoami` != "root" ]; then
-  path-append /usr/caen/bin
-  path-append /usr/um/bin
-fi
+path-prepend ${HOME}/local/bin
+path-prepend ${HOME}/local/sbin
+path-append /usr/caen/bin
+path-append /usr/um/bin
 
 
 ### local tool installs ########################################################
