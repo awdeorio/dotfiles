@@ -132,7 +132,7 @@ path-append () {
 
 # add item to beginning of $PATH, uniquely
 path-prepend () {
-  [ -d $1 ] || return 1     # make sure directory exists    
+  [ -d $1 ] || return 1     # make sure directory exists
   path-remove $1            # remove the directory
   export PATH=${1}:${PATH}  # append the directory
 }
@@ -219,9 +219,9 @@ path-prepend /usr/local/opt/ruby/bin
 
 
 ################################################################################
-# Test for an interactive shell.  There is no need to set anything past this 
-# point for scp and rcp, and it's important to refrain from outputting 
-# anything in those cases.
+# Test for an interactive shell.  There is no need to set anything past this
+# point for scp and rcp, and it's important to refrain from outputting anything
+# in those cases.
 [[ $- != *i* ]] && return
 
 
@@ -267,18 +267,18 @@ function find_git_context() {
   GIT_CONTEXT="${GIT_BRANCH}${GIT_DIRTY}"
 }
 
-function ps1_context {  
-	# For any of these bits of context that exist, display them and append
-	# a space.  Ref: https://gist.github.com/datagrok/2199506
-	VIRTUAL_ENV_BASE=`basename "$VIRTUAL_ENV"`
+function ps1_context {
+  # For any of these bits of context that exist, display them and append
+  # a space.  Ref: https://gist.github.com/datagrok/2199506
+  VIRTUAL_ENV_BASE=`basename "$VIRTUAL_ENV"`
   find_git_context
-	for v in "${GIT_CONTEXT}" \
+  for v in "${GIT_CONTEXT}" \
              "${debian_chroot}" \
              "${VIRTUAL_ENV_BASE}" \
              "${GIT_DIRTY}" \
              "${PS1_CONTEXT}"; do
-		echo -n "${v:+$v }"
-	done
+    echo -n "${v:+$v }"
+  done
 }
 
 # Fancy Prompt
