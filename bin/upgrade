@@ -24,7 +24,6 @@ command emacs \
 
 # Update Python packages
 pip3 install --upgrade pip setuptools wheel
-pip3 install --upgrade jupyter matplotlib pandas numpy scipy
 
 # Update Ruby packages
 gem update --system
