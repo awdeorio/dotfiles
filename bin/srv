@@ -15,7 +15,6 @@ $SERVERCMD & PID=$!
 # Register handler to kill server on exit
 function cleanup() {
   kill ${PID} || echo "Error killing process ${PID}"
-  exit
 }
 trap cleanup SIGINT SIGQUIT SIGABRT SIGKILL SIGTERM ERR
 
