@@ -7,8 +7,16 @@ PORT=8000
 # Stop on errors
 set -Eeuo pipefail
 
+# Intelligently choose the right server
+if [ -e _config.yml ]; then
+  # Looks like a Jekyll site
+  SERVERCMD="bundle exec jekyll serve --host ${HOST} --port ${PORT}"
+else
+  # Default to HTTP file server
+  SERVERCMD="python3 -m http.server --bind ${HOST} ${PORT}"
+fi
+
 # Start server
-SERVERCMD="python3 -m http.server --bind ${HOST} ${PORT}"
 echo $SERVERCMD
 $SERVERCMD & PID=$!
 
@@ -23,7 +31,7 @@ for i in  `seq 10` ; do
   if nc -z ${HOST} ${PORT} &> /dev/null; then
     break
   fi
-  sleep 0.2
+  sleep 0.5
 done
 if ! kill -0 ${PID} &> /dev/null; then
   echo "Error: server process is not running"
