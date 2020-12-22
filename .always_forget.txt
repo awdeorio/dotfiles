@@ -1510,6 +1510,7 @@ brew services run SERVICES              # Start w/o register launch at login
 brew services start SERVICE             # Start and register launch at login
 brew services stop SERVICE              # Stop and unregister launch at login
 brew services restart SERVICE           # Restart and register launch at login
+brew services restart -v -d SERVICE     # ^^^ with more info
 launchctl unload  /System/Library/LaunchDaemons/ssh.plist  # stop SSH server
 launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 
@@ -1542,6 +1543,7 @@ tar -xvf RPMFILE                        # Unpack rpm contents
 
 # yum (RedHat and derivatives)
 yum update                              # Update repository
+yum search PACKAGE                      # Search for PACKAGE
 yum install PACKAGE                     # Install PACKAGE system-wide
 yum install yum-utils                   # Install dev tools, step 1
 yum groupinstall development            # Install dev tools, step 2
