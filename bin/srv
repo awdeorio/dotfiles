@@ -21,7 +21,7 @@ fi
 
 # Register handler to kill server on exit
 function cleanup() {
-  kill -SIGINT ${PID} || echo "Error killing process ${PID}"
+  kill ${PID} || echo "Error killing process ${PID}"
 }
 trap cleanup SIGINT SIGQUIT SIGABRT SIGKILL SIGTERM ERR
 
