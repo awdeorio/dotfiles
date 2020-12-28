@@ -2482,6 +2482,7 @@ git reflog -10                          # See last 10 actions
 git rev-parse --abbrev-ref HEAD         # Current branch
 git describe --dirty                    # Repo is clean or dirty
 git describe --match=NeVeRmAtCh --always --abbrev=8 --dirty # COMMIT[-dirty]
+git log -1 --format='%H'                # Commit hash of current branch
 git rev-parse HEAD                      # Commit hash of current branch
 git rev-parse master                    # Commit hash of master
 git rev-parse origin/master             # Commit hash of repo's master
