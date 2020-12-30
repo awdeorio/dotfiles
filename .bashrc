@@ -210,9 +210,9 @@ if type -a go &> /dev/null; then
 fi
 
 # Ruby
-export GEM_HOME=${HOME}/.gem
-path-append ${GEM_HOME}/bin
-path-prepend /usr/local/opt/ruby/bin
+# export GEM_HOME=${HOME}/.gem
+# path-append ${GEM_HOME}/bin
+path-prepend "/usr/local/opt/ruby@2.7/bin"
 
 
 ################################################################################
