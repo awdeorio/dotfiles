@@ -136,12 +136,14 @@
     ;:config (load-theme 'spacemacs-dark t)
     )
 
-;; Integrated debugging mode for LLDB.  However, prefer GDB over LLDB
-;; because GDB integration is much better.
-;; https://www.reddit.com/r/emacs/comments/6qbwjl/seriously_how_can_i_use_lldb_in_emacs/
-(use-package gud-lldb
-  :commands gud-lldb
-)
+;; Integrated debugging mode for LLDB.
+;; https://github.com/realgud/realgud/wiki/Debuggers-Available
+(use-package realgud
+  :ensure t
+  )
+(use-package realgud-lldb
+  :ensure t
+  )
 
 ;; Verilog mode customizations
 (use-package verilog-mode
