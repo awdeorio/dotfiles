@@ -2643,6 +2643,9 @@ gh issue view 324                       # open issue 324 in a browser
 gh pr create                            # create pull request from this branch
 gh pr status                            # check status of all PRs
 gh pr checkout 255                      # checkout branch for PR 255
+gh pr list                              # list PRs
+gh pr view                              # show PR in terminal
+gh pr view --web                        # open PR in browser
 
 # Nasty things
 rm -rf /                               # Delete everything
