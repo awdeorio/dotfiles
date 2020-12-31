@@ -211,8 +211,8 @@ fi
 
 # Ruby
 # export GEM_HOME=${HOME}/.gem
-# path-append ${GEM_HOME}/bin
-path-prepend "/usr/local/opt/ruby@2.7/bin"
+path-append ${GEM_HOME}/bin
+path-prepend "/usr/local/opt/ruby/bin"
 
 
 ################################################################################
