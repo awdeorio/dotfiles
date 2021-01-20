@@ -569,8 +569,10 @@ imageoptim FILE.jpg                    # reduce file size
 imageoptim '*.jpg'                     # reduce file size
 exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' # date/time += 3 yr 2 mos
+exiftool -gpslatitude -gpslongitude    # GPS coordinates
 convert FILE.png FILE.jpg              # convert image file type
 convert IN.jpg -monochrome OUT.jpg     # convert image to black and white
+identify -verbose FILE.jpg             # dump all EXIF data
 
 # SSH
 ssh HOST                               # connect to HOST
