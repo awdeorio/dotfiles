@@ -70,6 +70,9 @@ alias ag='ag --ignore "*bundle.js"'
 alias phs='python3 -m http.server --bind localhost 8000'
 
 # OSX
+if which gfind &> /dev/null; then
+  alias find='gfind'
+fi
 if which mdfind &> /dev/null; then
   alias locate='mdfind -name'
 fi
