@@ -72,6 +72,7 @@ ls -a                                   # include hidden files
 ls -A                                   # include hidden files, but not . or ..
 ls -t                                   # sort by time
 ls -ltr                                 # newest files last
+ls -ltr --time-style=long-iso           # ^^^ time in YYYY-MM-DD HH:SS format
 ls --color                              # colorize output
 ls --color=auto                         # colorize output only in tty
 ls --human-readable                     # human-readable file sizes
