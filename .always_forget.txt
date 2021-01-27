@@ -378,6 +378,8 @@ curl --output /dev/null --silent --insecure --head --fail URL # check HTTP up
 dig +short myip.opendns.com @resolver1.opendns.com # what is my IP address?
 vnu --root DIR                          # HTML5/W3C validator
 html5validator --root DIR               # HTML5/W3C validator
+linkchecker index.html                  # Verify internal links
+linkchecker index.html --check-extern   # Verify internal and external links
 webkit2png https://google.com           # Screenshot web page
 webkit2png google.htm                   # Screenshot saved web page
 ls *.html | xargs -n1 webkit2png        # Screenshot many saved web pages
