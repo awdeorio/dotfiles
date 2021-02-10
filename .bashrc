@@ -214,8 +214,10 @@ fi
 
 # Ruby
 # export GEM_HOME=${HOME}/.gem
-path-append ${GEM_HOME}/bin
+# path-append ${GEM_HOME}/bin
 path-prepend "/usr/local/opt/ruby/bin"
+GEM_BIN=$(gem env | grep 'EXECUTABLE DIRECTORY' | awk '{print $NF}')
+path-append ${GEM_BIN}
 
 
 ################################################################################
