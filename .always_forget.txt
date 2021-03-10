@@ -2427,13 +2427,12 @@ git rebase origin/master                #
 
 # Forking work flow: merging a pull request
 # https://help.github.com/articles/committing-changes-to-a-pull-request-branch-created-from-a-fork/
-git clone git@github.com:USER/REPO.git  # Clone other USER's fork of the repo
+git clone git@github.com:seshrs/mailmerge.git mailmerge-seshrs  # Clone seshrs's fork
 git remote add upstream git@github.com:awdeorio/mailmerge.git
 git fetch upstream
-
-# Merge upstream into fork
-# https://gist.github.com/Chaser324/ce0505fbed06b947d962
-git remote add upstream https://github.com/awdeorio/mailmerge.git
+git checkout BRANCH                     # Check out PR source branch
+git merge upstream/develop              # Update BRANCH
+git push                                # Push to seshrs's repo
 
 # Commit
 git branch                              # check your branch
