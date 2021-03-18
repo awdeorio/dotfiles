@@ -1975,6 +1975,7 @@ pytest --log-cli-level=INFO             # Change log level
 pytest -p no:logging                    # Override log level, e.g. in pytest.ini
 pytest --collect-only --verbosity=-1    # List test names
 pytest --cov MODULE                     # Measure coverage with pytest-cov
+pytest --cov --cov-report term-missing  # ^^^ show line nos missed by tests
 coverage annotate                       # Create *.py,cover showing LOC coverage
 
 # Python tox CLI
