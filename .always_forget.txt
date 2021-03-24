@@ -52,6 +52,7 @@ man -w                                  # Show search path for man pages
 echo $MANPATH                           # Additional man search dirs
 apropos                                 # Search commands and descriptions
 whatis CMD                              # Short description of a command
+tldr CMD                                # Short examples of a command
 
 # Machines
 hostname                                # name of this computer
