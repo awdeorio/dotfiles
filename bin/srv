@@ -7,6 +7,12 @@ PORT=8000
 # Stop on errors
 set -Eeuo pipefail
 
+# Check if port is already in use
+if nc -z $HOST $PORT &> /dev/null; then
+  echo "Error: ${HOST}:${PORT} is in use"
+  exit 1
+fi
+
 # Intelligently choose the right server
 if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
   # Jekyll with primer-spec remote them
