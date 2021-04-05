@@ -23,19 +23,19 @@ command emacs \
   --batch
 
 # Update Python packages
-pip3 install --upgrade pip setuptools wheel
+pip3 install --quiet --upgrade pip setuptools wheel
 
 # Update Ruby packages
-gem update --system
-gem cleanup
+gem update --system --quiet
+gem cleanup --quiet
 pushd ${HOME}
-gem update
+gem update --quiet
 popd
 
 # Update Homebrew packages
-brew update
-brew upgrade
-brew cleanup
+brew update --quiet
+brew upgrade --quiet
+brew cleanup --quiet
 
 # Update macOS packages
 softwareupdate -i -a
