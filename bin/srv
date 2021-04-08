@@ -2,7 +2,7 @@
 
 # Configuration
 HOST=localhost
-PORT=8000
+PORT=4000
 
 # Stop on errors
 set -Eeuo pipefail
