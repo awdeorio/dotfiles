@@ -2316,8 +2316,13 @@ SELECT * FROM v$version
 # Print column names
 SELECT COLUMN_NAME FROM ALL_TAB_COLUMNS WHERE TABLE_NAME='<name>'
 
+# Auto increment
+PRIMARY KEY AUTO_INCREMENT              # MySQL
+SERIAL PRIMARY KEY                      # PostgreSQL https://www.tutorialspoint.com/postgresql/postgresql_using_autoincrement.htm 
+INTEGER PRIMARY KEY                     # SQLite, reuse rowids https://sqlite.org/autoinc.html
+INTEGER PRIMARY KEY AUTOINCREMENT       # SQLite3, monotonically increasing
+
 # SQL
-PRIMARY KEY AUTO_INCREMENT              # avoid initializing ID's
 TIMESTAMP DEFAULT CURRENT_TIMESTAMP     # avoid initializing timestamps
 FOREIGN KEY (child_id)                  # add foreign key constraint to col
   REFERENCES parent_table(parent_id)    # connect to column in parent table
