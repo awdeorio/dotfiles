@@ -10,10 +10,8 @@ set -Eeuo pipefail
 set -o noglob
 
 # Synchronized files
-EXCLUDE+=' --exclude Dropbox/***'
-EXCLUDE+=' --exclude GoogleDrive/***'
-EXCLUDE+=' --exclude GoogleDriveHome/***'
-EXCLUDE+=' --exclude GoogleDriveWork/***'
+EXCLUDE+=' --exclude Dropbox*/***'
+EXCLUDE+=' --exclude GoogleDrive*/***'
 
 # Don't backup these files
 EXCLUDE+=' --exclude .Trash/***'
