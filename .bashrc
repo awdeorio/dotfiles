@@ -80,6 +80,10 @@ if test -d /Applications/Google\ Chrome.app; then
   alias chrome='open -a "Google Chrome" --args'
   alias google-chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 fi
+if test -d /Applications/Brave\ Browser.app; then
+  alias brave='open -a "Brave Browser" --args'
+  alias brave-private='brave --incognito'
+fi
 if test -d /Applications/Firefox.app; then
   alias firefox='open -a Firefox --args'
   alias firefox-private='open -a Firefox -n --args --private-window'
