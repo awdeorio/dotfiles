@@ -20,6 +20,9 @@ if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
 elif [ -e _config.yml ]; then
   # Jekyll
   SERVERCMD="jekyll serve --host $HOST --port $PORT"
+elif [ -e README.md ]; then
+  # Markdown README
+  SERVERCMD="grip ${HOST}:${PORT}"
 else
   # Default to HTTP file server
   SERVERCMD="python3 -m http.server --bind $HOST $PORT"
