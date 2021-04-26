@@ -956,9 +956,11 @@ sed -n '52p'                            # print line 52
 sed '52q;d'                             # ^^^ efficient on large files
 sed -n '45,50p' filename                # print lines 45-50
 sed -n '51q;45,50p' filename            # ^^^ efficient on large files
-sed -n '/BEGIN/,/END/p'                 # print lines between "BEGIN" and "END"
-sed -e '/before/q'                      # stop when line matches "before"
-sed -i -e 's/before/after/g' file.txt   # replaces "before" with "after"
+sed -n '/BEGIN/,/END/p'                 # print lines between BEGIN and END
+sed '/BEGIN/,/END/d'                    # delete lines between BEGIN and END
+sed '/SENTINEL/q'                       # print lines before and incl. SENTINEL
+sed -n '/SENTINEL/p'                    # print lines after and incl. SENTINEL
+sed -i -e 's/before/after/g' file.txt   # replace "before" with "after"
 perl -pi -e 's/old_string/new_string/g' # ^^^ perl alternative
 sed 's/\([a-z]*\).*/\1/'                # keep only lowercase letters
 sed 's/^/before/'                       # prepend every line
