@@ -2662,7 +2662,8 @@ gh issue view 324                       # open issue 324 in a browser
 gh pr create                            # create pull request from this branch
 gh pr create \                          # ^^^ prefilled
   --title "lorum" \
-  --body "ipsum"
+  --body "ipsum" \
+  --reviewer HANDLE
 gh pr status                            # check status of all PRs
 gh pr checkout 255                      # checkout branch for PR 255
 gh pr list                              # list PRs
