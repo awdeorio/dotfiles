@@ -327,6 +327,7 @@ tshark -Tfields -e _ws.col.Protocol -e _ws.col.Info -e http.file_data  # HTTP, d
 tshark -O http -Y "http.request || http.response"  # HTTP with headers
 iftop                                   # display bandwidth usage
 ngrep                                   # grep for network
+sudo ngrep -d any google                # see traffic to/from Google
 mitmproxy                               # spy on SSL connections
 p0f                                     # OS fingerprinting
 ntop                                    # See what's using network bandwidth
@@ -1808,6 +1809,7 @@ g++ -pg                                 # compile
 gprof ./a.out gmon.out > analysis.txt     # analyze
 
 # Profile with perf
+# TODO: https://jvns.ca/debugging-zine.pdf
 g++ -g                                  # compile
 perf record -g ./a.out                  # run
 perf report                             # analyze
