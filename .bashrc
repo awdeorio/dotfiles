@@ -92,6 +92,9 @@ fi
 if [ `uname -s` = "Darwin" ]; then
   alias meld='rm -rvf "${HOME}/.local/share/meld" "${HOME}/Library/Preferences/org.gnome.meld.plist" "${HOME}/Library/Saved Application State/org.gnome.meld.savedState/" && meld'
 fi
+if test -d /Applications/Microsoft\ Excel.app; then
+  alias excel='open -a Microsoft\ Excel'
+fi
 
 
 ### Editor ####################################################################
