@@ -2646,7 +2646,8 @@ git lfs ls-files                        # files managed by git-lfs (committed)
 # Avoid checking out all commits in repo with a long history
 git clone --depth N                     # Clone with truncated history
 git clone --depth N --no-single-branch  # ^^^ with N commits from every branch
-git fetch --depth M                     # Deeper a shallow clone
+git fetch --depth M                     # Deepen a shallow clone
+git fetch --depth M                     # Reduce size of clone (if < M), git >= 2.14
 
 # Remove git committed passwords, large files and other nuisances
 # BFG Repo Cleaner https://rtyley.github.io/bfg-repo-cleaner/
