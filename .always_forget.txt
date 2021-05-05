@@ -1409,6 +1409,8 @@ tail -f FILE               # watch file for appends
 ...|xargs -n1 emacs        # launch emacs one at a time for several files
 ...|xargs -n1 realpath | xargs -n1 emacs  # ^^^ handle relative file paths
 ...|xargs -n10 CMD         # process files in batches on 10
+...|xargs -o emacs         # Reopen stdin, useful for interactive app (BSD)
+...|xargs sh -c 'emacs "$@" < /dev/tty' emacs  # ^^^ BSD and GNU
 
 # Change a bunch of file extensions
 ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
