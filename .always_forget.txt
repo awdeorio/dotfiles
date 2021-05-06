@@ -235,6 +235,8 @@ set                                     # List env vars, local vars, functions
 echo $VARIABLE                          # Print one environment variable
 printenv VARIABLE                       # Print one environment variable
 env -i CMD                              # Run CMD with empty environment
+env --unset VARIABLE                    # unset VARIABLE
+unset VARIABLE                          # unset VARIABLE (Bash built-in)
 $PATH                                   # Command search path
 $PS1                                    # Shell prompt
 $LD_LIBRARY_PATH                        # Run time library resolution
