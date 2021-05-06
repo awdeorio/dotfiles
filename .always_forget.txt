@@ -1900,6 +1900,16 @@ echo $PYTHONUSERBASE                    # Base dir, e.g., ${HOME}/.local
 echo $PYTHONSTARTUP                     # Interactive interpreter startup
 python -c 'import sys; print("\n".join(sys.path))'
 
+# Python install
+apt-get install python3 python3-pip python3-venv python3-wheel python3-setuptools  # Linux
+brew install python3                    # MacOS
+
+# Anaconda Python
+# https://docs.anaconda.com/anaconda/install/uninstall/
+~/anaconda3/bin/conda init              # Permanently activate
+conda init --reverse                    # Permanently deactivate
+conda deactivate                        # Temporarily deactivate
+
 # Python virtual environment
 virtualenv venv                         # create, Python2
 python3 -m venv .venv                   # create, Python3
