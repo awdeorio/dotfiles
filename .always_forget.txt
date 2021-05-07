@@ -963,7 +963,7 @@ sed -n '/BEGIN/,/END/p'                 # print lines between BEGIN and END
 sed '/BEGIN/,/END/d'                    # delete lines between BEGIN and END
 sed '/SENTINEL/q'                       # print lines before and incl. SENTINEL
 sed -n '/SENTINEL/p'                    # print lines after and incl. SENTINEL
-sed -i -e 's/before/after/g' file.txt   # replace "before" with "after"
+sed -i .bak 's/before/after/g' file.txt # replace "before" with "after"
 perl -pi -e 's/old_string/new_string/g' # ^^^ perl alternative
 sed 's/\([a-z]*\).*/\1/'                # keep only lowercase letters
 sed 's/^/before/'                       # prepend every line
