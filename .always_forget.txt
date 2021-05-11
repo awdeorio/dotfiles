@@ -818,6 +818,7 @@ seq 10 | xargs -n1 echo "hello"         # do something N times (see also {1..N})
 printf                                  # C-workalike print function
 
 # Bash shell scripting
+set -Eeuo pipefail                      # Stop on errors
 bash -n SCRIPT                          # Bash script syntax check
 echo "hello world"                      # print stdout
 echo "hello world" >&2                  # print to stderr
@@ -864,7 +865,6 @@ set -o pipefile                         # ^^^ for pipes
 set -x                                  # Print commands
 set +x                                  # Stop print commands
 { set +x; } 2>/dev/null                 # Stop print commands silently
-set -Eeuxo pipefail                     # Stop on errors, print commands
 STR=$'hello\nworld'                     # String with newlines
 EXTENSION="${FILENAME##*.}"             # Parse file extension
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
