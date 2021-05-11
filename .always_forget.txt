@@ -2676,17 +2676,19 @@ grip -b --norefresh README.md           # ^^^ limit github API usage
 
 # GitHub CLI tool (gh)
 gh issue list                           # show issues
-gh issue view 324                       # open issue 324 in a browser
+gh issue list --web                     # ^^^ in browser
+gh pr status                            # Summary PRs code review, etc.
+gh pr list                              # show PRs
+gh pr list --web
+gh pr view                              # show PR in terminal
+gh pr view --web                        # open PR in browser
 gh pr create                            # create pull request from this branch
 gh pr create \                          # ^^^ prefilled
   --title "lorum" \
   --body "ipsum" \
   --reviewer HANDLE
-gh pr status                            # check status of all PRs
-gh pr checkout 255                      # checkout branch for PR 255
-gh pr list                              # list PRs
-gh pr view                              # show PR in terminal
-gh pr view --web                        # open PR in browser
+gh pr checkout 255                      # Checkout branch for PR 255
+gh run view --log-failed
 
 # Nasty things
 rm -rf /                               # Delete everything
