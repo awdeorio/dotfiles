@@ -2688,19 +2688,22 @@ gh pr create \                          # ^^^ prefilled
   --body "ipsum" \
   --reviewer HANDLE
 gh pr checkout 255                      # Checkout branch for PR 255
-gh run view --log-failed
+gh pr checks                            # Show CI status for this PR
+gh run watch                            # Watch jobs (steps) complete
+gh run view                             # Show jobs (steps)
+gh run view --log                       # Show log
 
 # Nasty things
-rm -rf /                               # Delete everything
-:(){ :|: & };:                         # Fork bomb (bash)
-COMMAND > /dev/sda                     # Write directly to HDD
-dd if=/dev/random of=/dev/sda          # Write junk to HDD
-mv ~ /dev/null                         # Move home directory to nowhere
+rm -rf /                                # Delete everything
+:(){ :|: & };:                          # Fork bomb (bash)
+COMMAND > /dev/sda                      # Write directly to HDD
+dd if=/dev/random of=/dev/sda           # Write junk to HDD
+mv ~ /dev/null                          # Move home directory to nowhere
 
 # Password cracking demo
 openssl passwd -1 -salt xyz "password" > passwd.txt
 john --show passwd.txt
-$ cat ~/.john/john.pot 
+$ cat ~/.john/john.pot
 $1$xyz$cEUv8aN9ehjhMXG/kSFnM1:password
 
 # Command line fun
