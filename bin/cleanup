@@ -1,0 +1,8 @@
+#!/bin/bash
+set -Eeuxo pipefail
+
+rm -rvf ${HOME}/.Trash/*
+rm -rvf ${HOME}/Downloads/*
+rm -rvf ${HOME}/Desktop/*
+rm -vf ~/*~ ~/.*~
+find ~/Dropbox -name '\''*~'\'' -exec rm -v {} \;'
