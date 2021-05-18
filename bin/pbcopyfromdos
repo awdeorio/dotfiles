@@ -1,0 +1,4 @@
+#!/bin/bash
+set -Eeuo pipefail
+
+cat $1 | unix2dos | pbcopy
