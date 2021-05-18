@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+"""
+html2csv
+
+Convert HTML tables to CSV
+
+Andrew DeOrio <awdeorio@umich.edu>
+
+TODO:
+- [ ] --help
+- [ ] read stdin
+- [ ] read multiple files
+"""
+import sys
+from pathlib import Path
+import pandas as pd
+
+
+def main():
+    """Command line interface."""
+    input_path = Path(sys.argv[1])
+    if not input_path.exists():
+        sys.exit(f"{input_path}: file does not exist")
+
+    # Read HTML file
+    try:
+        tables = pd.read_html(input_path)
+    except ValueError as err:
+        sys.exit(f"{input_path}: {err}")
+
+    # We expect the input file to contain a single table.  read_html() returns
+    # a list of Dataframe objects, one for each HTML table.
+    if not tables:
+        sys.exit(f"{input_path}: does not contain an HTML table")
+
+    # Write a CSV file for each HTML table
+    for i, table in enumerate(tables):
+        output_path = input_path.with_suffix(".csv")
+
+        # If there's more than one table in a file, then write multiple output
+        # files.  For example, if the input file is `in.html`, then then output
+        # file would be index-table0.csv and index-table1.csv
+        if len(tables) > 1:
+            output_path = output_path.with_stem(f"{output_path.stem}-table{i}")
+
+        table.to_csv(output_path, index=False)
+
+
+if __name__ == "__main__":
+    main()
