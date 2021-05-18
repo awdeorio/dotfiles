@@ -334,6 +334,7 @@ mitmproxy                               # spy on SSL connections
 p0f                                     # OS fingerprinting
 ntop                                    # See what's using network bandwidth
 iftop                                   # See what's using network bandwidth
+siege                                   # Load testing tool
 
 # Example: observing an HTTP request
 echo '<html><body>Hello world!</body></html>' > index.html   # Simple HTML
