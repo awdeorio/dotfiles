@@ -302,6 +302,7 @@ nc -v -z HOST PORT                      # check connection to HOST on PORT
 ncat -w 2 -v HOST PORT                  # check connection to HOST on PORT
 traceroute                              # route packets take to network host
 curl https://freegeoip.app/json/        # IP geolocation
+curl 'https://api.ipgeolocation.io/ipgeo?apiKey=API_KEY'  # ^^^ API_KEY from dashboard https://app.ipgeolocation.io/
 open https://github.com/stefansundin/traceroute-mapper  # ^^^ visualization
 [sudo] mtr HOST                         # dynamically updated traceroute info
 mtr --no-dns --report --report-cycles 60# one report generated over 60s
