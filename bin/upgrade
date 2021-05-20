@@ -32,10 +32,10 @@ pushd ${HOME}
 gem update --quiet
 popd
 pushd ${HOME}/src/eecs280/p1-stats
-bundle install
+bundle install --quiet
 popd
 pushd ${HOME}/src/eecs485/p1-insta485-static
-bundle install
+bundle install --quiet
 popd
 
 # Update Homebrew packages
