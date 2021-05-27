@@ -60,8 +60,8 @@ if ! kill -0 $PID &> /dev/null; then
 fi
 if ! curl "${HOST}:${PORT}" --silent --output /dev/null; then
   echo "Error: ${HOST}:${PORT} is responding to HTTP requests"
-  echo "+ curl --verbose ${HOST}:${PORT}"
-  curl --verbose "${HOST}:${PORT}"
+  echo "+ curl ${HOST}:${PORT} --verbose --output /dev/null"
+  curl "${HOST}:${PORT}" --verbose --output /dev/null
   cleanup
   exit 1
 fi
