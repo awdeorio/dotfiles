@@ -7,6 +7,14 @@ PORT=4000
 # Stop on errors
 set -Eeuo pipefail
 
+# Parse arguments
+if [ "$#" -gt 1 ]; then
+  echo "Usage: $0 [port]"
+  exit 1
+elif [ "$#" -eq 1 ]; then
+  PORT="$1"
+fi
+
 # Check if port is already in use
 if nc -z $HOST $PORT &> /dev/null; then
   echo "Error: ${HOST}:${PORT} is in use"
