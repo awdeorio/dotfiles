@@ -48,7 +48,7 @@ $SERVERCMD & PID=$!
 
 # Wait for server to start with a timeout
 for i in  `seq 10` ; do
-  if nc -z $HOST $PORT &> /dev/null; then
+  if curl "${HOST}:${PORT}" --silent --output /dev/null; then
     break
   fi
   sleep 0.5
@@ -58,8 +58,10 @@ if ! kill -0 $PID &> /dev/null; then
   cleanup
   exit 1
 fi
-if ! nc -z $HOST $PORT &> /dev/null; then
-  echo "Error: ${HOST}:${PORT} is not open"
+if ! curl "${HOST}:${PORT}" --silent --output /dev/null; then
+  echo "Error: ${HOST}:${PORT} is responding to HTTP requests"
+  echo "+ curl --verbose ${HOST}:${PORT}"
+  curl --verbose "${HOST}:${PORT}"
   cleanup
   exit 1
 fi
