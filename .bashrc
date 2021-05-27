@@ -6,12 +6,10 @@
 
 
 ### places ####################################################################
-export NFSHOME=/net/trenton/w/awdeorio
 export IFSHOME=/afs/umich.edu/user/a/w/awdeorio
 export WWWHOME=/net/web/w/web/u/a/awdeorio
 export WWWINFERNO=/net/web/w/web/inferno
 export BACKUP=${NFSHOME}/backup/manzana/awdeorio
-export EECS280=/afs/umich.edu/class/eecs280
 
 # set umask for both scp and ssh
 umask 002
@@ -68,6 +66,9 @@ alias gf='git fetch -p'
 alias gb='git branch'
 alias ag='ag --ignore "*bundle.js"'
 alias phs='python3 -m http.server --bind localhost 8000'
+if test -e ~/.bashrc-private-aliases; then
+  source ~/.bashrc-private-aliases
+fi
 
 # OSX
 if which gfind &> /dev/null; then
