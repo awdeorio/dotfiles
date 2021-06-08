@@ -9,4 +9,4 @@ rm -vf ~/*~ ~/.*~
 # Bug fix: globbing causes problems with '*' in EXCLUDE strings
 set -o noglob
 
-find ~/Dropbox/ -name '*~' -exec rm -v {} \;
+find ~/Dropbox -name '*~' -exec rm -v {} \;
