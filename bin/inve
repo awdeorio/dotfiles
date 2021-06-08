@@ -20,21 +20,19 @@ if [ -z "${SHELL}" ]; then
 fi
 
 # Search for virtual environments in directories with these names
-VIRTUAL_ENV_BASENAMES=". .venv venv env"
-
-# Save PWD
-INVE_OLDPWD="`pwd`"
+VIRTUAL_ENV_BASENAMES=".venv venv env"
 
 if [ -n "${1-}" ]; then
   # Virtual environment root specified as argument
   VIRTUAL_ENV="$1"
 else
-  # Search up for the root of a virtual environment
-  # Based on https://gist.github.com/datagrok/2199506#a-system-level-inve
+  # Save PWD
+  INVE_OLDPWD="`pwd`"
+
+  # Search up for the root of a virtual environment, trying each of the
+  # possible viretual env base names.
   while [ "${PWD}" != "/" ]; do
-    # Try all the possible virtual env directory names
     for VIRTUAL_ENV_BASENAME in ${VIRTUAL_ENV_BASENAMES}; do
-      # Stop here if this the root of a virtualenv
       VIRTUAL_ENV="${PWD}/${VIRTUAL_ENV_BASENAME}"
       if [ -e "${VIRTUAL_ENV}/bin/activate" ]; then
         break 2  # break out of nested loop
@@ -51,21 +49,21 @@ else
   cd "${INVE_OLDPWD}"
 fi
 
+# Activate virtual environment
+set -u
+echo "source ${VIRTUAL_ENV}/bin/activate"
+set +u
+source "${VIRTUAL_ENV}/bin/activate"
+
 # Load .env file if there is one
 # set -a causes defined variables to be exported
-ENV_FILE="${INVE_OLDPWD}/.env"
+ENV_FILE="${VIRTUAL_ENV}/../.env"
 if [ -e "${ENV_FILE}" ]; then
   set -a
   echo "source ${ENV_FILE}"
   source "${ENV_FILE}"
   set +a
 fi
-
-# Activate virtual environment
-set -u
-echo "source ${VIRTUAL_ENV}/bin/activate"
-set +u
-source "${VIRTUAL_ENV}/bin/activate"
 
 # Start the user's preferred subshell, replacing this process with the shell.
 # The subshell inherits the environment variables previously exported by this
