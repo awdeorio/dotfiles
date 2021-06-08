@@ -41,8 +41,15 @@ else
     cd ..
   done
   if [ "$PWD" = "/" ]; then
-    echo "Could not activate: no virtual environment found." >&2
-    exit 1
+    VIRTUAL_ENV="${INVE_OLDPWD}/.venv"
+    read -p "No virtual environment found.  Would you like to create ${VIRTUAL_ENV} ? " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      echo "python3 -m venv ${VIRTUAL_ENV}"
+      python3 -m venv "${VIRTUAL_ENV}"
+    else
+      exit 1
+    fi
   fi
 
   # Restore PWD
