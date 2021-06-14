@@ -31,6 +31,8 @@ gem cleanup --quiet
 pushd ${HOME}
 gem update --quiet
 popd
+
+# Update Ruby dependencies for EECS 280 and EECS 485 tutorials
 pushd ${HOME}/src/eecs280/p1-stats
 bundle install --quiet
 popd
@@ -40,7 +42,7 @@ popd
 
 # Update Homebrew packages
 brew update --quiet
-brew upgrade --quiet
+brew upgrade --quiet --greedy
 brew cleanup --quiet
 
 # Update macOS packages
