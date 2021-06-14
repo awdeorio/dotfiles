@@ -1616,7 +1616,7 @@ ar x ../FILE.deb
 tar -xvzf control.tar.gz
 tar -xvzf data.tar.xz
 
-# upstart scripts
+# Upstart
 initctl reload-configuration            # reload configs in /etc/init/
 service MYSERVICE status                # status of service
 status MYSERVICE                        # status of service
@@ -1631,7 +1631,7 @@ initctl reload-configuration            # update config (default auto updates)
 sudo initctl log-priority debug         # enable debugging
 initctl emit EVENT                      # manually emit an event
 
-# systemd scripts
+# Systemd
 systemctl start SERVICE                 # start
 systemctl stop SERVICE                  # stop
 systemctl status SERVICE                # status
