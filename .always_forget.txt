@@ -965,8 +965,8 @@ sed -n '/BEGIN/,/END/p'                 # print lines between BEGIN and END
 sed '/BEGIN/,/END/d'                    # delete lines between BEGIN and END
 sed '/SENTINEL/q'                       # print lines before and incl. SENTINEL
 sed -ne '/SENINTEL/,$ p'                # print lines after and incl. SENTINEL
-sed -i .bak 's/before/after/g' file.txt # replace "before" with "after"
-perl -pi -e 's/old_string/new_string/g' # ^^^ perl alternative
+sed -i .bak 's/before/after/g'          # replace "before" with "after"
+perl -pi -e 's/before/after/g'          # ^^^ perl alternative
 sed 's/\([a-z]*\).*/\1/'                # keep only lowercase letters
 sed 's/^/before/'                       # prepend every line
 sed 's/$/after/'                        # append every line
@@ -1192,6 +1192,7 @@ lynx --dump FILE.html > FILE.txt        # HTML to txt
 
 # Date and time
 date '+%s'                                        # current time in seconds
+date '+%Y'                                        # current year
 date '+%Y-%m-%d_%H:%M:%S'                         # format 2016-06-20_13:13:19
 date --utc '+%Y-%m-%d_%H%M%S_%Z'                  # format 2016-06-20_131319_UTC
 date --date='Thu Nov  4 09:08:49 EDT 2010' '+%s'  # parse a date and reformat
