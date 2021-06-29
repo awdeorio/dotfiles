@@ -41,12 +41,15 @@ else
     cd ..
   done
   if [ "$PWD" = "/" ]; then
-    VIRTUAL_ENV="${INVE_OLDPWD}/.venv"
-    read -p "No virtual environment found.  Would you like to create ${VIRTUAL_ENV} ? " -n 1 -r
+    VIRTUAL_ENV_BASE=.venv
+    VIRTUAL_ENV="${INVE_OLDPWD}/${VIRTUAL_ENV_BASE}"
+    read -p "No virtual environment found.  Would you like to create ${VIRTUAL_ENV_BASE} ? " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo "python3 -m venv ${VIRTUAL_ENV}"
       python3 -m venv "${VIRTUAL_ENV}"
+      echo "${VIRTUAL_ENV}/bin/pip install --upgrade --quiet pip setuptools wheel"
+      "${VIRTUAL_ENV}/bin/pip" install --upgrade --quiet pip setuptools wheel
     else
       exit 1
     fi
