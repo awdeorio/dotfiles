@@ -429,3 +429,9 @@
   :mode "Dockerfile\\'"
   :ensure t
 )
+
+(defun insert-todays-date ()
+  "Insert today's date in YYYY-MM-DD format."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d"))
+)
