@@ -1,12 +1,10 @@
 #!/bin/bash
-set -Eeuxo pipefail
+set -Eeuo pipefail
 
+DROPBOX="$(realpath ~/Dropbox)"
+set -x
 rm -rvf ${HOME}/.Trash/*
 rm -rvf ${HOME}/Downloads/*
 rm -rvf ${HOME}/Desktop/*
-rm -vf ~/*~ ~/.*~
-
-# Bug fix: globbing causes problems with '*' in EXCLUDE strings
-set -o noglob
-
-find ~/Dropbox -name '*~' -exec rm -v {} \;
+find "$DROPBOX" -name '*~' -exec rm -v {} \;
+find "$DROPBOX" -name '*conflicted copy*'
