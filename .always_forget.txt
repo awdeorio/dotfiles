@@ -1687,6 +1687,7 @@ tar -cvf vmName-NEW.ova vmName{.ovf,-disk1.vmdk,.mf} # repackage
 # Vagrant
 # https://www.vagrantup.com/
 vagrant init                            # create new configuration Vagrantfile
+vagrant init bento/ubuntu-14.04         # create Vagrantfile for Ubuntu 14.04
 vagrant init bento/ubuntu-16.04         # create Vagrantfile for Ubuntu 16.04
 vagrant init bento/ubuntu-18.04         # create Vagrantfile for Ubuntu 18.04
 vagrant init bento/ubuntu-20.04         # create Vagrantfile for Ubuntu 20.04
@@ -1897,6 +1898,7 @@ perl -i -pe                             # edit in place (like sed -i)
 # Options
 python -m MODULE                        # load module and execute main()
 python -c "CODE"                        # execute CODE
+python -m site                          # Display configuration
 
 # Search path for libraries
 echo $PYTHONPATH                        # Python library search path
@@ -2005,6 +2007,7 @@ coverage annotate                       # Create *.py,cover showing LOC coverage
 # Python tox CLI
 tox                                     # Run all tests
 tox -e py3                              # Run one test environment
+tox -vv                                 # Show debug info
 
 # Python Source Distributions
 python setup.py sdist                   # Create dist in ./dist/
