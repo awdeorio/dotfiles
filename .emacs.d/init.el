@@ -174,6 +174,7 @@
 (setq auto-mode-alist (cons '("README\\'" . text-mode) auto-mode-alist))
 (add-hook 'text-mode-hook 'visual-line-mode)  ; wrap long lines
 (add-hook 'text-mode-hook 'flyspell-mode)     ; spell check
+(add-hook 'text-mode-hook (lambda () (electric-pair-mode -1))) ; disable
 
 ;; LaTeX mode
 (add-hook 'latex-mode-hook 'visual-line-mode) ; wrap long lines
@@ -191,6 +192,7 @@
   (add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ; for Dropbox
   (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (flyspell-mode -1))) ; disable
+  (add-hook 'todotxt-mode-hook (lambda () (electric-pair-mode -1))) ; disable
 )
 
 ;; Markdown mode (.md)
