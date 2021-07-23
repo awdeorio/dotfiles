@@ -207,7 +207,7 @@ fi
 
 # SQLite3 on macOS
 if [ -d /usr/local/opt/sqlite/bin ]; then
-  path-prepend /usr/local/opt/sqlite/bin
+  path-append /usr/local/opt/sqlite/bin
 fi
 
 # CCache
@@ -348,6 +348,7 @@ alias la="${LS} -h -A ${LSOPT}"
 ### Homebrew package manager customization ###################################
 if which brew &> /dev/null; then
   export HOMEBREW_NO_AUTO_UPDATE=1
+  eval $(brew shellenv)
 fi
 
 
