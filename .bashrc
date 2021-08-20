@@ -66,6 +66,7 @@ alias gf='git fetch -p'
 alias gb='git branch'
 alias ag='ag --ignore "*bundle.js"'
 alias phs='python3 -m http.server --bind localhost 8000'
+alias mogrify-1024='mogrify -resize 1024x1024'
 if test -e ~/.bashrc-private-aliases; then
   source ~/.bashrc-private-aliases
 fi
