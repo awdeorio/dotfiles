@@ -2701,6 +2701,8 @@ grip -b README.md                       # render README.md in browser
 grip -b --norefresh README.md           # ^^^ limit github API usage
 
 # GitHub CLI tool (gh)
+gh browse                               # open home page of current repo
+gh browse 217                           # open issue or PR 217
 gh issue list                           # show issues
 gh issue list --web                     # ^^^ in browser
 gh pr status                            # Summary PRs code review, etc.
