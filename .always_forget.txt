@@ -2062,8 +2062,8 @@ $EDITOR setup.py
 git commit -m "version bump" setup.py
 git push origin develop
 
-# Merge develop to master
-git checkout master
+# Merge develop to main
+git checkout main
 git rebase
 git merge --no-ff origin/develop
 
@@ -2078,19 +2078,14 @@ ls dist/*-py2.py3-none-any.whl dist/*.tar.gz
 git tag -a X.Y.Z
 grep version= setup.py
 git describe
-git push --tags origin master
+git push --tags origin main
 
 # Deploy to Test PyPI and browse to https://test.pypi.org/project/mailmerge/
 twine upload --sign --repository-url https://test.pypi.org/legacy/ dist/*
 
 # Test install.  It will install, but not run because we didn't install deps.
-python3 -m venv env3
-source env3/bin/activate
-pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
-mailmerge --version  # Expect module not found error
-deactivate
-virtualenv -ppython2 env2
-source env2/bin/activate
+python3 -m venv envtmp
+source envtpm/bin/activate
 pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
 mailmerge --version  # Expect module not found error
 deactivate
