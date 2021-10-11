@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+"""
+wa2roster
+
+Convert a Wolverine Access table of students to a cleaned up CSV file.
+
+Andrew DeOrio <awdeorio@umich.edu>
+"""
+import sys
+from datetime import datetime
+from pathlib import Path
+import pandas as pd
+
+
+def main():
+    """Command line interface."""
+    # Sanity check args
+    if len(sys.argv) != 2:
+        sys.exit(f"Usage: {sys.argv[0]} WOLVERINE_ACCESS_TABLE")
+    input_path = Path(sys.argv[1])
+    if not input_path.exists():
+        sys.exit(f"{input_path}: file does not exist")
+
+    # Read HTML file
+    try:
+        tables = pd.read_html(input_path)
+    except ValueError as err:
+        sys.exit(f"{input_path}: {err}")
+
+    # Sanity check HTML input.  We expect the input file to contain a single
+    # table.  read_html() returns a list of Dataframe objects, one for each
+    # HTML table.
+    if not tables:
+        sys.exit(f"{input_path}: does not contain an HTML table")
+    elif len(tables) > 1:
+        sys.exit(f"{input_path}: contains multiple HTML tables, expected one")
+    table = tables[0]
+
+    # Sanity check column names
+    for col in ["Campus ID", "Name", "ID", "Class Section"]:
+        if col not in table:
+            sys.exit(f"{input_path}: column not found: '{col}'")
+
+    # Roster is a subset of the input table columns
+    roster = pd.DataFrame(table[["Campus ID", "Name", "ID", "Status"]])
+
+    # Change column name "Campus ID" to "Uniqname"
+    roster.rename(columns={"Campus ID": "Uniqname"}, inplace=True)
+
+    # Uniqname should be lower case
+    roster["Uniqname"] = roster["Uniqname"].str.lower()
+
+    # If a student withdraws, overwrite Status.  Select the columns from the
+    # roster DataFrame that correspond to "Status Note" == "Withdrawn" in the
+    # table DataFrame.  Overwrite them with the value of "Status Note".
+    roster.loc[table["Status Note"].notna(), "Status"] = \
+        table.loc[table["Status Note"].notna(), "Status Note"]
+
+    # Write CSV to INPUTDIR/roster-YYYY-MM-DD.csv
+    ymd = datetime.today().strftime('%Y-%m-%d')
+    output_path = input_path.parent / f"roster-{ymd}.csv"
+    roster.to_csv(output_path, index=False)
+
+    # Report to user
+    num_rows = roster.shape[0]
+    print(f"Wrote {num_rows} students to {output_path}")
+
+
+if __name__ == "__main__":
+    main()
