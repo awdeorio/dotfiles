@@ -28,6 +28,7 @@
 (global-set-key "\C-c\C-r"                          'search-backward-regexp)
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
 (global-set-key [(control \')]                      'other-window)
+(global-set-key "\C-x\C-u"                          'browse-url-at-point)
 
 ;; macOS modifier keys
 (setq mac-command-modifier 'meta) ; Command == Meta
