@@ -950,7 +950,8 @@ ptargrep                                # grep files insize a tarball
 # brew install the_silver_searcher
 ag PATTERN                              # search for PATTERN
 ag --list-file-types                    # supported filetype-specific searches
-ag --python                             # filetype-specific search
+ag --python                             # Only Python files
+ag -G .py                               # Filter by file extension or filename
 
 # sed
 sed -rn '/PATTERN/p'                    # grep work-a-like
@@ -1270,6 +1271,7 @@ zdiff FILE1.gz FILE2.gz                 # diff compressed file
 7za e FILE.7z                           # decompress 7 zip format (p7zip)
 xz FILE                                 # compress
 unxz FILE.xz                            # decompress
+ag -z -G .tar.gz                        # search compressed files
 
 # Encryption
 encfs ROOTDIR MOUNTPOINT                # (first time) create encrypted virtual folder
