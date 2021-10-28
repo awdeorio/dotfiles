@@ -83,6 +83,7 @@ ls --quoting-style=literal              # don't quote for 'File with spaces'
 ls -R                                   # list recursively
 tree                                    # pretty-print recursively
 tree --matchdirs -I 'venv3|*pycache*'   # ^^^ ignore Python "hidden" stuff
+tree -l                                 # follow symbolic links
 mkdir DIR                               # make a directory
 mkdir -p DIR                            # ^^^ make intermediate dirs as needed
 rmdir DIR                               # remove a directory
@@ -1215,6 +1216,9 @@ killall -USR1 parallel                  # get list of running jobs
 killall -TERM parallel                  # finish running jobs, no new jobs
 echo > q; tail -f q | parallel          # start job queue
 echo my_command my_arg >> q             # submit to job queue
+
+# Hadoop
+hadoop jar hadoop-streaming.jar -info   # HSI Help
 
 # File differences
 diff FILE1 FILE2                        # view differences of two files
