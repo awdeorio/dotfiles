@@ -1,5 +1,6 @@
 #!/bin/bash
 set -Eeuxo pipefail
+set -x
 
 git clean -xdf starter-files/
 gtar -czf docs/starter_files.tar.gz starter_files/
