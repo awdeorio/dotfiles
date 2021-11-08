@@ -1035,6 +1035,7 @@ sort -k1                                # sort on column 1 (first)
 sort -k1-2                              # sort on columns 1 and 2
 sort -k1 -t,                            # sort on col 1, comma-delimited
 sort -h                                 # sort human readable, e.g., from du -h
+sort -o FILE FILE                       # sort FILE in place
 /usr/share/dict/words                   # All the words in the dictionary
 shuf -n1 /usr/share/dict/words          # random word
 split FILE                              # split FILE into 1000 line files
