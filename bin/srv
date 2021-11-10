@@ -9,10 +9,20 @@ set -Eeuo pipefail
 
 # Parse arguments
 if [ "$#" -gt 1 ]; then
-  echo "Usage: $0 [port]"
+  echo "Usage: $0 [DIR]"
   exit 1
 elif [ "$#" -eq 1 ]; then
-  PORT="$1"
+  DIR="$1"
+fi
+
+# Change directory
+if [ -n "$DIR" ]; then
+  if [ ! -d "$DIR" ]; then
+    echo "Error: directory does not exist: ${DIR}"
+    exit 1
+  fi
+  echo "cd $DIR"
+  cd "$DIR"
 fi
 
 # Check if port is already in use
@@ -23,7 +33,7 @@ fi
 
 # Intelligently choose the right server
 if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
-  # Jekyll with primer-spec remote them
+  # Jekyll with primer-spec remote theme
   SERVERCMD="bundle exec jekyll serve --host $HOST --port $PORT"
 elif [ -e _config.yml ]; then
   # Jekyll
