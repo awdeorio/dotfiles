@@ -107,6 +107,7 @@ export VISUAL="$EDITOR"                # Here for historical reasons
 export SUDO_EDITOR="emacs -nw"         # Editor used by sudoedit and sudo -e
 export GIT_EDITOR="emacs -nw"          # Editor used by git commit
 function e { emacs "$@" & }
+function ediff { emacs --eval "(ediff-files \"$1\" \"$2\")" & }
 
 ### Pager #####################################################################
 export PAGER="less --shift 5 --ignore-case --chop-long-lines --RAW-CONTROL-CHARS --LONG-PROMPT"
