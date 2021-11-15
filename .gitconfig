@@ -24,3 +24,7 @@
 	default = simple
 [gpg]
 	program = gpg
+[diff]
+	tool = ediff
+[difftool "ediff"]
+  cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
