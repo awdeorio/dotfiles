@@ -881,6 +881,7 @@ IFS=$'\n' for i in $(cat file); do      # for loop, line-by-line
 [ -n "${VAR}" ]                         # set to a non-empty string
 [ -n "${VAR+}" ]                        # set, possibly to empty string
 [ -n "${VAR-}" ]                        # either unset or set non-empty string
+X=${X:=input}                           # Default value for X
 hash CMD                                # return true if CMD is in PATH
 echo {1..10}                            # expands to 1 2 3 ... 10 (see also seq)
 printf 'a%.0s' {1..10}                  # Repeat letter 'a' 10 times
