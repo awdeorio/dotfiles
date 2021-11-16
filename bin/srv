@@ -16,7 +16,7 @@ elif [ "$#" -eq 1 ]; then
 fi
 
 # Change directory
-if [ -n "$DIR" ]; then
+if [ -n "${DIR-}" ]; then
   if [ ! -d "$DIR" ]; then
     echo "Error: directory does not exist: ${DIR}"
     exit 1
