@@ -439,3 +439,11 @@
   (interactive)
   (insert (format-time-string "%Y-%m-%d"))
 )
+
+
+;; ediff
+;; WORK IN PROGRESS
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function (quote split-window-horizontally))
+(winner-mode)
+(add-hook 'ediff-after-quit-hook-internal 'winner-undo)
