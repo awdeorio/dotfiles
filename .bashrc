@@ -99,6 +99,12 @@ if test -d /Applications/Microsoft\ Excel.app; then
   alias excel='open -a Microsoft\ Excel'
 fi
 
+# diff-highlight ships with Git
+DIFF_HIGHLIGHT=$(locate diff-highlight | grep 'diff-highlight/diff-highlight$' | head -n1)
+if [ -n "$DIFF_HIGHLIGHT" ]; then
+  alias diff-highlight="$DIFF_HIGHLIGHT"
+fi
+
 
 ### Editor ####################################################################
 # export EDITOR="emacsclient -n -c"      # Open a new window w/ existing daemon

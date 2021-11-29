@@ -1233,6 +1233,7 @@ wdiff FILE1 FILE2                       # diff word-by-word
 colordiff                               # same as diff, but with color
 diff ... | colordiff                    # colorize diff output
 wdiff ... | colordiff                   # colorize wdiff output
+diff ... | colordiff | diff-highlight   # colorize character level, from Git
 diff --brief -r DIR1 DIR2               # compare directories recursively
 python2 -c "a=open('FILE1').read(); b=open('FILE2').read(); import sys; sys.exit(not a in b)"  # FILE1 is contained by FILE2
 
