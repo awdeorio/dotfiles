@@ -2026,6 +2026,9 @@ python setup.py sdist                   # Create dist in ./dist/
 python2 -m SimpleHTTPServer
 python3 -m http.server
 
+# Python dead code search
+vulture PATH
+
 
 ########################################
 # Python / IPython
