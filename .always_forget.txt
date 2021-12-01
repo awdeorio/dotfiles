@@ -2084,8 +2084,8 @@ git merge --no-ff origin/develop
 python3 -m venv .venv
 source .venv/bin/activate
 pip3 install --upgrade pip setuptools wheel
-python3 setup.py sdist bdist_wheel --universal
-ls dist/*-py2.py3-none-any.whl dist/*.tar.gz
+python3 setup.py sdist bdist_wheel
+ls dist/
 
 # Tag a release and double check that the versions match
 git tag -a X.Y.Z
