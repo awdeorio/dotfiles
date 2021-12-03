@@ -441,9 +441,14 @@
 )
 
 
-;; ediff
-;; WORK IN PROGRESS
+;; ediff WORK IN PROGRESS
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-(setq ediff-split-window-function (quote split-window-horizontally))
+(setq ediff-split-window-function 'split-window-horizontally)
+
+;; Change window width from 80 to 160
+(add-hook 'ediff-after-setup-windows-hook (lambda () (if (window-system) (set-frame-width (selected-frame) 160))))
+
+;; Restore windows after Ediff quits
 (winner-mode)
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+(add-hook 'ediff-after-quit-hook-internal (lambda () (if (window-system) (set-frame-width (selected-frame) 80))))
