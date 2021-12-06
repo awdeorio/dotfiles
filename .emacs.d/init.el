@@ -26,8 +26,8 @@
 (global-set-key "\C-ci"                             'indent-to)
 (global-set-key "\C-c\C-s"                          'search-forward-regexp)
 (global-set-key "\C-c\C-r"                          'search-backward-regexp)
+(global-set-key "\M-o"                              'other-window)
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
-(global-set-key [(control \')]                      'other-window)
 (global-set-key "\C-x\C-t"                          'insert-todays-date)
 (global-set-key "\C-x\C-u"                          'browse-url-at-point)
 
@@ -440,8 +440,9 @@
   (insert (format-time-string "%Y-%m-%d"))
 )
 
-
-;; ediff WORK IN PROGRESS
+;; ediff graphical diff viewer
+;;
+;; https://www.gnu.org/software/emacs/manual/html_mono/ediff.html
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
 
