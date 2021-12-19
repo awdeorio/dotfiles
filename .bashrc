@@ -7,9 +7,7 @@
 
 ### places ####################################################################
 export IFSHOME=/afs/umich.edu/user/a/w/awdeorio
-export WWWHOME=/net/web/w/web/u/a/awdeorio
-export WWWINFERNO=/net/web/w/web/inferno
-export BACKUP=${NFSHOME}/backup/manzana/awdeorio
+export NFSHOME=/net/newberry/w/awdeorio
 
 # set umask for both scp and ssh
 umask 002
