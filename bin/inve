@@ -5,19 +5,14 @@
 # usage: inve [VIRTUAL_ENV]
 #
 # Attempts to find the root of a virtual environment by walking the directory
-# tree from "$PWD" to "/".  Then, it activates a subshell using the $SHELL
-# environment variable.
+# tree from "$PWD" to "/".  Then, it activates a subshell.
 #
-# Basedon https://datagrok.org/python/activate/
+# Based on https://datagrok.org/python/activate/
+#
+# https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
 
 # Stop on errors
 set -Eeuo pipefail
-
-# Sanity check for SHELL variable
-if [ -z "${SHELL}" ]; then
-  echo "Error: \$SHELL variable not set."
-  exit 1
-fi
 
 # Search for virtual environments in directories with these names
 VIRTUAL_ENV_BASENAMES=".venv venv env"
@@ -60,24 +55,41 @@ else
   cd "${INVE_OLDPWD}"
 fi
 
+# Sanity checks
+if ! test -d "${VIRTUAL_ENV}"; then
+  echo "Error: directory does not exist: ${VIRTUAL_ENV}"
+  exit 1
+fi
+if ! test -d "${VIRTUAL_ENV}/bin"; then
+  echo "Error: directory does not exist: ${VIRTUAL_ENV}/bin"
+  exit 1
+fi
+
+# Write a tmp bashrc file
+# FIXME get a safe filename
+TMPFILE=/tmp/inve-bashrc
+rm -f $TMPFILE
+touch $TMPFILE
+
+# Mimic bash interactive shell
+if test -f ~/.bashrc; then
+  echo "source ~/.bashrc" >> $TMPFILE
+fi
+
 # Activate virtual environment
-set -u
-echo "source ${VIRTUAL_ENV}/bin/activate"
-set +u
-source "${VIRTUAL_ENV}/bin/activate"
+echo "export VIRTUAL_ENV=\"${VIRTUAL_ENV}\""
+echo "export PATH=\"${VIRTUAL_ENV}/bin:\${PATH}\""
+echo "export VIRTUAL_ENV=\"${VIRTUAL_ENV}\"" >> $TMPFILE
+echo "export PATH=\"${VIRTUAL_ENV}/bin:\${PATH}\"" >> $TMPFILE
 
 # Load .env file if there is one
 # set -a causes defined variables to be exported
-ENV_FILE="${VIRTUAL_ENV}/../.env"
-if [ -e "${ENV_FILE}" ]; then
-  set -a
-  echo "source ${ENV_FILE}"
-  source "${ENV_FILE}"
-  set +a
+if test -f .env; then
+  echo "source .env"
+  echo "set -a" >> $TMPFILE
+  echo "source .env" >> $TMPFILE
+  echo "set +a" >> $TMPFILE
 fi
 
-# Start the user's preferred subshell, replacing this process with the shell.
-# The subshell inherits the environment variables previously exported by this
-# script.
-echo "exec ${SHELL}"
-exec "${SHELL}"
+# Start a subshell initialized with the tmp bashrc we just wrote
+exec bash --rcfile $TMPFILE
