@@ -1193,6 +1193,7 @@ pdftotext                               # convert pdf to text
 pdftotext -layout                       # convert pdf to text, preserving layout
 pdffonts                                # list fonts in a pdf document
 pdfcrop --margins 0 INFILE OUTFILE      # Remove whitespace around pdf
+pdfgrep                                 # Search text in pdf
 textutil -convert txt FILE.rtf          # rtf to txt
 lynx --dump FILE.html > FILE.txt        # HTML to txt
 
