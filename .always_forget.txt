@@ -2704,7 +2704,10 @@ git fetch --depth M                     # Reduce size of clone (if < M), git >= 
 # Visual practice with git
 # https://learngitbranching.js.org/
 
-# Render github-style Markdown
+# Render GitHub-flavored Markdown (GFM)
+# Lexers https://github.com/rouge-ruby/rouge/tree/master/lib/rouge/lexers
+# GFM pycon: console?lang=python,prompt=>>>,...
+# Other options: https://github.com/rouge-ruby/rouge/blob/6bd36244940e7ae2b4642040ca6618dfb4847993/lib/rouge/lexers/console.rb#L12-L24
 pip install grip                        # install grip utility
 grip -b README.md                       # render README.md in browser
 grip -b --norefresh README.md           # ^^^ limit github API usage
