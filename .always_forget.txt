@@ -457,6 +457,12 @@ jekyll build                            # Build site to _site/
 jekyll serve                            # Start live dev server
 bundle exec jekyll                      # Locally installed Jekyll
 
+# Primer Spec Preview
+gem install bundler
+bundle install
+bundle update --all                     # Update lock file
+bundle exec jekyll serve
+
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
 TARGET_HOST $ ncat -lvp 8080 -e /bin/bash --ssl
