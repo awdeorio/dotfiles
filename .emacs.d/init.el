@@ -129,6 +129,7 @@
   :config
   (global-undo-tree-mode)
   (global-set-key "\C-\M-_" 'undo-tree-redo)
+  (setq undo-tree-auto-save-history nil)
   :ensure t
   )
 
