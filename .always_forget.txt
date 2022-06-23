@@ -362,6 +362,7 @@ wget -o FILE                            # log output
 wget --random-wait -r -p -e robots=off -U mozilla/5.0 URL  # crawler
 wget --random-wait -r -p -e robots=off -U mozilla/5.0 URL -b -o log  # crawler
 wget --spider                           # check if file exists
+wget --timestamping                     # check if file has changed
 youtube-dl URL                          # download a youtube video
 curl                                    # download a single web page
 curl -v                                 # include headers
