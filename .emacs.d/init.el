@@ -183,6 +183,13 @@
 (add-hook 'latex-mode-hook 'visual-line-mode) ; wrap long lines
 (add-hook 'latex-mode-hook 'flyspell-mode)    ; spell check
 
+(defun sort-buffer ()
+  "Sort buffer."
+  (interactive)
+  (mark-whole-buffer)
+  (sort-lines nil (point-min) (point-max))
+)
+
 ;; Todo.txt mode
 ;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
 ;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
@@ -196,6 +203,7 @@
   (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (flyspell-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (electric-pair-mode -1))) ; disable
+  (add-hook 'before-save-hook 'sort-buffer)  ; Sort before save
 )
 
 ;; Markdown mode (.md)
