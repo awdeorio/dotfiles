@@ -183,6 +183,7 @@
 (add-hook 'latex-mode-hook 'visual-line-mode) ; wrap long lines
 (add-hook 'latex-mode-hook 'flyspell-mode)    ; spell check
 
+;; Sort function is useful in todo.txt mode
 (defun sort-buffer ()
   "Sort buffer."
   (interactive)
@@ -203,7 +204,6 @@
   (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (flyspell-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (electric-pair-mode -1))) ; disable
-  (add-hook 'before-save-hook 'sort-buffer)  ; Sort before save
 )
 
 ;; Markdown mode (.md)
@@ -276,6 +276,7 @@
   :mode "\\.go\\'"
   :config
   (add-hook 'before-save-hook 'gofmt-before-save)  ; Call gofmt before save
+  (add-hook 'todotxt-mode-hook (lambda () (add-hook 'before-save-hook 'sort-buffer nil 'local))) ; Sort before save
   :bind (("M-." . godef-jump)    ; Jump to definition
          ("M-*" . pop-tag-mark)  ; Go back
          )
