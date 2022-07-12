@@ -276,7 +276,6 @@
   :mode "\\.go\\'"
   :config
   (add-hook 'before-save-hook 'gofmt-before-save)  ; Call gofmt before save
-  (add-hook 'todotxt-mode-hook (lambda () (add-hook 'before-save-hook 'sort-buffer nil 'local))) ; Sort before save
   :bind (("M-." . godef-jump)    ; Jump to definition
          ("M-*" . pop-tag-mark)  ; Go back
          )
