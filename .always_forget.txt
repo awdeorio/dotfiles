@@ -2767,6 +2767,9 @@ john --show passwd.txt
 $ cat ~/.john/john.pot
 $1$xyz$cEUv8aN9ehjhMXG/kSFnM1:password
 
+# Password cracking over a network
+hydra
+
 # Command line fun
 cowthink                               # ascii art of a fow w/ thought bubble
 cowsay STRING                          # ascii art of a cow w/ speech bubble
