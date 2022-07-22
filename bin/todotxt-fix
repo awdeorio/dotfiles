@@ -1,0 +1,33 @@
+#!/bin/bash
+set -Eeuo pipefail
+
+# Don't fail if a glob has zero matches
+shopt -s failglob
+
+# Paths
+CONFLICT_FILES=$(ls ${HOME}/Dropbox/lists/todo/home/todo\ *conflicted\ copy*.txt | sort)
+TODOTXT="${HOME}/Dropbox/lists/todo/home/todo.txt"
+
+# Exit if not conflicted copies
+if [ -z "$CONFLICT_FILES" ]; then
+  exit 0
+fi
+
+# Diff each conflict file against todo.txt
+IFS=$(echo -en "\n\b")
+for CONFLICT_FILE in $CONFLICT_FILES; do
+  set -x
+  emacs --eval "(ediff-files \"$CONFLICT_FILE\" \"$TODOTXT\")"
+  { set +x; } 2>/dev/null
+done
+
+# Prompt user to delete conflict files
+read -e -p "Delete conflicted files? " choice
+if [[ "$choice" != [Yy]* ]]; then
+  exit 0
+fi
+for CONFLICT_FILE in $CONFLICT_FILES; do
+  set -x
+  rm "$CONFLICT_FILE"
+  { set +x; } 2>/dev/null
+done
