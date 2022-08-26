@@ -6,5 +6,7 @@ set -x
 rm -rvf ${HOME}/.Trash/*
 rm -rvf ${HOME}/Downloads/*
 rm -rvf ${HOME}/Desktop/*
+rm -vf "${HOME}/awdeorio@gmail.com - Google Drive"
+rm -vf "${HOME}/awdeorio@umich.edu - Google Drive"
 find "$DROPBOX" -name '*~' -exec rm -v {} \;
 find "$DROPBOX" -name '*conflicted copy*'
