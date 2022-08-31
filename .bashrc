@@ -1,20 +1,24 @@
 #!/bin/bash
 #
-#  .bashrc
+# .bashrc
 #
-#  awdeorio's Bash customizations
+# Andrew DeOrio's Bash customizations
+# awdeorio@umich.edu
 
 
-### places ####################################################################
+### Places ####################################################################
 export IFSHOME=/afs/umich.edu/user/a/w/awdeorio
 export NFSHOME=/net/newberry/w/awdeorio
 
-# set umask for both scp and ssh
+# Umask for both scp and ssh
 umask 002
 
 # Language
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
+# Short term
+alias can="command less $HOME/Dropbox/teaching/eecs485/can.txt"
 
 ### Aliases ###################################################################
 # NOTE: emacs, git, ls, and less  aliases appear later
