@@ -1175,6 +1175,11 @@ find DIR -type d -exec fs setacl -dir {} -acl USER rlidwka \; # give USER access
 showmount -e 192.168.0.100              # see what's available
 mount 192.168.0.100:/volume1/public nas # mount NFS volume
 
+# CIFS
+ls -l                                   # Check for extended attributes "."
+getcifsacl                              # Read ACLs
+setcifsacl                              # Write ACLs
+
 # Hardware and detection
 top                                     # current memory usage
 free                                    # memory only
