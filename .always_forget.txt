@@ -153,6 +153,7 @@ ag PATTERN --color | less -r
 ag -l                                   # Filenames only
 ag --ignore '*test*'                    # Ignore files/directories with "test"
 ag -f                                   # Follow symlinks
+ag -Q                                   # Do not parse PATTERN as regex
 
 # Superuser permissions
 su                                      # switch user to root
