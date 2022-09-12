@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Open GitHub Pages URL corresponding to the current repository
+# 
+# GitHub Pages via GitHub REST API API
+# https://docs.github.com/en/rest/pages
+set -Eeuo pipefail
+
+URL=$(gh api repos/eecs485staff/p1-insta485-static/pages --jq '.html_url')
+open "$URL"
