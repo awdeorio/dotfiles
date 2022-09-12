@@ -6,5 +6,12 @@
 # https://docs.github.com/en/rest/pages
 set -Eeuo pipefail
 
-URL=$(gh api repos/eecs485staff/p1-insta485-static/pages --jq '.html_url')
+# Get {USER}/{REPO}
+# EXAMPLE: eecs485staff/p1-insta485-static
+USER_REPO=$(git config --get remote.origin.url | sed -E 's/(git@github.com:|.git)//g')
+
+# Compute URL
+URL=$(gh api repos/${USER_REPO}/pages --jq '.html_url')
+
+# Open URL in brower (macOS only)
 open "$URL"
