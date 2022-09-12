@@ -2742,6 +2742,7 @@ grip -b --norefresh README.md           # ^^^ limit github API usage
 # GitHub CLI tool (gh)
 gh browse                               # open home page of current repo
 gh browse 217                           # open issue or PR 217
+gh browse -s                            # open settings
 gh issue list                           # show issues
 gh issue list --web                     # ^^^ in browser
 gh pr status                            # Summary PRs code review, etc.
@@ -2759,6 +2760,7 @@ gh pr checks                            # Show CI status for this PR
 gh run watch                            # Watch jobs (steps) complete
 gh run view                             # Show jobs (steps)
 gh run view --log                       # Show log
+gh api repos/{user}/{repo}              # Authenticated GitHub API request
 
 # Nasty things
 rm -rf /                                # Delete everything
