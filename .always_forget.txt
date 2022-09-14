@@ -2724,6 +2724,13 @@ git clone --depth N --no-single-branch  # ^^^ with N commits from every branch
 git fetch --depth M                     # Deepen a shallow clone
 git fetch --depth M                     # Reduce size of clone (if < M), git >= 2.14
 
+# Git rename master -> main on local
+git checkout master
+git branch -m master main
+git fetch
+git branch --unset-upstream
+git branch -u origin/main
+
 # Remove git committed passwords, large files and other nuisances
 # BFG Repo Cleaner https://rtyley.github.io/bfg-repo-cleaner/
 
