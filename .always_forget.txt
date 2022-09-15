@@ -109,7 +109,7 @@ cd ..                                   # change to directory up
 cd DIR                                  # change to directory
 cd -                                    # return to previous directory (bash)
 cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced bash script
-cd $(dirname $0) && pwd -P              # absolute path of executed bash script
+cd $(dirname "$0") && pwd -P            # absolute path of executed bash script
 realpath DIR                            # absolute path of DIR
 pushd DIR                               # push DIR onto stack (bash)
 popd                                    # pop dir off stack and cd there (bash)
