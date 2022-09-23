@@ -23,26 +23,18 @@ command emacs \
   --batch
 
 # Update Python packages
-pip3 install --quiet --upgrade pip setuptools wheel
+pip3 install --quiet --upgrade \
+  pip \
+  setuptools \
+  wheel \
+  pytest \
+  pylint \
+  pycodestyle \
+  pydocstyle
 
 # Update Ruby packages
 gem update --system --quiet
-gem cleanup --quiet
-pushd ${HOME}
-gem update --quiet
-popd
-
-# Update Ruby dependencies for EECS 280 and EECS 485 tutorials
-if [ -d ${HOME}/src/eecs280/p1-stats ]; then
-  pushd ${HOME}/src/eecs280/p1-stats
-  bundle install --quiet
-  popd
-fi
-if [ -d ${HOME}/src/eecs280/p1-insta485-static ]; then
-  pushd ${HOME}/src/eecs485/p1-insta485-static
-  bundle install --quiet
-  popd
-fi
+gem cleanup --silent
 
 # Update Homebrew packages
 brew update --quiet
@@ -50,7 +42,7 @@ brew upgrade --quiet --greedy
 brew cleanup --quiet
 
 # Update macOS packages
-softwareupdate -i -a
+softwareupdate --install --all
 
 # Finished
 set +x
