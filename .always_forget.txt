@@ -442,8 +442,9 @@ wget \
 
 # HTTPie
 http HOST                               # GET request to HOST
-http POST HOST K1=V1 K2=V2 ...          # POST JSON with key/value pair(s)
-http POST HOST K1:='{"K2":"V2"}'        # POST escaped nested JSON value
+http POST URL K1=V1 K2=V2 ...           # POST JSON with key/value pair(s)
+http POST URL K1:='{"K2":"V2"}'         # POST escaped nested JSON value
+http POST URL K1=V1 K2=V2 --form ...    # POST HTTP form
 http -a USERNAME:PASSWORD               # Authenticate with basic HTTP auth
 http --verify=no                        # Do not check SSL certificate
 
