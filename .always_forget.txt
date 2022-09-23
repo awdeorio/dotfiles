@@ -2218,6 +2218,13 @@ node --trace-events-enabled --trace-event-categories node.async_hooks --trace-ev
 npm install node-fetch                  # Install node-fetch
 const fetch = require("node-fetch");    # Import node-fetch in your program
 
+# Lint
+npx eslint --env-info
+npx eslint PATH
+npx prettier --support-info
+npx prettier --check PATH  # Check
+npx prettier --write PATH  # Fix
+
 
 ########################################
 # GoLang
