@@ -2543,11 +2543,11 @@ git checkout -f COMMIT -- .             # revert *to* COMMIT
 # Sanity checks
 git status                              # Current branch and dirty files
 git config --global --list              # Name, email, etc.
-git remote -vv                          # Upstream config
+git remote -v                           # Upstream config
 git branch -vv                          # Branch to upstream config
-git ls-tree -r master --name-only       # Files under version control
+git ls-files                            # Files under version control
 git clean -xdn                          # Files not under version control
-head .gitignore                         # GitIgnore exists
+head .gitignore                         # .gigitignore exists
 git fetch -vv                           # Connect to upstream server
 
 # Temporarily stash work, restoring a clean set of files
