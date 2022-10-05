@@ -2082,7 +2082,7 @@ localhost > open http://localhost:8888
 
 # Clean up
 git fetch
-git checkout develop
+git switch develop
 git rebase
 git clean -xdf
 git status
@@ -2096,7 +2096,7 @@ git commit -m "version bump" setup.py
 git push origin develop
 
 # Merge develop to main
-git checkout main
+git switch main
 git rebase
 git merge --no-ff origin/develop
 
@@ -2519,7 +2519,7 @@ git rebase origin/master                #
 git clone git@github.com:seshrs/mailmerge.git mailmerge-seshrs  # Clone seshrs's fork
 git remote add upstream git@github.com:awdeorio/mailmerge.git
 git fetch upstream
-git checkout BRANCH                     # Check out PR source branch
+git switch BRANCH                       # Check out PR source branch
 git merge upstream/develop              # Update BRANCH
 git push                                # Push to seshrs's repo
 
@@ -2532,6 +2532,7 @@ git push                                # push the commit(s) to server
 
 # Undo
 git checkout FILE                       # revert FILE to last checked-in version
+git restore FILE                        # revert FILE to last checked-in version
 git reset PATH                          # undo git add
 git reset --soft                        # changes to tracked files are discarded
 git reset --soft HEAD~                  # discard one commit not pushed
@@ -2611,7 +2612,7 @@ git branch -a                           # view all branches
 git branch --all -vv --sort=-committerdate # view branches by recent commit date
 git branch -vv                          # include tracking and commit info
 git branch --merged                     # show merged branches
-git checkout BRANCH                     # switch to local BRANCH
+git switch BRANCH                       # switch to local BRANCH
 git checkout --track origin/BRANCH      # switch to remote BRANCH
 git checkout -b BRANCH                  # create a new branch and switch to it
 git push origin BRANCH                  # push BRANCH to remote
@@ -2625,7 +2626,7 @@ git commit                              # commit to branch feature/F
 git fetch                               # get changes to feature/F from repo
 git rebase                              # apply changes from repo
 git push origin feature/F               # push branch to remote
-git checkout develop                    # switch to develop branch
+git switch develop                      # switch to develop branch
 git merge --no-ff feature/F             # merge F into develop, keep branch info
 git branch -d feature/F                 # delete F branch
 git push origin develop                 # push to server
@@ -2713,7 +2714,7 @@ git verify-commit HEAD                  # verify signed commit
 # Merging somebody else's fork
 git remote add OTHER_REPO OTHER_URL     # Add additional remote
 git fetch OTHER_REPO                    # Get their changes
-git checkout develop                    # Checkout branch you want to merge into
+git switch develop                      # Checkout branch you want to merge into
 git merge --no-ff OTHER_REPO/OTHER_BRANCH  # Merge their changes
 
 # Rebase automatically, resulting in a linear history like Subversion
