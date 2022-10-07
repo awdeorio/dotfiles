@@ -82,10 +82,10 @@ ls --ignore $'Icon\r'"                  # ignore OSX Icon files
 ls --quoting-style=literal              # don't quote for 'File with spaces'
 ls -R                                   # list recursively
 tree                                    # list recursively in pretty format
-tree -I 'env|__pycache__'               # ignore Python bins
-tree -I 'env|__pycache__|node_modules'  # ignore Python and JS bins
+tree -I 'env|__pycache__|*.egg-info'    # ignore Python bins
+tree -I 'node_modules'                  # ignore JavaScript bins
 tree -a -I .git                         # include hidden, exclude .git
-tree -a -I '.git|env|__pycache__|node_modules'  # Web project
+tree -a -I '.git|env|__pycache__|*.egg-info|node_modules'  # Web projects
 tree --gitignore                        # ignore files in .gitignore
 tree --gitignore -a -I .git             # ignore files in .gitignore, w/ hidden
 tree -l                                 # follow symlinks to directories
@@ -1280,6 +1280,7 @@ tar -xvjf DIR.tar.bz2 FILE              # extract FILE from tarball
 tar --disable-copyfile                  # avoid random dot files on OSX
 tar --exclude '*__pycache__*'           # exclude Python temp files
 tar -c --dereference                    # include pointee of symlinks
+tar --strip=1                           # discard top level directory
 zip -r DIR DIR                          # compress DIR to DIR.zip
 zip --encrypt -r DIR DIR                # compress and encrypt DIR
 unzip FILE.zip                          # decompress
