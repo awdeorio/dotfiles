@@ -1,0 +1,15 @@
+#!/bin/bash
+set -Eeuo pipefail
+
+
+SPEC="$(pwd)/docs/README.md"
+
+if [ ! -e "${SPEC}" ]; then
+  echo "Error: can't find ${SPEC}"
+fi
+
+set -x
+emacs "${SPEC}" &
+open -na "Brave Browser"
+gh pr view --web || true
+srv docs
