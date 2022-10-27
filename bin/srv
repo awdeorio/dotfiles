@@ -8,10 +8,10 @@ PORT=4000
 set -Eeuo pipefail
 
 # Parse arguments
-if [ "$#" -gt 1 ]; then
+if (( $# > 1 )); then
   echo "Usage: $0 [DIR]"
   exit 1
-elif [ "$#" -eq 1 ]; then
+elif (( $# == 1 )); then
   DIR="$1"
 fi
 
@@ -34,10 +34,10 @@ fi
 # Intelligently choose the right server
 if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
   # Jekyll with primer-spec remote theme
-  SERVERCMD="bundle exec jekyll serve --host $HOST --port $PORT"
+  SERVERCMD="bundle exec jekyll serve --livereload --incremental --verbose --host $HOST --port $PORT"
 elif [ -e _config.yml ]; then
   # Jekyll
-  SERVERCMD="jekyll serve --host $HOST --port $PORT"
+  SERVERCMD="jekyll serve --livereload --incremental --host $HOST --port $PORT"
 elif [ -e README.md ]; then
   # Markdown README
   SERVERCMD="grip ${HOST}:${PORT}"
@@ -57,7 +57,11 @@ echo $SERVERCMD
 $SERVERCMD & PID=$!
 
 # Wait for server to start with a timeout
-for i in  `seq 10` ; do
+TIMEOUT=10
+START_TIME=$(date '+%s')
+STOP_TIME=$(($START_TIME + $TIMEOUT))
+while true; do
+  NOW=$(date '+%s')
   if curl "${HOST}:${PORT}" --silent --output /dev/null; then
     break
   fi
@@ -66,14 +70,13 @@ for i in  `seq 10` ; do
     cleanup
     exit 1
   fi
+  if (( $NOW > $STOP_TIME )) ; then
+    echo "Error: server failed to start within ${TIMEOUT} s"
+    cleanup
+    exit 1
+  fi
   sleep 0.5
 done
-if ! curl "${HOST}:${PORT}" --silent --output /dev/null; then
-  echo "Error: ${HOST}:${PORT} is not responding to HTTP requests"
-  echo "+ curl ${HOST}:${PORT} --verbose --output /dev/null"
-  cleanup
-  exit 1
-fi
 
 # Open browser tab
 open "http://${HOST}:${PORT}"
