@@ -61,17 +61,16 @@ for i in  `seq 10` ; do
   if curl "${HOST}:${PORT}" --silent --output /dev/null; then
     break
   fi
+  if ! kill -0 $PID &> /dev/null; then
+    echo "Error: server process is not running"
+    cleanup
+    exit 1
+  fi
   sleep 0.5
 done
-if ! kill -0 $PID &> /dev/null; then
-  echo "Error: server process is not running"
-  cleanup
-  exit 1
-fi
 if ! curl "${HOST}:${PORT}" --silent --output /dev/null; then
-  echo "Error: ${HOST}:${PORT} is responding to HTTP requests"
+  echo "Error: ${HOST}:${PORT} is not responding to HTTP requests"
   echo "+ curl ${HOST}:${PORT} --verbose --output /dev/null"
-  curl "${HOST}:${PORT}" --verbose --output /dev/null
   cleanup
   exit 1
 fi
