@@ -34,7 +34,7 @@ fi
 # Intelligently choose the right server
 if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
   # Jekyll with primer-spec remote theme
-  SERVERCMD="bundle exec jekyll serve --livereload --incremental --verbose --host $HOST --port $PORT"
+  SERVERCMD="bundle exec jekyll serve --livereload --incremental --host $HOST --port $PORT"
 elif [ -e _config.yml ]; then
   # Jekyll
   SERVERCMD="jekyll serve --livereload --incremental --host $HOST --port $PORT"
