@@ -1040,6 +1040,7 @@ tail                                    # last 10 lines
 tail -n2                                # last 2 lines
 tail -n+2                               # from from line 2 to end
 tail -f                                 # monitor file for appends
+tail -f FILE | grep --line-buffered PATTERN  # monitor FILE for PATTERN
 wc                                      # word, line, character and byte count
 wc -l                                   # line count
 sort                                    # sort lines
