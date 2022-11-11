@@ -815,7 +815,9 @@ zenmap                                  # GUI for nmap
 yes                                     # keep printing "y" over and over
 yes STRING                              # keep printing STRING over and over
 yes | INSTALL_CMD                       # answer yes to all installer questions
-yes > file                              # quickly generate a big file
+yes > FILE                              # quickly generate a big file
+yes | head -c 10m > FILE                # quickly generate a 10 MB file
+while true; do echo -e "hello\t1"; done | head -c 10m > FILE  # ^^^ w/contents
 pv                                      # monitor progress of data thru a pipe
 exit N                                  # exit N
 true                                    # exit zero
