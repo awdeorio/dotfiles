@@ -1018,6 +1018,7 @@ cat ips | awk 'BEGIN {FS="."}; {printf "%03d%03d%03d%03d\n", $1, $2, $3, $4}' | 
 cat FILE1                               # print file to terminal
 cat FILE1 FILE2                         # Concatenate and ^^^
 cat -n                                  # prepend line numbers
+nl                                      # prepend line numbers
 fold                                    # word-wrap text
 cut -c8-                                # remove first 8 characters of a line
 less FILE                               # pager.  q to quit
@@ -1250,6 +1251,7 @@ diff FILE1 FILE2                        # view differences of two files
 diff <(CMD1) <(CMD2)                    # diff the output of two commands (bash)
 diff3 FILE1 FILE2 FILE3                 # diff three files
 sdiff                                   # same as diff --side-by-side
+sdiff --suppress-common-lines           # Do not print lines that match
 diff FILE1 FILE2 > patch.txt            # save a patch
 patch < patch.txt                       # apply a patch from a diff
 wdiff FILE1 FILE2                       # diff word-by-word
