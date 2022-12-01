@@ -2520,7 +2520,7 @@ git diff master origin/master           # see changes
 git merge origin/master                 # this will be a FF if no local changes
 git rebase origin/master                # 
 
-# Forking work flow: merging a pull request
+# Forking work flow: merging a pull request via separate clone
 # https://help.github.com/articles/committing-changes-to-a-pull-request-branch-created-from-a-fork/
 git clone git@github.com:seshrs/mailmerge.git mailmerge-seshrs  # Clone seshrs's fork
 git remote add upstream git@github.com:awdeorio/mailmerge.git
@@ -2528,6 +2528,24 @@ git fetch upstream
 git switch BRANCH                       # Check out PR source branch
 git merge upstream/develop              # Update BRANCH
 git push                                # Push to seshrs's repo
+
+# Edit a branch on a fork with manual push
+gh pr checkout NUM
+git commit
+git push git@github.com:USER/REPO.git
+
+# Edit a branch on a fork using a remote named after USER
+git remote add USER git@github.com:USER/REPO.git
+git fetch USER
+git checkout BRANCH
+git commit
+git push
+
+# Merging a fork
+git remote add USER git@github.com:USER/REPO.git # Add additional remote
+git fetch OTHER_REPO                    # Get their changes
+git switch develop                      # Checkout branch you want to merge into
+git merge --no-ff OTHER_REPO/OTHER_BRANCH  # Merge their changes
 
 # Commit
 git branch                              # check your branch
@@ -2716,12 +2734,6 @@ git tag -v TAG                          # verify signed tag
 git commit -S                           # create a signed commit
 git commit --amend -S                   # sign last commit
 git verify-commit HEAD                  # verify signed commit
-
-# Merging somebody else's fork
-git remote add OTHER_REPO OTHER_URL     # Add additional remote
-git fetch OTHER_REPO                    # Get their changes
-git switch develop                      # Checkout branch you want to merge into
-git merge --no-ff OTHER_REPO/OTHER_BRANCH  # Merge their changes
 
 # Rebase automatically, resulting in a linear history like Subversion
 # Ref: http://stevenharman.net/git-pull-with-automatic-rebase
