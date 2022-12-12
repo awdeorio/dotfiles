@@ -2537,7 +2537,7 @@ git push git@github.com:USER/REPO.git
 # Edit a branch on a fork using a remote named after USER
 git remote add USER git@github.com:USER/REPO.git
 git fetch USER
-git checkout BRANCH
+git switch BRANCH
 git commit
 git push
 
@@ -2643,6 +2643,18 @@ git push origin BRANCH                  # push BRANCH to remote
 git branch --set-upstream-to=origin/BRANCH BRANCH # fix tracking
 git rev-parse --abbrev-ref HEAD         # name of current branch (scriptable)
 
+# Rename a branch
+git branch -m old_branch new_branch         # Rename branch locally
+git push origin -d old_branch               # Delete the old branch
+git push --set-upstream origin new_branch   # Push the new branch
+
+# Rename master -> main
+git switch master
+git branch -m master main
+git fetch
+git branch --unset-upstream
+git branch -u origin/main
+
 # Branching Model  http://nvie.com/posts/a-successful-git-branching-model/
 git checkout -b feature/F develop       # start working on a new feature "F"
 git add FILE                            # add files
@@ -2655,11 +2667,6 @@ git merge --no-ff feature/F             # merge F into develop, keep branch info
 git branch -d feature/F                 # delete F branch
 git push origin develop                 # push to server
 git push origin ":feature/F"            # remove F branch from server
-
-# Rename a branch
-git branch -m old_branch new_branch         # Rename branch locally
-git push origin :old_branch                 # Delete the old branch
-git push --set-upstream origin new_branch   # Push the new branch
 
 # A successful Git branching model AKA Git Flow
 #
@@ -2765,13 +2772,6 @@ git clone --depth N                     # Clone with truncated history
 git clone --depth N --no-single-branch  # ^^^ with N commits from every branch
 git fetch --depth M                     # Deepen a shallow clone
 git fetch --depth M                     # Reduce size of clone (if < M), git >= 2.14
-
-# Git rename master -> main on local
-git checkout master
-git branch -m master main
-git fetch
-git branch --unset-upstream
-git branch -u origin/main
 
 # Remove git committed passwords, large files and other nuisances
 # BFG Repo Cleaner https://rtyley.github.io/bfg-repo-cleaner/
