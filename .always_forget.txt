@@ -159,6 +159,7 @@ ag -l                                   # Filenames only
 ag --ignore '*test*'                    # Ignore files/directories with "test"
 ag -f                                   # Follow symlinks
 ag -Q                                   # Do not parse PATTERN as regex
+ag --hidden master --ignore .git
 
 # Superuser permissions
 su                                      # switch user to root
@@ -2652,11 +2653,11 @@ git push origin -d old_branch               # Delete the old branch
 git push --set-upstream origin new_branch   # Push the new branch
 
 # Rename master -> main
-git switch master
+# https://github.com/github/renaming
 git branch -m master main
-git fetch
-git branch --unset-upstream
-git branch -u origin/main
+git fetch origin
+git branch -u origin/main main
+git remote set-head origin -a
 
 # Branching Model  http://nvie.com/posts/a-successful-git-branching-model/
 git checkout -b feature/F develop       # start working on a new feature "F"
