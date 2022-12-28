@@ -299,7 +299,8 @@ netstat -tl                             # listening TCP connections
 netstat -atn | grep ':22'               # ssh connections on this machine?
 netstat -l numeric-ports | grep 80      # what's using port 80?
 sudo fuser -v -n tcp 80                 # who's using port 80?
-lsof -n -i                              # who's using which ports?
+lsof -n -i :80                          # who's using port 80?
+lsof -nP -iTCP:4000 -sTCP:LISTEN        # who's listening on port 4000?
 nc HOST PORT                            # intiate connection "cat over a socket"
 nc -c                                   # close connection after send (GNU)
 nc -q                                   # close connection after send (BSD)
