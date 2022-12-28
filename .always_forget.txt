@@ -558,34 +558,48 @@ amixer -c 0 sset Headphone toggle       # toggle speakers/headphones
 mplayer "$(ls | shuf -n1)"              # select and play a random file
 
 # Video
+
 # Read video device live
-mplayer tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0 -fps 20
 mplayer tv://
+mplayer tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0 -fps 20
 vlc v4l2:///dev/video0
-# Record video only
-mencoder tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0 -fps 20 -nosound -ovc lavc -o file.avi
-# Record video+sound
+
+# Record video
 mencoder tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0:forceaudio:adevice=/dev/dsp -fps 20 -ovc lavc -oac mp3lame -lameopts cbr:br=64:mode=3 -o file.avi
-# convert VOB file (from a DVD) to mp4   http://stackoverflow.com/questions/13560852/convert-mp4-to-maximum-mobile-supported-mp4-using-ffmpeg
-ffmpeg -i concat:"/media/dvd/VIDEO_TS/VTS_01_1.VOB|/media/dvd/VIDEO_TS/VTS_01_2.VOB" -acodec libfaac -aq 100 -ac 2 -vcodec libx264 -vpre slow -crf 24 -threads 0 output.mp4
-# compress mp4 video to 480p at 500kbit/s mp4
+
+# Record video without audio
+mencoder tv:// -tv driver=v4l2:width=352:height=288:device=/dev/video0 -fps 20 -nosound -ovc lavc -o file.avi
+
+# Convert mov to mp4
+ffmpeg -i source.mov target.mp4
+
+# Convert VOB to mp4
+# http://stackoverflow.com/questions/13560852/convert-mp4-to-maximum-mobile-supported-mp4-using-ffmpeg
+ffmpeg -i concat:"/media/dvd/VIDEO_TS/VTS_01_1.VOB | /media/dvd/VIDEO_TS/VTS_01_2.VOB" -acodec libfaac -aq 100 -ac 2 -vcodec libx264 -vpre slow -crf 24 -threads 0 output.mp4
+
+# Compress mp4 video to 480p at 500kbit/s mp4
 ffmpeg -i input.mp4 -vcodec libx264 -vprofile high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=-1:480 -threads 0 -b:a 128k output_file_480p.mp4
-# compress mp4 video to 360p at 250kbit/s mp4
+
+# Compress mp4 video to 360p at 250kbit/s mp4
 ffmpeg -i input.mp4 -vcodec libx264 -vprofile baseline -preset slow -b:v 250k -maxrate 250k -bufsize 500k -vf scale=-1:360 -threads 0 -ab 96k output_360p.mp4
+
 # Stream live video
 cvlc v4l2:///dev/video0 :v4l2-standard= :input-slave=alsa://hw:0,0 :live-caching=300 :sout="#transcode{vcodec=WMV2,vb=800,scale=1,acodec=wma2,ab=128,channels=2,samplerate=44100}:http{dst=:8080/stream.wmv}"
+
 # Stream live video without audio
 cvlc v4l2:///dev/video0 :v4l2-standard= :live-caching=300 :sout="#transcode{vcodec=WMV2,vb=800,scale=1,select=noaudio}:http{dst=:8080/stream.wmv}"
+
 # Stream live video without audio, and lower frames-per-second (10)
 cvlc v4l2:///dev/video0 :v4l2-standard= :live-caching=300 :sout="#transcode{vcodec=WMV2,vb=800,scale=1,fps=10,select=noaudio}:http{dst=:8080/stream.wmv}"
+
 # View live video stream
 vlc http://HOST:8080/stream.wmv
 mplayer http://HOST:8080/stream.wmv
+
 # Create GIF from video
 # ffmpeg -r N means reduce to N fps
 # gifsicle --delay=N means delay N*10 ms between frames
-ffmpeg -i "$INFILE" -pix_fmt rgb8 -r 10 -f gif - | \
-    gifsicle --delay=10 --optimize=3 > "$OUTFILE"
+ffmpeg -i "$INFILE" -pix_fmt rgb8 -r 10 -f gif - | gifsicle --delay=10 --optimize=3 > "$OUTFILE"
 
 # Images
 mogrify -rotate 90                     # rotate
