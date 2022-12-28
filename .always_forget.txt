@@ -2540,8 +2540,10 @@ git push git@github.com:USER/REPO.git
 git remote add USER git@github.com:USER/REPO.git
 git fetch USER
 git switch BRANCH
+git switch -c BRANCH-USER --track USER/BRANCH  # If branch has same name
 git commit
 git push
+git push USER HEAD:BRANCH                      # If branch has same name
 
 # Merging a fork
 git remote add USER git@github.com:USER/REPO.git # Add additional remote
