@@ -1782,6 +1782,9 @@ docker images                           # List available images
 docker images -a                        # List all images
 docker system prune                     # Remove dangling images
 docker system prune -a                  # Remove stopped images
+docker build .                          # Build image
+docker build . -t TAG                   # Build image and name it
+docker build -t foo . && docker run -it foo  # Quick start build-and-run
 
 # Docker: install Linux VM on macOS (deprecated)
 brew install docker docker-machine      # Install
