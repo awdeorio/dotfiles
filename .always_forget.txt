@@ -546,6 +546,7 @@ write USER                              # send message to USER
 sendmail user@example.com < email.txt   # send email from CLI
 sendmail -t < email.txt                 # read "TO" field from file
 mailmerge                               # mailmerge from CLI
+mailmerge <<< $MAILPASS                 # automate password entry
 
 # Email / Test SMTP server
 # https://github.com/jetmore/swaks/blob/master/doc/base.pod
