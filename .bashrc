@@ -36,7 +36,7 @@ alias rmb='echo "rm -vf *~ .*~" && rm -vf *~ .*~'
 alias rmt='[ -d ${HOME}/.Trash/ ] && echo "rm -rvf ${HOME}/.Trash/*" && rm -rvf ${HOME}/.Trash/*'
 alias rmd='[ -d ${HOME}/Downloads/ ] && echo "rm -rvf ${HOME}/Downloads/*" && rm -rvf ${HOME}/Downloads/*'
 alias rme='[ -d ${HOME}/Desktop/ ] && echo "rm -rvf ${HOME}/Desktop/*" && rm -rvf ${HOME}/Desktop/*'
-alias rms='[ -d ${HOME}/.ssh/ ] && echo "rm -rvf ${HOME}/.ssh/master-*" && rm -rvf ${HOME}/.ssh/master-*'
+alias rms='[ -d ${HOME}/.ssh/ ] && echo "rm -rvf ${HOME}/.ssh/socket-*" && rm -rvf ${HOME}/.ssh/socket-*'
 alias latex='latex -halt-on-error'
 alias dftp='ssh -R 19999:localhost:22'
 function dftp-get { command scp -r -P19999 "$@" localhost: ; }
@@ -119,15 +119,6 @@ function ediff { emacs --eval "(ediff-files \"$1\" \"$2\")" & }
 export PAGER="less --shift 5 --ignore-case --chop-long-lines --RAW-CONTROL-CHARS --LONG-PROMPT"
 alias less="${PAGER}"
 export LESSOPEN="| lesspipe.sh %s"
-
-
-### GPG, SSH and paswords  ###################################################
-# Start gpg-agent and connect SSH agent only if secret keys are available
-if gpg --list-secret-keys awdeorio &> /dev/null; then
-  export GPG_TTY=$(tty)
-  gpgconf --launch gpg-agent
-  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-fi
 
 
 ### Path stuff ################################################################
