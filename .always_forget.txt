@@ -1344,6 +1344,11 @@ openssl req -newkey rsa:4096 -nodes -x509 -days 365 # generate server key, 4096
 openssl s_client -showcerts -connect www.google.com:443  # Show certificate
 zip --encrypt -r DIR DIR                # create encrypted zip archive
 
+# GPG debug
+gpg --version                           # Verify version 2
+gpg --list-keys                         # Verify your keypair is present
+echo hello | gpg --clearsign            # Verify basic functionality
+
 # GPG configuration
 gpg --homedir ~/gnupg_tmp/              # Use another GPG config
 GNUPGHOME=~/gnupg_tmp gpg               # Use another GPG config
