@@ -22,7 +22,8 @@ groupmod -g GID group                   # change GID of group
 gpasswd -a USER GROUP                   # add USER to GROUP
 usermod -aG GROUP USER                  # add USER to GROUP
 smbpasswd -a USER                       # new Samba user
-chsh -s /usr/local/bin/bash USER        # change default shell
+chsh -s /usr/local/bin/bash             # change default shell
+chsh -s /usr/local/bin/bash USER        # change default shell for USER
 id                                      # print user and group ID #'s
 id -un                                  # print effective user name
 id -gn                                  # print effective group name
@@ -758,13 +759,15 @@ ssh-add -l                             # verify GPG-SSH connection
 gpg --export-ssh-key KEYID             # print SSH public key
 echo RELOADAGENT | gpg-connect-agent   # reload gpg agent
 
-# SSH files and permissions
-chmod go-w ~/                          # set permissions on local ssh config
-chmod 700 ~/.ssh                       # set permissions on local ssh config
-chmod 644 ~/.ssh/authorized_keys       # set permissions on local ssh config
-ssh-copy-id HOST                       # install public key on HOST
-cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"                # install public key on HOST
-gpg --export-ssh-key awdeorio | ssh HOST "cat >> ~/.ssh/authorized_keys" # w/GPG+SSH
+# SSH permissions
+chmod go-w ~/
+chmod 700 ~/.ssh
+chmod 644 ~/.ssh/authorized_keys
+
+# SSH install public key on host
+ssh-copy-id HOST
+cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+gpg --export-ssh-key awdeorio | ssh HOST "cat >> ~/.ssh/authorized_keys"
 
 # SSH agent forwarding (github example)
 # https://developer.github.com/guides/using-ssh-agent-forwarding/
