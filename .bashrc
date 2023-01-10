@@ -77,7 +77,7 @@ if which gfind &> /dev/null; then
   alias find='gfind'
 fi
 if which mdfind &> /dev/null; then
-  alias locate='mdfind -name'
+  alias locate='mdfind -name 2> /dev/null'
 fi
 if test -d /Applications/Google\ Chrome.app; then
   alias chrome='open -a "Google Chrome" --args'
