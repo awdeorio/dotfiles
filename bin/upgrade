@@ -26,11 +26,7 @@ command emacs \
 pip3 install --quiet --upgrade \
   pip \
   setuptools \
-  wheel \
-  pytest \
-  pylint \
-  pycodestyle \
-  pydocstyle
+  wheel
 
 # Update Ruby packages
 gem update --system --quiet
