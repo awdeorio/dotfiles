@@ -6,8 +6,12 @@
 # Stop on errors
 set -Eeuo pipefail
 
- # Bug fix: globbing causes problems with '*' in EXCLUDE strings
+# Bug fix: globbing causes problems with '*' in EXCLUDE strings
 set -o noglob
+
+# Copy stdout and stderr to file
+# exec > >(tee backup.log)
+# exec 2>&1
 
 # Synchronized files
 EXCLUDE+=' --exclude Dropbox*/***'
@@ -43,7 +47,7 @@ EXCLUDE+=' --exclude GoogleDrive/***'
 EXCLUDE+=' --exclude Dropbox/***'
 
 # Sanity check that this is my laptop
-if [ `hostname` != "manco.local" ]; then
+if [ "$HOSTNAME" != "cabra" ]; then
   echo "Error: \$HOSTNAME=$HOSTNAME"
   exit 1
 fi
@@ -69,5 +73,5 @@ set -x
 rsync \
   -avzx --delete $EXCLUDE \
   $HOME \
-  awdeorio@newberry.eecs.umich.edu:backup/manco \
+  awdeorio@newberry.eecs.umich.edu:backup/cabra \
   $@
