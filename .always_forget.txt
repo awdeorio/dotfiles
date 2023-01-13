@@ -739,11 +739,37 @@ $ curl --socks5 localhost:1337 ipinfo.io/ip
 # Note: your web browser can also use the proxy at localhost:1337
 
 # SSH keys
-ssh-keygen                             # generate an SSH key pair
-ssh-keygen -t rsa -b 4096 -C EMAIL     # generate an SSH key pair, secure
+ssh-keygen -t ed25519 -C EMAIL         # generate SSH keys, BEST
+ssh-keygen -t rsa -b 4096 -C EMAIL     # generate SSH keys, legacy
+ssh-keygen                             # generate SSH keys
 ssh-keygen -R HOST                     # remove HOST from known_hosts
-ssh-add -l                             # verify GPG-SSH connection
 ssh-add -L                             # print public key from agent
+
+# SSH permissions
+chmod go-w ~/
+chmod 700 ~/.ssh
+chmod 644 ~/.ssh/authorized_keys
+
+# SSH install public key on host
+ssh-copy-id HOST
+cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+gpg --export-ssh-key awdeorio | ssh HOST "cat >> ~/.ssh/authorized_keys"
+
+# SSH agent save SSH key passphrases
+# https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent
+
+# SSH agent forwarding (github example)
+# https://developer.github.com/guides/using-ssh-agent-forwarding/
+local > ssh -T git@github.com           # check github connection
+local > echo $SSH_AUTH_SOCK             # check ssh-agent is running
+local > ssh-add -L                      # check key is added
+local > ssh-add ~/.ssh/id_dsa           # add my key, temporary
+local > ssh-add -K ~/.ssh/id_dsa        # add my key, permanent, OSX
+local > ssh -A SERVER                   # ssh to server, forwarding key
+remote> server $ ssh -T git@github.com  # check github connection
+server $ echo $SSH_AUTH_SOCK            # check ssh-agent is running
+server $ git remote -v                  # check repo is cloned with SSH URL
+server $ sudo -E                        # preserve environment when using sudo
 
 # GPG + SSH keys
 # Ref https://incenp.org/notes/2015/gnupg-for-ssh-authentication.html
@@ -758,29 +784,6 @@ echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
 ssh-add -l                             # verify GPG-SSH connection
 gpg --export-ssh-key KEYID             # print SSH public key
 echo RELOADAGENT | gpg-connect-agent   # reload gpg agent
-
-# SSH permissions
-chmod go-w ~/
-chmod 700 ~/.ssh
-chmod 644 ~/.ssh/authorized_keys
-
-# SSH install public key on host
-ssh-copy-id HOST
-cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
-gpg --export-ssh-key awdeorio | ssh HOST "cat >> ~/.ssh/authorized_keys"
-
-# SSH agent forwarding (github example)
-# https://developer.github.com/guides/using-ssh-agent-forwarding/
-local > ssh -T git@github.com           # check github connection
-local > echo $SSH_AUTH_SOCK             # check ssh-agent is running
-local > ssh-add -L                      # check key is added
-local > ssh-add ~/.ssh/id_dsa           # add my key, temporary
-local > ssh-add -K ~/.ssh/id_dsa        # add my key, permanent, OSX
-local > ssh -A SERVER                   # ssh to server, forwarding key
-remote> server $ ssh -T git@github.com  # check github connection
-server $ echo $SSH_AUTH_SOCK            # check ssh-agent is running
-server $ git remote -v                  # check repo is cloned with SSH URL
-server $ sudo -E                        # preserve environment when using sudo
 
 # Intel SSH
 cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
