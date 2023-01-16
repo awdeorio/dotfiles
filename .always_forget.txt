@@ -293,6 +293,8 @@ whois HOST                              # domain name registration info
 nmap HOST                               # what ports are open?
 nmap -A -T4 HOST                        # what ports are open?
 nmap -sn -PR 192.168.0.0/24             # which hosts are up my subnet?
+nmap -p80 192.168.1.0/24                # Hosts with port 80 open
+nmap -p80 192.168.1.0/24 -oG - | grep open # Hosts with port 80 open, grepable
 netstat -at                             # list TCP connections
 netstat -au                             # list UDP connections
 netstat -ant                            # disable DNS lookup (faster)
