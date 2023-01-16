@@ -927,6 +927,7 @@ printf 'a%.0s' {1..10}                  # Repeat letter 'a' 10 times
 trap "FUNC" 1 2 3 15                    # run FUNC on receiving a signal
 trap "kill 0" SIGINT                    # kill all proc in proc group on ctrl-c
 trap cleanup SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM ERR  # all but clean exit
+echo $0                                 # Check your shell "-bash", "zsh", etc.
 
 # Bash script error handling
 # https://medium.com/@dirk.avery/the-bash-trap-trap-ce6083f36700
