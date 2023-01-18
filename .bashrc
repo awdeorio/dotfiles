@@ -72,13 +72,22 @@ alias phs='python3 -m http.server --bind localhost 8000'
 alias bejs='bundle exec jekyll serve --host localhost --port 4000'
 alias mogrify-1024='mogrify -resize 1024x1024'
 
-# OSX
+### macOS #####################################################################
+# Homebrew configuration for x86_64 and arm64
+if [ -e /opt/homebrew ]; then
+  export HOMEBREW_PREFIX=/opt/homebrew
+elif [ -e /usr/local/Homebrew ]; then
+  export HOMEBREW_PREFIX=/usr/local
+fi
+if [ -e ${HOMEBREW_PREFIX}/bin/brew ]; then
+  export HOMEBREW_NO_AUTO_UPDATE=1
+  eval $(${HOMEBREW_PREFIX}/bin/brew shellenv)
+fi
+
 if which gfind &> /dev/null; then
   alias find='gfind'
 fi
-if which mdfind &> /dev/null; then
-  alias locate='mdfind -name 2> /dev/null'
-fi
+function locate { mdfind "$@" 2> /dev/null ; }
 if test -d /Applications/Google\ Chrome.app; then
   alias chrome='open -a "Google Chrome" --args'
   alias google-chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
@@ -150,6 +159,8 @@ path-prepend () {
 
 path-append /usr/local/bin
 path-append /usr/local/sbin
+path-append ${HOMEBREW_PREFIX}/bin
+path-append ${HOMEBREW_PREFIX}/sbin
 path-append /usr/bin
 path-append /usr/sbin
 path-append /bin
@@ -170,12 +181,6 @@ path-append /usr/um/bin
 [ -d ${CPATH} ]              && export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${CPATH}
 [ -d ${HOME}/local/man ]     && export MANPATH=${HOME}/local/man:${MANPATH}
 
-# OSX GNU Coreutils
-path-prepend /usr/local/opt/coreutils/libexec/gnubin
-if [ -d /usr/local/opt/coreutils/libexec/gnuman ]; then
-  export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
-fi
-
 # local perl module installs
 if [ -d ${HOME}/local/lib/perl5 ]; then
   PERL5LIB=${PERL5LIB}:${HOME}/local/lib64/perl5/site_perl/5.8.8/x86_64-linux-thread-multi
@@ -190,7 +195,7 @@ if [ -d ${HOME}/local/lib/perl5 ]; then
 fi
 
 # Python
-path-append ${HOME}/.pyenv/shims
+# path-append ${HOME}/.pyenv/shims
 # for DIR in "$(ls -d /usr/local/opt/python@*/bin)"; do
 #   path-append "${DIR}"
 # done
@@ -223,7 +228,7 @@ fi
 # Ruby
 # export GEM_HOME=${HOME}/.gem
 # path-append ${GEM_HOME}/bin
-path-prepend "/usr/local/opt/ruby/bin"
+path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.1/bin
 GEM_BIN=$(gem env | grep 'EXECUTABLE DIRECTORY' | awk '{print $NF}')
 path-append ${GEM_BIN}
 
@@ -331,9 +336,9 @@ if which gls &> /dev/null; then
   # GNU ls on OSX
   LS=gls
 fi
-if `ls --version | grep -q GNU &> /dev/null`; then
+if `${LS} --version 2>&1 | grep -q GNU &> /dev/null`; then
   # GNU ls
-  eval `dircolors -b ${HOME}/.DIR_COLORS`
+  # eval `dircolors -b ${HOME}/.DIR_COLORS`
   LSOPT="--color=auto --human-readable --quoting-style=literal --ignore-backups --ignore $'Icon\r'"
 else
   # BSD ls
@@ -343,13 +348,6 @@ fi
 alias ls="${LS} -h ${LSOPT}"
 alias ll="${LS} -h -l ${LSOPT}"
 alias la="${LS} -h -A ${LSOPT}"
-
-
-### Homebrew package manager customization ###################################
-if which brew &> /dev/null; then
-  export HOMEBREW_NO_AUTO_UPDATE=1
-  eval $(brew shellenv)
-fi
 
 
 ### Bash-completion ###########################################################
