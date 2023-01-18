@@ -639,6 +639,47 @@ ssh HOST CMD                           # execute CMD on HOST
 ssh HOST -- CMD                        # execute CMD on HOST, with CMD options
 yes | pv | ssh HOST "cat > /dev/null"  # network throughput test
 
+# SSH keys
+ssh-keygen -t ed25519 -C EMAIL         # generate SSH keys, BEST
+ssh-keygen -t rsa -b 4096 -C EMAIL     # generate SSH keys, legacy
+ssh-keygen -R HOST                     # remove HOST from known_hosts
+ssh-add -L                             # print public key from agent
+
+# SSH install public key on host
+ssh-copy-id HOST
+cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+gpg --export-ssh-key awdeorio | ssh HOST "cat >> ~/.ssh/authorized_keys"
+
+# SSH agent save SSH key passphrases
+# https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent
+pkill ssh-agent                        # stop SSH agent
+eval "$(ssh-agent)"                    # start SSH agent
+pgrep ssh-agent                        # status SSH agent (expect one PID)
+echo $SSH_AGENT_PID                    # print SSH agent env vars
+echo $SSH_AUTH_SOCK                    # print SSH agent env vars
+ssh-add -L                             # print public key from agent
+ssh -vT HOST                           # test connection
+
+# SSH debug
+ssh -vT git@github.com                 # Test connection
+chmod go-w ~/                          # Fix SSH key permissions
+chmod 700 ~/.ssh                       # Fix SSH key permissions
+chmod 644 ~/.ssh/authorized_keys       # Fix SSH key permissions
+ssh-add -L                             # print public key from agent
+
+# SSH agent forwarding (github example)
+# https://developer.github.com/guides/using-ssh-agent-forwarding/
+local > ssh -T git@github.com           # check github connection
+local > echo $SSH_AUTH_SOCK             # check ssh-agent is running
+local > ssh-add -L                      # check key is added
+local > ssh-add ~/.ssh/id_dsa           # add my key, temporary
+local > ssh-add -K ~/.ssh/id_dsa        # add my key, permanent, OSX
+local > ssh -A SERVER                   # ssh to server, forwarding key
+remote> server $ ssh -T git@github.com  # check github connection
+server $ echo $SSH_AUTH_SOCK            # check ssh-agent is running
+server $ git remote -v                  # check repo is cloned with SSH URL
+server $ sudo -E                        # preserve environment when using sudo
+
 # SSH Port Forwarding Explained
 # https://vimeo.com/54505525#t=1029s
 #
@@ -739,39 +780,6 @@ debug1: Local connections to LOCALHOST:1337 forwarded to remote address socks:0
 $ curl --socks5 localhost:1337 ipinfo.io/ip
 141.212.107.123
 # Note: your web browser can also use the proxy at localhost:1337
-
-# SSH keys
-ssh-keygen -t ed25519 -C EMAIL         # generate SSH keys, BEST
-ssh-keygen -t rsa -b 4096 -C EMAIL     # generate SSH keys, legacy
-ssh-keygen                             # generate SSH keys
-ssh-keygen -R HOST                     # remove HOST from known_hosts
-ssh-add -L                             # print public key from agent
-
-# SSH permissions
-chmod go-w ~/
-chmod 700 ~/.ssh
-chmod 644 ~/.ssh/authorized_keys
-
-# SSH install public key on host
-ssh-copy-id HOST
-cat ~/.ssh/id_rsa.pub | ssh HOST "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
-gpg --export-ssh-key awdeorio | ssh HOST "cat >> ~/.ssh/authorized_keys"
-
-# SSH agent save SSH key passphrases
-# https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent
-
-# SSH agent forwarding (github example)
-# https://developer.github.com/guides/using-ssh-agent-forwarding/
-local > ssh -T git@github.com           # check github connection
-local > echo $SSH_AUTH_SOCK             # check ssh-agent is running
-local > ssh-add -L                      # check key is added
-local > ssh-add ~/.ssh/id_dsa           # add my key, temporary
-local > ssh-add -K ~/.ssh/id_dsa        # add my key, permanent, OSX
-local > ssh -A SERVER                   # ssh to server, forwarding key
-remote> server $ ssh -T git@github.com  # check github connection
-server $ echo $SSH_AUTH_SOCK            # check ssh-agent is running
-server $ git remote -v                  # check repo is cloned with SSH URL
-server $ sudo -E                        # preserve environment when using sudo
 
 # GPG + SSH keys
 # Ref https://incenp.org/notes/2015/gnupg-for-ssh-authentication.html
