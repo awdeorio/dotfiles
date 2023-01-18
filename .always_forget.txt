@@ -1353,6 +1353,8 @@ zip --encrypt -r DIR DIR                # create encrypted zip archive
 # GPG debug
 gpg --version                           # Verify version 2
 gpg --list-keys                         # Verify your keypair is present
+gpgconf --kill gpg-agent                # Restart gpg-agent
+gpgconf --launch gpg-agent              # Restart gpg-agent
 echo hello | gpg --clearsign            # Verify basic functionality
 
 # GPG configuration
