@@ -1614,6 +1614,11 @@ launchctl load  /System/Library/LaunchDaemons/ssh.plist    # start SSH server
 ########################################
 # Linux Distro or Package Specifics
 
+# What distro is this?
+lsb_release                             # print distribution information
+lsb_release -a                          # print distribution information
+cat /etc/lsb_release                    # print distribution information
+
 # emerge (Gentoo)
 /usr/portage/profiles/use.desc
 /usr/portage/profiles/use.local.desc
