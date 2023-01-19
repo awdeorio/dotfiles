@@ -232,6 +232,9 @@ path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.1/bin
 GEM_BIN=$(gem env | grep 'EXECUTABLE DIRECTORY' | awk '{print $NF}')
 path-append ${GEM_BIN}
 
+# Java
+path-prepend ${HOMEBREW_PREFIX}/opt/openjdk/bin
+
 
 ################################################################################
 # Test for an interactive shell.  There is no need to set anything past this
