@@ -2262,6 +2262,7 @@ uglifyjs --beautify FILE.js             # pretty print JavaScript
 npm install --save-prod PACKAGE         # Install and add to package.json (prod)
 npm install --save-dev PACKAGE          # Install and add to package.json (dev)
 npm update PACKAGE --save               # Upgrade one package
+npm list PACKAGE                        # Check if PACKAGE is installed
 
 # Update all dependencies in package.json
 npm install --global npm-check-updates
