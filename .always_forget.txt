@@ -2833,6 +2833,12 @@ git fetch --depth M                     # Reduce size of clone (if < M), git >= 
 
 # Visual practice with git
 # https://learngitbranching.js.org/
+git clone
+git fakeTeamwork
+git commit
+git fetch
+git rebase
+git push
 
 # Render GitHub-flavored Markdown (GFM)
 # @seshrs tips: https://preview.sesh.rs/previews/eecs485staff/primer-spec/develop-preview/docs/MARKDOWN_TIPS.html
