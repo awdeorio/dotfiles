@@ -35,6 +35,7 @@ fi
 if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
   # Jekyll with primer-spec remote theme
   SERVERCMD="bundle exec jekyll serve --livereload --incremental --host $HOST --port $PORT"
+  bundle install
 elif [ -e _config.yml ]; then
   # Jekyll
   SERVERCMD="jekyll serve --livereload --incremental --host $HOST --port $PORT"
