@@ -5,11 +5,12 @@ set -Eeuo pipefail
 shopt -s failglob
 
 # Paths
-CONFLICT_FILES=$(ls ${HOME}/Dropbox/lists/todo/home/todo\ *conflicted\ copy*.txt | sort)
+CONFLICT_FILES=$(gfind "${HOME}/Dropbox/lists/todo/home" -name 'todo*conflicted copy*.txt' | sort)
 TODOTXT="${HOME}/Dropbox/lists/todo/home/todo.txt"
 
 # Exit if not conflicted copies
 if [ -z "$CONFLICT_FILES" ]; then
+  echo "No conflicted files"
   exit 0
 fi
 
