@@ -258,6 +258,7 @@
 
 ;; C++ programming
 (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))  ; assume C++ for .h files
+(add-to-list 'auto-mode-alist '("\\.h.starter$" . c++-mode))  ; EECS 280 starter files
 (add-to-list 'auto-mode-alist '("\\.cpp.starter$" . c++-mode))  ; EECS 280 starter files
 
 ;; Go programming
