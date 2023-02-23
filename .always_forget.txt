@@ -2572,21 +2572,7 @@ git diff master origin/master           # see changes
 git merge origin/master                 # this will be a FF if no local changes
 git rebase origin/master                # 
 
-# Forking work flow: merging a pull request via separate clone
-# https://help.github.com/articles/committing-changes-to-a-pull-request-branch-created-from-a-fork/
-git clone git@github.com:seshrs/mailmerge.git mailmerge-seshrs  # Clone seshrs's fork
-git remote add upstream git@github.com:awdeorio/mailmerge.git
-git fetch upstream
-git switch BRANCH                       # Check out PR source branch
-git merge upstream/develop              # Update BRANCH
-git push                                # Push to seshrs's repo
-
-# Edit a branch on a fork with manual push
-gh pr checkout NUM
-git commit
-git push git@github.com:USER/REPO.git
-
-# Edit a branch on a fork using a remote named after USER
+# Forking work flow: Edit a branch on a fork using a remote named after USER
 git remote add USER git@github.com:USER/REPO.git
 git fetch USER
 git switch BRANCH
@@ -2594,6 +2580,21 @@ git switch -c BRANCH-USER --track USER/BRANCH  # If branch has same name
 git commit
 git push
 git push USER HEAD:BRANCH                      # If branch has same name
+git remote remove USER                         # Clean up
+
+# Forking work flow: Edit a branch on a fork using the gh tool
+gh pr checkout NUM
+git commit
+git push git@github.com:USER/REPO.git
+
+# Forking work flow: Edit a branch using a clone
+# https://help.github.com/articles/committing-changes-to-a-pull-request-branch-created-from-a-fork/
+git clone git@github.com:seshrs/mailmerge.git mailmerge-seshrs  # Clone seshrs's fork
+git remote add upstream git@github.com:awdeorio/mailmerge.git
+git fetch upstream
+git switch BRANCH                       # Check out PR source branch
+git merge upstream/develop              # Update BRANCH
+git push                                # Push to seshrs's repo
 
 # Merging a fork
 git remote add USER git@github.com:USER/REPO.git # Add additional remote
