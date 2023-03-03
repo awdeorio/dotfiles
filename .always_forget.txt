@@ -1253,6 +1253,9 @@ pdfcrop --margins 0 INFILE OUTFILE      # Remove whitespace around pdf
 pdfgrep                                 # Search text in pdf
 textutil -convert txt FILE.rtf          # rtf to txt
 lynx --dump FILE.html > FILE.txt        # HTML to txt
+tesseract                               # OCR https://tesseract-ocr.github.io/tessdoc/Command-Line-Usage.html
+tesseract INPUT OUTPUT                  # OCR, saves to OUTPUT.txt
+tesseract INPUT OUTPUT pdf              # OCR, saves searchable pdf
 
 # Date and time
 date '+%s'                                        # current time in seconds
