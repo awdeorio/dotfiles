@@ -476,7 +476,7 @@
 (add-hook 'ediff-after-quit-hook-internal (lambda () (if (window-system) (set-frame-width (selected-frame) 80))))
 
 ;; Git
-(use-package magit
-  :ensure t
-  :defer 1
-  )
+;; (use-package magit
+;;   :ensure t
+;;   :defer 1
+;;   )
