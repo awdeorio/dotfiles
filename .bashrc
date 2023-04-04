@@ -87,7 +87,6 @@ fi
 if which gfind &> /dev/null; then
   alias find='gfind'
 fi
-function locate { mdfind "$@" 2> /dev/null ; }
 if test -d /Applications/Google\ Chrome.app; then
   alias chrome='open -a "Google Chrome" --args'
   alias google-chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
@@ -109,10 +108,10 @@ if test -d /Applications/Microsoft\ Excel.app; then
 fi
 
 # diff-highlight ships with Git
-DIFF_HIGHLIGHT=$(locate diff-highlight | grep 'diff-highlight/diff-highlight$' | head -n1)
-if [ -n "$DIFF_HIGHLIGHT" ]; then
-  alias diff-highlight="$DIFF_HIGHLIGHT"
-fi
+# DIFF_HIGHLIGHT=$(locate diff-highlight | grep 'diff-highlight/diff-highlight$' | head -n1)
+# if [ -n "$DIFF_HIGHLIGHT" ]; then
+#   alias diff-highlight="$DIFF_HIGHLIGHT"
+# fi
 
 
 ### Editor ####################################################################
@@ -229,8 +228,10 @@ fi
 # export GEM_HOME=${HOME}/.gem
 # path-append ${GEM_HOME}/bin
 path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.1/bin
-GEM_BIN=$(gem env | grep 'EXECUTABLE DIRECTORY' | awk '{print $NF}')
-path-append ${GEM_BIN}
+if which gem &> /dev/null; then
+    GEM_BIN=$(gem env | grep 'EXECUTABLE DIRECTORY' | awk '{print $NF}')
+    path-append ${GEM_BIN}
+fi
 
 # Java
 path-prepend ${HOMEBREW_PREFIX}/opt/openjdk/bin
