@@ -20,7 +20,7 @@
 	required = true
 	process = git-lfs filter-process
 [commit]
-	gpgSign = false
+	gpgSign = true
 [push]
 	default = simple
 [gpg]
