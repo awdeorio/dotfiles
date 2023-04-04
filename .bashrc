@@ -6,9 +6,15 @@
 # awdeorio@umich.edu
 
 
-### Places ####################################################################
-export IFSHOME=/afs/umich.edu/user/a/w/awdeorio
-export NFSHOME=/net/newberry/w/awdeorio
+### Non-interactive shells ####################################################
+if [ $TERM = tramp ]; then
+  unset RPROMPT
+  unset RPS1
+  PS1="$ "
+  unsetopt zle
+  unsetopt rcs  # Inhibit loading of further config files
+  return
+fi
 
 # Umask for both scp and ssh
 umask 002
@@ -16,9 +22,6 @@ umask 002
 # Language
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-
-# Short term
-alias can="command less $HOME/Dropbox/teaching/eecs485/can.txt"
 
 ### Aliases ###################################################################
 # NOTE: emacs, git, ls, and less  aliases appear later
