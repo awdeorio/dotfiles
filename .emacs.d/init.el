@@ -88,6 +88,10 @@
 
 ;; Package Management.  Configure the built-in emacs package manager to use
 ;; several publicly available repositories.
+(if (version< emacs-version "26.3")
+    ;; Bug workaround emacs <26.3
+    ;; https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 (require 'package)
 (setq package-enable-at-startup nil)
 ;; (setq debug-on-error t)
