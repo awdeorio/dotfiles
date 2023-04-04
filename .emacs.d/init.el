@@ -402,7 +402,7 @@
 ;; )
 
 ;; Remote file editing with TRAMP.  Configure TRAMP to use the same SSH
-;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignore my
+;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignores my
 ;; SSH config's multiplexing configuration, so configure the same settings here.
 ;; https://www.emacswiki.org/emacs/TrampMode
 ;; https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html
@@ -411,8 +411,13 @@
   (setq tramp-default-method "ssh")
   (setq tramp-ssh-controlmaster-options
         (concat
-         "-o ControlPath=~/.ssh/master-%%r@%%h:%%p "
-         "-o ControlMaster=auto -o ControlPersist=yes"))
+         "-o ControlMaster auto "
+         "-o ControlPersist yes "
+         "-o ControlPath ~/.ssh/socket-%%C "
+         "-o ServerAliveInterval 60 "
+         "-o ServerAliveCountMax 5 "
+         ))
+  (setq tramp-use-ssh-controlmaster-options nil)
   :defer 1  ; lazy loading
 )
 
