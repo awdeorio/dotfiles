@@ -1884,8 +1884,9 @@ g++ -g                                  # compile
 lldb ./a.out                            # run
 
 # Dynamic analysis with valgrind
-g++ -g                                  # compile
-valgrind -v --leak-check=full ./a.out   # run
+valgrind -v ./a.out                     # Check for undefined behavior
+valgrind -v --leak-check=full ./a.out   # Check for memory leaks
+valgrind --tool=callgrind ./a.out       # Instruction count
 
 # Dynamic analysis with address sanitizer (ASAN)
 clang++ -fsanitize=address              # Compile (OSX)
@@ -1897,9 +1898,8 @@ ASAN_OPTIONS=verbosity=2 ./a.out        # Verbose
 # Dynamic analysis (leak checking) with macOS leaks
 leaks -quiet -atExit -- ./a.out
 
-# Dynamic analysis with bounds checking
-clang++ -fsanitize=address              # Compile (OSX)
-g++ -D_GLIBCXX_DEBUG                    # Compile (GNU)
+# Dynamic analysis with bounds checking (GNU GCC only)
+g++ -D_GLIBCXX_DEBUG                    # Compile
 ./a.out                                 # Run
 
 # Static analysis
