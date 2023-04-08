@@ -239,6 +239,8 @@ fi
 # Java
 path-prepend ${HOMEBREW_PREFIX}/opt/openjdk/bin
 
+# Docker
+path-append ${HOME}/.docker/bin
 
 ################################################################################
 # Test for an interactive shell.  There is no need to set anything past this
