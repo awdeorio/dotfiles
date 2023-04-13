@@ -313,6 +313,9 @@ case "$TERM" in
     if [ "$LOGNAME" == "root" ]; then
       # root
       PS1='\[${bldred}\]\]\u@\h \[${bldblue}\]\W\n\$ \[${txtrst}\]'
+    elif [[ "$HOSTNAME" == *"caen"* ]]; then
+      # CAEN Linux is slow, don't use git context
+      PS1='\[${txtblk}\]\[${bldcyn}\]\u@\h \[${bldblu}\]\W\n\$ \[${txtrst}\]'
     elif [ "$SSH_CONNECTION" ]; then
       # remote machines
       PS1='\[${txtblk}\]$(ps1_context)\[${bldcyn}\]\u@\h \[${bldblu}\]\W\n\$ \[${txtrst}\]'
