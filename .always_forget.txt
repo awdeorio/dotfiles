@@ -2929,6 +2929,7 @@ emacs --batch -l ~/.emacs.d/init.el    # Process init file at the CLI
 emacs --batch -l ~/.emacs.d/init.el \
   --funcall auto-package-update-now    # Update all packages
 emacs --batch --funcall byte-recompile-directory  # Recompile all .el files
+time emacs --batch -l ~/.emacs.d/init.el  # Measure Emacs load time
 
 # Chrome
 chrome://flags/#allow-insecure-localhost  # Allow homemade certs
