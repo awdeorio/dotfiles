@@ -123,7 +123,14 @@ export EDITOR="emacs"
 export VISUAL="$EDITOR"                # Here for historical reasons
 export SUDO_EDITOR="emacs -nw"         # Editor used by sudoedit and sudo -e
 export GIT_EDITOR="emacs -nw"          # Editor used by git commit
-function e { emacs "$@" & }
+function e {
+  # Start Emacs in the background unless we're on an SSH connection
+  if [ "$SSH_CONNECTION" ]; then
+    emacs -Q "$@"
+  else
+    emacs "$@" &
+  fi
+}
 function ediff { emacs --eval "(ediff-files \"$1\" \"$2\")" & }
 
 ### Pager #####################################################################
