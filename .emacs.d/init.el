@@ -122,10 +122,11 @@
 
 ;; Automatically update packages installed by use-package periodically
 (use-package auto-package-update
-  :ensure t
   :config
   (setq auto-package-update-prompt-before-update t)
   (setq auto-package-update-delete-old-versions t)
+  :ensure t
+  :defer t
   )
 
 ;; More intuitive undo/redo.  M-_ undo, C-M-_ redo
@@ -136,11 +137,13 @@
   (global-set-key "\C-\M-_" 'undo-tree-redo)
   (setq undo-tree-auto-save-history nil)
   :ensure t
+  :defer t
   )
 
 ;; Dark Mode Theme
 (use-package spacemacs-common
     :ensure spacemacs-theme
+    :defer t
     ;:config (load-theme 'spacemacs-dark t)
     )
 
@@ -148,9 +151,11 @@
 ;; https://github.com/realgud/realgud/wiki/Debuggers-Available
 (use-package realgud
   :ensure t
+  :defer t
   )
 (use-package realgud-lldb
   :ensure t
+  :defer t
   )
 
 ;; Verilog mode customizations
@@ -176,6 +181,7 @@
         verilog-indent-begin-after-if    'declarations
         verilog-auto-lineup              '(none))
   ;; can't use :ensure because this package isn't available on package manager
+  :defer t
   )
 
 ;; Text mode
@@ -209,6 +215,7 @@
   (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (flyspell-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (electric-pair-mode -1))) ; disable
+  :defer t
 )
 
 ;; Markdown mode (.md)
@@ -226,6 +233,7 @@
   (setq markdown-fontify-code-blocks-natively t) ; syntax highlight code blocks
   (setq markdown-gfm-use-electric-backquote nil) ; no interactive code block insertion
   :ensure t
+  :defer t
   )
 )
 
@@ -237,6 +245,7 @@
   :commands markdown-toc-generate-toc
   :commands markdown-toc-refresh-toc
   :ensure t
+  :defer t
   )
 )
 
@@ -287,6 +296,7 @@
          ("M-*" . pop-tag-mark)  ; Go back
          )
   :ensure t
+  :defer t
 )
 (use-package company-go
   ;; Autocomplete
@@ -294,11 +304,13 @@
   :init
   (add-hook 'go-mode-hook (lambda () (add-to-list 'company-backends 'company-go)))
   :ensure t
+  :defer t
 )
 (use-package go-dlv
   ;; Integrated debugger support
   :after go-mode  ; lazy loading
   :ensure t
+  :defer t
 )
 
 ;; Web Development
@@ -323,6 +335,7 @@
   (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
   (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
   :ensure t
+  :defer t
   )
 
 ;; Intellisense syntax checking
@@ -359,7 +372,7 @@
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
   :ensure t
-  :defer 1  ; lazy loading
+  :defer t
 )
 
 ;; Autocomplete for words and filenames.  M-/ auto-completes a word
@@ -384,7 +397,7 @@
   (company-tng-configure-default)       ; use default configuration
   (global-company-mode)
   :ensure t
-  :defer 1  ; lazy loading
+  :defer t
   )
 
 ;; Python backend for autocomplete
@@ -398,6 +411,7 @@
 ;;   :init
 ;;   (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
 ;;   :ensure t
+;;   :defer t
 ;;   )
 ;; )
 
@@ -418,13 +432,14 @@
          "-o ServerAliveCountMax 5 "
          ))
   (setq tramp-use-ssh-controlmaster-options nil)
-  :defer 1  ; lazy loading
+  :defer t
 )
 
 ;; YAML mode
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :ensure t
+  :defer t
 )
 
 ;; Code folding
@@ -435,17 +450,17 @@
 ;; modes.
 (use-package hideshow
   :hook ((prog-mode . hs-minor-mode))  ; Enable folding in programming modes
-  :defer 1
+  :defer t
   :config
 
   (use-package fold-dwim
-    :ensure t
     :hook ((text-mode . outline-minor-mode))  ; Enable folding in text mode
     :config
     (global-set-key (kbd "<f7>")      'fold-dwim-toggle)
     (global-set-key (kbd "<M-f7>")    'fold-dwim-hide-all)
     (global-set-key (kbd "<S-M-f7>")  'fold-dwim-show-all)
-    :defer 1
+    :ensure t
+    :defer t
     )
   )
 
@@ -453,6 +468,7 @@
 (use-package dockerfile-mode
   :mode "Dockerfile\\'"
   :ensure t
+  :defer t
 )
 
 (defun insert-todays-date ()
@@ -478,5 +494,5 @@
 ;; Git
 ;; (use-package magit
 ;;   :ensure t
-;;   :defer 1
+;;   :defer t
 ;;   )
