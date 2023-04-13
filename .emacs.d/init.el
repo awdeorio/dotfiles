@@ -86,39 +86,22 @@
 ;; Line length for features like fill-paragraph (M-q)
 (setq-default fill-column 79)
 
-;; Package Management.  Configure the built-in emacs package manager to use
-;; several publicly available repositories.
+;; Bug workaround emacs <26.3 connection to package repos
+;; https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
 (if (version< emacs-version "26.3")
-    ;; Bug workaround emacs <26.3
-    ;; https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
+;; Require and initialize `package` with repos
 (require 'package)
-(setq package-enable-at-startup nil)
-;; (setq debug-on-error t)
+(package-initialize)  ; FIXME this is slow with EMacs <27 https://emacs.stackexchange.com/questions/38368/how-can-i-improve-startup-time-despite-many-packages
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
 
-;; Bootstrap 'use-package' and enable it.  Later, 'use-package- will
-;; download and install third-party packages automatically.
-;; http://cachestocaches.com/2015/8/getting-started-use-package/
-;;
-;; EXAMPLE:
-;; (use-package foo-mode
-;;   :after bar      ; load after bar package
-;;   :mode "\\.foo"  ; load and enable foo-mode for *.foo files
-;;   :init           ; run this code when init.el is read
-;;   :config         ; run this code after loading foo-mode
-;;   :ensure t       ; automatically install foo-mode if not present
-;;   :defer t        ; defer loading for performance (usually the default)
-;; )
-(unless (package-installed-p 'use-package)
+;; Install use-package
+;; https://github.com/jwiegley/use-package
+(when (not (package-installed-p 'use-package))
   (package-refresh-contents)
   (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
 
 ;; Automatically update packages installed by use-package periodically
 (use-package auto-package-update
