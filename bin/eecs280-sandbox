@@ -1,0 +1,13 @@
+#!/bin/bash
+set -Eeuo pipefail
+
+set -x
+mkdir -p sandbox
+cd sandbox
+{ set +x; } 2>/dev/null
+
+for F in $(find ../starter-files ../solution -type f); do
+  set -x
+  ln -sf $F
+  { set +x; } 2>/dev/null
+done
