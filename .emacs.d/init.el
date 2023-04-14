@@ -415,7 +415,6 @@
          "-o ServerAliveCountMax 5 "
          ))
   (setq tramp-use-ssh-controlmaster-options nil)
-  :defer t
 )
 
 ;; YAML mode
