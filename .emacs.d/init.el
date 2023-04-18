@@ -91,7 +91,7 @@
 (if (version< emacs-version "26.3")
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
-;; Require and initialize `package` with repos
+;; Built in package manager
 (require 'package)
 (package-initialize)  ; FIXME this is slow with EMacs <27 https://emacs.stackexchange.com/questions/38368/how-can-i-improve-startup-time-despite-many-packages
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -102,6 +102,8 @@
 (when (not (package-installed-p 'use-package))
   (package-refresh-contents)
   (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
 
 ;; Automatically update packages installed by use-package periodically
 (use-package auto-package-update
