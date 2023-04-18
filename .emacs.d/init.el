@@ -480,3 +480,40 @@
 ;;   :ensure t
 ;;   :defer t
 ;;   )
+
+(use-package org
+  :config
+  (define-key global-map "\C-cl" 'org-store-link)
+  (define-key global-map "\C-ca" 'org-agenda)
+  (setq org-log-done 'time)
+  (setq org-tags-column 59)
+  (setq org-agenda-files
+        (list "~/Dropbox/orgzly/home.org"))
+  (add-hook 'org-mode-hook 'global-auto-revert-mode) ; for Dropbox
+
+  ;; TODO keywords as workflow states for GTD
+  ;; https://orgmode.org/manual/Workflow-states.html
+  ;;
+  ;; Multiple keyword sets in one file
+  ;; https://orgmode.org/manual/Multiple-sets-in-one-file.html
+  ;;
+  ;; Faces for TODO keywords
+  ;; M-x list-colors-display  ; show color names
+  ;; https://orgmode.org/manual/Faces-for-TODO-keywords.html
+  (setq org-todo-keywords
+        '((sequence "TODO" "|" "DONE")
+          (sequence "|" "WAIT")))
+  (setq org-todo-keyword-faces
+        '(("TODO" . (:foreground "dark red" :weight bold))
+          ("DONE" . (:foreground "dark green" :weight bold))
+          ("WAIT" . (:foreground "orange" :weight bold))))
+
+  ;; Archive all tasks in this file marked DONE
+  (defun org-archive-done-tasks-file ()
+    (interactive)
+    (org-map-entries
+     (lambda ()
+       (org-archive-subtree)
+       (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
+     "/DONE" 'file))
+)
