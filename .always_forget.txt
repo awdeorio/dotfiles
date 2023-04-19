@@ -609,16 +609,20 @@ ffmpeg -i "$INFILE" -pix_fmt rgb8 -r 10 -f gif - | gifsicle --delay=10 --optimiz
 # Images
 mogrify -rotate 90                     # rotate
 mogrify -resize 640x640                # reduce resolution
+convert FILE.png FILE.jpg              # convert image file type
+convert IN.jpg -monochrome OUT.jpg     # convert image to black and white
+mogrify -quality 85%                   # reduce file size
+mogrify -define jpeg:extent=100KB      # reduce file size to max 100KB
+mogrify -strip -define jpeg:extent=100KB  # Web images
 imageoptim FILE.jpg                    # reduce file size
 imageoptim '*.jpg'                     # reduce file size
 exiftool                               # read all exif data
 exiftool '-AllDates+=3:02:00 00:00:00' # date/time += 3 yr 2 mos
 exiftool -gpslatitude -gpslongitude    # GPS coordinates
-convert FILE.png FILE.jpg              # convert image file type
-convert IN.jpg -monochrome OUT.jpg     # convert image to black and white
 identify FILE.jpg                      # dump size and other data
 identify -format "%w×%h"               # dump length, height https://imagemagick.org/script/escape.php
-identify -verbose FILE.jpg             # dump all EXIF data
+identify -verbose FILE.jpg             # dump EXIF data
+mogrify -strip                         # remove EXIF data
 
 # SSH
 ssh HOST                               # connect to HOST
