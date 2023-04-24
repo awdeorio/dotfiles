@@ -1891,7 +1891,11 @@ lldb ./a.out                            # run
 valgrind -v ./a.out                     # Check for undefined behavior
 valgrind -v --leak-check=full ./a.out   # Check for memory leaks
 valgrind --tool=callgrind ./a.out       # Instruction count
-
+valgrind --tool=callgrind --simulate-cache=yes  # Instruction count w/ cache
+callgrind_annotate callgrind.out.12345  # Instruction count summary
+valgrind --tool=massif ./a.out          # Memory consumption
+valgrind --tool=massif --stacks=yes ./a.out  # Memory consumption w/ stack
+ms_print massif.out.12345               # Memory consumption summary
 # Dynamic analysis with address sanitizer (ASAN)
 clang++ -fsanitize=address              # Compile (OSX)
 g++ -fsanitize=address                  # Compile (GNU)
