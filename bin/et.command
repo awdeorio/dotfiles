@@ -9,5 +9,5 @@ nohup command emacs \
   --eval '(add-hook (quote window-setup-hook) (function delete-other-windows))' \
   ${HOME}/Dropbox/scratch.txt \
   ${HOME}/Dropbox/lists/todo/work/todo.txt \
-  ${HOME}/Dropbox/orgzly/home.org \
+  ${HOME}/Dropbox/org/home.org \
    &> /dev/null &

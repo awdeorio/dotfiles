@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 # Path to todo file
-TODO_PATH=${HOME}/Dropbox/orgzly/home.org
+TODO_PATH=${HOME}/Dropbox/org/home.org
 TODO_BAK=${TODO_PATH}.bak
 
 # Sanity Check
