@@ -488,7 +488,7 @@
   (setq org-log-done 'time)
   (setq org-tags-column 59)
   (setq org-agenda-files
-        (list "~/Dropbox/orgzly/home.org"))
+        (list "~/Dropbox/org/home.org"))
   (add-hook 'org-mode-hook 'global-auto-revert-mode) ; for Dropbox
 
   ;; TODO keywords as workflow states for GTD
