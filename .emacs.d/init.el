@@ -38,7 +38,7 @@
 ;; Open link in browser.  Settings for OSX.
 (setq browse-url-browser-function (quote browse-url-generic))
 (setq browse-url-generic-program "open")
-(global-set-key "\C-c\C-b" 'browse-url-at-point)
+(global-set-key "\C-c\C-o" 'browse-url-at-point)
 
 ;; Dialog settings.  No more typing the whole yes or no. Just y or n
 ;; will do. Disable GUI dialogs and use emacs text interface.
