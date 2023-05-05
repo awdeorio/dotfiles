@@ -1160,6 +1160,7 @@ df -h                                   # disk free, human readable
 du [DIR]                                # disk usage of a directory
 du -sh DIR                              # disk usage of DIR, human readable
 du -shc *                               # disk usage of DIRS, with total
+ncdu                                    # interactive disk usage
 fsck -aC /dev/<device>                  # check disk with progress bar, no ?'s
 touch /forcefsck && reboot              # force filesystem check on reboot
 dd if=/dev/cdrom of=my_cd_image.iso     # Rip ISO from CDROM
