@@ -503,7 +503,7 @@
   ;; https://orgmode.org/manual/Faces-for-TODO-keywords.html
   (setq org-todo-keywords
         '((sequence "TODO" "|" "DONE")
-          (sequence "|" "WAIT")))
+          (sequence "WAIT" "|" "DONE")))
   (setq org-todo-keyword-faces
         '(("TODO" . (:foreground "dark red" :weight bold))
           ("DONE" . (:foreground "dark green" :weight bold))
