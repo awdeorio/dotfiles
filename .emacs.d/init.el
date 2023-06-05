@@ -475,6 +475,10 @@
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
 (add-hook 'ediff-after-quit-hook-internal (lambda () (if (window-system) (set-frame-width (selected-frame) 80))))
 
+;; Do not fold org files in ediff mode
+(with-eval-after-load 'outline
+  (add-hook 'ediff-prepare-buffer-hook #'org-show-all))
+
 ;; Git
 ;; (use-package magit
 ;;   :ensure t
