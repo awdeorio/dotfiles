@@ -2194,7 +2194,7 @@ twine upload --sign --repository-url https://test.pypi.org/legacy/ dist/*
 
 # Test install.  It will install, but not run because we didn't install deps.
 python3 -m venv envtmp
-source envtpm/bin/activate
+source envtmp/bin/activate
 pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
 mailmerge --version  # Expect module not found error
 deactivate
@@ -2205,6 +2205,9 @@ twine upload --sign dist/*
 # Test deploy
 pip3 install --upgrade mailmerge
 mailmerge --version
+
+# Draft a new release on GitHub
+https://github.com/awdeorio/mailmerge/tags
 
 
 ########################################
