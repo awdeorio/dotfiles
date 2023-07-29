@@ -177,6 +177,8 @@ path-append /sbin
 path-prepend ${HOME}/bin
 path-prepend ${HOME}/local/bin
 path-prepend ${HOME}/local/sbin
+path-prepend ${HOME}/.local/bin
+path-prepend ${HOME}/.local/sbin
 path-append /usr/caen/bin
 path-append /usr/um/bin
 
