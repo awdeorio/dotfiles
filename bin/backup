@@ -73,5 +73,5 @@ set -x
 rsync \
   -avzx --delete $EXCLUDE \
   $HOME \
-  awdeorio@newberry.eecs.umich.edu:backup/cabra \
+  awdeorio@higgins.eecs.umich.edu:backup/cabra \
   $@
