@@ -74,6 +74,7 @@ alias ag='ag --ignore "*bundle.js"'
 alias phs='python3 -m http.server --bind localhost 8000'
 alias bejs='bundle exec jekyll serve --host localhost --port 4000'
 alias mogrify-1024='mogrify -resize 1024x1024'
+alias pg='ping google.com -c3'
 
 ### macOS #####################################################################
 # Homebrew configuration for x86_64 and arm64
