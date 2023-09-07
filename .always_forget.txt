@@ -2035,6 +2035,7 @@ pip install --upgrade PACKAGE           # upgrade Python package
 pip install -e .                        # install local Python package for dev
 pip install --upgrade --upgrade-strategy=eager -e .  # upgrade setup.py
 pip install --user PACKAGE              # install to ~/.local/
+pip install 'git+https://github.com/USER/REPO.git@BRANCH'
 pip list                                # list install packages
 pip freeze                              # ^^^ in requirements format
 pip freeze --exclude-editable           # ^^^ excluding editable package
