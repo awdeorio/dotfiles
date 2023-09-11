@@ -2,25 +2,39 @@
 #
 # inve
 #
-# usage: inve [VIRTUAL_ENV]
+# Activate a virtual environment in a subshell.
 #
-# Attempts to find the root of a virtual environment by walking the directory
-# tree from "$PWD" to "/".  Then, it activates a subshell.
+# Search up for common virtual environment names.  Activate in a subshell when
+# one is found.  Otherwise, offer to create one.
 #
 # Andrew DeOrio <awdeorio@umich.edu>
-
-
-# Stop on errors
-set -Eeuo pipefail
 
 # Virtual environment search path, basenames only, space separated
 VENVPATH=".venv venv env"
 
+# Stop on errors
+set -Eeo pipefail
+
+# Help
+if [ "$1" == "-h" ]; then
+   echo "Usage: $0 [VIRTUAL_ENV]"
+   echo ""
+   echo "Activate a virtual environment in a subshell."
+   echo
+   echo "EXAMPLES:"
+   echo "  inve        Search up for virtual env then activate or create"
+   echo "  inve VENV   Activate or create virtual env VENV"
+   exit
+fi
+
+# Parse virtual env specified as an arg
+VIRTUAL_ENV=""
 if [ -n "${1-}" ]; then
-  # Virtual environment root specified as argument
   VIRTUAL_ENV="$1"
-else
-  # Search from PWD to root, for any of the virtual env directory names
+fi
+
+# Search for virtual environment from PWD to root
+if [ -z "$VIRTUAL_ENV" ]; then
   INVE_OLDPWD="$PWD"
   while [ "${PWD}" != "/" ]; do
     for VENV_BASENAME in ${VENVPATH}; do
