@@ -7,9 +7,8 @@
 # Attempts to find the root of a virtual environment by walking the directory
 # tree from "$PWD" to "/".  Then, it activates a subshell.
 #
-# Based on https://datagrok.org/python/activate/
-#
-# https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
+# Andrew DeOrio <awdeorio@umich.edu>
+
 
 # Stop on errors
 set -Eeuo pipefail
@@ -87,4 +86,5 @@ if test -f .env; then
 fi
 
 # Start a subshell initialized with the tmp bashrc we just wrote
+# https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
 exec bash --rcfile $TMPFILE
