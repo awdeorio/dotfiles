@@ -130,6 +130,8 @@ which -a CMD                            # print all paths to CMD (GNU)
 whereis CMD                             # print all paths to CMD
 export PATH=$PATH:NEW_DIR               # add new directory to PATH (bash)
 type -a CMD                             # include shell functions/aliases (bash)
+command -v                              # ^^^
+command CMD                             # Run CMD without alias
 
 # Finding files
 find . -name hello.txt                  # find hello.txt, starting at PWD
@@ -3052,3 +3054,6 @@ eb ssh                                  # SSH into web server
 eb config save --cfg my-app-v1          # Save current env's current config
 eb config put my-app-v1                 # Upload config after modification
 eb restore                              # Rebuild a terminated environment
+
+# Autograder.io CLI
+agio submissions best -c eecs485cur -p1 -g UNIQNAME
