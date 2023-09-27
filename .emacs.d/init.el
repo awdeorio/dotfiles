@@ -522,3 +522,9 @@
        (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
      "/DONE" 'file))
 )
+
+(defun org-insert-file-local-mode-variable ()
+  "Insert today's date in YYYY-MM-DD format."
+  (interactive)
+  (insert "-*- mode: org; -*-\n")
+)
