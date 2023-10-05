@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+"""
+csv2roster
+
+Convert a CSV downloaded from Wolverine Access to a cleaned up CSV file.
+
+Andrew DeOrio <awdeorio@umich.edu>
+"""
+import sys
+from datetime import datetime
+from pathlib import Path
+import pandas as pd
+
+
+def main():
+    """Command line interface."""
+    # Sanity check args
+    if len(sys.argv) != 2:
+        sys.exit(f"Usage: {sys.argv[0]} FILE.csv")
+    input_path = Path(sys.argv[1])
+    if not input_path.exists():
+        sys.exit(f"{input_path}: file does not exist")
+
+    # Read CSV
+    table = pd.read_csv(input_path)
+
+    # Sanity check column names
+    for col in ["Campus ID", "Name", "ID", "Class Section"]:
+        if col not in table:
+            sys.exit(f"{input_path}: column not found: '{col}'")
+
+    # Roster is a subset of the input table columns
+    roster = pd.DataFrame(table[["Campus ID", "Name", "ID"]])
+
+    # Change column name "Campus ID" to "Uniqname"
+    roster.rename(columns={"Campus ID": "Uniqname"}, inplace=True)
+
+    # Uniqname should be lower case
+    roster["Uniqname"] = roster["Uniqname"].str.lower()
+
+    # FIXME
+    if "Status" not in table.columns:
+        table["Status"] = ""
+
+    # If a student withdraws, overwrite Status.  Select the columns from the
+    # roster DataFrame that correspond to "Status Note" == "Withdrawn" in the
+    # table DataFrame.  Overwrite them with the value of "Status Note".
+    roster.loc[table["Status Note"].notna(), "Status"] = \
+        table.loc[table["Status Note"].notna(), "Status Note"]
+
+    # Write CSV to INPUTDIR/roster-YYYY-MM-DD.csv
+    ymd = datetime.today().strftime('%Y-%m-%d')
+    output_path = input_path.parent / f"roster-{ymd}.csv"
+    roster.to_csv(output_path, index=False)
+
+    # Report to user
+    num_rows = roster.shape[0]
+    print(f"Wrote {num_rows} students to {output_path}")
+
+
+if __name__ == "__main__":
+    main()
