@@ -1,4 +1,5 @@
--*- eval: (visual-line-mode 0) -*- #
+-*- mode: sh; -*-
+
 # .always_forget.txt
 #
 # awdeorio's UNIX cheat sheet
@@ -79,7 +80,7 @@ ls --color                              # colorize output
 ls --color=auto                         # colorize output only in tty
 ls --human-readable                     # human-readable file sizes
 ls --ignore-backups                     # ignore *~ files
-ls --ignore $'Icon\r'"                  # ignore OSX Icon files
+ls --ignore $'Icon\r'                   # ignore OSX Icon files
 ls --quoting-style=literal              # don't quote for 'File with spaces'
 ls -R                                   # list recursively
 tree                                    # list recursively in pretty format
@@ -895,10 +896,15 @@ CMD 2>&1                                # copy stderr to stdout
 CMD1 2>&1 | CMD2                        # stdout + stderr -> pipe
 CMD1 &| CMD2                            # stdout + stderr -> pipe
 0<&-                                    # close stdin
-<<TAG ... TAG                           # here document (for inline scripts)
-<<-TAG ... TAG                          # ^^^ ignore leading tabs, *tabs only*
-<<'TAG' ... TAG                         # ^^^ no variable expansion
-cat > FILE << EOF ... EOF               # ^^^ for writing a file
+<<TAG                                   # here document (for inline scripts)
+...
+TAG
+<<-TAG                                  # heredoc ignore leading tabs (tab only)
+TAG
+<<'TAG'                                 # heredoc no variable expansion
+TAG
+cat > FILE << EOF                       # heredoc for writing a file
+EOF
 <<< "STRING"                            # here string
 <( CMD )                                # create a temporary named pipe
 diff <(echo a) <(echo b)                # diff the output of two commands
@@ -907,7 +913,7 @@ exec 1<&-                               # close stdout file descriptor
 exec 2<&-                               # close stderr file descriptor
 exec 1<>LOG_FILE                        # open stdout as LOG_FILE file for r/w
 exec 2>&1                               # redirect stderr to stdout
-echo "this goes to LOG_FILE, not screen # (after above 4 exec commands)
+echo "Hello LOG_FILE, not screen"       # (after above 4 exec commands)
 $#                                      # argc in bash
 [ $# -lt 1 ] && exit 1                  # check # args and quit
 $@                                      # argv in bash
@@ -1045,7 +1051,7 @@ awk '/Iowa/,/Montana/'                  # print lines between Iowa & Montana
 awk '{print $NF}'                       # print last field
 awk '{print $(NF-1)}'                   # print second-to-last field
 awk '{$1="";print}'                     # print all but last field
-awk '$1>=2{print}                       # print if greater that 2
+awk '$1>=2{print}'                      # print if greater that 2
 awk '{ sum += $1 }; END { print sum }'  # sum input stream
 awk '{print length}'                    # length of each line
 awk '{print length($1)}'                # length of first word
