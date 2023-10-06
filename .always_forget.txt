@@ -1480,7 +1480,8 @@ keybase id br                           # Show info on user "br"
 # Serial ports
 dmesg | grep /dev/tty                   # recently connected devices
 screen /dev/ttyACM0 9600                # text input/output at 9600 Baud
-                                        #   Ctrl-A,Shift-K to quit
+[screen] C-a S-k                        # quit
+
 # Virtual terminals
 screen                     # start virtual terminal
 screen -S NAME             # start virtual terminal named NAME
@@ -1518,7 +1519,7 @@ tail -f FILE               # watch file for appends
 ...|xargs sh -c 'emacs "$@" < /dev/tty' emacs  # ^^^ BSD and GNU
 
 # Change a bunch of file extensions
-ls *.txt | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
+ls *.C | sed 'p;s/.C$/.cpp/' | xargs -L2 mv -v
 
 # Change a bunch of files to filenames based on their sha1sum
 sha1sum *.jpg | awk '{print $2 " " $1 ".jpg"}' | xargs -L1 cp -v
