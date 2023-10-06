@@ -1324,7 +1324,9 @@ dc -e "3 k 1 2 /p"                      # floating point
 sort file1 | uniq                       # unique patterns
 sort file1 file2 | uniq                 # set union
 sort file1 file2 | uniq -d              # set intersection
+comm -12 <(sort file1) <(sort file2)    # set intersection
 sort file1 file2 | uniq -u              # set symmetric difference
+comm -23 <(sort file1) <(sort file2)    # set difference (lines only in file1)
 diff <(sort file1) <(sort file2)        # set equality
 cat FILE | sort | uniq -c               # frequency analysis (histogram)
 factor NUM                              # print prime factors
