@@ -110,7 +110,8 @@ ln -s -t DIR FILE                       # create soft link in DIR
 # Paths and files
 pwd                                     # current directory
 pwd -P                                  # current directory, absolute path
-readlink -f PATH                        # absolute path (GNU only)
+readlink -f PATH                        # absolute path (FAILS on regular files)
+realpath PATH                           # absolute path, more flexible
 cd                                      # change to home directory
 cd ..                                   # change to directory up
 cd DIR                                  # change to directory
