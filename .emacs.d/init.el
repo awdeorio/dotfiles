@@ -417,6 +417,7 @@
          "-o ServerAliveCountMax 5 "
          ))
   (setq tramp-use-ssh-controlmaster-options nil)
+  :defer 1
 )
 
 ;; YAML mode
@@ -486,6 +487,7 @@
 ;;   )
 
 (use-package org
+  :defer t
   :config
   (define-key global-map "\C-cl" 'org-store-link)
   (define-key global-map "\C-ca" 'org-agenda)
@@ -521,10 +523,11 @@
        (org-archive-subtree)
        (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
      "/DONE" 'file))
-)
 
-(defun org-insert-file-local-mode-variable ()
-  "Insert today's date in YYYY-MM-DD format."
-  (interactive)
-  (insert "-*- mode: org; -*-\n")
+  ;; Add file local mode variable enabling org mode
+  (defun org-insert-file-local-mode-variable ()
+    "Insert today's date in YYYY-MM-DD format."
+    (interactive)
+    (insert "-*- mode: org; -*-\n")
+    )
 )
