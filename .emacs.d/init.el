@@ -556,6 +556,7 @@
   :ensure t
   )
 (use-package copilot
+  :defer t
   :config
   (add-hook 'prog-mode-hook 'copilot-mode)
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
