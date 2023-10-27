@@ -533,7 +533,31 @@
 )
 
 ;; editorconfig
+;; https://github.com/editorconfig/editorconfig-emacs
 (use-package editorconfig
   :ensure t
+  :defer t
   :config
   (editorconfig-mode 1))
+
+;; copilot
+;; https://github.com/zerolfx/copilot.el
+;; https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
+;;
+;; NOTE: copilot.el is a submodule committed to my dotfiles
+;; M-x copilot-diagnose
+;;
+;; Dependencies dash and s are installed here.  The company package is
+;; specified earlier.
+(use-package dash
+  :ensure t
+  )
+(use-package s
+  :ensure t
+  )
+(use-package copilot
+  :config
+  (add-hook 'prog-mode-hook 'copilot-mode)
+  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+)
