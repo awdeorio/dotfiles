@@ -1574,6 +1574,7 @@ open FILE                               # open a file, same as double-click
 open -a "Google Chrome" FILE            # open a file with Firefox
 open -a firefox -n                      # Firefox new window
 open -a firefox -n --args --private-window # Firefox new private window
+qlmanage -p FILE                        # Quick look
 pbcopy < FILE                           # copy contents of FILE to clipboard
 echo | pbcopy                           # command output -> clipboard
 opendiff FILE1 FILE2 [-merge FILE3]     # graphical diff
