@@ -34,7 +34,7 @@ gem cleanup --silent
 
 # Update Homebrew packages
 brew update --quiet
-brew upgrade --quiet --greedy
+brew upgrade --quiet --greedy || true
 brew cleanup --quiet
 
 # Update macOS packages
