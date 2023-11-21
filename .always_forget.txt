@@ -2219,6 +2219,7 @@ mailmerge --version  # Expect module not found error
 deactivate
 
 # Deploy to PyPI and browse to https://pypi.org/project/mailmerge/
+# Twine and API tokens https://pypi.org/manage/account/token/
 twine upload --sign dist/*
 
 # Test deploy
