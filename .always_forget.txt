@@ -2720,6 +2720,7 @@ git diff-index --quiet HEAD --          # Return non-zero if repo is dirty
 git show REV:FILE                       # Old version of file
 git show HEAD^ FILE                     # last committed version
 git show HEAD~4:FILE                    # 4th last commit
+git restore --source BRANCH -- FILE     # From BRANCH
 
 # Remote repositories
 git remote                              # list names of remote repositories
