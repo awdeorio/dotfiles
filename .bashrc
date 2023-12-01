@@ -26,7 +26,10 @@ export LANG=en_US.UTF-8
 ### Aliases ###################################################################
 # NOTE: emacs, git, ls, and less  aliases appear later
 alias du="du -sh"
-function dusort { find "$@" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h ; }
+function dusort {
+  [[ -z "$@" ]] && FINDPATH="." || FINDPATH="$@"
+  find $FINDPATH -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h ;
+}
 alias df="df -h"
 alias cdd="cd .."
 alias grep="grep --color"
@@ -75,6 +78,7 @@ alias phs='python3 -m http.server --bind localhost 8000'
 alias bejs='bundle exec jekyll serve --host localhost --port 4000'
 alias mogrify-1024='mogrify -resize 1024x1024'
 alias pg='ping google.com -c3'
+alias sb="source ~/.bashrc"
 
 ### macOS #####################################################################
 # Homebrew configuration for x86_64 and arm64
