@@ -509,11 +509,13 @@
   ;; https://orgmode.org/manual/Faces-for-TODO-keywords.html
   (setq org-todo-keywords
         '((sequence "TODO" "|" "DONE")
-          (sequence "WAIT" "|" "DONE" "CANC")))
+          (sequence "WAIT" "|" "RECV" "CANC" "NANA")))
   (setq org-todo-keyword-faces
         '(("TODO" . (:foreground "dark red" :weight bold))
           ("DONE" . (:foreground "dark green" :weight bold))
           ("CANC" . (:foreground "dark green" :weight bold))
+          ("NANA" . (:foreground "dark green" :weight bold))
+          ("RECV" . (:foreground "dark green" :weight bold))
           ("WAIT" . (:foreground "orange" :weight bold))))
 
   ;; Archive all tasks in this file marked DONE
