@@ -16,6 +16,13 @@ set -o noglob
 # Synchronized files
 EXCLUDE+=' --exclude Dropbox*/***'
 EXCLUDE+=' --exclude GoogleDrive*/***'
+EXCLUDE+=' --exclude mnt/***'
+
+# Personal stuff is backed up on Google Drive
+EXCLUDE+=' --exclude Documents/Home/***'
+EXCLUDE+=' --exclude Pictures/***'
+EXCLUDE+=' --exclude Movies/***'
+EXCLUDE+=' --exclude Music/***'
 
 # Don't backup these files
 EXCLUDE+=' --exclude .Trash/***'
@@ -41,10 +48,9 @@ EXCLUDE+=' --exclude *.vmdk'
 EXCLUDE+=' --exclude *.vdi'
 EXCLUDE+=' --exclude *.ova'
 
-# Optional
+# Binaries
 EXCLUDE+=' --exclude Library/***'
-EXCLUDE+=' --exclude GoogleDrive/***'
-EXCLUDE+=' --exclude Dropbox/***'
+EXCLUDE+=' --exclude Applications/***'
 
 # Sanity check that this is my laptop
 if [ "$HOSTNAME" != "cabra" ]; then
