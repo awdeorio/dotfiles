@@ -496,6 +496,7 @@
   (setq org-agenda-files
         (list "~/Dropbox/org/home.org"
               "~/Dropbox/org/work.org"))
+  (setq org-agenda-search-view-always-boolean t)
   (add-hook 'org-mode-hook 'global-auto-revert-mode) ; for Dropbox
 
   ;; TODO keywords as workflow states for GTD
