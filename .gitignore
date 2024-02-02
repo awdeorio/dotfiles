@@ -1,1 +1,5 @@
-*
+*~
+
+.emacs.d/.last-package-update-day
+.emacs.d/elpa/
+.emacs.d/network-security.data
