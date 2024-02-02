@@ -52,6 +52,9 @@ EXCLUDE+=' --exclude *.ova'
 EXCLUDE+=' --exclude Library/***'
 EXCLUDE+=' --exclude Applications/***'
 
+# Temporary files
+EXCLUDE+=' --exclude .tmp***'
+
 # Sanity check that this is my laptop
 if [ "$HOSTNAME" != "cabra" ]; then
   echo "Error: \$HOSTNAME=$HOSTNAME"
