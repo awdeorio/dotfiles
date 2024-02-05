@@ -1033,10 +1033,11 @@ sed -n '/BEGIN/,/END/p'                 # print lines between BEGIN and END
 sed '/BEGIN/,/END/d'                    # delete lines between BEGIN and END
 sed '/SENTINEL/q'                       # print lines before and incl. SENTINEL
 sed -ne '/SENINTEL/,$ p'                # print lines after and incl. SENTINEL
-sed -i '' 's/before/after/g'            # replace "before" with "after" (BSD)
-sed -i 's/before/after/g'               # replace "before" with "after" (GNU)
-sed -i .bak 's/before/after/g'          # ^^^ with backup
-perl -pi -e 's/before/after/g'          # ^^^ perl alternative
+sed -i '' 's/x/y/g' FILE                # replace "x" with "y" (BSD)
+sed -i 's/x/y/g' FILE                   # replace "x" with "y" (GNU)
+sed -i'' 's/x/y/g' FILE                 # replace "x" with "y" (GNU+BSD) NO SPC!
+sed -i .bak 's/x/y/g' FILE              # ^^^ with backup
+perl -pi -e 's/x/y/g'                   # ^^^ perl alternative
 sed 's/\([a-z]*\).*/\1/'                # keep only lowercase letters
 sed 's/^/before/'                       # prepend every line
 sed 's/$/after/'                        # append every line
