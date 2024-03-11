@@ -211,6 +211,9 @@ if [ -d ${HOME}/local/lib/perl5 ]; then
 fi
 
 # Python
+# pipx packages install package
+path-append "${HOME}/.local/bin"
+MANPATH=${MANPATH}:${HOME}/.local/share/man
 # path-append ${HOME}/.pyenv/shims
 # for DIR in "$(ls -d /usr/local/opt/python@*/bin)"; do
 #   path-append "${DIR}"
@@ -221,7 +224,7 @@ fi
 
 # Pytest bash completion
 # https://docs.pytest.org/en/latest/bash-completion.html
-# $ pip3 install argcomplete
+# $ pipx install argcomplete
 if type -a register-python-argcomplete &> /dev/null; then
   eval "$(register-python-argcomplete pytest)"
 fi

@@ -1136,7 +1136,7 @@ cat FILE| head -n1| tr ',' '\n'         # column labels
 cat FILE| head -n1| tr ',' '\n'| cat -n # column labels and numbers
 cat FILE| cut -d, -f1                   # print column 1
 cat FILE| cut -d, -f1-3                 # print first 3 columns
-pip install csvkit                      # install python CSV CLI utilities
+{brew,pip,pipx} install csvkit          # install python CSV CLI utilities
 in2csv                                  # xls[x] -> csv
 csvlook                                 # pretty print table
 csvcut -n                               # column labels and numbers
@@ -2059,6 +2059,14 @@ pip install 'git+https://github.com/USER/REPO.git@BRANCH'
 pip list                                # list install packages
 pip freeze                              # ^^^ in requirements format
 pip freeze --exclude-editable           # ^^^ excluding editable package
+
+# Python pipx
+# Install Python command line utilities locally
+# Binaries go in ~/.local/bin
+pipx environment                        # Check paths and environment variables
+pipx install PACKAGE                    # Install PACKAGE localy
+pipx uninstall PACKAGE                  # Uninstall PACKAGE
+pipx upgrade-all                        # Upgrade all local packages
 
 # Python pipenv
 # Docs: https://docs.pipenv.org/  http://docs.pipenv.org/advanced/

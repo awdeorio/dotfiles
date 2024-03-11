@@ -23,10 +23,7 @@ command emacs \
   --batch
 
 # Update Python packages
-pip3 install --quiet --upgrade \
-  pip \
-  setuptools \
-  wheel
+pipx upgrade-all
 
 # Update Ruby packages
 gem update --system --quiet
