@@ -873,6 +873,7 @@ mktemp                                  # create a temporary file
 mktemp -t PREFIX                        # ^^^ starting with PREFIX
 mktemp -d                               # create a temporary directory
 mktemp -d -t hello-XXXXXXXX             # ^^^ named .../hello-1yJnQgLM
+mktemp -p DIR                           # create tmp file in DIR
 basename /bin/bash                      # returns "bash"
 dirname /bin/bash                       # return "/bin"
 sleep                                   # sleep (1, 1s, 1m, etc.)
