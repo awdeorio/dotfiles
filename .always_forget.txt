@@ -870,10 +870,10 @@ tee FILE1 FILE2                         # copy stdin to stdout, FILE1, FILE2
 tee /dev/stderr                         # copy stdin to both stdout and stderr
 echo hello | tee FILE                   # write "hello" to both stdout and FILE
 mktemp                                  # create a temporary file
-mktemp -t PREFIX                        # ^^^ starting with PREFIX
 mktemp -d                               # create a temporary directory
-mktemp -d -t hello-XXXXXXXX             # ^^^ named .../hello-1yJnQgLM
-mktemp -p DIR                           # create tmp file in DIR
+mktemp -p DIR                           # tmp file in DIR
+mktemp -t PREFIX                        # tmp dir/file starting with PREFIX
+mktemp -t hello-XXXXXXXX                # tmp dir/file name hello-1yJnQgLM
 basename /bin/bash                      # returns "bash"
 dirname /bin/bash                       # return "/bin"
 sleep                                   # sleep (1, 1s, 1m, etc.)
