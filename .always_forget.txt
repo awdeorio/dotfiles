@@ -1302,7 +1302,13 @@ echo > q; tail -f q | parallel          # start job queue
 echo my_command my_arg >> q             # submit to job queue
 
 # Hadoop
+# https://hadoop.apache.org/docs/current/hadoop-streaming/HadoopStreaming.html
 hadoop jar hadoop-streaming.jar -info   # HSI Help
+mapred streaming \
+  -input myInputDirs \
+  -output myOutputDir \
+  -mapper /bin/cat \
+  -reducer /usr/bin/wc
 
 # File differences
 diff FILE1 FILE2                        # view differences of two files
