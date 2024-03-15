@@ -15,6 +15,12 @@ elif (( $# == 1 )); then
   DIR="$1"
 fi
 
+# Check if port is already in use
+if nc -z $HOST $PORT &> /dev/null; then
+  echo "Error: ${HOST}:${PORT} is in use"
+  exit 1
+fi
+
 # Change directory
 if [ -n "${DIR-}" ]; then
   if [ ! -d "$DIR" ]; then
@@ -25,20 +31,23 @@ if [ -n "${DIR-}" ]; then
   cd "$DIR"
 fi
 
-# Check if port is already in use
-if nc -z $HOST $PORT &> /dev/null; then
-  echo "Error: ${HOST}:${PORT} is in use"
-  exit 1
-fi
+# Force Ruby 3.1
+# https://eecs485staff.github.io/primer-spec/docs/USAGE_ADVANCED.html#previewing-locally
+RUBY=/opt/homebrew/opt/ruby@3.1/bin/ruby
+GEM=/opt/homebrew/opt/ruby@3.1/bin/gem
+BUNDLE=/opt/homebrew/opt/ruby@3.1/bin/bundle
 
 # Intelligently choose the right server
 if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
   # Jekyll with primer-spec remote theme
-  SERVERCMD="bundle exec jekyll serve --livereload --incremental --host $HOST --port $PORT"
-  bundle install
+  SERVERCMD="$BUNDLE exec jekyll serve --livereload --incremental --host $HOST --port $PORT"
+  pushd ..
+  $GEM install bundler
+  $BUNDLE install
+  popd
 elif [ -e _config.yml ]; then
   # Jekyll
-  SERVERCMD="jekyll serve --livereload --incremental --host $HOST --port $PORT"
+  SERVERCMD="$BUNDLE exec jekyll serve --livereload --incremental --host $HOST --port $PORT"
 elif [ -e README.md ]; then
   # Markdown README
   SERVERCMD="grip ${HOST}:${PORT}"
