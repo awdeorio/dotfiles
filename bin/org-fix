@@ -5,8 +5,8 @@ set -Eeuo pipefail
 shopt -s failglob
 
 # Paths
-CONFLICT_FILES=$(gfind "${HOME}/Dropbox/lists/todo/home" -name 'todo*conflicted copy*.txt' | sort)
-TODOTXT="${HOME}/Dropbox/lists/todo/home/todo.txt"
+CONFLICT_FILES=$(gfind "${HOME}/Dropbox/org" -name 'home*conflicted copy*.org' | sort)
+MERGED_FILE="${HOME}/Dropbox/org/home.org"
 
 # Exit if not conflicted copies
 if [ -z "$CONFLICT_FILES" ]; then
@@ -18,7 +18,7 @@ fi
 IFS=$(echo -en "\n\b")
 for CONFLICT_FILE in $CONFLICT_FILES; do
   set -x
-  emacs --eval "(ediff-files \"$CONFLICT_FILE\" \"$TODOTXT\")"
+  emacs --eval "(ediff-files \"$CONFLICT_FILE\" \"$MERGED_FILE\")"
   { set +x; } 2>/dev/null
 done
 
