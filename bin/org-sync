@@ -1,5 +1,0 @@
-#!/bin/bash
-set -Eeuo pipefail
-
-rm -f ~/Dropbox/org/.synctmp.*
-mktemp -p ~/Dropbox/org -t .synctmp

@@ -1,0 +1,5 @@
+#!/bin/bash
+set -Eeuo pipefail
+
+rm -f ~/Dropbox/.synctmp.*
+mktemp -p ~/Dropbox -t .synctmp
