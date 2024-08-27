@@ -30,6 +30,9 @@
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
 (global-set-key "\C-x\C-t"                          'insert-todays-date)
 (global-set-key "\C-x\C-u"                          'browse-url-at-point)
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
 
 ;; macOS modifier keys
 (setq mac-command-modifier 'meta) ; Command == Meta
@@ -533,6 +536,14 @@
     (interactive)
     (insert "-*- mode: org; -*-\n")
     )
+
+  ;; Capture templates
+  ;; https://orgmode.org/manual/Capture-templates.html
+  (setq org-capture-templates
+        '(("h" "Home" entry (file "~/Dropbox/org/home.org")
+           "* TODO %?\n  %i\n  %a")
+          ("w" "Work" entry (file "~/Dropbox/org/work.org")
+           "* TODO %?\n  %i\n  %a")))
 )
 
 ;; editorconfig
