@@ -2048,6 +2048,7 @@ brew install python3                    # MacOS
 ~/anaconda3/bin/conda init              # Permanently activate
 conda init --reverse                    # Permanently deactivate
 conda deactivate                        # Temporarily deactivate
+conda info --envs                       # Show virtual envs, * indicates active
 
 # Python virtual environment
 virtualenv venv                         # create, Python2
