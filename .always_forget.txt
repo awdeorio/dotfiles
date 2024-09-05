@@ -2253,17 +2253,11 @@ https://github.com/awdeorio/mailmerge/tags
 
 # Flask command line utility
 pip install flask                       # Install
-export FLASK_ENV=development            # Debug mode
-export FLASK_APP=insta485               # Configure application name
 flask routes                            # Show the routes for the app
 flask shell                             # Run a shell in the app context
-flask run                               # Run a development server
+flask run                               # Run dev server w/ "app"
+flask run --app hello                   # ^^^ specify app
 flask run --host 0.0.0.0 --port 8000    # ^^^ specify host and port
-
-# Run a development server
-export FLASK_ENV=development
-export FLASK_APP=insta485
-flask shell
 
 
 ########################################
