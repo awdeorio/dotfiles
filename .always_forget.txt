@@ -1112,7 +1112,8 @@ shuf -n1 /usr/share/dict/words          # random word
 split FILE                              # split FILE into 1000 line files
 split -                                 # ^^^ stdin
 split -l10 FILE                         # split FILE into 10 line files
-csplit '/^TO:/' '{*}' -                 # split stdin, match on "TO"
+csplit FILE '/^TO:/' '{*}' -            # split FILE, match on "TO" (GNU)
+csplit '/^TO:/' '{*}' -                 # split stdin, match on "TO" (GNU)
 
 # File types and file conversion
 file FILE                               # determine encoding of FILE
