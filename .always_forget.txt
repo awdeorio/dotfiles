@@ -2070,12 +2070,15 @@ pip freeze                              # ^^^ in requirements format
 pip freeze --exclude-editable           # ^^^ excluding editable package
 
 # Python pipx
-# Install Python command line utilities locally
-# Binaries go in ~/.local/bin
+#
+# Install Python command line utilities locally.  Each utility gets its own
+# virtual env in ~/.local/pipx/venvs and binaries go in ~/.local/bin
 pipx environment                        # Check paths and environment variables
 pipx install PACKAGE                    # Install PACKAGE localy
 pipx uninstall PACKAGE                  # Uninstall PACKAGE
 pipx upgrade-all                        # Upgrade all local packages
+pipx ensurepath                         # Check if pipx is in PATH
+pipx list                               # List installed packages
 
 # Python pipenv
 # Docs: https://docs.pipenv.org/  http://docs.pipenv.org/advanced/
@@ -2165,8 +2168,15 @@ vulture PATH
 
 
 ########################################
-# Python / IPython
-# AKA Jupyter Notebook, `ipdb`, or Django's `manage.py shell`
+# Jupyter
+
+# Install
+pipx install jupyterlab                 # Install Jupyter notebook et al.
+pipx inject jupyterlab pandas           # Install lib into Jupyter venv
+pipx inject jupyterlab matplotlib       # Install lib into Jupyter venv
+pipx inject jupyterlab scipy            # Install lib into Jupyter venv
+pipx inject jupyterlab seaborn          # Install lib into Jupyter venv
+jupyter-lab                             # Run
 
 # Execute a Jupyter Notebook in headless mode.  Clears all output, runs the
 # entire notebook, and writes the result to an output .ipynb file
