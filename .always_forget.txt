@@ -2696,6 +2696,7 @@ git config --global --list              # Name, email, etc.
 git remote -v                           # Upstream config
 git branch -vv                          # Branch to upstream config
 git ls-files                            # Files under version control
+git ls-files -ci --exclude-standard     # ^^^ that match .gitignore
 git clean -xdn                          # Files not under version control
 head .gitignore                         # .gigitignore exists
 git fetch -vv                           # Connect to upstream server
