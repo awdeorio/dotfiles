@@ -509,6 +509,7 @@
   ;; https://orgmode.org/manual/Faces-for-TODO-keywords.html
   (setq org-todo-keywords
         '((sequence "TODO" "|" "DONE")
+          (sequence "HOLD" "|" "TODO" "|" "DONE")
           (sequence "WAIT" "|" "RECV" "CANC" "NANA")))
   (setq org-todo-keyword-faces
         '(("TODO" . (:foreground "dark red" :weight bold))
@@ -516,7 +517,8 @@
           ("CANC" . (:foreground "dark green" :weight bold))
           ("NANA" . (:foreground "dark green" :weight bold))
           ("RECV" . (:foreground "dark green" :weight bold))
-          ("WAIT" . (:foreground "orange" :weight bold))))
+          ("WAIT" . (:foreground "orange" :weight bold))
+          ("HOLD" . (:foreground "orange" :weight bold))))
 
   ;; Do not fold org files in ediff mode
   (add-hook 'ediff-prepare-buffer-hook #'org-show-all)
