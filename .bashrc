@@ -139,7 +139,7 @@ function e {
 function ediff { emacs --eval "(ediff-files \"$1\" \"$2\")" & }
 
 ### Pager #####################################################################
-export PAGER="less --shift 5 --ignore-case --chop-long-lines --RAW-CONTROL-CHARS --LONG-PROMPT"
+export PAGER="less --chop-long-lines"
 alias less="${PAGER}"
 export LESSOPEN="| lesspipe.sh %s"
 
