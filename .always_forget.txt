@@ -1637,6 +1637,7 @@ brew update                             # update package index (includes cask)
 brew linkapps                           # link to /Applications/
 brew uses --installed                   # reverse dependency lookup
 brew shellenv                           # list suggested environment variables
+brew --prefix                           # show install root
 
 # Services
 brew services list                      # list startup services
