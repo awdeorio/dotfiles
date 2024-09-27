@@ -1723,7 +1723,7 @@ dpkg -i PACKAGE.deb                     # Install
 apt install                             # AKA apt-get install
 apt remove                              # AKA apt-get remove
 apt purge                               # AKA	apt-get purge
-apt update                              # AKA aapt-get update
+apt update                              # AKA apt-get update
 apt upgrade                             # AKA apt-get upgrade
 apt autoremove                          # AKA apt-get autoremove
 apt full-upgrade                        # AKA apt-get dist-upgrade
