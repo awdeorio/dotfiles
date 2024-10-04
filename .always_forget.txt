@@ -2179,6 +2179,12 @@ pipx inject jupyterlab scipy            # Install lib into Jupyter venv
 pipx inject jupyterlab seaborn          # Install lib into Jupyter venv
 jupyter-lab                             # Run
 
+# Parametrize a notebook
+# https://papermill.readthedocs.io/en/latest/
+# pipx install papermill
+# pipx inject jupyterlab papermill --include-apps
+papermill TEMPLATE.ipynb OUTPUT.ipynb -p VARIABLE VALUE
+
 # Execute a Jupyter Notebook in headless mode.  Clears all output, runs the
 # entire notebook, and writes the result to an output .ipynb file
 # NOTE: `ipython nbconvert` is buggy and incorrectly times out long jobs
