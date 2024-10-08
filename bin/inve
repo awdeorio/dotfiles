@@ -13,10 +13,10 @@
 VENVPATH=".venv venv env"
 
 # Stop on errors
-set -Eeo pipefail
+set -Eeuo pipefail
 
 # Help
-if [ "$1" == "-h" ]; then
+if [ "${1-}" == "-h" ]; then
    echo "Usage: $0 [VIRTUAL_ENV]"
    echo ""
    echo "Activate a virtual environment in a subshell."
@@ -28,30 +28,38 @@ if [ "$1" == "-h" ]; then
 fi
 
 # Parse virtual env specified as an arg
-VIRTUAL_ENV=""
 if [ -n "${1-}" ]; then
   VIRTUAL_ENV="$1"
 fi
 
-# Search for virtual environment from PWD to root
-if [ -z "$VIRTUAL_ENV" ]; then
-  INVE_OLDPWD="$PWD"
-  while [ "${PWD}" != "/" ]; do
-    for VENV_BASENAME in ${VENVPATH}; do
-      VIRTUAL_ENV="${PWD}/${VENV_BASENAME}"
-      if [ -e "${VIRTUAL_ENV}/bin/activate" ]; then
-        break 2  # break out of nested loop
+# If no virtual env was provided as an arg, search up the directory tree
+if [ -z "${VIRTUAL_ENV-}" ]; then
+  DIR=$(pwd)
+  while true; do
+    for V in ${VENVPATH}; do
+      TEST_VIRTUAL_ENV="${DIR%/}/${V%/}"
+      if [ -e "${TEST_VIRTUAL_ENV}/bin/activate" ]; then
+        VIRTUAL_ENV="$TEST_VIRTUAL_ENV"
+        break 2
       fi
     done
-    cd ..
+
+    # Stop at the root
+    if [ "$DIR" == "/" ]; then
+      break
+    fi
+
+    # Move up one directory
+    DIR=$(dirname "$DIR")
   done
-  if [ "$PWD" = "/" ]; then
-    VIRTUAL_ENV="${INVE_OLDPWD}/.venv"  # Default to ./.venv
-  fi
-  cd $INVE_OLDPWD
 fi
 
-# Virtual environment not found: offer to create
+# No virtual env provided as arg and not found
+if [ -z "${VIRTUAL_ENV-}" ]; then
+  VIRTUAL_ENV="$(pwd)/.venv"
+fi
+
+# Virtual environment not found, offer to create one
 if ! test -d "${VIRTUAL_ENV}"; then
   BASENAME=$(basename "$VIRTUAL_ENV")
   read -p "Virtual environment not found.  Create ${BASENAME} ? [yn]: " -n 1 -r
@@ -92,10 +100,11 @@ echo "export PATH=\"${VIRTUAL_ENV}/bin:\${PATH}\"" >> $TMPFILE
 
 # Load .env file if there is one
 # set -a causes defined variables to be exported
-if test -f .env; then
-  echo "source .env"
+ENV_PATH="${VIRTUAL_ENV}/.env"
+if test -f "${VIRTUAL_ENV}"; then
+  echo "source ${VIRTUAL_ENV}/.env"
   echo "set -a" >> $TMPFILE
-  echo "source .env" >> $TMPFILE
+  echo "source ${VIRTUAL_ENV}/.env" >> $TMPFILE
   echo "set +a" >> $TMPFILE
 fi
 
