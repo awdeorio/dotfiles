@@ -937,6 +937,7 @@ set +x                                  # Stop print commands
 STR=$'hello\nworld'                     # String with newlines
 EXTENSION="${FILENAME##*.}"             # Parse file extension
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
+${DIR%/}                                # Ensure single trailing slash
 for i in $(ls *.txt); do mv $i ${i%.txt}.md; done  # Change many file extensions
 IFS= read -s  -p Password: PASSWORD     # Ask user for password
 for i in $(cat file); do                # for loop, word-by-word
