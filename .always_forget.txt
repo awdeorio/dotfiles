@@ -2081,6 +2081,8 @@ pipx uninstall PACKAGE                  # Uninstall PACKAGE
 pipx upgrade-all                        # Upgrade all local packages
 pipx ensurepath                         # Check if pipx is in PATH
 pipx list                               # List installed packages
+pipx inject jupyterlab pandas           # Install pandas lib into jupyter venv
+pipx uninject jupyterlab pandas         # Uninstall pandas lib from jupyter venv
 
 # Python pipenv
 # Docs: https://docs.pipenv.org/  http://docs.pipenv.org/advanced/
