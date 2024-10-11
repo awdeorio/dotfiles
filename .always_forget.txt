@@ -2695,6 +2695,8 @@ git push                                # push the commit(s) to server
 # Undo
 git checkout FILE                       # revert FILE to last checked-in version
 git restore FILE                        # revert FILE to last checked-in version
+git restore --source=main -- FILE       # revert FILE to latest version on main
+git checkout main -- FILE               # revert FILE to latest version on main
 git reset PATH                          # undo git add
 git reset --soft                        # changes to tracked files are discarded
 git reset --soft HEAD~                  # discard one commit not pushed
