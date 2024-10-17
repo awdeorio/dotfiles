@@ -93,6 +93,7 @@ if test -f ~/.bashrc; then
 fi
 
 # Activate virtual environment
+VIRTUAL_ENV=$(realpath "$VIRTUAL_ENV")
 echo "export VIRTUAL_ENV=\"${VIRTUAL_ENV}\""
 echo "export PATH=\"${VIRTUAL_ENV}/bin:\${PATH}\""
 echo "export VIRTUAL_ENV=\"${VIRTUAL_ENV}\"" >> $TMPFILE
