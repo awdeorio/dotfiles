@@ -535,9 +535,11 @@
     (interactive)
     (org-map-entries
      (lambda ()
-       (org-archive-subtree)
-       (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
-     "/DONE" 'file))
+       (let ((current-keyword (org-get-todo-state)))
+         (when (member current-keyword '("DONE" "RECV" "CANC" "NANA" ))
+           (org-archive-subtree)
+           (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))))
+     nil 'file))
 
   ;; Add file local mode variable enabling org mode
   (defun org-insert-file-local-mode-variable ()
