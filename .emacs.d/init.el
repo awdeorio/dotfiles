@@ -89,6 +89,13 @@
 ;; Line length for features like fill-paragraph (M-q)
 (setq-default fill-column 79)
 
+;; Convenience function to relad this file
+(defun reload-init-file ()
+  "Reload user init file."
+  (interactive)
+  (load-file user-init-file)
+  )
+
 ;; Bug workaround emacs <26.3 connection to package repos
 ;; https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
 (if (version< emacs-version "26.3")
