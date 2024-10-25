@@ -96,33 +96,44 @@
   (load-file user-init-file)
   )
 
+;; Native compilation
+;; Emacs 28+, optimize for speed, suppress compilation warnings
+(when (featurep 'native-compile)
+  (setq native-comp-speed 2)
+  (setq native-comp-async-report-warnings-errors 'silent))
+
 ;; Bug workaround emacs <26.3 connection to package repos
 ;; https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/
 (if (version< emacs-version "26.3")
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
-;; Built in package manager
-(require 'package)
-(package-initialize)  ; FIXME this is slow with EMacs <27 https://emacs.stackexchange.com/questions/38368/how-can-i-improve-startup-time-despite-many-packages
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+;; Disable automatic package initialization
+(setq package-enable-at-startup nil)
+(package-initialize)
 
-;; Install use-package
-;; https://github.com/jwiegley/use-package
-(when (not (package-installed-p 'use-package))
+;; Install and configure `use-package`
+(unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
+;; Require `use-package` only at compile-time
 (eval-when-compile
   (require 'use-package))
 
+;; Globally defer package loading
+(setq use-package-always-defer t)
+
+;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+
 ;; Automatically update packages installed by use-package periodically
-(use-package auto-package-update
-  :config
-  (setq auto-package-update-prompt-before-update t)
-  (setq auto-package-update-delete-old-versions t)
-  :ensure t
-  :defer t
-  )
+;; (use-package auto-package-update
+;;   :config
+;;   (setq auto-package-update-prompt-before-update t)
+;;   (setq auto-package-update-delete-old-versions t)
+;;   :ensure t
+;;   :defer t
+;;   )
 
 ;; More intuitive undo/redo.  M-_ undo, C-M-_ redo
 ;; https://www.emacswiki.org/emacs/UndoTree
@@ -576,9 +587,11 @@
 ;; specified earlier.
 (use-package dash
   :ensure t
+  :defer t
   )
 (use-package s
   :ensure t
+  :defer t
   )
 (use-package copilot
   :commands copilot-mode
