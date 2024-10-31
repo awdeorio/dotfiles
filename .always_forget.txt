@@ -2184,17 +2184,17 @@ pipx inject jupyterlab scipy            # Install lib into Jupyter venv
 pipx inject jupyterlab seaborn          # Install lib into Jupyter venv
 jupyter-lab                             # Run
 
-# Parametrize a notebook
+# Parametrize a notebook and execute in headless mode
 # https://papermill.readthedocs.io/en/latest/
 # pipx install papermill
 # pipx inject jupyterlab papermill --include-apps
 papermill TEMPLATE.ipynb OUTPUT.ipynb -p VARIABLE VALUE
 
-# Execute a Jupyter Notebook in headless mode.  Clears all output, runs the
-# entire notebook, and writes the result to an output .ipynb file
-# NOTE: `ipython nbconvert` is buggy and incorrectly times out long jobs
-pip install runipy
-runipy -o NOTEBOOK.ipynb
+# Notebook diff
+pipx install nbdime                      # Install
+nbdiff -s                                # Git diff, but only source changes
+nbmerge                                  # Git merge for notebooks
+nbdime config-git --enable --global      # Add to ~/.gitconfig
 
 # Jupyter Notebook server on a remote server
 jupyter-notebook --ip 0.0.0.0 --no-browser
