@@ -2224,11 +2224,11 @@ git clean -xdf
 git status
 
 # Test
-tox
+tox -e py3
 
-# Edit setup.py and change the version
-$EDITOR setup.py
-git commit -m "version bump" setup.py
+# Change the version
+$EDITOR pyproject.toml
+git commit -m "version bump" pyproject.toml
 git push origin develop
 
 # Merge develop to main
@@ -2245,26 +2245,16 @@ ls dist/
 
 # Tag a release and double check that the versions match
 git tag -a X.Y.Z
-grep version= setup.py
+grep version pyproject.toml
 git describe
 git push --tags origin main
-
-# Deploy to Test PyPI and browse to https://test.pypi.org/project/mailmerge/
-twine upload --sign --repository-url https://test.pypi.org/legacy/ dist/*
-
-# Test install.  It will install, but not run because we didn't install deps.
-python3 -m venv envtmp
-source envtmp/bin/activate
-pip install --index-url https://test.pypi.org/simple/ --no-deps mailmerge
-mailmerge --version  # Expect module not found error
-deactivate
 
 # Deploy to PyPI and browse to https://pypi.org/project/mailmerge/
 # Twine and API tokens https://pypi.org/manage/account/token/
 twine upload --sign dist/*
 
 # Test deploy
-pip3 install --upgrade mailmerge
+pipx upgrade mailmerge
 mailmerge --version
 
 # Draft a new release on GitHub
