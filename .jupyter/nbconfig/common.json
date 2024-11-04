@@ -1,0 +1,9 @@
+{
+    "Notebook": {
+        "CodeCell": {
+            "cm_config": {
+                "keyMap": "emacs"
+            }
+        }
+    }
+}
