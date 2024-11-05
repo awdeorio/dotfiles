@@ -373,6 +373,7 @@ wget -r                                 # recursive (default max depth 5)
 wget -p                                 # include all files, including images
 wget -e robots=off                      # disregard robots.tx
 wget -U mozilla/5.0                     # User-agent (browser identity)
+wget --accept html                      # only .html files
 wget --limit-rate=20k                   # reduce download rate
 wget -b                                 # background
 wget -o FILE                            # log output
