@@ -290,6 +290,7 @@ dig +short HOST                         # DNS lookup, scriptable
 dig +trace HOST                         # DNS lookup with full tree
 dig +trace +all HOST                    # DNS lookup with full tree, max detail
 dig eecs485.org +noall +answer -t A     # DNS lookup, A records only
+dig umich.edu ANY                       # Show all records
 nslookup                                # DNS lookup
 nslookup -type=ns HOST                  # DNS with authoritative name servers
 dig -x IP                               # reverse DNS lookup
