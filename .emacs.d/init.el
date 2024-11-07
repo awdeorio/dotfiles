@@ -510,9 +510,10 @@
   (define-key global-map "\C-ca" 'org-agenda)
   (setq org-log-done 'time)
   (setq org-tags-column 59)
+  (setq org-directory "~/Dropbox/org")
   (setq org-agenda-files
-        (list "~/Dropbox/org/home.org"
-              "~/Dropbox/org/work.org"))
+        (list "home.org"
+              "work.org"))
   (setq org-agenda-search-view-always-boolean t)
   (add-hook 'org-mode-hook 'global-auto-revert-mode) ; for Dropbox
 
@@ -562,10 +563,21 @@
   ;; Capture templates
   ;; https://orgmode.org/manual/Capture-templates.html
   (setq org-capture-templates
-        '(("h" "Home" entry (file "~/Dropbox/org/home.org")
+        '(
+          ("h" "Home"
+           entry (file "home.org")
            "* TODO %?\n  %i\n  %a")
-          ("w" "Work" entry (file "~/Dropbox/org/work.org")
-           "* TODO %?\n  %i\n  %a")))
+
+          ("w" "Work"
+           entry (file "work.org")
+           "* TODO %?\n  %i\n  %a")
+
+          ("l" "Letter"
+           entry (file+headline "work.org" "Letters")
+           "* TODO Recommendation for %?\nDEADLINE: <2024-12-01 Sun>\nFIXME@umich.edu\n\nEMAIL\n\nI would be happy to help.  I would be able to comment on your performance in EECS FIXME, where it looks like you got an FIXME and your rank was FIXME/FIXME = FIXME percentile.\n\nIf you're planning to apply to multiple schools, please sign up for the confidential Interfolio reference letter service.  I can upload one letter and then they will submit copies to each school. https://account.interfolio.com/signup\n\nWhen is the first deadline?\n\n")
+
+          )
+        )
 )
 
 ;; editorconfig
