@@ -107,34 +107,19 @@
 (if (version< emacs-version "26.3")
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
-;; Disable automatic package initialization
-(setq package-enable-at-startup nil)
+;; Configure built-in package manager
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (package-initialize)
 
-;; Install and configure `use-package`
+;; Install and configure use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
-;; Require `use-package` only at compile-time
 (eval-when-compile
   (require 'use-package))
-
-;; Globally defer package loading
-(setq use-package-always-defer t)
-
-;; Add package repos
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-
-;; Automatically update packages installed by use-package periodically
-;; (use-package auto-package-update
-;;   :config
-;;   (setq auto-package-update-prompt-before-update t)
-;;   (setq auto-package-update-delete-old-versions t)
-;;   :ensure t
-;;   :defer t
-;;   )
+(setq use-package-always-defer t)  ; Globally defer package loading
 
 ;; More intuitive undo/redo.  M-_ undo, C-M-_ redo
 ;; https://www.emacswiki.org/emacs/UndoTree
