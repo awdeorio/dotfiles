@@ -123,8 +123,9 @@
 ;; Globally defer package loading
 (setq use-package-always-defer t)
 
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+;; Add package repos
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 
 ;; Automatically update packages installed by use-package periodically
 ;; (use-package auto-package-update
