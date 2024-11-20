@@ -19,7 +19,7 @@ set -x
 # Update Emacs packages
 command emacs \
   --load ${HOME}/.emacs.d/init.el \
-  --funcall auto-package-update-now \
+  --eval="(progn (package-refresh-contents) (package-upgrade-all) (message \"Packages updated successfully.\"))" \
   --batch
 
 # Update Python packages
