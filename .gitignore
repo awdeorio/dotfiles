@@ -1,1 +1,8 @@
-*
+# Home directory gitignore
+
+# Ignore everything
+/*
+
+# Except /bin and its contents
+!/bin/
+!/bin/**
