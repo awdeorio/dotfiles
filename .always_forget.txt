@@ -1414,6 +1414,12 @@ gpgconf --kill gpg-agent                # Stop gpg-agent
 gpgconf --launch gpg-agent              # Start gpg-agent
 echo RELOADAGENT | gpg-connect-agent    # Reload gpg-agent
 
+# GPG Key Forwarding over SSH
+local  $ ssh-add -L                     # Verify SSH agent forwarding
+remote $ ssh-add -L                     # Verify SSH agent forwarding
+local  $ gpg --list-secret-keys         # Verify secret keys
+remote $ gpg --list-secret-keys         # Verify secret keys
+
 # GPG public key management
 gpg -k                                  # List public keys
 gpg -K                                  # List secret keys
