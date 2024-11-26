@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# We actually want this script to keep going if there's a failure
+# set -Eeuo pipefail
+
+if [ "$#" != 1 ]; then
+  echo "Usage: $0 UNIQNAME"
+  exit 1
+fi
+UNIQNAME=$1
+
+# Sanity check
+CSVFILES=$(grep -il $UNIQNAME Documents/Work/Teaching/*/*.csv)
+
+# Search each CSV file
+IFS=$'\n'  # Internal Field Separator set to newline
+for CSVFILE in $CSVFILES; do
+  echo "$CSVFILE"
+
+  # Error if grade roster doesn't contain a Rank column, which happens in some
+  # older rosters.
+  if ! grep -qi rank "$CSVFILE"; then
+    echo "Error: no rank column"
+    continue
+  fi
+
+  # Figure out where the header line appears, sometimes not on the first line
+  HEADER_LINENO=$(egrep -i -n -m1 'uniqname.*name' "$CSVFILE" | cut -d: -f1)
+  SKIP_LINES=$((HEADER_LINENO - 1))  # Header appears on a later line
+
+  # Pick out the data and pretty print it
+  cat \
+    "$CSVFILE" \
+    | sed \
+        -e 's/uniqname/Uniqname/gI' \
+        -e 's/,name,/,Name,/gI' \
+        -e 's/,grade,/,Grade,/gI' \
+        -e 's/,rank,/,Rank,/gI' \
+    | csvgrep \
+      --skip-lines $SKIP_LINES \
+      -c Uniqname \
+      -m $UNIQNAME \
+    | csvcut \
+      -c Uniqname,Name,Grade,Rank \
+    | csvlook
+
+  echo
+done
