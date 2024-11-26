@@ -1154,6 +1154,7 @@ csvcut -c 2-5 | csvlook                 # cut and pretty print
 csvstat                                 # print statistics about each column
 csvgrep -c COLUMN[S] -m PATTERN         # search for PATTERN in column
 csvgrep -c COLUMN[S] -r PATTERN         # search for regex PATTERN in column
+csvgrep --skip-lines N                  # skip N lines before header row
 csvsort -c COLUMN[S]                    # sort, keyed on COLUMN[S]
 csvsort -c COLUMN[S] -r                 # ^^^ reverse sort
 csvjoin -c COLUMN A.csv B.csv           # join two files on COLUMN
