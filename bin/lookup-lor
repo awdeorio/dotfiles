@@ -44,5 +44,17 @@ for CSVFILE in $CSVFILES; do
       -c Uniqname,Name,Grade,Rank \
     | csvlook
 
+  # Max Rank
+  MAX=$(cat \
+    "$CSVFILE" \
+    | sed \
+        -e 's/,rank,/,Rank,/gI' \
+    | csvcut \
+      --skip-lines $SKIP_LINES \
+      -c Rank \
+    | sort -n \
+    | tail -n1
+     )
+  echo "Max rank = $MAX"
   echo
 done
