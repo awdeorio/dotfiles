@@ -560,7 +560,7 @@
 
           ("l" "Letter"
            entry (file+headline "work.org" "Letters")
-           "* HOLD Recommendation for %? (CATEGORY)\nDEADLINE: TBD\n\nSTUDENT EMAIL\n\nLINK TO EMAIL THREAD\n\nI would be happy to help.  I would be able to comment on your performance in EECS FIXME, where it looks like you got an FIXME and your rank was FIXME/FIXME = FIXME percentile.\n\nIf you're planning to apply to multiple schools, please sign up for the confidential Interfolio reference letter service.  I can upload one letter and then they will submit copies to each school. https://account.interfolio.com/signup\n\nWhen is the first deadline?\n\n")
+           "* HOLD Recommendation for NAME %? (CATEGORY)\nDEADLINE: TBD\n\nSTUDENT EMAIL\n\nLINK TO EMAIL THREAD\n\nI would be happy to help.  I would be able to comment on your performance in EECS FIXME, where it looks like you got an FIXME and your rank was FIXME/FIXME = FIXME percentile.\n\nIf you're planning to apply to multiple schools, please sign up for the confidential Interfolio reference letter service.  I can upload one letter and then they will submit copies to each school. https://account.interfolio.com/signup\n\nWhen is the first deadline?\n\n")
 
           )
         )
