@@ -230,8 +230,8 @@ if type -a register-python-argcomplete &> /dev/null; then
 fi
 
 # SQLite3 on macOS
-if [ -d /usr/local/opt/sqlite/bin ]; then
-  path-append /usr/local/opt/sqlite/bin
+if [ -d ${HOMEBREW_PREFIX}/opt/sqlite/bin ]; then
+  path-append ${HOMEBREW_PREFIX}/opt/sqlite/bin
 fi
 
 # CCache
@@ -245,14 +245,9 @@ if type -a go &> /dev/null; then
 fi
 
 # Ruby
-# export GEM_HOME=${HOME}/.gem
-# path-append ${GEM_HOME}/bin
-# path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.1/bin
-path-prepend ${HOMEBREW_PREFIX}/opt/ruby/bin
-# path-prepend ${HOMEBREW_PREFIX}/lib/ruby/gems/3.3.0/bin
-if which gem &> /dev/null; then
-    GEM_BIN=$(gem env | grep 'EXECUTABLE DIRECTORY' | awk '{print $NF}')
-    path-append ${GEM_BIN}
+if [ -d ${HOMEBREW_PREFIX}/opt/ruby/bin ]; then
+  path-prepend ${HOMEBREW_PREFIX}/opt/ruby/bin
+  path-append $(${HOMEBREW_PREFIX}/opt/ruby/bin/gem env home)/bin
 fi
 
 # Java
