@@ -2955,6 +2955,7 @@ gh pr create \                          # ^^^ prefilled
   --title "lorum" \
   --body "ipsum" \
   --reviewer HANDLE
+gh pr create --body-file FILE           # ^^^ w/ more complicated body
 gh pr checkout 255                      # Checkout branch for PR 255
 gh pr checks                            # Show CI status for this PR
 gh run watch                            # Watch jobs (steps) complete
