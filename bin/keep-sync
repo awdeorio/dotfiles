@@ -1,0 +1,5 @@
+#!/bin/bash
+set -Eeuxo pipefail
+
+/Users/awdeorio/src/Google-Keep-Dropbox-Sync/env/bin/python3 \
+  /Users/awdeorio/src/Google-Keep-Dropbox-Sync/attempt5.py
