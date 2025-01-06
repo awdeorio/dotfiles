@@ -938,7 +938,8 @@ set -x                                  # Print commands
 set +x                                  # Stop print commands
 { set +x; } 2>/dev/null                 # Stop print commands silently
 STR=$'hello\nworld'                     # String with newlines
-EXTENSION="${FILENAME##*.}"             # Parse file extension
+EXTENSION="${FILENAME##*.}"             # Parse file extension 'gz'
+EXTENSION="${FILENAME#*.}"              # Parse full file extension 'tar.gz'
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
 ${DIR%/}                                # Ensure single trailing slash
 for i in $(ls *.txt); do mv $i ${i%.txt}.md; done  # Change many file extensions
