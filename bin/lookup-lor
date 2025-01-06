@@ -10,7 +10,7 @@ fi
 UNIQNAME=$1
 
 # Sanity check
-CSVFILES=$(grep -il $UNIQNAME Documents/Work/Teaching/*/*.csv)
+CSVFILES=$(grep -il $UNIQNAME ${HOME}/Documents/Work/Teaching/*/*.csv)
 
 # Search each CSV file
 IFS=$'\n'  # Internal Field Separator set to newline
