@@ -165,7 +165,7 @@ ag -l                                   # Filenames only
 ag --ignore '*test*'                    # Ignore files/directories with "test"
 ag -f                                   # Follow symlinks
 ag -Q                                   # Do not parse PATTERN as regex
-ag --hidden master --ignore .git
+ag --hidden                             # Include hidden files
 
 # Superuser permissions
 su                                      # switch user to root
