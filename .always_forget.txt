@@ -2182,6 +2182,10 @@ python3 -m http.server
 # Python dead code search
 vulture PATH
 
+# Python static type checking
+mypy FILE                               # Static type check FILE
+mypy --strict                           # Strict mode
+
 
 ########################################
 # Jupyter
