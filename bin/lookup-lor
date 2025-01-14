@@ -9,6 +9,9 @@ if [ "$#" != 1 ]; then
 fi
 UNIQNAME=$1
 
+# Strip "@umich.edu" if present
+UNIQNAME="${UNIQNAME%@*}"
+
 # Sanity check
 CSVFILES=$(grep -il $UNIQNAME ${HOME}/Documents/Work/Teaching/*/*.csv)
 
@@ -29,7 +32,7 @@ for CSVFILE in $CSVFILES; do
   SKIP_LINES=$((HEADER_LINENO - 1))  # Header appears on a later line
 
   # Pick out the data and pretty print it
-  cat \
+  ROW=$(cat \
     "$CSVFILE" \
     | sed \
         -e 's/uniqname/Uniqname/gI' \
@@ -43,9 +46,14 @@ for CSVFILE in $CSVFILES; do
     | csvcut \
       -c Uniqname,Name,Grade,Rank \
     | csvlook
+  )
+  echo "$ROW"
+
+  # Rank
+  RANK=$(echo "$ROW" | grep -Eo '[0-9]+')
 
   # Max Rank
-  MAX=$(cat \
+  RANK_MAX=$(cat \
     "$CSVFILE" \
     | sed \
         -e 's/,rank,/,Rank,/gI' \
@@ -54,7 +62,11 @@ for CSVFILE in $CSVFILES; do
       -c Rank \
     | sort -n \
     | tail -n1
-     )
-  echo "Max rank = $MAX"
+  )
+
+  # Report percentile
+  PERCENTILE=$(bc -l -e "${RANK} / ${RANK_MAX} * 100")
+  PERCENTILE=$(bc -e "scale=1; $PERCENTILE / 1")  # Truncate 1 decimal
+  echo "Rank ${RANK}/${RANK_MAX} = top ${PERCENTILE} percentile"
   echo
 done
