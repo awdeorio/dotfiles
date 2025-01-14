@@ -938,6 +938,8 @@ set -x                                  # Print commands
 set +x                                  # Stop print commands
 { set +x; } 2>/dev/null                 # Stop print commands silently
 STR=$'hello\nworld'                     # String with newlines
+BASENAME="${FILENAME%.*}"               # Parse file basename e.g. "submit.tar"
+BASENAME="${FILENAME%%.*}"              # Parse file basename e.g. "submit"
 EXTENSION="${FILENAME##*.}"             # Parse file extension 'gz'
 EXTENSION="${FILENAME#*.}"              # Parse full file extension 'tar.gz'
 CSVFILE="${TXTFILE%.txt}.csv"           # Change file extension
@@ -1336,10 +1338,11 @@ diff --brief -r DIR1 DIR2               # compare directories recursively
 python2 -c "a=open('FILE1').read(); b=open('FILE2').read(); import sys; sys.exit(not a in b)"  # FILE1 is contained by FILE2
 
 # Shell math
-expr 1 / 2                              # integer only
-let A=1/2                               # integer only
-echo "1 / 2" | bc -l                    # floating point
-dc -e "3 k 1 2 /p"                      # floating point
+expr 1 / 2                              # integer arithmetic
+let A=1/2                               # integer arithmetic
+bc -e "1 / 2"                           # integer arithmetic
+bc -l -e "1 / 2"                        # floating point arithmetic
+dc -e "2 k 1 2 /p"                      # floating point arithmetic, 2 decimals
 sort file1 | uniq                       # unique patterns
 sort file1 file2 | uniq                 # set union
 sort file1 file2 | uniq -d              # set intersection
