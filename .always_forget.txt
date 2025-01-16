@@ -1336,6 +1336,7 @@ wdiff ... | colordiff                   # colorize wdiff output
 diff ... | colordiff | diff-highlight   # colorize character level, from Git
 diff --brief -r DIR1 DIR2               # compare directories recursively
 python2 -c "a=open('FILE1').read(); b=open('FILE2').read(); import sys; sys.exit(not a in b)"  # FILE1 is contained by FILE2
+                                        # FILE1 appears exactly inside FILE2
 
 # Shell math
 expr 1 / 2                              # integer arithmetic
@@ -2286,7 +2287,7 @@ pip install flask                       # Install
 flask routes                            # Show the routes for the app
 flask shell                             # Run a shell in the app context
 flask run                               # Run dev server w/ "app"
-flask run --app hello                   # ^^^ specify app
+flask run --app hello                   # ^^^ specify app (hello.py or hello/)
 flask run --host 0.0.0.0 --port 8000    # ^^^ specify host and port
 
 
