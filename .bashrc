@@ -245,9 +245,9 @@ if type -a go &> /dev/null; then
 fi
 
 # Ruby
-if [ -d ${HOMEBREW_PREFIX}/opt/ruby/bin ]; then
-  path-prepend ${HOMEBREW_PREFIX}/opt/ruby/bin
-  path-append $(${HOMEBREW_PREFIX}/opt/ruby/bin/gem env home)/bin
+if [ -d ${HOMEBREW_PREFIX}/opt/ruby@3.3/bin ]; then
+  path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.3/bin
+  path-append $(${HOMEBREW_PREFIX}/opt/ruby@3.3/bin/gem env home)/bin
 fi
 
 # Java
