@@ -546,7 +546,7 @@ If the :CREATED: property already exists, do nothing."
         (let ((created-regexp "^:CREATED:"))
           ;; Check if the :CREATED: property already exists
           (unless (re-search-forward created-regexp (line-end-position) t)
-            (insert (format "CREATED: %s\n" (format-time-string "<%Y-%m-%d %a>"))))))))
+            (insert (format "CREATED: %s\n" (format-time-string "[%Y-%m-%d %a]"))))))))
 
   ;; Archive all tasks in this file marked DONE
   (defun org-archive-done-tasks-file ()
