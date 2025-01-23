@@ -31,14 +31,14 @@ if [ -n "${DIR-}" ]; then
   cd "$DIR"
 fi
 
-# Force Ruby 3.1
+# Force Ruby version
 # https://eecs485staff.github.io/primer-spec/docs/USAGE_ADVANCED.html#previewing-locally
-# RUBY=/opt/homebrew/opt/ruby@3.1/bin/ruby
-# GEM=/opt/homebrew/opt/ruby@3.1/bin/gem
-# BUNDLE=/opt/homebrew/opt/ruby@3.1/bin/bundle
-RUBY=ruby
-GEM=gem
-BUNDLE=bundle
+RUBY=/opt/homebrew/opt/ruby@3.1/bin/ruby
+GEM=/opt/homebrew/opt/ruby@3.1/bin/gem
+BUNDLE=/opt/homebrew/opt/ruby@3.1/bin/bundle
+# RUBY=ruby
+# GEM=gem
+# BUNDLE=bundle
 
 # Intelligently choose the right server
 if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
@@ -47,6 +47,7 @@ if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
   pushd ..
   set -x
   $GEM install bundler
+  $GEM install jekyll-livereload
   $BUNDLE install
   set +x
   popd
