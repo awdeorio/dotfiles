@@ -2346,6 +2346,8 @@ npm install -g uglify-js                # install uglifyjs
 uglifyjs --beautify FILE.js             # pretty print JavaScript
 
 # npm
+npm ci .                                # Sync w/ package-lock.json
+npm ci . --no-fund --no-audit           # ^^^ ignore warnings
 npm install --save-prod PACKAGE         # Install and add to package.json (prod)
 npm install --save-dev PACKAGE          # Install and add to package.json (dev)
 npm update PACKAGE --save               # Upgrade one package
