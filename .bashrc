@@ -245,9 +245,10 @@ if type -a go &> /dev/null; then
 fi
 
 # Ruby
-if [ -d ${HOMEBREW_PREFIX}/opt/ruby@3.3/bin ]; then
-  path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.3/bin
-  path-append $(${HOMEBREW_PREFIX}/opt/ruby@3.3/bin/gem env home)/bin
+# 3.1 required for primer-spec
+if [ -d ${HOMEBREW_PREFIX}/opt/ruby@3.1/bin ]; then
+  path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.1/bin
+  path-append $(${HOMEBREW_PREFIX}/opt/ruby@3.1/bin/gem env home)/bin
 fi
 
 # Java

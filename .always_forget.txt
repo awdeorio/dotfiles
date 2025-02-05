@@ -480,6 +480,7 @@ jekyll serve                            # Start live dev server
 bundle exec jekyll                      # Locally installed Jekyll
 
 # Primer Spec Preview
+# https://eecs485staff.github.io/primer-spec/docs/USAGE_ADVANCED.html#previewing-locally
 gem install bundler
 bundle install
 bundle update --all                     # Update lock file
