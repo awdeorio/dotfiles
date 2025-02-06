@@ -246,9 +246,9 @@ fi
 
 # Ruby
 # 3.1 required for primer-spec
-if [ -d ${HOMEBREW_PREFIX}/opt/ruby@3.1/bin ]; then
-  path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.1/bin
-  path-append $(${HOMEBREW_PREFIX}/opt/ruby@3.1/bin/gem env home)/bin
+if [ -d ${HOMEBREW_PREFIX}/opt/ruby@3.4/bin ]; then
+  path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.4/bin
+  path-append $(${HOMEBREW_PREFIX}/opt/ruby@3.4/bin/gem env home)/bin
 fi
 
 # Java
