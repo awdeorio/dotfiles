@@ -33,9 +33,9 @@ fi
 
 # Force Ruby version
 # https://eecs485staff.github.io/primer-spec/docs/USAGE_ADVANCED.html#previewing-locally
-# RUBY=/opt/homebrew/opt/ruby@3.1/bin/ruby
-# GEM=/opt/homebrew/opt/ruby@3.1/bin/gem
-# BUNDLE=/opt/homebrew/opt/ruby@3.1/bin/bundle
+# RUBY=/opt/homebrew/opt/ruby@3.0/bin/ruby
+# GEM=/opt/homebrew/opt/ruby@3.0/bin/gem
+# BUNDLE=/opt/homebrew/opt/ruby@3.0/bin/bundle
 RUBY=ruby
 GEM=gem
 BUNDLE=bundle

@@ -245,10 +245,12 @@ if type -a go &> /dev/null; then
 fi
 
 # Ruby
-# 3.1 required for primer-spec
-if [ -d ${HOMEBREW_PREFIX}/opt/ruby@3.4/bin ]; then
-  path-prepend ${HOMEBREW_PREFIX}/opt/ruby@3.4/bin
-  path-append $(${HOMEBREW_PREFIX}/opt/ruby@3.4/bin/gem env home)/bin
+RUBY_HOME=${HOMEBREW_PREFIX}/opt/ruby
+# RUBY_HOME=/opt/homebrew/opt/ruby@3.0
+if [ -d ${RUBY_HOME} ]; then
+  path-prepend ${RUBY_HOME}/bin
+  GEM_HOME=$(${RUBY_HOME}/bin/gem env home)
+  path-append ${GEM_HOME}/bin
 fi
 
 # Java
