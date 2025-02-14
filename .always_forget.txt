@@ -482,8 +482,9 @@ bundle exec jekyll                      # Locally installed Jekyll
 # Primer Spec Preview
 # https://eecs485staff.github.io/primer-spec/docs/USAGE_ADVANCED.html#previewing-locally
 gem install bundler
+bundle update --bundler                 # Update bundler, incl. lock file
 bundle install
-bundle update --all                     # Update lock file
+bundle update --all                     # Update packages in lock file
 bundle exec jekyll serve
 
 # Backdoor shell using netcat
