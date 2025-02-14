@@ -62,11 +62,8 @@ else
   SERVERCMD="python3 -m http.server --bind $HOST $PORT"
 fi
 
-# Register handler to kill server on exit
-function cleanup() {
-  kill $PID || echo "Error killing process $PID"
-}
-trap cleanup SIGINT SIGQUIT SIGABRT SIGKILL SIGTERM ERR
+# Kill all background procs on any exit
+trap 'kill $(jobs -p) 2>/dev/null' EXIT
 
 # Start server
 echo $SERVERCMD
