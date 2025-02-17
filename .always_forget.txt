@@ -927,6 +927,7 @@ $#                                      # argc in bash
 [ $# -lt 1 ] && exit 1                  # check # args and quit
 $@                                      # argv in bash
 $0                                      # argv[0] in bash
+$$                                      # PID of current script in bash
 set -o verbose                          # echo commands to stdout
 cd $(dirname "$BASH_SOURCE") && pwd -P  # absolute path of sourced script
 eval                                    # run in current shell
@@ -960,23 +961,11 @@ X=${X:=input}                           # Default value for X
 hash CMD                                # return true if CMD is in PATH
 echo {1..10}                            # expands to 1 2 3 ... 10 (see also seq)
 printf 'a%.0s' {1..10}                  # Repeat letter 'a' 10 times
-trap "FUNC" 1 2 3 15                    # run FUNC on receiving a signal
-trap "kill 0" SIGINT                    # kill all proc in proc group on ctrl-c
-trap cleanup SIGHUP SIGINT SIGQUIT SIGKILL SIGTERM ERR  # all but clean exit
-trap 'kill $(jobs -p) 2>/dev/null' EXIT # Kill all background procs on any exit
 echo $0                                 # Check your shell "-bash", "zsh", etc.
 
-# Bash script error handling
-# https://medium.com/@dirk.avery/the-bash-trap-trap-ce6083f36700
-set -e
-trap 'catch $? $LINENO' EXIT
-catch() {
-  echo "catching!"
-  if [ "$1" != "0" ]; then
-    # error handling goes here
-    echo "Error $1 occurred on $2"
-  fi
-}
+# Bash script clean up background processes
+# https://stackoverflow.com/questions/360201/how-do-i-kill-background-processes-jobs-when-my-shell-script-exits
+trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
 
 # Bash shell productivity
 cp file{,.bak}                          # Backup a file
