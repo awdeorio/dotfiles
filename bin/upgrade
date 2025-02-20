@@ -4,7 +4,8 @@
 set -Eeuo pipefail
 
 # Copy output to log file
-LOGFILE=upgrade.log
+mkdir -p ${HOME}/.local/var/log
+LOGFILE=${HOME}/.local/var/log/upgrade-$(date '+%Y-%m-%d_%H%M').log
 echo "Logging to ${LOGFILE}"
 exec > >(tee -a ${LOGFILE}); exec 2>&1;
 echo "$0"
