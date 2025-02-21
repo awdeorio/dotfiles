@@ -2335,11 +2335,11 @@ npx prettier --check PATH  # Check
 npx prettier --write PATH  # Fix
 
 # Node/npm in a Python Virtual Environment
-python3 -m venv env                     # create virtual environment
-source env/bin/activate                 # activate virtual environment
-pip install nodeenv                     # install node virtual env utility
-nodeenv --python-virtualenv             # install local node and npm
-ls env/lib/node_modules/                # location of global JS packages
+python3 -m venv env                     # Create virtual environment
+source env/bin/activate                 # Activate virtual environment
+pip install nodeenv                     # Install node virtual env utility
+nodeenv --python-virtualenv             # Install local node and npm
+ls env/lib/node_modules/                # Location of global JS packages
 
 
 ########################################
@@ -2356,9 +2356,10 @@ go get golang.org/x/tools/cmd/...     # Install godoc et al.
 go get -v -u golang.org/x/lint/golint # Install golint
 go get -u github.com/nsf/gocode       # Install gocode
 go get -v github.com/rogpeppe/godef   # Install godef
-go get -u github.com/derekparker/delve/cmd/dlv  # Install dlv
+go get -u github.com/derekparker/delve/cmd/dlv  # Install dlv debugger
 godoc -http=:6060                     # Render package docs
 open http://localhost:6060/pkg/github.com/USERNAME/PACKGE/  # See package docs
+
 
 ########################################
 # Ruby
