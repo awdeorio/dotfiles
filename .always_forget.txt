@@ -1978,9 +1978,9 @@ lpass edit amazon.com                   # edit entry using $EDITOR
 encfs --extpass 'lpass show ID --password' # LastPass + encfs
 
 # JSON
-echo '{"json":"obj"}' | python -m json.tool    # Pretty-print
-echo '{"json":"obj"}' | jq                     # Pretty-print
-echo '{"json":"obj"}' | jsonlint               # Lint
+python3 -m json.tool                    # Pretty-print
+jq                                      # Pretty-print
+jsonlint                                # Lint
 jq '.'                                  # Identity filter
 jq '.results'                           # Filter value from key "results"
 jq '."results"[]["name"]'               # Filter nested values from a list
@@ -1991,7 +1991,7 @@ cat FILE.xml | python2 -c 'import sys;import xml.dom.minidom;s=sys.stdin.read();
 cat FILE.xml | xmlstarlet format        # Pretty print
 
 # HTML
-tidy FILE.html  # Pretty print HTML
+tidy FILE.html                          # Pretty print HTML
 
 
 ########################################
@@ -2004,7 +2004,7 @@ jar -xvf                                # extract all files from jar archive
 # Perl
 cat FILE | perl -pe 's///'              # apply line of Perl to each input line
 perl -V                                 # debug environment
-PERL5LIB                                # environment variable for tool installs
+echo $PERL5LIB                          # environment variable for tool installs
 cpan -i PACKAGE                         # install package
 perl -pe 's/\\\\n/ /'                   # remove continuation lines (backslash)
 perl -0pe 's/QUERY/REPLACE/sm'          # multiline regex query-replace
@@ -2014,7 +2014,7 @@ perl -i -pe                             # edit in place (like sed -i)
 ########################################
 # Python
 
-# Options
+# Python interpreter
 python -m MODULE                        # load module and execute main()
 python -c "CODE"                        # execute CODE
 python -m site                          # Display configuration
@@ -2026,10 +2026,10 @@ echo $PYTHONSTARTUP                     # Interactive interpreter startup
 python -c 'import sys; print("\n".join(sys.path))'
 
 # Python install
-apt-get install python3 python3-pip python3-venv python3-wheel python3-setuptools  # Linux
+apt install python3 python3-pip python3-venv python3-wheel python3-setuptools  # Linux
 brew install python3                    # MacOS
 
-# Anaconda Python
+# Python Anaconda
 # https://docs.anaconda.com/anaconda/install/uninstall/
 ~/anaconda3/bin/conda init              # Permanently activate
 conda init --reverse                    # Permanently deactivate
@@ -2146,7 +2146,7 @@ tox -vv                                 # Show debug info
 # Python Source Distributions
 python setup.py sdist                   # Create dist in ./dist/
 
-# Quick web server serving files in PWD on port 8000
+# Python debug web server serving files in PWD on port 8000
 python2 -m SimpleHTTPServer
 python3 -m http.server
 
@@ -2335,7 +2335,7 @@ node --trace-events-enabled --trace-event-categories node.async_hooks --trace-ev
 npm install node-fetch                  # Install node-fetch
 const fetch = require("node-fetch");    # Import node-fetch in your program
 
-# Lint
+# JavaScript lint
 npx eslint --env-info
 npx eslint PATH
 npx prettier --support-info
@@ -2346,25 +2346,25 @@ npx prettier --write PATH  # Fix
 ########################################
 # GoLang
 
-$ export GOPATH=${HOME}/.go             # Set Go library install root
-$ export PATH=${PATH}:${GOPATH}/bin     # Add Go utilities to PATH
-$ go env GOPATH                         # Get Go library install root
-$ go env                                # List all Go environment variables
-$ go get -v .                           # Install dependencies
-$ go test -v                            # Run all unit tests
-$ go test -run TESTNAME                 # Run one unit test
-$ go get golang.org/x/tools/cmd/...     # Install godoc et al.
-$ go get -v -u golang.org/x/lint/golint # Install golint
-$ go get -u github.com/nsf/gocode       # Install gocode
-$ go get -v github.com/rogpeppe/godef   # Install godef
-$ go get -u github.com/derekparker/delve/cmd/dlv  # Install dlv
-$ godoc -http=:6060                     # Render package docs
-$ open http://localhost:6060/pkg/github.com/USERNAME/PACKGE/  # See package docs
+export GOPATH=${HOME}/.go             # Set Go library install root
+export PATH=${PATH}:${GOPATH}/bin     # Add Go utilities to PATH
+go env GOPATH                         # Get Go library install root
+go env                                # List all Go environment variables
+go get -v .                           # Install dependencies
+go test -v                            # Run all unit tests
+go test -run TESTNAME                 # Run one unit test
+go get golang.org/x/tools/cmd/...     # Install godoc et al.
+go get -v -u golang.org/x/lint/golint # Install golint
+go get -u github.com/nsf/gocode       # Install gocode
+go get -v github.com/rogpeppe/godef   # Install godef
+go get -u github.com/derekparker/delve/cmd/dlv  # Install dlv
+godoc -http=:6060                     # Render package docs
+open http://localhost:6060/pkg/github.com/USERNAME/PACKGE/  # See package docs
 
 ########################################
 # Ruby
 
-$GEM_HOME                               # Ruby library install root
+echo $GEM_HOME                          # Ruby library install root
 gem env                                 # sanity check gem paths
 gem install PACKAGE                     # Install PACKAGE
 gem update --system                     # Upgrade installed packages
