@@ -2296,44 +2296,36 @@ reverse("api:connectortask-detail", args=[1])
 ########################################
 # JavaScript / Node
 
-# Python + JS Virtual Environments
-python3 -m venv env                     # create virtual environment
-source env/bin/activate                 # activate virtual environment
-pip install PACKAGE                     # install Python packages
-pip install nodeenv                     # install node virtual env utility
-nodeenv --python-virtualenv             # install local node and npm
-npm install --global webpack            # install global JS packages
-ls env/lib/node_modules/                # location of global JS packages
-npm install .                           # install local JS package
-npx PACKAGE                             # run PACKAGE command line tool
-webpack                                 # build front end
-webpack --watch                         # continuously build front end
-webpack --display-error-details         # debug frontend build
-npm install -g uglify-js                # install uglifyjs
-uglifyjs --beautify FILE.js             # pretty print JavaScript
+# JavaScript bundle
+npm install --global webpack            # Install system-wide
+npx webpack                             # Build front end
+npx webpack --watch                     # Continuously build front end
+npx webpack --display-error-details     # Debug front end build
+
+# JavaScript obfuscate
+npm install --global uglify-js          # Install uglifyjs
+uglifyjs --beautify FILE.js             # Obfuscate & pretty print JavaScript
 
 # npm
-npm ci .                                # Sync w/ package-lock.json
-npm ci . --no-fund --no-audit           # ^^^ ignore warnings
+npx TOOL                                # Run JavaScript command line TOOL
+npm install .                           # Install packages in package.json
 npm install --save-prod PACKAGE         # Install and add to package.json (prod)
 npm install --save-dev PACKAGE          # Install and add to package.json (dev)
 npm update PACKAGE --save               # Upgrade one package
 npm list PACKAGE                        # Check if PACKAGE is installed
+npm ci .                                # Sync w/ package-lock.json
+npm ci . --no-fund --no-audit           # ^^^ ignore warnings
 
-# Update all dependencies in package.json
+# JavaScript update all dependencies in package.json
 npm install --global npm-check-updates
 npm-check-updates --upgrade
 npm-check-updates --upgradeAll
 npm install .
 
-# node
+# JavaScript interpreter tracing
 NODE_DEBUG='*' node test.js             # Enable all debug messages
 NODE_DEBUG=timer node test.js           # Enable only timer debug messages
 node --trace-events-enabled --trace-event-categories node.async_hooks --trace-event-file-pattern log.json test.js  # VERY detailed debug info
-
-# fetch() in node
-npm install node-fetch                  # Install node-fetch
-const fetch = require("node-fetch");    # Import node-fetch in your program
 
 # JavaScript lint
 npx eslint --env-info
@@ -2341,6 +2333,13 @@ npx eslint PATH
 npx prettier --support-info
 npx prettier --check PATH  # Check
 npx prettier --write PATH  # Fix
+
+# Node/npm in a Python Virtual Environment
+python3 -m venv env                     # create virtual environment
+source env/bin/activate                 # activate virtual environment
+pip install nodeenv                     # install node virtual env utility
+nodeenv --python-virtualenv             # install local node and npm
+ls env/lib/node_modules/                # location of global JS packages
 
 
 ########################################
