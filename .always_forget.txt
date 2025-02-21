@@ -1553,10 +1553,6 @@ logrotate --force FILE.conf             # force a rotation
 /etc/logrotate.d/                       # app-specific configuration goes here
 /etc/cron.daily/logrotate               # logrotate scheduled by cron
 
-# LaTeX
-detex FILE.tex                          # Remove LaTeX markup
-detex FILE.tex | sed -r 's/ *& */,/g'   # LaTeX table to CSV
-
 # Randomness
 shuf                                    # shuffle lines
 shuf -i 1-100 -n 1                      # Random number between [1, 100]
