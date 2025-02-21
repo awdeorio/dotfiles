@@ -1585,17 +1585,8 @@ diskutil unmount /Volumes/USB_DISK      # Unmount USB_DISK
 rm ~/.Trash/*                           # Empty trash
 dseditgroup -o create -u USER -p GROUP  # create GROUP
 dseditgroup -o edit -u USER1 -p -a USER2 -t user GROUP # Add USER2 to GROUP
-
-# Upgrade procedure
-# Do this on primary laptop, backup laptop, and desktop
-brew update
-brew upgrade
-brew cleanup
-pip3 install --upgrade pip setuptools wheel
-softwareupdate --list
-softwareupdate -i -a
-cd ~ && git fetch -p && git rebase      # update Git-controlled dot files
-backup                                  # primary laptop only
+softwareupdate --list                   # List available updates
+softwareupdate -i -a                    # Install all updates
 
 # Wifi management
 ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/sbin
