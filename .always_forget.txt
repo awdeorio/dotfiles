@@ -166,6 +166,7 @@ ag --ignore '*test*'                    # Ignore files/directories with "test"
 ag -f                                   # Follow symlinks
 ag -Q                                   # Do not parse PATTERN as regex
 ag --hidden                             # Include hidden files
+ag -G .py                               # Filter by file extension or filename
 
 # Superuser permissions
 su                                      # switch user to root
@@ -1012,14 +1013,6 @@ fgrep                                   # fixed patterns (no regex), faster
 pcregrep                                # Perl Compatible Regex
 grep -P                                 # Perl regex
 ptargrep                                # grep files insize a tarball
-
-# The Silver Searcher
-# https://github.com/ggreer/the_silver_searcher
-# brew install the_silver_searcher
-ag PATTERN                              # search for PATTERN
-ag --list-file-types                    # supported filetype-specific searches
-ag --python                             # Only Python files
-ag -G .py                               # Filter by file extension or filename
 
 # sed
 sed -rn '/PATTERN/p'                    # grep work-a-like
