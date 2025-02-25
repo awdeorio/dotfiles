@@ -592,7 +592,27 @@ If the :CREATED: property already exists, do nothing."
 
           )
         )
+
+  ;; Custom agenda views
+  (setq org-agenda-custom-commands
+        '(("d" "Dashboard"
+           (
+            ;; limits the agenda display to a single day
+            (tags-todo "+PRIORITY=\"A\"")
+
+            )
+           ))
+        )
+
 )
+
+;; Convenience function to test updated custom agenda
+(defun org-reload-agenda ()
+  "Reload user init file, then show custom org dashboard."
+  (interactive)
+  (load-file user-init-file)
+  (org-agenda nil "d")
+  )
 
 ;; editorconfig
 ;; https://github.com/editorconfig/editorconfig-emacs
