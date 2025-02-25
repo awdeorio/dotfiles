@@ -489,6 +489,14 @@
 ;;   :defer t
 ;;   )
 
+;; Better org agenda views
+;; https://github.com/alphapapa/org-super-agenda/
+(use-package org-super-agenda
+  :ensure t
+  :defer t
+  )
+
+
 (use-package org
   :defer t
   :config
