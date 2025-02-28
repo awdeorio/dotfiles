@@ -603,15 +603,19 @@ If the :CREATED: property already exists, do nothing."
 
   ;; Custom agenda views
   ;; https://github.com/alphapapa/org-ql
+  ;; https://github.com/alphapapa/org-ql/blob/master/examples.org
   (setq org-agenda-custom-commands
         '(("d" "Dashboard"
            ((org-ql-block
 
-               '(or
-                 (priority "A")
-                 (deadline auto) ;; has deadline set and due today or overdue
-                 (scheduled :to today)
-                 )
+             '(and
+               (or
+                (priority "A")
+                (deadline auto) ;; has deadline set and due today or overdue
+                (scheduled :to today)
+                )
+               (not (done))
+               )
 
                ((org-ql-block-header "Today Dashboard"))
 
