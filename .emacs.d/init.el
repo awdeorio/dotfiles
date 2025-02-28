@@ -494,8 +494,13 @@
 (use-package org-super-agenda
   :ensure t
   :defer t
+  :after org
   )
 
+(use-package org-ql
+  :ensure t
+  :defer t
+  :after org)
 
 (use-package org
   :defer t
@@ -574,6 +579,9 @@ If the :CREATED: property already exists, do nothing."
     (insert "-*- mode: org; -*-\n")
     )
 
+  ;; How far ahead to list SCHEDULED items in agenda
+  (setq org-deadline-warning-days 1)
+
   ;; Capture templates
   ;; https://orgmode.org/manual/Capture-templates.html
   (setq org-capture-templates
@@ -594,24 +602,20 @@ If the :CREATED: property already exists, do nothing."
         )
 
   ;; Custom agenda views
+  ;; https://github.com/alphapapa/org-ql
   (setq org-agenda-custom-commands
         '(("d" "Dashboard"
-           (
-            ;; limits the agenda display to a single day
-            (tags-todo "+PRIORITY=\"A\"")
+           ((org-ql-block
 
-            )
-           ))
-        )
+               '(or
+                 (priority "A")
+                 (deadline auto) ;; has deadline set and due today or overdue
+                 (scheduled :to today)
+                 )
 
-)
+               ((org-ql-block-header "Today Dashboard"))
 
-;; Convenience function to test updated custom agenda
-(defun org-reload-agenda ()
-  "Reload user init file, then show custom org dashboard."
-  (interactive)
-  (load-file user-init-file)
-  (org-agenda nil "d")
+             )))))
   )
 
 ;; editorconfig
