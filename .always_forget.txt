@@ -1895,6 +1895,11 @@ g++ -g                                  # compile
 gdb ./a.out                             # run
 gdb -tui ./a.out                        # run, "CLI-based" GUI
 
+# Debugging with rr (record and replay C/C++ programs)
+# https://rr-project.org/
+rr record /a.out --args
+rr replay
+
 # Debug with lldb
 # Cheat sheet https://lldb.llvm.org/lldb-gdb.html
 g++ --version                           # verify that g++ is really clang
