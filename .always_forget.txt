@@ -2960,8 +2960,11 @@ john --show passwd.txt
 $ cat ~/.john/john.pot
 $1$xyz$cEUv8aN9ehjhMXG/kSFnM1:password
 
-# Password cracking over a network
-hydra
+# Pen testing
+responder                               # Password hash collection
+hashcat                                 # Password cracking
+john                                    # Password cracking
+hydra                                   # Password cracking over a network
 
 # Command line fun
 cowthink                               # ascii art of a fow w/ thought bubble
