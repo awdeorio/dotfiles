@@ -956,6 +956,7 @@ hash CMD                                # return true if CMD is in PATH
 echo {1..10}                            # expands to 1 2 3 ... 10 (see also seq)
 printf 'a%.0s' {1..10}                  # Repeat letter 'a' 10 times
 echo $0                                 # Check your shell "-bash", "zsh", etc.
+ps -p $$ -o pid,comm=                   # Check your shell, improved  https://jvns.ca/blog/2025/02/13/how-to-add-a-directory-to-your-path/
 
 # Bash script clean up background processes
 # https://stackoverflow.com/questions/360201/how-do-i-kill-background-processes-jobs-when-my-shell-script-exits
