@@ -2173,6 +2173,7 @@ pipx inject jupyterlab pandas           # Install lib into Jupyter venv
 pipx inject jupyterlab matplotlib       # Install lib into Jupyter venv
 pipx inject jupyterlab scipy            # Install lib into Jupyter venv
 pipx inject jupyterlab seaborn          # Install lib into Jupyter venv
+pipx inject jupyterlab scikit-learn     # Install scikit into Jupyter venv
 jupyter-lab                             # Run
 
 # Parametrize a notebook and execute in headless mode
