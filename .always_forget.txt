@@ -987,6 +987,9 @@ echo !$:e                               # Remove all but the suffix
 fg                                      # Restart command in foreground
 bg                                      # Restart command in background
 
+# Regular Expression Syntax (regex)
+# https://regex101.com/
+
 # grep
 grep PATTERN                            # search for pattern
 grep -E PATTERN                         # extended regex
