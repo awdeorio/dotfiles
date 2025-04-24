@@ -1973,19 +1973,6 @@ objdump -D file.o                       # disassemble
 hexdump                                 # binary -> hex (check endianness!)
 xxd                                     # binary -> hex (check endianness!)
 
-# LastPass CLI
-brew install lastpass-cli --with-pinentry  # install (OSX)
-lpass login awdeorio@gmail.com          # start agent
-lpass logout                            # stop agent
-lpass status                            # check agent
-lpass ls                                # list saved passwords
-lpass show amazon.com                   # show one saved password
-lpass show --password amazon.com --clip # copy one password to clipboard
-lpass show -p amazon.com -c             # copy one password to clipboard
-lpass export                            # dump to plain text CSV
-lpass edit amazon.com                   # edit entry using $EDITOR
-encfs --extpass 'lpass show ID --password' # LastPass + encfs
-
 # JSON
 python3 -m json.tool                    # Pretty-print
 jq                                      # Pretty-print
