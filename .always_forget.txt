@@ -3097,3 +3097,10 @@ eb restore                              # Rebuild a terminated environment
 
 # Autograder.io CLI
 agio submissions best -c eecs485cur -p1 -g UNIQNAME
+
+# Slack keyboard shortcuts
+# https://slack.com/help/articles/201374536-Slack-keyboard-shortcuts
+Control-1                               # Home
+Command-K                               # Jump to
+Option-Shift-<down>                     # Prev unread channel or DM
+Option-Shift-<up>                       # Next unread channel or DM
