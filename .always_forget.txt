@@ -2967,11 +2967,13 @@ cowsay -l                              # list characters
 fortune                                # print a random adage
 fortune | cowsay                       # ascii art + random adage
 sl                                     # steam locomotive
+gti                                    # GTI, passes subcommand to git
 asciiquarium                           # ascii art animated aquarium
 telnet towel.blinkenlights.nl          # ascii animated Start Wars C-] to quit
 rig                                    # generate random fake identities
 rev <<< "go hang a salami im a lasagna hog" # palindrome
 figlet STRING                          # print ascii bubble text
+toilet STRING                          # print ascii large text
 lolcat                                 # rainbow colors (gem install lolcat)
 curl http://wttr.in/ann_arbor          # ascii weather report
 curl wttr.in/:help                     # ascii weather report help
