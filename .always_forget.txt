@@ -480,6 +480,7 @@ bundle update --bundler                 # Update bundler, incl. lock file
 bundle install
 bundle update --all                     # Update packages in lock file
 bundle exec jekyll serve
+bundle add PACKAGE                      # Install package and add to Gemfile
 
 # Backdoor shell using netcat
 # Note: this version of netcat (ncat) ships with nmap
