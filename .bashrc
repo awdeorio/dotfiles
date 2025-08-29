@@ -246,7 +246,7 @@ fi
 
 # Ruby
 RUBY_HOME=${HOMEBREW_PREFIX}/opt/ruby
-# RUBY_HOME=/opt/homebrew/opt/ruby@3.0
+# RUBY_HOME=/opt/homebrew/opt/ruby@3.1
 if [ -d ${RUBY_HOME} ]; then
   path-prepend ${RUBY_HOME}/bin
   GEM_HOME=$(${RUBY_HOME}/bin/gem env home)
