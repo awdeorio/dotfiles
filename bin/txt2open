@@ -7,7 +7,7 @@
 # Convert plain text to pdf in a tmpdir and open it
 
 # Stop on errors
-set -euo pipefail
+set -Eeuo pipefail
 
 # Check arguments
 if [ "$#" != 1 ]; then
@@ -15,6 +15,12 @@ if [ "$#" != 1 ]; then
   exit 1
 fi
 TXTFILE="$1"
+
+# Check input file - enscript will exit zero even if input does does not exist
+if [ ! -f "$TXTFILE" ]; then
+    echo "Error: file does not exist $TXTFILE"
+    exit 1
+fi
 
 # Create tempfile for pdf
 TMPBASE=`basename $0`
