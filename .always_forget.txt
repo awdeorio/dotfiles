@@ -2031,6 +2031,12 @@ brew install python3                    # MacOS
 ~/anaconda3/bin/conda init              # Permanently activate
 conda init --reverse                    # Permanently deactivate
 conda deactivate                        # Temporarily deactivate
+conda create --name eecs485p1           # Create virtual env in default location
+conda activate eecs485p1                # Activate virtual env
+conda install pip                       # Install pip if needed in virtual env
+ls /opt/homebrew/anaconda3/envs/        # Virtual env default file location
+conda create --prefix ./env             # Create virtual env specific location
+conda activate ./env                    # Activate virtual env
 conda info --envs                       # Show virtual envs, * indicates active
 
 # Python virtual environment
