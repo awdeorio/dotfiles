@@ -321,6 +321,7 @@ open https://github.com/stefansundin/traceroute-mapper  # ^^^ visualization
 mtr --no-dns --report --report-cycles 60# one report generated over 60s
 telnet HOST 80                          # connect to web server
 openssl s_client -quiet -connect www.google.com:443 # ^^^ with SSL
+openssl s_client -connect www.google.com:443 -tls1_3 -msg  # TLS handshake
 tcpdump                                 # watch packets on all network ifcs
 tcpdump -i eth0                         # watch packets on one network interface
 tcpdump tcp                             # only one protocol
