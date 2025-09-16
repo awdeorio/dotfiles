@@ -2070,6 +2070,7 @@ pipx ensurepath                         # Check if pipx is in PATH
 pipx list                               # List installed packages
 pipx inject jupyterlab pandas           # Install pandas lib into jupyter venv
 pipx uninject jupyterlab pandas         # Uninstall pandas lib from jupyter venv
+~/.local/pipx/venvs/{VENV}/bin/python3 SCRIPT  # Run SCRIPT in VENV
 
 # Python pipenv
 # Docs: https://docs.pipenv.org/  http://docs.pipenv.org/advanced/
