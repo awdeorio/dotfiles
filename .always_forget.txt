@@ -2304,13 +2304,13 @@ reverse("api:connectortask-detail", args=[1])
 # JavaScript / Node
 
 # JavaScript bundle
-npm install --global webpack            # Install system-wide
+npm install webpack                     # Install
 npx webpack                             # Build front end
 npx webpack --watch                     # Continuously build front end
 npx webpack --display-error-details     # Debug front end build
 
 # JavaScript obfuscate
-npm install --global uglify-js          # Install uglifyjs
+npm install uglify-js                   # Install
 uglifyjs --beautify FILE.js             # Obfuscate & pretty print JavaScript
 
 # npm
@@ -2324,7 +2324,7 @@ npm ci .                                # Sync w/ package-lock.json
 npm ci . --no-fund --no-audit           # ^^^ ignore warnings
 
 # JavaScript update all dependencies in package.json
-npm install --global npm-check-updates
+npm install npm-check-updates
 npm-check-updates --upgrade
 npm-check-updates --upgradeAll
 npm install .
@@ -2346,7 +2346,15 @@ python3 -m venv env                     # Create virtual environment
 source env/bin/activate                 # Activate virtual environment
 pip install nodeenv                     # Install node virtual env utility
 nodeenv --python-virtualenv             # Install local node and npm
-ls env/lib/node_modules/                # Location of global JS packages
+ls env/lib/node_modules/                # Location of global JS packages in env
+
+# Npm global packages
+# WARNING: Upgrading npm itself can mess up packages managed by Homebrew
+npm install -g PACKAGE                  # Install PACKAGE globally
+npm list -g --depth=0                   # List global packages
+npm outdated -g                         # List outdated global packages
+npm update -g                           # Upgrade all global packages
+npm update -g PACKAGE                   # Update PACKAGE globally
 
 
 ########################################
@@ -3115,3 +3123,7 @@ Control-1                               # Home
 Command-K                               # Jump to
 Option-Shift-<down>                     # Prev unread channel or DM
 Option-Shift-<up>                       # Next unread channel or DM
+
+# Claude Code
+npm install -g @anthropic-ai/claude-code  # Install
+/init                                     # Generate or refresh CLAUDE.md
