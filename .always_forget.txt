@@ -2719,6 +2719,7 @@ git fetch -vv                           # Connect to upstream server
 git stash                               # stash current modifications on stack
 git stash list                          # view stash stack
 git stash pop                           # "unstash" top of stack
+git stash apply                         # ^^^, but keep changes in stash
 
 # Commit only part of a file
 # https://stackoverflow.com/questions/1085162/commit-only-part-of-a-file-in-git
