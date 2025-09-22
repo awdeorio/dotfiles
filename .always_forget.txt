@@ -3120,6 +3120,7 @@ agio submissions best -c eecs485cur -p1 -g UNIQNAME
 
 # Slack keyboard shortcuts
 # https://slack.com/help/articles/201374536-Slack-keyboard-shortcuts
+Command-1                               # Workspace 1, etc.
 Control-1                               # Home
 Command-K                               # Jump to
 Option-Shift-<down>                     # Prev unread channel or DM
