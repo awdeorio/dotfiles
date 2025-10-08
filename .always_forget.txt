@@ -222,6 +222,7 @@ nohup CMD &                             # logout won't stop CMD
 nohup nice CMD &                        # lower priority
 nohup CMD < /dev/null > LOG 2>&1        # redirect all streams
 nohup CMD 0<&- &> /dev/null &           # redirect all streams
+timeout 10s CMD                         # terminate CMD after 10s
 lsof                                    # list open files owned by processes
 cat /proc/<PID>/environ | tr '\000' '\n'# inspect environment of running proc
 
@@ -277,6 +278,7 @@ edit /etc/resolv.conf
 # Cheat sheet https://pbs.twimg.com/media/DzP-KfpV4AA4TH2.jpg
 ping HOST                               # Check if a host is up
 ping -c3 HOST                           # Only send 3 packets
+timeout 3 ping HOST                     # Stop trying after 3 seconds
 ping -Iwlan0 HOST                       # Ping with a specific NIC
 host HOST                               # DNS lookup
 dig HOST                                # DNS lookup
