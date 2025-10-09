@@ -38,6 +38,9 @@
 (setq mac-command-modifier 'meta) ; Command == Meta
 (setq mac-option-modifier 'super) ; Option == Super
 
+;; Function aliases
+(defalias 'word-count 'count-words)
+
 ;; Open link in browser.  Settings for OSX.
 (setq browse-url-browser-function (quote browse-url-generic))
 (setq browse-url-generic-program "open")
