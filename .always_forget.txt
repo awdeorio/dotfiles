@@ -151,14 +151,17 @@ mdfind FILE                             # ^^^ Some macOS systems
 grep -r PATTERN .                       # recursively search file content
 grep -rI PATTERN .                      # ^^^ ignoring binary files
 git grep PATTERN                        # recursively search git-controled files
-ag PATTERN                              # The Silver Searcher, see section below
-ag PATTERN --color | less -r
+ag                                      # The Silver Searcher
+ag PATTERN                              # Recursively search for PATTERN
+ag PATTERN --color | less -r            # ^^^ w/ color and pager
 ag -l                                   # Filenames only
 ag --ignore '*test*'                    # Ignore files/directories with "test"
 ag -f                                   # Follow symlinks
 ag -Q                                   # Do not parse PATTERN as regex
 ag --hidden                             # Include hidden files
 ag -G .py                               # Filter by file extension or filename
+fd                                      # find alternative
+fd PATTERN                              # Find filenames matching PATTERN https://github.com/sharkdp/fd
 
 # Superuser permissions
 su                                      # switch user to root
