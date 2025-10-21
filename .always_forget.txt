@@ -162,6 +162,7 @@ ag --hidden                             # Include hidden files
 ag -G .py                               # Filter by file extension or filename
 fd                                      # find alternative
 fd PATTERN                              # Find filenames matching PATTERN https://github.com/sharkdp/fd
+fd -p '/src/.*\.js$'                    # Search whole path
 
 # Superuser permissions
 su                                      # switch user to root
