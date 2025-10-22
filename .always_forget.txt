@@ -98,6 +98,9 @@ touch FILE                              # create empty file, if it doesn't exist
 touch FILE                              # update mtime, atime to NOW
 ln -s FILE1 FILE2                       # create soft link
 ln -s -t DIR FILE                       # create soft link in DIR
+rename 's/old1/new1/g;' *               # batch rename
+rename 's/old1/new1/g; s/old2/new2/g' * # batch rename with two patterns
+rename --dry-run                        # batch rename dry run
 
 # Paths and files
 pwd                                     # current directory
