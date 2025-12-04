@@ -3137,5 +3137,12 @@ Option-Shift-<down>                     # Prev unread channel or DM
 Option-Shift-<up>                       # Next unread channel or DM
 
 # Claude Code
+brew install claude-code                # Install
 npm install -g @anthropic-ai/claude-code  # Install
-/init                                     # Generate or refresh CLAUDE.md
+claude                                  # Run (PWD matters)
+/init                                   # Generate or refresh CLAUDE.md
+
+# Codex
+brew install codex                      # Install
+codex                                   # Run
+/init                                   # Generate or refresh AGENTS.md
