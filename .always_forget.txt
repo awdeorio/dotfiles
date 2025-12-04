@@ -1253,6 +1253,7 @@ setcifsacl                              # Write ACLs
 # Hardware and detection
 uname                                   # operating system name
 uname -a                                # info about OS, compiler, etc.
+uname -m                                # hardware platform, e.g., arm64
 $OSTYPE                                 # operating system name (bash)
 [[ "$OSTYPE" == "darwin"* ]]            # Check for macOS
 cat /proc/cpuinfo                       # CPU information
