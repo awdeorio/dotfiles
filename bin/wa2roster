@@ -1,4 +1,4 @@
-#!/Users/awdeorio/.local/pipx/venvs/jupyterlab/bin/python3
+#!/usr/bin/env python3
 """
 wa2roster
 
@@ -49,10 +49,13 @@ def main():
         table["Status Note"] = ""
 
     # Roster is a subset of the input table columns.
-    roster = pd.DataFrame(table[["Campus ID", "Name", "ID", "Status"]])
+    roster = pd.DataFrame(table[["Campus ID", "Name", "ID", "Status", "Class Section"]])
 
     # Change column name "Campus ID" to "Uniqname"
     roster.rename(columns={"Campus ID": "Uniqname"}, inplace=True)
+
+    # Change column name "Class Section" to "Lecture"
+    roster.rename(columns={"Class Section": "Lecture"}, inplace=True)
 
     # Uniqname should be lower case
     roster["Uniqname"] = roster["Uniqname"].str.lower()
