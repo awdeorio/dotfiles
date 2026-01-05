@@ -3010,7 +3010,7 @@ curl wttr.in/:help                     # ascii weather report help
 curl wttr.in?0                         # ascii weather report, only current
 curl wttr.in?n                         # ascii weather report, narrow width
 curl parrot.live                       # dancing ASCII parrot
-curl https://naas.isalman.dev/no       # "No" as a service https://github.com/hotheadhacker/no-as-a-service
+curl naas.isalman.dev/no               # "No" as a service https://github.com/hotheadhacker/no-as-a-service
 
 # Emacs
 apt-get install emacs-nox              # Quick install on a Debian-based server
