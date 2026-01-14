@@ -6,6 +6,9 @@
 ;;;
 ;;; Code:
 
+;; Startup time measurement
+(defconst emacs-start-time (current-time))
+
 
 ;; User-provided packages go in ~/.emacs.d/elisp
 ;; https://www.emacswiki.org/emacs/LoadPath
@@ -83,7 +86,7 @@
 (setq scroll-step 1)
 
 ;; Update string in the first 8 lines looking like Time-stamp: <> or " "
-(add-hook 'write-file-hooks 'time-stamp)
+(add-hook 'before-save-hook 'time-stamp)
 
 ;; Tab settings: 2 spaces.  See also: language-specific customizations below.
 (setq-default indent-tabs-mode nil)
@@ -127,13 +130,12 @@
 ;; More intuitive undo/redo.  M-_ undo, C-M-_ redo
 ;; https://www.emacswiki.org/emacs/UndoTree
 (use-package undo-tree
-  :config
+  :init
   (global-undo-tree-mode)
+  :config
   (global-set-key "\C-\M-_" 'undo-tree-redo)
   (setq undo-tree-auto-save-history nil)
-  :ensure t
-  :defer t
-  )
+  :ensure t)
 
 ;; Dark Mode Theme
 (use-package spacemacs-common
@@ -206,7 +208,7 @@
   :mode ("bills.*" . todotxt-mode)
   :config
   (add-hook 'todotxt-mode-hook 'goto-address-mode) ; for URLs
-  (add-hook 'todotxt-mode-hook 'global-auto-revert-mode) ; for Dropbox
+  (add-hook 'todotxt-mode-hook 'auto-revert-mode) ; for Dropbox
   (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (flyspell-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (electric-pair-mode -1))) ; disable
@@ -336,11 +338,8 @@
 ;; Intellisense syntax checking
 ;; http://www.flycheck.org/en/latest/
 (use-package flycheck
+  :hook (prog-mode . flycheck-mode)
   :config
-
-  ;; enable in all modes
-  (global-flycheck-mode)
-
   ;; disable jshint since we prefer eslint checking
   ;; http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html
   (setq-default flycheck-disabled-checkers
@@ -366,9 +365,7 @@
   ;; C++11
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
-  :ensure t
-  :defer t
-)
+  :ensure t)
 
 ;; Autocomplete for words and filenames.  M-/ auto-completes a word
 ;; from other words in the buffer and filenames.
@@ -388,12 +385,10 @@
 ;; Company docs: https://company-mode.github.io/
 ;; Company TNG: https://github.com/company-mode/company-mode/issues/526
 (use-package company
+  :hook (prog-mode . company-mode)
   :config
   (company-tng-configure-default)       ; use default configuration
-  (global-company-mode)
-  :ensure t
-  :defer t
-  )
+  :ensure t)
 
 ;; Python backend for autocomplete
 ;; https://github.com/syohex/emacs-company-jedi
@@ -427,7 +422,7 @@
          "-o ServerAliveCountMax 5 "
          ))
   (setq tramp-use-ssh-controlmaster-options nil)
-  :defer 1
+  :defer t
 )
 
 ;; YAML mode
@@ -482,9 +477,12 @@
 (add-hook 'ediff-after-setup-windows-hook (lambda () (if (window-system) (set-frame-width (selected-frame) 160))))
 
 ;; Restore windows after Ediff quits
-(winner-mode)
-(add-hook 'ediff-after-quit-hook-internal 'winner-undo)
-(add-hook 'ediff-after-quit-hook-internal (lambda () (if (window-system) (set-frame-width (selected-frame) 80))))
+(use-package winner
+  :init
+  (winner-mode 1)
+  :config
+  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+  (add-hook 'ediff-after-quit-hook-internal (lambda () (if (window-system) (set-frame-width (selected-frame) 80)))))
 
 ;; Git
 ;; (use-package magit
@@ -507,7 +505,7 @@
 
 (use-package org
   :defer t
-  :config
+  :init
   (define-key global-map "\C-cl" 'org-store-link)
   (define-key global-map "\C-ca" 'org-agenda)
   (setq org-log-done 'time)
@@ -517,8 +515,9 @@
         (list "home.org"
               "work.org"))
   (setq org-agenda-search-view-always-boolean t)
-  (add-hook 'org-mode-hook 'global-auto-revert-mode) ; for Dropbox
+  (add-hook 'org-mode-hook 'auto-revert-mode) ; for Dropbox
 
+  :config
   ;; TODO keywords as workflow states for GTD
   ;; https://orgmode.org/manual/Workflow-states.html
   ;;
@@ -629,9 +628,7 @@ If the :CREATED: property already exists, do nothing."
 ;; https://github.com/editorconfig/editorconfig-emacs
 (use-package editorconfig
   :ensure t
-  :defer t
-  :config
-  (editorconfig-mode 1))
+  :hook (prog-mode . editorconfig-mode))
 
 ;; copilot
 ;; https://github.com/copilot-emacs/copilot.el
@@ -659,3 +656,10 @@ If the :CREATED: property already exists, do nothing."
             :branch "main")
   )
 )
+
+;; Display startup time
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %.2f seconds with %d garbage collections."
+                     (float-time (time-subtract after-init-time emacs-start-time))
+                     gcs-done)))
