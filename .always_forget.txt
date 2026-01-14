@@ -3145,6 +3145,8 @@ brew install claude-code                # Install
 npm install -g @anthropic-ai/claude-code  # Install
 claude                                  # Run (PWD matters)
 /init                                   # Generate or refresh CLAUDE.md
+/clear                                  # Delete context
+/output-style                           # List/select modes (e.g., Learning)
 
 # Codex
 brew install codex                      # Install
