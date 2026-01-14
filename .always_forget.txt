@@ -2671,7 +2671,8 @@ git remote remove USER                         # Clean up
 
 # Forking work flow: Edit a branch on a fork using the gh tool
 gh pr checkout NUM
-gh pr update-branch
+gh pr update-branch                    # Merge latest from other branch origin
+git merge origin/develop               # Merge latest develop into other branch
 git commit
 git push git@github.com:USER/REPO.git
 
