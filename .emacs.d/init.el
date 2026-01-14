@@ -634,26 +634,24 @@ If the :CREATED: property already exists, do nothing."
   (editorconfig-mode 1))
 
 ;; copilot
-;; https://github.com/zerolfx/copilot.el
-;; https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
+;; https://github.com/copilot-emacs/copilot.el
 ;;
-;; NOTE: copilot.el is a submodule committed to my dotfiles
+;; M-x copilot-install-server
+;; M-x copilot-mode
+;; M-x copilot-login
 ;; M-x copilot-diagnose
-;;
-;; Dependencies dash and s are installed here.  The company package is
-;; specified earlier.
-(use-package dash
-  :ensure t
-  :defer t
-  )
-(use-package s
-  :ensure t
-  :defer t
-  )
 (use-package copilot
   :commands copilot-mode
   :defer t
+  :hook (prog-mode . copilot-mode)
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-)
+  (define-key copilot-completion-map (kbd "C-g") 'copilot-clear-overlay)
+  (define-key copilot-completion-map (kbd "M-n") 'copilot-next-completion)
+  (define-key copilot-completion-map (kbd "M-p") 'copilot-previous-completion)
+  (define-key copilot-completion-map (kbd "C-<return>") 'copilot-accept-completion-by-line)
+  :vc (:url "https://github.com/copilot-emacs/copilot.el"
+            :rev :newest
+            :branch "main")
+  )
