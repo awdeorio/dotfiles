@@ -33,9 +33,7 @@
 (global-set-key "\C-x\C-b"                          'electric-buffer-list)
 (global-set-key "\C-x\C-t"                          'insert-todays-date)
 (global-set-key "\C-x\C-u"                          'browse-url-at-point)
-(global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
+;; Org keybindings are set in the org use-package block below
 
 ;; macOS modifier keys
 (setq mac-command-modifier 'meta) ; Command == Meta
@@ -130,11 +128,12 @@
 
 ;; More intuitive undo/redo.  M-_ undo, C-M-_ redo
 ;; https://www.emacswiki.org/emacs/UndoTree
+;; Deferred via :bind until first undo/redo command for faster startup
 (use-package undo-tree
-  :init
-  (global-undo-tree-mode)
+  :bind (("C-/" . undo-tree-undo)
+         ("C-M-_" . undo-tree-redo))
   :config
-  (global-set-key "\C-\M-_" 'undo-tree-redo)
+  (global-undo-tree-mode)
   (setq undo-tree-auto-save-history nil)
   :ensure t)
 
@@ -185,12 +184,16 @@
 ;; Text mode
 (setq auto-mode-alist (cons '("README\\'" . text-mode) auto-mode-alist))
 (add-hook 'text-mode-hook 'visual-line-mode)  ; wrap long lines
-(add-hook 'text-mode-hook 'flyspell-mode)     ; spell check
 (add-hook 'text-mode-hook (lambda () (electric-pair-mode -1))) ; disable
 
 ;; LaTeX mode
 (add-hook 'latex-mode-hook 'visual-line-mode) ; wrap long lines
-(add-hook 'latex-mode-hook 'flyspell-mode)    ; spell check
+
+;; Flyspell (spell checking) - deferred until mode activation for faster startup
+(use-package flyspell
+  :hook ((text-mode . flyspell-mode)
+         (latex-mode . flyspell-mode)
+         (markdown-mode . flyspell-mode)))
 
 ;; Sort function is useful in todo.txt mode
 (defun sort-buffer ()
@@ -217,35 +220,25 @@
 )
 
 ;; Markdown mode (.md)
-;; Only works on Emacs 24.4 +
-(unless (version< emacs-version "24.4")
 (use-package markdown-mode
+  :if (version<= "24.4" emacs-version)
   :commands (markdown-mode gfm-mode)
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :config
   :init
   (setq markdown-command "multimarkdown")
-  (add-hook 'markdown-mode-hook 'visual-line-mode) ; wrap long lines
-  (add-hook 'markdown-mode-hook 'flyspell-mode) ; check spelling
-  (setq markdown-fontify-code-blocks-natively t) ; syntax highlight code blocks
-  (setq markdown-gfm-use-electric-backquote nil) ; no interactive code block insertion
-  :ensure t
-  :defer t
-  )
-)
+  (setq markdown-fontify-code-blocks-natively t)
+  (setq markdown-gfm-use-electric-backquote nil)
+  :hook (markdown-mode . visual-line-mode)
+  ;; flyspell handled by flyspell use-package block
+  :ensure t)
 
 ;; Markdown ToC generator
 ;; https://github.com/ardumont/markdown-toc
-;; Only works on Emacs 24.4 +
-(unless (version< emacs-version "24.4")
 (use-package markdown-toc
-  :commands markdown-toc-generate-toc
-  :commands markdown-toc-refresh-toc
-  :ensure t
-  :defer t
-  )
-)
+  :if (version<= "24.4" emacs-version)
+  :commands (markdown-toc-generate-toc markdown-toc-refresh-toc)
+  :ensure t)
 
 ;; Shell programming
 (setq-default sh-basic-offset tab-width)
@@ -509,6 +502,7 @@
   :init
   (define-key global-map "\C-cl" 'org-store-link)
   (define-key global-map "\C-ca" 'org-agenda)
+  (define-key global-map "\C-cc" 'org-capture)
   (setq org-log-done 'time)
   (setq org-tags-column 59)
   (setq org-directory "~/Dropbox/org")
@@ -639,11 +633,9 @@ If the :CREATED: property already exists, do nothing."
 ;; M-x copilot-login
 ;; M-x copilot-diagnose
 ;;
-;; This installation method works on Emacs 30+
-(unless (version< emacs-version "30.0")
+;; This installation method (:vc) works on Emacs 30+
 (use-package copilot
-  :commands copilot-mode
-  :defer t
+  :if (version<= "30.0" emacs-version)
   :hook (prog-mode . copilot-mode)
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
@@ -654,9 +646,7 @@ If the :CREATED: property already exists, do nothing."
   (define-key copilot-completion-map (kbd "C-<return>") 'copilot-accept-completion-by-line)
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
             :rev :newest
-            :branch "main")
-  )
-)
+            :branch "main"))
 
 ;; Display startup time
 (add-hook 'emacs-startup-hook
