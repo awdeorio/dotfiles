@@ -640,6 +640,9 @@ If the :CREATED: property already exists, do nothing."
 ;; M-x copilot-mode
 ;; M-x copilot-login
 ;; M-x copilot-diagnose
+;;
+;; This installation method works on Emacs 30+
+(unless (version< emacs-version "30.0")
 (use-package copilot
   :commands copilot-mode
   :defer t
@@ -655,3 +658,4 @@ If the :CREATED: property already exists, do nothing."
             :rev :newest
             :branch "main")
   )
+)
