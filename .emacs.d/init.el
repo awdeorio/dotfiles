@@ -55,9 +55,10 @@
 (setq use-dialog-box nil)
 
 ;; Remove scrollbars, menu bars, and toolbars
+;; These are now handled in early-init.el for faster startup
 ;; (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+;; (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+;; (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; Don't show a startup message
 (setq inhibit-startup-message t)
