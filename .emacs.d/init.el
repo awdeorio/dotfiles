@@ -382,7 +382,14 @@
   :hook (prog-mode . company-mode)
   :config
   (company-tng-configure-default)       ; use default configuration
+
+  ;; Manual completion with M-/, subsequent M-/ cycles through options
+  (setq company-idle-delay nil)         ; disable auto-popup
+  (setq company-selection-wrap-around t) ; loop back to first candidate
+  (define-key prog-mode-map (kbd "M-/") 'company-complete) ; manual trigger
+  (define-key company-active-map (kbd "M-/") 'company-select-next) ; cycle
   :ensure t)
+
 
 ;; Python backend for autocomplete
 ;; https://github.com/syohex/emacs-company-jedi
