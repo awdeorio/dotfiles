@@ -158,6 +158,12 @@
   :defer t
   )
 
+;; Emacs Lisp mode customizations
+(use-package emacs-lisp-mode
+  :ensure nil
+  :custom
+  (lisp-indent-offset 2))
+
 ;; Verilog mode customizations
 (use-package verilog-mode
   :mode "\\.v\\'"
