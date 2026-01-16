@@ -3147,6 +3147,7 @@ claude                                  # Run (PWD matters)
 /init                                   # Generate or refresh CLAUDE.md
 /clear                                  # Delete context
 /output-style                           # List/select modes (e.g., Learning)
+<kbd> C-g                               # Open Emacs to write prompt
 
 # Codex
 brew install codex                      # Install
