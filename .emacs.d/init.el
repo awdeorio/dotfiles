@@ -391,21 +391,6 @@
   :ensure t)
 
 
-;; Python backend for autocomplete
-;; https://github.com/syohex/emacs-company-jedi
-;; You may need to:
-;; $ pip install virtualenv
-;; Only works on Emacs 24.4 +
-;; (unless (version< emacs-version "24.4")
-;; (use-package company-jedi
-;;   :after company                        ; lazy loading
-;;   :init
-;;   (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
-;;   :ensure t
-;;   :defer t
-;;   )
-;; )
-
 ;; Remote file editing with TRAMP.  Configure TRAMP to use the same SSH
 ;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignores my
 ;; SSH config's multiplexing configuration, so configure the same settings here.
