@@ -9,7 +9,6 @@
 ;; Startup time measurement
 (defconst emacs-start-time (current-time))
 
-
 ;; User-provided packages go in ~/.emacs.d/elisp
 ;; https://www.emacswiki.org/emacs/LoadPath
 (let ((default-directory  "~/.emacs.d/elisp/"))
@@ -298,14 +297,6 @@
   :ensure t
   :defer t
 )
-(use-package company-go
-  ;; Autocomplete
-  :after company  ; lazy loading
-  :init
-  (add-hook 'go-mode-hook (lambda () (add-to-list 'company-backends 'company-go)))
-  :ensure t
-  :defer t
-)
 (use-package go-dlv
   ;; Integrated debugger support
   :after go-mode  ; lazy loading
@@ -338,40 +329,15 @@
   :defer t
   )
 
-;; Intellisense syntax checking
-;; http://www.flycheck.org/en/latest/
-(use-package flycheck
-  :hook (prog-mode . flycheck-mode)
-  :config
-  ;; disable jshint since we prefer eslint checking
-  ;; http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html
-  (setq-default flycheck-disabled-checkers
-                (append flycheck-disabled-checkers
-                        '(javascript-jshint)))
+;; TypeScript (built-in tree-sitter mode, Emacs 29+)
+;; Install grammar: M-x treesit-install-language-grammar RET typescript RET
+(use-package typescript-ts-mode
+  :ensure nil
+  :mode "\\.ts\\'")
 
-  ;; use eslint with web-mode for jsx files
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-
-  ;; use local eslint from node_modules before global
-  ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
-  (defun my/use-eslint-from-node-modules ()
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (eslint (and root
-                        (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                          root))))
-      (when (and eslint (file-executable-p eslint))
-        (setq-local flycheck-javascript-eslint-executable eslint))))
-  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-
-  ;; C++11
-  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
-
-  :ensure t)
-
-;; Autocomplete for words and filenames.  M-/ auto-completes a word
-;; from other words in the buffer and filenames.
+;; Autocomplete for words and filenames (text buffers).
+;; M-/ expands words from buffer and completes filenames.
+;; In prog-mode, company-mode overrides M-/ for code completion (see below).
 (eval-after-load "dabbrev" '(defalias 'dabbrev-expand 'hippie-expand))
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
@@ -384,9 +350,9 @@
         try-expand-line
         ))
 
-;; Autocomplete for code
+;; Autocomplete for code (prog-mode buffers).
+;; M-/ triggers code completion, overriding hippie-expand (see above).
 ;; Company docs: https://company-mode.github.io/
-;; Company TNG: https://github.com/company-mode/company-mode/issues/526
 (use-package company
   :hook (prog-mode . company-mode)
   :config
@@ -399,6 +365,30 @@
   (define-key company-active-map (kbd "M-/") 'company-select-next) ; cycle
   :ensure t)
 
+;; Eglot - LSP client providing IDE features (completions, diagnostics, etc.)
+;; Eglot feeds completions to company-mode via the company-capf backend.
+;;  $ pipx install python-lsp-server
+;;  $ go install golang.org/x/tools/gopls@latest
+;;  $ brew install llvm  (or clangd comes with Xcode Command Line Tools)
+;;  $ brew install typescript-language-server
+;;  $ brew install bash-language-server
+;;  $ brew install yaml-language-server
+;;  $ npm install -g vscode-langservers-extracted  (json)
+;;  $ npm install -g dockerfile-language-server-nodejs
+;;  $ brew install texlab
+(use-package eglot
+  :ensure nil
+  :hook ((python-mode . eglot-ensure)
+         (go-mode . eglot-ensure)
+         (c-mode . eglot-ensure)
+         (c++-mode . eglot-ensure)
+         (js-mode . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure)
+         (sh-mode . eglot-ensure)
+         (yaml-mode . eglot-ensure)
+         (json-mode . eglot-ensure)
+         (dockerfile-mode . eglot-ensure)
+         (latex-mode . eglot-ensure)))
 
 ;; Remote file editing with TRAMP.  Configure TRAMP to use the same SSH
 ;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignores my
