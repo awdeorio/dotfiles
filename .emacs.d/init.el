@@ -1,4 +1,4 @@
-;;; init.el --- awdeorio's emacs customizations
+;;; init.el --- awdeorio's emacs customizations -*- lexical-binding: t -*-
 ;;;
 ;;; Commentary:
 ;;; A few rare packages are provided in ~/.emacs.d/elisp/ .  More packages are
