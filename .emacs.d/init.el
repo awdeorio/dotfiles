@@ -36,15 +36,18 @@
 ;; Org keybindings are set in the org use-package block below
 
 ;; macOS modifier keys
-(setq mac-command-modifier 'meta) ; Command == Meta
-(setq mac-option-modifier 'super) ; Option == Super
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier 'meta)  ; Command == Meta
+  (setq mac-option-modifier 'super)) ; Option == Super
 
 ;; Function aliases
 (defalias 'word-count 'count-words)
 
-;; Open link in browser.  Settings for OSX.
-(setq browse-url-browser-function (quote browse-url-generic))
-(setq browse-url-generic-program "open")
+;; Open link in browser
+(setq browse-url-browser-function 'browse-url-generic)
+(setq browse-url-generic-program
+      (cond ((eq system-type 'darwin) "open")
+            ((eq system-type 'gnu/linux) "xdg-open")))
 (global-set-key "\C-c\C-o" 'browse-url-at-point)
 
 ;; Dialog settings.  No more typing the whole yes or no. Just y or n
