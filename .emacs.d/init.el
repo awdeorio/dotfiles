@@ -164,7 +164,11 @@
   (lisp-indent-offset 2))
 
 ;; Verilog mode customizations
+;;
+;; NOTE to self: Take a look at verilog-ts-mode which includes tree-sitter
+;;  support https://github.com/gmlarumbe/verilog-ext
 (use-package verilog-mode
+  :ensure t
   :mode "\\.v\\'"
   :mode "\\.vh\\'"
   :mode "testfixture.verilog"
@@ -185,9 +189,7 @@
         verilog-minimum-comment-distance 40
         verilog-indent-begin-after-if    'declarations
         verilog-auto-lineup              '(none))
-  ;; can't use :ensure because this package isn't available on package manager
-  :defer t
-  )
+  :defer t)
 
 ;; Text mode
 (setq auto-mode-alist (cons '("README\\'" . text-mode) auto-mode-alist))
