@@ -331,6 +331,12 @@
   :defer t
   )
 
+;; CMake
+(use-package cmake-mode
+  :ensure t
+  :mode "CMakeLists\\.txt\\'"
+  :mode "\\.cmake\\'")
+
 ;; C/C++ (built-in tree-sitter mode, Emacs 29+)
 ;; Install grammars: M-x treesit-install-language-grammar RET c RET
 ;;                   M-x treesit-install-language-grammar RET cpp RET
