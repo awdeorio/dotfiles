@@ -266,13 +266,15 @@
           (lambda () (define-key c-mode-base-map (kbd "C-c c") 'recompile)))
 (setq-default c-basic-offset tab-width) ; indentation
 
-;; C programming
-(add-to-list 'auto-mode-alist '("\\.ino$" . c-mode))  ; c-mode for Arduino
+;; C programming (fallback for Emacs without tree-sitter)
+(unless (treesit-available-p)
+  (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode)))  ; c-mode for Arduino
 
-;; C++ programming
-(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))  ; assume C++ for .h files
-(add-to-list 'auto-mode-alist '("\\.h.starter$" . c++-mode))  ; EECS 280 starter files
-(add-to-list 'auto-mode-alist '("\\.cpp.starter$" . c++-mode))  ; EECS 280 starter files
+;; C++ programming (fallback for Emacs without tree-sitter)
+(unless (treesit-available-p)
+  (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))  ; assume C++ for .h files
+  (add-to-list 'auto-mode-alist '("\\.h.starter$" . c++-mode))  ; EECS 280 starter files
+  (add-to-list 'auto-mode-alist '("\\.cpp.starter$" . c++-mode)))  ; EECS 280 starter files
 
 ;; Go programming
 ;;
@@ -329,6 +331,23 @@
   :defer t
   )
 
+;; C/C++ (built-in tree-sitter mode, Emacs 29+)
+;; Install grammars: M-x treesit-install-language-grammar RET c RET
+;;                   M-x treesit-install-language-grammar RET cpp RET
+(use-package c-ts-mode
+  :if (treesit-available-p)
+  :ensure nil
+  :mode (("\\.c\\'" . c-ts-mode)
+         ("\\.h\\'" . c++-ts-mode)
+         ("\\.cpp\\'" . c++-ts-mode)
+         ("\\.cc\\'" . c++-ts-mode)
+         ("\\.hpp\\'" . c++-ts-mode)
+         ("\\.ino\\'" . c-ts-mode)
+         ("\\.h\\.starter\\'" . c++-ts-mode)
+         ("\\.cpp\\.starter\\'" . c++-ts-mode))
+  :config
+  (setq c-ts-mode-indent-offset tab-width))
+
 ;; TypeScript (built-in tree-sitter mode, Emacs 29+)
 ;; Install grammar: M-x treesit-install-language-grammar RET typescript RET
 (use-package typescript-ts-mode
@@ -382,6 +401,8 @@
          (go-mode . eglot-ensure)
          (c-mode . eglot-ensure)
          (c++-mode . eglot-ensure)
+         (c-ts-mode . eglot-ensure)
+         (c++-ts-mode . eglot-ensure)
          (js-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
          (sh-mode . eglot-ensure)
