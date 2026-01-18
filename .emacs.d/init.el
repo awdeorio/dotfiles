@@ -533,6 +533,9 @@
   (add-hook 'org-mode-hook 'auto-revert-mode) ; for Dropbox
 
   :config
+  ;; Enable org element cache for faster parsing (Emacs 29+)
+  (setq org-element-use-cache t)
+
   ;; TODO keywords as workflow states for GTD
   ;; https://orgmode.org/manual/Workflow-states.html
   ;;
