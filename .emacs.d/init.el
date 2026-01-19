@@ -364,7 +364,7 @@
 
 ;; Autocomplete for words and filenames (text buffers).
 ;; M-/ expands words from buffer and completes filenames.
-;; In prog-mode, company-mode overrides M-/ for code completion (see below).
+;; In prog-mode, corfu overrides M-/ for code completion (see below).
 (eval-after-load "dabbrev" '(defalias 'dabbrev-expand 'hippie-expand))
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
@@ -379,21 +379,19 @@
 
 ;; Autocomplete for code (prog-mode buffers).
 ;; M-/ triggers code completion, overriding hippie-expand (see above).
-;; Company docs: https://company-mode.github.io/
-(use-package company
-  :hook (prog-mode . company-mode)
+;; Corfu docs: https://github.com/minad/corfu
+(use-package corfu
+  :hook (prog-mode . corfu-mode)
   :config
-  (company-tng-configure-default)       ; use default configuration
-
   ;; Manual completion with M-/, subsequent M-/ cycles through options
-  (setq company-idle-delay nil)         ; disable auto-popup
-  (setq company-selection-wrap-around t) ; loop back to first candidate
-  (define-key prog-mode-map (kbd "M-/") 'company-complete) ; manual trigger
-  (define-key company-active-map (kbd "M-/") 'company-select-next) ; cycle
+  (setq corfu-auto nil)                 ; disable auto-popup
+  (setq corfu-cycle t)                  ; loop back to first candidate
+  (define-key prog-mode-map (kbd "M-/") 'completion-at-point) ; manual trigger
+  (define-key corfu-map (kbd "M-/") 'corfu-next) ; cycle
   :ensure t)
 
 ;; Eglot - LSP client providing IDE features (completions, diagnostics, etc.)
-;; Eglot feeds completions to company-mode via the company-capf backend.
+;; Eglot feeds completions to corfu via the completion-at-point-functions (capf).
 ;;  $ pipx install python-lsp-server
 ;;  $ go install golang.org/x/tools/gopls@latest
 ;;  $ brew install llvm  (or clangd comes with Xcode Command Line Tools)
