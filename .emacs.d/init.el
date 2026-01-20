@@ -380,6 +380,32 @@
   (define-key corfu-map (kbd "M-/") 'corfu-next) ; cycle
   :ensure t)
 
+;; Autocomplete for chunks of code with Generative AI
+;; https://github.com/copilot-emacs/copilot.el
+;;
+;; M-x copilot-install-server
+;; M-x copilot-mode
+;; M-x copilot-login
+;; M-x copilot-diagnose
+;;
+;; This installation method (:vc) works on Emacs 30+
+(use-package copilot
+  :if (version<= "30.0" emacs-version)
+  :commands copilot-mode
+  :init
+  ;; Defer copilot startup to avoid blocking UI during Emacs init
+  (run-with-idle-timer 2 nil (lambda () (add-hook 'prog-mode-hook #'copilot-mode)))
+  :config
+  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "C-g") 'copilot-clear-overlay)
+  (define-key copilot-completion-map (kbd "M-n") 'copilot-next-completion)
+  (define-key copilot-completion-map (kbd "M-p") 'copilot-previous-completion)
+  (define-key copilot-completion-map (kbd "C-<return>") 'copilot-accept-completion-by-line)
+  :vc (:url "https://github.com/copilot-emacs/copilot.el"
+            :rev :newest
+            :branch "main"))
+
 ;; Eglot - LSP client providing IDE features (completions, diagnostics, etc.)
 ;; Eglot feeds completions to corfu via the completion-at-point-functions (capf).
 ;;  $ pipx install python-lsp-server
@@ -635,29 +661,3 @@ If the :CREATED: property already exists, do nothing."
 (use-package editorconfig
   :ensure t
   :hook (prog-mode . editorconfig-mode))
-
-;; copilot
-;; https://github.com/copilot-emacs/copilot.el
-;;
-;; M-x copilot-install-server
-;; M-x copilot-mode
-;; M-x copilot-login
-;; M-x copilot-diagnose
-;;
-;; This installation method (:vc) works on Emacs 30+
-(use-package copilot
-  :if (version<= "30.0" emacs-version)
-  :commands copilot-mode
-  :init
-  ;; Defer copilot startup to avoid blocking UI during Emacs init
-  (run-with-idle-timer 2 nil (lambda () (add-hook 'prog-mode-hook #'copilot-mode)))
-  :config
-  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "C-g") 'copilot-clear-overlay)
-  (define-key copilot-completion-map (kbd "M-n") 'copilot-next-completion)
-  (define-key copilot-completion-map (kbd "M-p") 'copilot-previous-completion)
-  (define-key copilot-completion-map (kbd "C-<return>") 'copilot-accept-completion-by-line)
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-            :rev :newest
-            :branch "main"))
