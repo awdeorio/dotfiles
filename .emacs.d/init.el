@@ -387,24 +387,35 @@
 ;; M-x copilot-mode
 ;; M-x copilot-login
 ;; M-x copilot-diagnose
-;;
-;; This installation method (:vc) works on Emacs 30+
 (use-package copilot
-  :if (version<= "30.0" emacs-version)
-  :commands copilot-mode
+  :if (version<= "30.0" emacs-version) ;; Install :vc works on Emacs 30+
+  :commands (copilot-mode copilot-complete)
   :init
-  ;; Defer copilot startup to avoid blocking UI during Emacs init
-  (run-with-idle-timer 2 nil (lambda () (add-hook 'prog-mode-hook #'copilot-mode)))
+  (define-key prog-mode-map (kbd "C-M-/") 'copilot-complete-or-cycle)
   :config
-  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (setq copilot-idle-delay nil)  ; disable auto-completion, trigger manually
+  (setq copilot-cycle-completion t)  ; cycle back to first after last completion
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-g") 'copilot-clear-overlay)
   (define-key copilot-completion-map (kbd "M-n") 'copilot-next-completion)
   (define-key copilot-completion-map (kbd "M-p") 'copilot-previous-completion)
-  (define-key copilot-completion-map (kbd "C-<return>") 'copilot-accept-completion-by-line)
+  (define-key copilot-completion-map (kbd "C-RET") 'copilot-accept-completion-by-line)
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
             :rev :newest
             :branch "main"))
+
+;; Lazy-load copilot: the package is not loaded until the user presses
+;; C-M-/ for the first time.  This improves startup time.
+(defun copilot-complete-or-cycle ()
+  "Enable copilot-mode if needed, trigger completion, or cycle to next.
+On first call, loads copilot package and enables copilot-mode.
+Subsequent calls cycle through available completions."
+  (interactive)
+  (unless (bound-and-true-p copilot-mode)
+    (copilot-mode 1))
+  (if (copilot--overlay-visible)
+      (copilot-next-completion)
+    (copilot-complete)))
 
 ;; Eglot - LSP client providing IDE features (completions, diagnostics, etc.)
 ;; Eglot feeds completions to corfu via the completion-at-point-functions (capf).
