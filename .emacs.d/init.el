@@ -136,13 +136,6 @@
   (setq undo-tree-auto-save-history nil)
   :ensure t)
 
-;; Dark Mode Theme
-(use-package spacemacs-common
-    :ensure spacemacs-theme
-    :defer t
-    ;:config (load-theme 'spacemacs-dark t)
-    )
-
 ;; Integrated debugging mode for LLDB.
 ;; https://github.com/realgud/realgud/wiki/Debuggers-Available
 (use-package realgud
