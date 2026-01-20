@@ -6,9 +6,6 @@
 ;;;
 ;;; Code:
 
-;; Startup time measurement
-(defconst emacs-start-time (current-time))
-
 ;; User-provided packages go in ~/.emacs.d/elisp
 ;; https://www.emacswiki.org/emacs/LoadPath
 (let ((default-directory  "~/.emacs.d/elisp/"))
@@ -671,10 +668,3 @@ If the :CREATED: property already exists, do nothing."
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
             :rev :newest
             :branch "main"))
-
-;; Display startup time
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs ready in %.2f seconds with %d garbage collections."
-                     (float-time (time-subtract after-init-time emacs-start-time))
-                     gcs-done)))
