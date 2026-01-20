@@ -657,7 +657,10 @@ If the :CREATED: property already exists, do nothing."
 ;; This installation method (:vc) works on Emacs 30+
 (use-package copilot
   :if (version<= "30.0" emacs-version)
-  :hook (prog-mode . copilot-mode)
+  :commands copilot-mode
+  :init
+  ;; Defer copilot startup to avoid blocking UI during Emacs init
+  (run-with-idle-timer 2 nil (lambda () (add-hook 'prog-mode-hook #'copilot-mode)))
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
