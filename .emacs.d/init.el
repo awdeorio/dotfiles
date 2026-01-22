@@ -512,16 +512,22 @@ Subsequent calls cycle through available completions."
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;; Change window width from 80 to 160
-(add-hook 'ediff-after-setup-windows-hook (lambda () (if (window-system) (set-frame-width (selected-frame) 160))))
+;; Custom wide display function: double width instead of full screen
+(defun my-ediff-make-wide-display ()
+  "Make the ediff frame twice as wide, expanding equally to both sides."
+  (setq ediff-wide-display-orig-parameters
+        (list (cons 'left (frame-parameter nil 'left))
+              (cons 'width (frame-parameter nil 'width))))
+  (setq ediff-wide-display-frame (selected-frame))
+  (let* ((current-left (frame-parameter nil 'left))
+         (current-pixel-width (frame-pixel-width))
+         (new-left (max 0 (- current-left (/ current-pixel-width 2)))))
+    (modify-frame-parameters
+     (selected-frame)
+     (list (cons 'left new-left)
+           (cons 'width (* 2 (frame-width)))))))
 
-;; Restore windows after Ediff quits
-(use-package winner
-  :init
-  (winner-mode 1)
-  :config
-  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
-  (add-hook 'ediff-after-quit-hook-internal (lambda () (if (window-system) (set-frame-width (selected-frame) 80)))))
+(setq ediff-make-wide-display-function 'my-ediff-make-wide-display)
 
 ;; Git
 ;; (use-package magit
