@@ -3140,16 +3140,19 @@ Command-K                               # Jump to
 Option-Shift-<down>                     # Prev unread channel or DM
 Option-Shift-<up>                       # Next unread channel or DM
 
-# Claude Code
+# Claude Code (Anthropic's Agentic Coding Tool)
 brew install claude-code                # Install
-npm install -g @anthropic-ai/claude-code  # Install
 claude                                  # Run (PWD matters)
 /init                                   # Generate or refresh CLAUDE.md
 /clear                                  # Delete context
 /output-style                           # List/select modes (e.g., Learning)
 <kbd> C-g                               # Open Emacs to write prompt
 
-# Codex
+# Codex (OpenAI's Agentic Coding Tool)
 brew install codex                      # Install
 codex                                   # Run
 /init                                   # Generate or refresh AGENTS.md
+
+# Gemini CLI (Google's Agentic Coding Tool)
+brew install gemini-cli                 # Install
+gemini                                  # Run
