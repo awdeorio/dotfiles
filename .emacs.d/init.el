@@ -507,53 +507,141 @@ Subsequent calls cycle through available completions."
 )
 
 ;; ediff graphical diff viewer
-;;
 ;; https://www.gnu.org/software/emacs/manual/html_mono/ediff.html
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-(setq ediff-split-window-function 'split-window-horizontally)
+;;
+;; Custom keybindings:
+;;   m    toggle wide display (double width, not fullscreen)
+;;   cap  A→B prepend (insert A before B)
+;;   can  A→B append  (insert A after B)
+;;   cbp  B→A prepend (insert B before A)
+;;   cbn  B→A append  (insert B after A)
+(use-package ediff
+  :ensure nil
+  :defer t
 
-;; Custom wide display function: double width instead of full screen
-(defun my-ediff-make-wide-display ()
-  "Make the ediff frame twice as wide, expanding equally to both sides."
-  (setq ediff-wide-display-orig-parameters
-        (list (cons 'left (frame-parameter nil 'left))
-              (cons 'width (frame-parameter nil 'width))))
-  (setq ediff-wide-display-frame (selected-frame))
-  (let* ((current-left (frame-parameter nil 'left))
-         (current-pixel-width (frame-pixel-width))
-         (new-left (max 0 (- current-left (/ current-pixel-width 2)))))
-    (modify-frame-parameters
-     (selected-frame)
-     (list (cons 'left new-left)
-           (cons 'width (* 2 (frame-width)))))))
+  ;; :init runs at startup, before ediff loads.  The wide display function must
+  ;; be defined and set here, before ediff-wind.el initializes.
+  :init
+  (defun my-ediff-make-wide-display ()
+    "Make the ediff frame twice as wide, expanding equally to both sides."
+    (setq ediff-wide-display-orig-parameters
+          (list (cons 'left (frame-parameter nil 'left))
+                (cons 'width (frame-parameter nil 'width))))
+    (setq ediff-wide-display-frame (selected-frame))
+    (let* ((current-left (frame-parameter nil 'left))
+           (current-pixel-width (frame-pixel-width))
+           (new-left (max 0 (- current-left (/ current-pixel-width 2)))))
+      (modify-frame-parameters
+       (selected-frame)
+       (list (cons 'left new-left)
+             (cons 'width (* 2 (frame-width)))))))
+  (setq ediff-make-wide-display-function 'my-ediff-make-wide-display)
 
-(setq ediff-make-wide-display-function 'my-ediff-make-wide-display)
+  ;; :custom runs at startup, setting variables via customize-set-variable.
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-split-window-function 'split-window-horizontally)
 
-(defun ediff-copy-a-to-b-prepend ()
-  "Insert region from buffer A before the difference region in buffer B.
-Saves the old buffer B region so it can be restored with `rb'."
-  (interactive)
-  (ediff-barf-if-not-control-buffer)
-  (let* ((n ediff-current-difference)
-         (a-begin (ediff-get-diff-posn 'A 'beg n))
-         (a-end (ediff-get-diff-posn 'A 'end n))
-         (b-begin (ediff-get-diff-posn 'B 'beg n))
-         (b-end (ediff-get-diff-posn 'B 'end n))
-         (a-content (ediff-with-current-buffer ediff-buffer-A
-                      (buffer-substring a-begin a-end)))
-         (b-content (ediff-with-current-buffer ediff-buffer-B
-                      (buffer-substring b-begin b-end))))
-    (ediff-with-current-buffer ediff-buffer-B
-      (goto-char b-begin)
-      (insert a-content))
-    ;; Save original B region for restoration with `rb'
-    (ediff-save-diff-region n 'B b-content)
-    (ediff-clear-fine-differences n)
-    (ediff-refresh-mode-lines)))
+  ;; :config runs when ediff is first invoked.  Function here use ediff
+  ;; internals.  They are defined after ediff loads.
+  :config
+  (defun ediff-copy-a-to-b-prepend ()
+    "Insert difference region from buffer A before the region in buffer B."
+    (interactive)
+    (ediff-barf-if-not-control-buffer)
+    (let* ((n ediff-current-difference)
+           (a-begin (ediff-get-diff-posn 'A 'beg n))
+           (a-end (ediff-get-diff-posn 'A 'end n))
+           (b-begin (ediff-get-diff-posn 'B 'beg n))
+           (b-end (ediff-get-diff-posn 'B 'end n))
+           (a-content (ediff-with-current-buffer ediff-buffer-A
+                        (buffer-substring a-begin a-end)))
+           (b-content (ediff-with-current-buffer ediff-buffer-B
+                        (buffer-substring b-begin b-end))))
+      (ediff-with-current-buffer ediff-buffer-B
+        (goto-char b-begin)
+        (insert a-content))
 
-(add-hook 'ediff-keymap-setup-hook
-          (lambda ()
-            (define-key ediff-mode-map "c" 'ediff-copy-a-to-b-prepend)))
+      ;; Save original B region for restoration with `rb'
+      (ediff-save-diff-region n 'B b-content)
+      (ediff-clear-fine-differences n)
+      (ediff-refresh-mode-lines)))
+
+  (defun ediff-copy-a-to-b-append ()
+    "Insert difference region from buffer A after the region in buffer B."
+    (interactive)
+    (ediff-barf-if-not-control-buffer)
+    (let* ((n ediff-current-difference)
+           (a-begin (ediff-get-diff-posn 'A 'beg n))
+           (a-end (ediff-get-diff-posn 'A 'end n))
+           (b-begin (ediff-get-diff-posn 'B 'beg n))
+           (b-end (ediff-get-diff-posn 'B 'end n))
+           (a-content (ediff-with-current-buffer ediff-buffer-A
+                        (buffer-substring a-begin a-end)))
+           (b-content (ediff-with-current-buffer ediff-buffer-B
+                        (buffer-substring b-begin b-end))))
+      (ediff-with-current-buffer ediff-buffer-B
+        (goto-char b-end)
+        (insert a-content))
+      (ediff-save-diff-region n 'B b-content)
+      (ediff-clear-fine-differences n)
+      (ediff-refresh-mode-lines)))
+
+  (defun ediff-copy-b-to-a-prepend ()
+    "Insert difference region from buffer B before the region in buffer A."
+    (interactive)
+    (ediff-barf-if-not-control-buffer)
+    (let* ((n ediff-current-difference)
+           (a-begin (ediff-get-diff-posn 'A 'beg n))
+           (a-end (ediff-get-diff-posn 'A 'end n))
+           (b-begin (ediff-get-diff-posn 'B 'beg n))
+           (b-end (ediff-get-diff-posn 'B 'end n))
+           (a-content (ediff-with-current-buffer ediff-buffer-A
+                        (buffer-substring a-begin a-end)))
+           (b-content (ediff-with-current-buffer ediff-buffer-B
+                        (buffer-substring b-begin b-end))))
+      (ediff-with-current-buffer ediff-buffer-A
+        (goto-char a-begin)
+        (insert b-content))
+      (ediff-save-diff-region n 'A a-content)
+      (ediff-clear-fine-differences n)
+      (ediff-refresh-mode-lines)))
+
+  (defun ediff-copy-b-to-a-append ()
+    "Insert difference region from buffer B after the region in buffer A."
+    (interactive)
+    (ediff-barf-if-not-control-buffer)
+    (let* ((n ediff-current-difference)
+           (a-begin (ediff-get-diff-posn 'A 'beg n))
+           (a-end (ediff-get-diff-posn 'A 'end n))
+           (b-begin (ediff-get-diff-posn 'B 'beg n))
+           (b-end (ediff-get-diff-posn 'B 'end n))
+           (a-content (ediff-with-current-buffer ediff-buffer-A
+                        (buffer-substring a-begin a-end)))
+           (b-content (ediff-with-current-buffer ediff-buffer-B
+                        (buffer-substring b-begin b-end))))
+      (ediff-with-current-buffer ediff-buffer-A
+        (goto-char a-end)
+        (insert b-content))
+      (ediff-save-diff-region n 'A a-content)
+      (ediff-clear-fine-differences n)
+      (ediff-refresh-mode-lines)))
+
+  ;; Keybindings extend the existing 'c' prefix (ca, cb).  We use :hook instead
+  ;; of :bind because ediff dynamically creates its keymap; :bind would fail
+  ;; with "Key sequence starts with non-prefix key" since 'c' isn't defined
+  ;; as a prefix until ediff-keymap-setup runs.
+  ;; c = copy, a/b = source buffer, p/n = prepend/next(append)
+  ;;   cap  A→B prepend (insert A before B)
+  ;;   can  A→B append  (insert A after B)
+  ;;   cbp  B→A prepend (insert B before A)
+  ;;   cbn  B→A append  (insert B after A)
+  :hook
+  (ediff-keymap-setup . (lambda ()
+                          (define-key ediff-mode-map "cap" 'ediff-copy-a-to-b-prepend)
+                          (define-key ediff-mode-map "can" 'ediff-copy-a-to-b-append)
+                          (define-key ediff-mode-map "cbp" 'ediff-copy-b-to-a-prepend)
+                          (define-key ediff-mode-map "cbn" 'ediff-copy-b-to-a-append))))
 
 ;; Git
 ;; (use-package magit
