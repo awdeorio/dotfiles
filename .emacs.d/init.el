@@ -529,6 +529,32 @@ Subsequent calls cycle through available completions."
 
 (setq ediff-make-wide-display-function 'my-ediff-make-wide-display)
 
+(defun ediff-copy-a-to-b-prepend ()
+  "Insert region from buffer A before the difference region in buffer B.
+Saves the old buffer B region so it can be restored with `rb'."
+  (interactive)
+  (ediff-barf-if-not-control-buffer)
+  (let* ((n ediff-current-difference)
+         (a-begin (ediff-get-diff-posn 'A 'beg n))
+         (a-end (ediff-get-diff-posn 'A 'end n))
+         (b-begin (ediff-get-diff-posn 'B 'beg n))
+         (b-end (ediff-get-diff-posn 'B 'end n))
+         (a-content (ediff-with-current-buffer ediff-buffer-A
+                      (buffer-substring a-begin a-end)))
+         (b-content (ediff-with-current-buffer ediff-buffer-B
+                      (buffer-substring b-begin b-end))))
+    (ediff-with-current-buffer ediff-buffer-B
+      (goto-char b-begin)
+      (insert a-content))
+    ;; Save original B region for restoration with `rb'
+    (ediff-save-diff-region n 'B b-content)
+    (ediff-clear-fine-differences n)
+    (ediff-refresh-mode-lines)))
+
+(add-hook 'ediff-keymap-setup-hook
+          (lambda ()
+            (define-key ediff-mode-map "c" 'ediff-copy-a-to-b-prepend)))
+
 ;; Git
 ;; (use-package magit
 ;;   :ensure t
