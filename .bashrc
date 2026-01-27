@@ -359,16 +359,28 @@ case "$TERM" in
 esac
 export PROMPT_COMMAND
 
-# Colorized output
+### Colorized ls and tree output ##############################################
+
+# Prefer GNU ls on OSX if available
 LS=ls
 if which gls &> /dev/null; then
-  # GNU ls on OSX
   LS=gls
 fi
-if `${LS} --version 2>&1 | grep -q GNU &> /dev/null`; then
+
+# Set LS_COLORS if available
+if which dircolors &> /dev/null; then
+  eval $(dircolors -b ${HOME}/.DIR_COLORS)
+elif which gdircolors &> /dev/null; then
+  eval $(gdircolors -b ${HOME}/.DIR_COLORS)
+fi
+
+# Options
+#
+# ls requires an explicit colorization option.  Tree colorizes by default if
+# LS_COLORS is set.
+if ${LS} --version 2>&1 | grep -q GNU &> /dev/null; then
   # GNU ls
-  # eval `dircolors -b ${HOME}/.DIR_COLORS`
-  LSOPT="--color=auto --human-readable --quoting-style=literal --ignore-backups --ignore $'Icon\r'"
+  LSOPT="--color=auto --quoting-style=literal --ignore-backups --ignore $'Icon\r'"
 else
   # BSD ls
   # -G is for color
