@@ -3147,6 +3147,7 @@ claude                                  # Run (PWD matters)
 /clear                                  # Delete context
 /output-style                           # List/select modes (e.g., Learning)
 <kbd> C-g                               # Open Emacs to write prompt
+!CMD                                    # Run CMD shell command
 
 # Codex (OpenAI's Agentic Coding Tool)
 brew install codex                      # Install
@@ -3156,3 +3157,6 @@ codex                                   # Run
 # Gemini CLI (Google's Agentic Coding Tool)
 brew install gemini-cli                 # Install
 gemini                                  # Run
+/init                                   # Generate or refresh GEMINI.md
+/clear                                  # Delete context
+!CMD                                    # Run CMD shell command
