@@ -12,9 +12,6 @@
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; Do not load site-start.el
-(setq site-run-file nil)
-
 ;; Relocate automatically modified files.  These are lines added to
 ;; the file when you use the customise system. They're generated when
 ;; you use customize-*. By default, the customisation options are

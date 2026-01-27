@@ -6,6 +6,9 @@
 ;;;
 ;;; Code:
 
+;; Do not load site-start.el (system-wide config that can be slow)
+(setq site-run-file nil)
+
 ;; Increase garbage collection threshold during startup (default is 800KB)
 ;; This dramatically reduces GC pauses during init
 (setq gc-cons-threshold most-positive-fixnum)
