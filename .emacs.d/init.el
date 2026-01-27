@@ -12,6 +12,9 @@
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
+;; Do not load site-start.el
+(setq site-run-file nil)
+
 ;; Relocate automatically modified files.  These are lines added to
 ;; the file when you use the customise system. They're generated when
 ;; you use customize-*. By default, the customisation options are
@@ -290,11 +293,11 @@
 (setq-default c-basic-offset tab-width) ; indentation
 
 ;; C programming (fallback for Emacs without tree-sitter)
-(unless (treesit-available-p)
+(unless (and (fboundp 'treesit-available-p) (treesit-available-p))
   (add-to-list 'auto-mode-alist '("\\.ino$" . c-mode)))  ; c-mode for Arduino
 
 ;; C++ programming (fallback for Emacs without tree-sitter)
-(unless (treesit-available-p)
+(unless (and (fboundp 'treesit-available-p) (treesit-available-p))
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))  ; assume C++ for .h files
   (add-to-list 'auto-mode-alist '("\\.h.starter$" . c++-mode))  ; EECS 280 starter files
   (add-to-list 'auto-mode-alist '("\\.cpp.starter$" . c++-mode)))  ; EECS 280 starter files
@@ -364,7 +367,7 @@
 ;; Install grammars: M-x treesit-install-language-grammar RET c RET
 ;;                   M-x treesit-install-language-grammar RET cpp RET
 (use-package c-ts-mode
-  :if (treesit-available-p)
+  :if (and (fboundp 'treesit-available-p) (treesit-available-p))
   :ensure nil
   :mode (("\\.c\\'" . c-ts-mode)
          ("\\.h\\'" . c++-ts-mode)
@@ -380,6 +383,7 @@
 ;; TypeScript (built-in tree-sitter mode, Emacs 29+)
 ;; Install grammar: M-x treesit-install-language-grammar RET typescript RET
 (use-package typescript-ts-mode
+  :if (and (fboundp 'treesit-available-p) (treesit-available-p))
   :ensure nil
   :mode "\\.ts\\'")
 
@@ -401,15 +405,17 @@
 ;; Autocomplete for code (prog-mode buffers).
 ;; M-/ triggers code completion, overriding hippie-expand (see above).
 ;; Corfu docs: https://github.com/minad/corfu
-(use-package corfu
-  :hook (prog-mode . corfu-mode)
-  :config
-  ;; Manual completion with M-/, subsequent M-/ cycles through options
-  (setq corfu-auto nil)                 ; disable auto-popup
-  (setq corfu-cycle t)                  ; loop back to first candidate
-  (define-key prog-mode-map (kbd "M-/") 'completion-at-point) ; manual trigger
-  (define-key corfu-map (kbd "M-/") 'corfu-next) ; cycle
-  :ensure t)
+;; NOTE: Wrapped in `when` because :if doesn't prevent :ensure in older use-package.
+(when (version<= "29.1" emacs-version)
+  (use-package corfu
+    :hook (prog-mode . corfu-mode)
+    :config
+    ;; Manual completion with M-/, subsequent M-/ cycles through options
+    (setq corfu-auto nil)                 ; disable auto-popup
+    (setq corfu-cycle t)                  ; loop back to first candidate
+    (define-key prog-mode-map (kbd "M-/") 'completion-at-point) ; manual trigger
+    (define-key corfu-map (kbd "M-/") 'corfu-next) ; cycle
+    :ensure t))
 
 ;; Autocomplete for chunks of code with Generative AI
 ;; https://github.com/copilot-emacs/copilot.el
@@ -418,22 +424,26 @@
 ;; M-x copilot-mode
 ;; M-x copilot-login
 ;; M-x copilot-diagnose
-(use-package copilot
-  :if (version<= "30.0" emacs-version) ;; Install :vc works on Emacs 30+
-  :commands (copilot-mode copilot-complete)
-  :init
-  (define-key prog-mode-map (kbd "C-M-/") 'copilot-complete-or-cycle)
-  :config
-  (setq copilot-idle-delay nil)  ; disable auto-completion, trigger manually
-  (setq copilot-cycle-completion t)  ; cycle back to first after last completion
-  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "C-g") 'copilot-clear-overlay)
-  (define-key copilot-completion-map (kbd "M-n") 'copilot-next-completion)
-  (define-key copilot-completion-map (kbd "M-p") 'copilot-previous-completion)
-  (define-key copilot-completion-map (kbd "C-RET") 'copilot-accept-completion-by-line)
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-            :rev :newest
-            :branch "main"))
+;;
+;; NOTE: Uses `eval` to defer macro expansion because :vc keyword requires
+;; Emacs 30+ use-package.  Eager macro expansion would error on older Emacs.
+(when (version<= "30.0" emacs-version)
+  (eval
+   '(use-package copilot
+      :commands (copilot-mode copilot-complete)
+      :init
+      (define-key prog-mode-map (kbd "C-M-/") 'copilot-complete-or-cycle)
+      :config
+      (setq copilot-idle-delay nil)  ; disable auto-completion, trigger manually
+      (setq copilot-cycle-completion t)  ; cycle back to first after last completion
+      (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+      (define-key copilot-completion-map (kbd "C-g") 'copilot-clear-overlay)
+      (define-key copilot-completion-map (kbd "M-n") 'copilot-next-completion)
+      (define-key copilot-completion-map (kbd "M-p") 'copilot-previous-completion)
+      (define-key copilot-completion-map (kbd "C-RET") 'copilot-accept-completion-by-line)
+      :vc (:url "https://github.com/copilot-emacs/copilot.el"
+                :rev :newest
+                :branch "main"))))
 
 ;; Lazy-load copilot: the package is not loaded until the user presses
 ;; C-M-/ for the first time.  This improves startup time.
@@ -459,21 +469,23 @@ Subsequent calls cycle through available completions."
 ;;  $ npm install -g vscode-langservers-extracted  (json)
 ;;  $ npm install -g dockerfile-language-server-nodejs
 ;;  $ brew install texlab
-(use-package eglot
-  :ensure nil
-  :hook ((python-mode . eglot-ensure)
-         (go-mode . eglot-ensure)
-         (c-mode . eglot-ensure)
-         (c++-mode . eglot-ensure)
-         (c-ts-mode . eglot-ensure)
-         (c++-ts-mode . eglot-ensure)
-         (js-mode . eglot-ensure)
-         (typescript-ts-mode . eglot-ensure)
-         (sh-mode . eglot-ensure)
-         (yaml-mode . eglot-ensure)
-         (json-mode . eglot-ensure)
-         (dockerfile-mode . eglot-ensure)
-         (latex-mode . eglot-ensure)))
+;; NOTE: Wrapped in `when` because :if doesn't prevent :ensure in older use-package.
+(when (version<= "29.1" emacs-version)
+  (use-package eglot
+    :ensure nil  ; Built-in on Emacs 29+
+    :hook ((python-mode . eglot-ensure)
+           (go-mode . eglot-ensure)
+           (c-mode . eglot-ensure)
+           (c++-mode . eglot-ensure)
+           (c-ts-mode . eglot-ensure)
+           (c++-ts-mode . eglot-ensure)
+           (js-mode . eglot-ensure)
+           (typescript-ts-mode . eglot-ensure)
+           (sh-mode . eglot-ensure)
+           (yaml-mode . eglot-ensure)
+           (json-mode . eglot-ensure)
+           (dockerfile-mode . eglot-ensure)
+           (latex-mode . eglot-ensure))))
 
 ;; Remote file editing with TRAMP.  Configure TRAMP to use the same SSH
 ;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignores my
@@ -676,16 +688,17 @@ Subsequent calls cycle through available completions."
 
 ;; Better org agenda views
 ;; https://github.com/alphapapa/org-super-agenda/
-(use-package org-super-agenda
-  :ensure t
-  :defer t
-  :after org
-  )
+;; NOTE: Wrapped in `when` because :if doesn't prevent :ensure in older use-package.
+(when (version<= "28.1" emacs-version)
+  (use-package org-super-agenda
+    :ensure t
+    :defer t
+    :after org)
 
-(use-package org-ql
-  :ensure t
-  :defer t
-  :after org)
+  (use-package org-ql
+    :ensure t
+    :defer t
+    :after org))
 
 (use-package org
   :defer t
@@ -704,7 +717,8 @@ Subsequent calls cycle through available completions."
 
   :config
   ;; Enable org element cache for faster parsing (Emacs 29+)
-  (setq org-element-use-cache t)
+  (when (version<= "29.0" emacs-version)
+    (setq org-element-use-cache t))
 
   ;; TODO keywords as workflow states for GTD
   ;; https://orgmode.org/manual/Workflow-states.html
@@ -794,22 +808,23 @@ If the :CREATED: property already exists, do nothing."
   ;; Custom agenda views
   ;; https://github.com/alphapapa/org-ql
   ;; https://github.com/alphapapa/org-ql/blob/master/examples.org
-  (setq org-agenda-custom-commands
-        '(("d" "Dashboard"
-           ((org-ql-block
+  (when (version<= "28.1" emacs-version)
+    (setq org-agenda-custom-commands
+          '(("d" "Dashboard"
+             ((org-ql-block
 
-             '(and
-               (or
-                (priority "A")
-                (deadline auto) ;; has deadline set and due today or overdue
-                (scheduled :to today)
-                )
-               (not (done))
-               )
+               '(and
+                 (or
+                  (priority "A")
+                  (deadline auto) ;; has deadline set and due today or overdue
+                  (scheduled :to today)
+                  )
+                 (not (done))
+                 )
 
                ((org-ql-block-header "Today Dashboard"))
 
-             )))))
+               ))))))
   )
 
 ;; editorconfig
