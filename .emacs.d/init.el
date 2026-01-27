@@ -511,27 +511,34 @@ Subsequent calls cycle through available completions."
   :defer t
 )
 
-;; Code folding
-;;
-;; In programming major modes, hs-minor-mode provides folding functionality.
-;; In text modes, outline-minor-mode provides folding functionality.  We use
-;; fold-dwim to integrate the different folding behaviors in different minor
-;; modes.
+;; Code folding (prog-mode only)
+;;   TAB    toggle hiding on foldable line, else indent
+;;   S-TAB  toggle hide-all/show-all
 (use-package hideshow
-  :hook ((prog-mode . hs-minor-mode))  ; Enable folding in programming modes
-  :defer t
+  :hook (prog-mode . hs-minor-mode)
   :config
+  (defvar hs-all-hidden nil "Track whether all blocks are hidden.")
+  (make-variable-buffer-local 'hs-all-hidden)
 
-  (use-package fold-dwim
-    :hook ((text-mode . outline-minor-mode))  ; Enable folding in text mode
-    :config
-    (global-set-key (kbd "<f7>")      'fold-dwim-toggle)
-    (global-set-key (kbd "<M-f7>")    'fold-dwim-hide-all)
-    (global-set-key (kbd "<S-M-f7>")  'fold-dwim-show-all)
-    :ensure t
-    :defer t
-    )
-  )
+  (defun hs-toggle-all ()
+    "Toggle between `hs-hide-all' and `hs-show-all'."
+    (interactive)
+    (if hs-all-hidden
+        (progn (hs-show-all) (setq hs-all-hidden nil))
+      (progn (hs-hide-all) (setq hs-all-hidden t))))
+
+  (defun hs-smart-tab ()
+    "Toggle hiding if on a foldable line, otherwise indent."
+    (interactive)
+    (if (save-excursion
+          (beginning-of-line)
+          (hs-looking-at-block-start-p))
+        (hs-toggle-hiding)
+      (indent-for-tab-command)))
+
+  :bind (:map hs-minor-mode-map
+              ("<S-tab>" . hs-toggle-all)
+              ("TAB" . hs-smart-tab)))
 
 ;; Dockerfile syntax highlighting
 (use-package dockerfile-mode
