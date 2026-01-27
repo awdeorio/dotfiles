@@ -36,9 +36,6 @@
   (setq mac-command-modifier 'meta)  ; Command == Meta
   (setq mac-option-modifier 'super)) ; Option == Super
 
-;; Function aliases
-(defalias 'word-count 'count-words)
-
 ;; Open link in browser
 (setq browse-url-browser-function 'browse-url-generic)
 (setq browse-url-generic-program
@@ -93,12 +90,45 @@
 ;; Line length for features like fill-paragraph (M-q)
 (setq-default fill-column 79)
 
-;; Convenience function to relad this file
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Convenience functions
+
+(defalias 'word-count 'count-words)
+
 (defun reload-init-file ()
   "Reload user init file."
   (interactive)
   (load-file user-init-file)
   )
+
+(defun insert-todays-date ()
+  "Insert today's date in YYYY-MM-DD format."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d"))
+)
+
+(defun reformat-from-ppt ()
+  "Reformat entire buffer after paste from PowerPoint."
+  (interactive)
+  (save-excursion
+
+    ;; Replace ^M (carriage return) with empty string
+    (goto-char (point-min))
+    (while (search-forward "\r" nil t)
+      (replace-match "" nil t))
+
+    ;; Replace ^K (vertical tab) with newline
+    (goto-char (point-min))
+    (while (search-forward "\x0b" nil t)
+      (replace-match "\n" nil t))
+
+    ;; Indent entire buffer
+    (indent-region (point-min) (point-max))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Package manager
 
 ;; Native compilation
 ;; Emacs 28+, optimize for speed, suppress compilation warnings
@@ -124,6 +154,10 @@
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-defer t)  ; Globally defer package loading
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Packages
 
 ;; More intuitive undo/redo.  M-_ undo, C-M-_ redo
 ;; https://www.emacswiki.org/emacs/UndoTree
@@ -195,14 +229,6 @@
          (latex-mode . flyspell-mode)
          (markdown-mode . flyspell-mode)))
 
-;; Sort function is useful in todo.txt mode
-(defun sort-buffer ()
-  "Sort buffer."
-  (interactive)
-  (mark-whole-buffer)
-  (sort-lines nil (point-min) (point-max))
-)
-
 ;; Todo.txt mode
 ;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
 ;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
@@ -216,6 +242,11 @@
   (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (flyspell-mode -1))) ; disable
   (add-hook 'todotxt-mode-hook (lambda () (electric-pair-mode -1))) ; disable
+  (defun sort-buffer ()
+    "Sort buffer."
+    (interactive)
+    (mark-whole-buffer)
+    (sort-lines nil (point-min) (point-max)))
   :defer t
 )
 
@@ -498,12 +529,6 @@ Subsequent calls cycle through available completions."
   :mode "Dockerfile\\'"
   :ensure t
   :defer t
-)
-
-(defun insert-todays-date ()
-  "Insert today's date in YYYY-MM-DD format."
-  (interactive)
-  (insert (format-time-string "%Y-%m-%d"))
 )
 
 ;; ediff graphical diff viewer
