@@ -511,7 +511,7 @@ Subsequent calls cycle through available completions."
   :defer t
 )
 
-;; Code folding (prog-mode only)
+;; Code folding (prog-mode only, see web-mode for HTML/web files)
 ;;   TAB    toggle hiding on foldable line, else indent
 ;;   S-TAB  toggle hide-all/show-all
 (use-package hideshow
@@ -539,6 +539,16 @@ Subsequent calls cycle through available completions."
   :bind (:map hs-minor-mode-map
               ("<S-tab>" . hs-toggle-all)
               ("TAB" . hs-smart-tab)))
+
+;; Outline folding (markdown, latex)
+;;   TAB    cycle visibility
+;;   S-TAB  cycle global visibility
+(use-package outline
+  :hook ((markdown-mode . outline-minor-mode)
+         (latex-mode . outline-minor-mode))
+  :bind (:map outline-minor-mode-map
+              ("<S-tab>" . outline-cycle-buffer)
+              ("TAB" . outline-cycle)))
 
 ;; Dockerfile syntax highlighting
 (use-package dockerfile-mode
