@@ -1,10 +1,17 @@
 ;;; init.el --- awdeorio's emacs customizations -*- lexical-binding: t -*-
 ;;;
-;;; Commentary:
 ;;; A few rare packages are provided in ~/.emacs.d/elisp/ .  More packages are
 ;;; automatically downloaded by use-package and placed in ~/.emacs.d/elpa/ .
 ;;;
-;;; Code:
+;;; Start-up performance is important.  We use use-package to configure most
+;;; packages at load time, not startup.  Summary of when sections evaluate.
+;;; https://www.gnu.org/software/emacs/manual/html_mono/use-package.html
+;;;   :defer t  Load when needed (on hook)
+;;;   :hook     When to load package
+;;;   :bind     Keybinding.  Includes hook and defered loading.
+;;;   :preface  Runs immediately on startup
+;;;   :init     Runs immediately on startup
+;;;   :config   Runs later when package loads
 
 ;; User-provided packages go in ~/.emacs.d/elisp
 ;; https://www.emacswiki.org/emacs/LoadPath
