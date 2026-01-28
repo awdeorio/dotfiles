@@ -462,6 +462,26 @@ Subsequent calls cycle through available completions."
       (copilot-next-completion)
     (copilot-complete)))
 
+;; Python virtual environment support
+;; M-x pyvenv-activate    activate a venv by directory
+;; M-x pyvenv-workon      activate from $WORKON_HOME
+;; M-x pyvenv-deactivate  deactivate current venv
+(use-package pyvenv
+  :ensure t
+  :hook ((python-mode . pyvenv-mode)
+         (python-ts-mode . pyvenv-mode))
+  :config
+  (setq pyvenv-mode-line-indicator
+        '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] "))))
+
+;; Python (built-in tree-sitter mode, Emacs 29+)
+;; Install grammar: M-x treesit-install-language-grammar RET python RET
+;; Falls back to python-mode if tree-sitter or grammar unavailable.
+(use-package python
+  :if (and (fboundp 'treesit-available-p) (treesit-available-p))
+  :ensure nil
+  :mode ("\\.py\\'" . python-ts-mode))
+
 ;; Eglot - LSP client providing IDE features (completions, diagnostics, etc.)
 ;; Eglot feeds completions to corfu via the completion-at-point-functions (capf).
 ;;  $ pipx install python-lsp-server
@@ -473,11 +493,13 @@ Subsequent calls cycle through available completions."
 ;;  $ npm install -g vscode-langservers-extracted  (json)
 ;;  $ npm install -g dockerfile-language-server-nodejs
 ;;  $ brew install texlab
+;;
 ;; NOTE: Wrapped in `when` because :if doesn't prevent :ensure in older use-package.
 (when (version<= "29.1" emacs-version)
   (use-package eglot
     :ensure nil  ; Built-in on Emacs 29+
     :hook ((python-mode . eglot-ensure)
+           (python-ts-mode . eglot-ensure)
            (go-mode . eglot-ensure)
            (c-mode . eglot-ensure)
            (c++-mode . eglot-ensure)
@@ -526,7 +548,6 @@ Subsequent calls cycle through available completions."
   :config
   (setq hs-hide-comments-when-hiding-all nil)  ; Do not hide comments
   (setq hs-isearch-open t)  ; Unhide code and comments during search
-
 
   (defvar hs-all-hidden nil "Track whether all blocks are hidden.")
   (make-variable-buffer-local 'hs-all-hidden)
