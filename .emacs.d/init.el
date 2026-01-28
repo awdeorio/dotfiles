@@ -541,8 +541,8 @@ Subsequent calls cycle through available completions."
 )
 
 ;; Code folding (prog-mode only, see web-mode for HTML/web files)
-;;   TAB    toggle hiding on foldable line, else indent
-;;   S-TAB  toggle hide-all/show-all
+;;   C-c f f  toggle hiding
+;;   C-c f a  toggle hide-all/show-all
 (use-package hideshow
   :hook (prog-mode . hs-minor-mode)
   :config
@@ -559,18 +559,9 @@ Subsequent calls cycle through available completions."
         (progn (hs-show-all) (setq hs-all-hidden nil))
       (progn (hs-hide-all) (setq hs-all-hidden t))))
 
-  (defun hs-smart-tab ()
-    "Toggle hiding if on a foldable line, otherwise indent."
-    (interactive)
-    (if (save-excursion
-          (beginning-of-line)
-          (hs-looking-at-block-start-p))
-        (hs-toggle-hiding)
-      (indent-for-tab-command)))
-
   :bind (:map hs-minor-mode-map
-              ("<S-tab>" . hs-toggle-all)
-              ("TAB" . hs-smart-tab)))
+              ("C-c f a" . hs-toggle-all)
+              ("C-c f f" . hs-toggle-hiding)))
 
 ;; Outline folding (markdown, latex)
 ;;   TAB    cycle visibility
