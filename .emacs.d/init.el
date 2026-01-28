@@ -524,6 +524,10 @@ Subsequent calls cycle through available completions."
 (use-package hideshow
   :hook (prog-mode . hs-minor-mode)
   :config
+  (setq hs-hide-comments-when-hiding-all nil)  ; Do not hide comments
+  (setq hs-isearch-open t)  ; Unhide code and comments during search
+
+
   (defvar hs-all-hidden nil "Track whether all blocks are hidden.")
   (make-variable-buffer-local 'hs-all-hidden)
 
