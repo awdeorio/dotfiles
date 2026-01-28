@@ -337,6 +337,7 @@
 )
 
 ;; Web Development
+;;   C-c f f  toggle folding
 (use-package web-mode
   :mode "\\.jsx?\\'"
   :mode "\\.html?\\'"
@@ -357,6 +358,8 @@
   (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
   (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
   (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
+  :bind (:map web-mode-map
+              ("C-c f f" . web-mode-fold-or-unfold))
   :ensure t
   :defer t
   )
@@ -544,7 +547,8 @@ Subsequent calls cycle through available completions."
 ;;   C-c f f  toggle hiding
 ;;   C-c f a  toggle hide-all/show-all
 (use-package hideshow
-  :hook (prog-mode . hs-minor-mode)
+  :hook ((prog-mode . hs-minor-mode)
+         (web-mode . (lambda () (hs-minor-mode -1))))
   :config
   (setq hs-hide-comments-when-hiding-all nil)  ; Do not hide comments
   (setq hs-isearch-open t)  ; Unhide code and comments during search
