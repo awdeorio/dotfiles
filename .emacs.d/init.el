@@ -115,7 +115,7 @@
   (insert (format-time-string "%Y-%m-%d"))
 )
 
-(defun reformat-from-ppt ()
+(defun from-pptx ()
   "Reformat entire buffer after paste from PowerPoint."
   (interactive)
   (save-excursion
