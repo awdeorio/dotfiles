@@ -79,6 +79,7 @@ alias bejs='bundle exec jekyll serve --host localhost --port 4000'
 alias mogrify-1024='mogrify -resize 1024x1024'
 alias pg='ping google.com -c3'
 alias sb="source ~/.bashrc"
+alias eecs280g++='g++ -Wall -Werror -std=c++17 -pedantic'
 
 ### macOS #####################################################################
 # Homebrew configuration for x86_64 and arm64
