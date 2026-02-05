@@ -540,8 +540,15 @@ Subsequent calls cycle through available completions."
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :ensure t
-  :defer t
-)
+  :defer t)
+
+;; JSON mode
+(use-package json-mode
+  :mode "\\.json\\'"
+  :config
+  (setq js-indent-level 2)
+  :ensure t
+  :defer t)
 
 ;; Code folding (prog-mode only, see web-mode for HTML/web files)
 ;;   C-c f f  toggle hiding
