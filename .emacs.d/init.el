@@ -880,3 +880,13 @@ If the :CREATED: property already exists, do nothing."
 (use-package editorconfig
   :ensure t
   :hook (prog-mode . editorconfig-mode))
+
+;; version482 required by EECS 482 autograder
+;; Automatically loads when "eecs482" appears anywhere in the full path
+(use-package version482
+  :load-path "~/src/eecs482/version482.el/"
+  :commands version482-mode
+  :hook (find-file . (lambda ()
+                       (when (and buffer-file-name
+                                  (string-match-p "eecs482" buffer-file-name))
+                         (version482-mode 1)))))
