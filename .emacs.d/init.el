@@ -884,9 +884,15 @@ If the :CREATED: property already exists, do nothing."
 ;; version482 required by EECS 482 autograder
 ;; Automatically loads when "eecs482" appears anywhere in the full path
 (use-package version482
-  :load-path "~/src/eecs482/version482.el/"
   :commands version482-mode
+
+  ;; Automatically start version485-mode when abs path contains "eecs482"
   :hook (find-file . (lambda ()
                        (when (and buffer-file-name
                                   (string-match-p "eecs482" buffer-file-name))
-                         (version482-mode 1)))))
+                         (version482-mode 1))))
+
+  ;; Install from GitHub
+  :vc (:url "https://github.com/awdeorio/version482.el"
+      :rev :newest
+      :branch "main"))
