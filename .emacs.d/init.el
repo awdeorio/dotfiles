@@ -596,6 +596,7 @@ Subsequent calls cycle through available completions."
 ;;
 ;; Custom keybindings:
 ;;   m    toggle wide display (double width, not fullscreen)
+;;   t    toggle tall display (maximize vertically)
 ;;   cap  A→B prepend (insert A before B)
 ;;   can  A→B append  (insert A after B)
 ;;   cbp  B→A prepend (insert B before A)
@@ -712,6 +713,26 @@ Subsequent calls cycle through available completions."
       (ediff-clear-fine-differences n)
       (ediff-refresh-mode-lines)))
 
+  (defvar my-ediff-tall-display-orig-parameters nil
+    "Original frame parameters before maximizing vertically.")
+
+  (defun my-ediff-toggle-tall-display ()
+    "Toggle the frame between maximized vertically and original height."
+    (interactive)
+    (if my-ediff-tall-display-orig-parameters
+        (progn
+          (modify-frame-parameters
+           (selected-frame) my-ediff-tall-display-orig-parameters)
+          (setq my-ediff-tall-display-orig-parameters nil))
+      (setq my-ediff-tall-display-orig-parameters
+            (list (cons 'top (frame-parameter nil 'top))
+                  (cons 'height (frame-parameter nil 'height))))
+      (let ((display-height (display-pixel-height)))
+        (modify-frame-parameters
+         (selected-frame)
+         (list (cons 'top 0)
+               (cons 'height (/ display-height (frame-char-height))))))))
+
   ;; Keybindings extend the existing 'c' prefix (ca, cb).  We use :hook instead
   ;; of :bind because ediff dynamically creates its keymap; :bind would fail
   ;; with "Key sequence starts with non-prefix key" since 'c' isn't defined
@@ -723,6 +744,7 @@ Subsequent calls cycle through available completions."
   ;;   cbn  B→A append  (insert B after A)
   :hook
   (ediff-keymap-setup . (lambda ()
+                          (define-key ediff-mode-map "t" 'my-ediff-toggle-tall-display)
                           (define-key ediff-mode-map "cap" 'ediff-copy-a-to-b-prepend)
                           (define-key ediff-mode-map "can" 'ediff-copy-a-to-b-append)
                           (define-key ediff-mode-map "cbp" 'ediff-copy-b-to-a-prepend)
