@@ -143,26 +143,24 @@
       (set-frame-parameter nil 'fullscreen nil)
     (set-frame-parameter nil 'fullscreen 'fullheight)))
 
-(defvar toggle-double-wide-orig-parameters nil
-  "Original frame parameters before doubling width.")
-
 (defun toggle-double-wide ()
   "Toggle frame width between original and double equally on both sides."
   (interactive)
-  (if toggle-double-wide-orig-parameters
-      (progn
-        (modify-frame-parameters (selected-frame) toggle-double-wide-orig-parameters)
-        (setq toggle-double-wide-orig-parameters nil))
-    (setq toggle-double-wide-orig-parameters
-          (list (cons 'left (frame-parameter nil 'left))
-                (cons 'width (frame-parameter nil 'width))))
-    (let* ((current-left (frame-parameter nil 'left))
-           (current-pixel-width (frame-pixel-width))
-           (new-left (max 0 (- current-left (/ current-pixel-width 2)))))
-      (modify-frame-parameters
-       (selected-frame)
-       (list (cons 'left new-left)
-             (cons 'width (* 2 (frame-width))))))))
+  (let ((orig (frame-parameter nil 'toggle-double-wide-orig)))
+    (if orig
+        (progn
+          (modify-frame-parameters (selected-frame) orig)
+          (set-frame-parameter nil 'toggle-double-wide-orig nil))
+      (set-frame-parameter nil 'toggle-double-wide-orig
+                           (list (cons 'left (frame-parameter nil 'left))
+                                 (cons 'width (frame-parameter nil 'width))))
+      (let* ((current-left (frame-parameter nil 'left))
+             (current-pixel-width (frame-pixel-width))
+             (new-left (max 0 (- current-left (/ current-pixel-width 2)))))
+        (modify-frame-parameters
+         (selected-frame)
+         (list (cons 'left new-left)
+               (cons 'width (* 2 (frame-width)))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package manager
@@ -915,6 +913,5 @@ If the :CREATED: property already exists, do nothing."
                          (version482-mode 1))))
 
   ;; Install from GitHub
-  :vc (:url "https://github.com/awdeorio/version482.el"
-      :rev :newest
-      :branch "main"))
+  :load-path "~/.emacs.d/site-lisp/version482.el"
+  )
