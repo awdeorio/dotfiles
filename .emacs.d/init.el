@@ -29,13 +29,16 @@
 (unless (file-exists-p custom-file) (write-region "" nil custom-file))
 
 ;; Modified keyboard shortcuts
-(global-set-key "\C-ci"                             'indent-to)
-(global-set-key "\C-c\C-s"                          'search-forward-regexp)
-(global-set-key "\C-c\C-r"                          'search-backward-regexp)
-(global-set-key "\M-o"                              'other-window)
-(global-set-key "\C-x\C-b"                          'electric-buffer-list)
-(global-set-key "\C-x\C-t"                          'insert-todays-date)
-(global-set-key "\C-x\C-u"                          'browse-url-at-point)
+(global-set-key "\C-ci"                         'indent-to)
+(global-set-key "\C-c\C-s"                      'search-forward-regexp)
+(global-set-key "\C-c\C-r"                      'search-backward-regexp)
+(global-set-key "\M-o"                          'other-window)
+(global-set-key "\C-x\C-b"                      'electric-buffer-list)
+(global-set-key "\C-x\C-t"                      'insert-todays-date)
+(global-set-key "\C-x\C-u"                      'browse-url-at-point)
+(global-set-key "\C-cm"                         'toggle-double-wide)
+(global-set-key "\C-ct"                         'toggle-maximize-vertically)
+
 ;; Org keybindings are set in the org use-package block below
 
 ;; macOS modifier keys
@@ -133,6 +136,33 @@
     ;; Indent entire buffer
     (indent-region (point-min) (point-max))))
 
+(defun toggle-maximize-vertically ()
+  "Toggle frame height between original and max (screen) height."
+  (interactive)
+  (if (eq (frame-parameter nil 'fullscreen) 'fullheight)
+      (set-frame-parameter nil 'fullscreen nil)
+    (set-frame-parameter nil 'fullscreen 'fullheight)))
+
+(defvar toggle-double-wide-orig-parameters nil
+  "Original frame parameters before doubling width.")
+
+(defun toggle-double-wide ()
+  "Toggle frame width between original and double equally on both sides."
+  (interactive)
+  (if toggle-double-wide-orig-parameters
+      (progn
+        (modify-frame-parameters (selected-frame) toggle-double-wide-orig-parameters)
+        (setq toggle-double-wide-orig-parameters nil))
+    (setq toggle-double-wide-orig-parameters
+          (list (cons 'left (frame-parameter nil 'left))
+                (cons 'width (frame-parameter nil 'width))))
+    (let* ((current-left (frame-parameter nil 'left))
+           (current-pixel-width (frame-pixel-width))
+           (new-left (max 0 (- current-left (/ current-pixel-width 2)))))
+      (modify-frame-parameters
+       (selected-frame)
+       (list (cons 'left new-left)
+             (cons 'width (* 2 (frame-width))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package manager
@@ -290,8 +320,8 @@
 ;; C and C++ programming.  Build with C-c m.  Rebuild with C-c c.  Put
 ;; this in c-mode-base-map because c-mode-map, c++-mode-map, and so
 ;; on, inherit from it.
-(add-hook 'c-initialization-hook
-          (lambda () (define-key c-mode-base-map (kbd "C-c m") 'compile)))
+;; (add-hook 'c-initialization-hook
+;;           (lambda () (define-key c-mode-base-map (kbd "C-c m") 'compile)))
 (add-hook 'c-initialization-hook
           (lambda () (define-key c-mode-base-map (kbd "C-c c") 'recompile)))
 (setq-default c-basic-offset tab-width) ; indentation
@@ -608,20 +638,6 @@ Subsequent calls cycle through available completions."
   ;; :init runs at startup, before ediff loads.  The wide display function must
   ;; be defined and set here, before ediff-wind.el initializes.
   :init
-  (defun my-ediff-make-wide-display ()
-    "Make the ediff frame twice as wide, expanding equally to both sides."
-    (setq ediff-wide-display-orig-parameters
-          (list (cons 'left (frame-parameter nil 'left))
-                (cons 'width (frame-parameter nil 'width))))
-    (setq ediff-wide-display-frame (selected-frame))
-    (let* ((current-left (frame-parameter nil 'left))
-           (current-pixel-width (frame-pixel-width))
-           (new-left (max 0 (- current-left (/ current-pixel-width 2)))))
-      (modify-frame-parameters
-       (selected-frame)
-       (list (cons 'left new-left)
-             (cons 'width (* 2 (frame-width)))))))
-  (setq ediff-make-wide-display-function 'my-ediff-make-wide-display)
 
   ;; :custom runs at startup, setting variables via customize-set-variable.
   :custom
@@ -713,25 +729,8 @@ Subsequent calls cycle through available completions."
       (ediff-clear-fine-differences n)
       (ediff-refresh-mode-lines)))
 
-  (defvar my-ediff-tall-display-orig-parameters nil
+  (defvar ediff-tall-display-orig-parameters nil
     "Original frame parameters before maximizing vertically.")
-
-  (defun my-ediff-toggle-tall-display ()
-    "Toggle the frame between maximized vertically and original height."
-    (interactive)
-    (if my-ediff-tall-display-orig-parameters
-        (progn
-          (modify-frame-parameters
-           (selected-frame) my-ediff-tall-display-orig-parameters)
-          (setq my-ediff-tall-display-orig-parameters nil))
-      (setq my-ediff-tall-display-orig-parameters
-            (list (cons 'top (frame-parameter nil 'top))
-                  (cons 'height (frame-parameter nil 'height))))
-      (let ((display-height (display-pixel-height)))
-        (modify-frame-parameters
-         (selected-frame)
-         (list (cons 'top 0)
-               (cons 'height (/ display-height (frame-char-height))))))))
 
   ;; Keybindings extend the existing 'c' prefix (ca, cb).  We use :hook instead
   ;; of :bind because ediff dynamically creates its keymap; :bind would fail
@@ -744,7 +743,8 @@ Subsequent calls cycle through available completions."
   ;;   cbn  B→A append  (insert B after A)
   :hook
   (ediff-keymap-setup . (lambda ()
-                          (define-key ediff-mode-map "t" 'my-ediff-toggle-tall-display)
+                          (define-key ediff-mode-map "m" 'toggle-double-wide)
+                          (define-key ediff-mode-map "t" 'toggle-maximize-vertically)
                           (define-key ediff-mode-map "cap" 'ediff-copy-a-to-b-prepend)
                           (define-key ediff-mode-map "can" 'ediff-copy-a-to-b-append)
                           (define-key ediff-mode-map "cbp" 'ediff-copy-b-to-a-prepend)
