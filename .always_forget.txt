@@ -1,5 +1,3 @@
--*- mode: sh; -*-
-
 # .always_forget.txt
 #
 # awdeorio's UNIX cheat sheet
@@ -2903,7 +2901,7 @@ git describe --always                   # use commit object as fallback
 # Comparing
 git diff BRANCH1 BRANCH2                # diff two local branches
 git diff master remotes/origin/dataset  # diff two remote branches
-git diff --name-status ref1..ref2       # see what files changed
+git diff --name-only ref1 ref2         # see what files changed
 git diff --stats                        # summary of insertions and deletions
 git mergetool --tool-help               # list available diff/merge tools
 git diff --no-ext-diff                  # do not use merge tool
