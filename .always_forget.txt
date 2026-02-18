@@ -802,6 +802,7 @@ $ curl --socks5 localhost:1337 ipinfo.io/ip
 # Note: your web browser can also use the proxy at localhost:1337
 
 # GPG + SSH keys
+# Using GPG to provide SSH keys
 # Ref https://incenp.org/notes/2015/gnupg-for-ssh-authentication.html
 echo enable-ssh-support >> ~/gpg-agent.conf
 gpgconf --kill gpg-agent
@@ -814,6 +815,41 @@ echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
 ssh-add -l                             # verify GPG-SSH connection
 gpg --export-ssh-key KEYID             # print SSH public key
 echo RELOADAGENT | gpg-connect-agent   # reload gpg agent
+
+# GPG agent forwarding
+#
+# Local gpg-agent handles all private key operations, and the remote machine
+# just sends requests back through the SSH tunnel. The key never leaves your
+# local machine.  Not to be confused with SSH key forwarding.
+#
+# Import public key on remote machine
+# local> gpg --export awdeorio@umich.edu | ssh login-course.engin.umich.edu gpg --import
+# remote> gpg --list-keys
+#
+# Get local and remote agent sockets
+# local> gpgconf --list-dir agent-extra-socket
+# remote> gpgconf --list-dir agent-socket
+#
+# Edit ~/.ssh/config
+#   Host *.umich.edu
+#     RemoteForward REMOTE LOCAL
+#
+# Delete SSH sockets and reconnect
+# local> ssh REMOTE
+# remote> gpg --list-secret-keys
+# remote> echo "test" | gpg --clearsign
+#
+# Debug GPG agent forwarding
+# Remove local agent socket and restart
+# $ gpgconf --kill gpg-agent
+# $ rm $(gpgconf --list-dir agent-extra-socket)
+# $ gpg-connect-agent /bye
+#
+# Remove remote agent socket and restart
+# $ gpgconf --kill gpg-agent
+# $ rm $(gpgconf --list-dir agent-socket)
+# $ gpg-connect-agent /bye
+
 
 # Intel SSH
 cygwin $ export SSH_SOCKS_SERVER='socks://proxy-socks.jf.intel.com:1080'
