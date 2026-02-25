@@ -578,6 +578,9 @@ Subsequent calls cycle through available completions."
   :ensure t
   :defer t)
 
+;; JSONC (JSON with Comments) - use js-mode which supports // and /* */ comments
+(add-to-list 'auto-mode-alist '("\\.jsonc\\'" . js-mode))
+
 ;; Code folding (prog-mode only, see web-mode for HTML/web files)
 ;;   C-c f f  toggle hiding
 ;;   C-c f a  toggle hide-all/show-all
