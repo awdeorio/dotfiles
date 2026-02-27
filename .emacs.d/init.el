@@ -351,9 +351,9 @@
   :mode "\\.go\\'"
   :config
   (add-hook 'before-save-hook 'gofmt-before-save)  ; Call gofmt before save
-  :bind (("M-." . godef-jump)    ; Jump to definition
-         ("M-*" . pop-tag-mark)  ; Go back
-         )
+  ;; :bind (("M-." . godef-jump)    ; Jump to definition
+  ;;        ("M-*" . pop-tag-mark)  ; Go back
+  ;;        )
   :ensure t
   :defer t
 )
