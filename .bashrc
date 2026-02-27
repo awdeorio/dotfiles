@@ -124,6 +124,25 @@ fi
 # fi
 
 
+# Terminal size shortcuts
+_TERM_PREV_ROWS=""
+termtoggle() {
+  # Toggle terminal height between full and original
+  local current_rows
+  current_rows=$(tput lines)
+
+  if [[ -n "$_TERM_PREV_ROWS" ]]; then
+    printf "\e[8;${_TERM_PREV_ROWS};${COLUMNS}t"
+    _TERM_PREV_ROWS=""
+  else
+    _TERM_PREV_ROWS=$current_rows
+    printf "\e[8;9999;${COLUMNS}t"
+  fi
+}
+
+alias termdefault='printf "\e[8;24;80t"'
+
+
 ### Editor ####################################################################
 # export EDITOR="emacsclient -n -c"      # Open a new window w/ existing daemon
 export EDITOR="emacs"
