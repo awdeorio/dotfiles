@@ -101,11 +101,11 @@ echo "export PATH=\"${VIRTUAL_ENV}/bin:\${PATH}\"" >> $TMPFILE
 
 # Load .env file if there is one
 # set -a causes defined variables to be exported
-ENV_PATH="${VIRTUAL_ENV}/.env"
-if test -f "${VIRTUAL_ENV}"; then
-  echo "source ${VIRTUAL_ENV}/.env"
+ENV_PATH="${VIRTUAL_ENV}/../.env"
+if test -f "${ENV_PATH}"; then
+  echo "source ${ENV_PATH}/.env"
   echo "set -a" >> $TMPFILE
-  echo "source ${VIRTUAL_ENV}/.env" >> $TMPFILE
+  echo "source ${ENV_PATH}" >> $TMPFILE
   echo "set +a" >> $TMPFILE
 fi
 
