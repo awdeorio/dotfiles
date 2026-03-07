@@ -580,6 +580,7 @@ Subsequent calls cycle through available completions."
 
 ;; JSONC (JSON with Comments) - use js-mode which supports // and /* */ comments
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . js-mode))
+(add-hook 'js-mode-hook (lambda () (setq-local js-indent-level 2)))
 
 ;; Code folding (prog-mode only, see web-mode for HTML/web files)
 ;;   C-c f f  toggle hiding
@@ -918,3 +919,12 @@ If the :CREATED: property already exists, do nothing."
 ;;   ;; Install from GitHub
 ;;   :load-path "~/.emacs.d/site-lisp/version482.el"
 ;;   )
+
+;; fcat personal finance tool - fcat.settings.jsonc support Provides category
+;; completion via `completion-at-point' and `fcat-insert-rule'.
+(use-package fcat
+  :load-path "~/src/fcat/contrib/emacs"
+  :mode ("fcat\\.settings\\.jsonc\\'" . fcat-settings-mode)
+  :hook (fcat-settings-mode . (lambda () (setq-local js-indent-level 2)))
+  :bind (:map fcat-minor-mode-map
+              ("M-/" . fcat-complete-category)))
