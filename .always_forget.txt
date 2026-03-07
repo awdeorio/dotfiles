@@ -147,8 +147,11 @@ find -mtime -3 -type f                  # files modified less than 3 days ago
 find -mtime +3 -type f                  # files modified more than 3 days ago
 find . -not -path '*/\.git*'            # ignore .git dir
 find . -type f -not -wholename '*\.git*' -exec file {} \; | grep CRLF  # Windows line endings
-locate FILE                             # search system database for hello.txt
-mdfind FILE                             # ^^^ Some macOS systems
+locate FILE                             # Linux filename lookup
+mlocate FILE                            # Linux filename lookup
+mdfind FILE                             # macOS spotlight file content search
+mdfind -name "report.pdf"               # macOS spotlight filename search
+mdfind -onlyin DIR -name "*.config"     # macOS spotlight filename search
 grep -r PATTERN .                       # recursively search file content
 grep -rI PATTERN .                      # ^^^ ignoring binary files
 git grep PATTERN                        # recursively search git-controled files
