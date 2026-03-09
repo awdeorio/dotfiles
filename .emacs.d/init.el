@@ -258,11 +258,28 @@
 ;; LaTeX mode
 (add-hook 'latex-mode-hook 'visual-line-mode) ; wrap long lines
 
+;; Spell checking backend: prefer hunspell (better dictionary) over ispell.
+;;
+;; Install hunspell and the en_US dictionary on macOS:
+;;   $ brew install hunspell
+;;   $ mkdir -p ~/Library/Spelling
+;;   $ curl -o ~/Library/Spelling/en_US.aff https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_US.aff
+;;   $ curl -o ~/Library/Spelling/en_US.dic https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_US.dic
+;;
+;; Add words to personal dictionary (~/.hunspell_en_US): M-x ispell-word RET i
+(use-package ispell
+  :if (executable-find "hunspell")
+  :config
+  (setq ispell-program-name "hunspell")
+  (setq ispell-dictionary "en_US"))
+
 ;; Flyspell (spell checking) - deferred until mode activation for faster startup
+;; flyspell-prog-mode checks strings and comments only (skips identifiers)
 (use-package flyspell
   :hook ((text-mode . flyspell-mode)
          (latex-mode . flyspell-mode)
-         (markdown-mode . flyspell-mode)))
+         (markdown-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode)))
 
 ;; Todo.txt mode
 ;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
