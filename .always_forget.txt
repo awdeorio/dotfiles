@@ -901,6 +901,9 @@ nmap -sn -PR 192.168.0.0/24             # which hosts are up my subnet?
 nmap -O                                 # OS detection
 zenmap                                  # GUI for nmap
 
+# Shell productivity
+fc                                      # Open previous command in $EDITOR
+
 # Shell scripting
 yes                                     # keep printing "y" over and over
 yes STRING                              # keep printing STRING over and over
