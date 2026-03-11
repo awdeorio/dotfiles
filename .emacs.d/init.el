@@ -273,7 +273,8 @@
   (setq ispell-program-name "hunspell")
   (setq ispell-dictionary "en_US"))
 
-;; Flyspell (spell checking) - deferred until mode activation for faster startup
+;; Flyspell: "red squiggles" spell checking
+;;
 ;; flyspell-prog-mode checks strings and comments only (skips identifiers)
 (use-package flyspell
   :hook ((text-mode . flyspell-mode)
