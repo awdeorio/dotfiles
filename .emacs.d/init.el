@@ -771,10 +771,10 @@ Subsequent calls cycle through available completions."
                           (define-key ediff-mode-map "cbn" 'ediff-copy-b-to-a-append))))
 
 ;; Git
-;; (use-package magit
-;;   :ensure t
-;;   :defer t
-;;   )
+(use-package magit
+  :ensure t
+  :defer t
+  )
 
 ;; Better org agenda views
 ;; https://github.com/alphapapa/org-super-agenda/
