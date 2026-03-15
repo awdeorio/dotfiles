@@ -292,6 +292,29 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
          (markdown-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode)))
 
+;; Flymake-languagetool: real-time grammar checking via flymake
+;; https://github.com/emacs-languagetool/flymake-languagetool
+;;
+;; Provides inline grammar diagnostics (like flyspell, but for grammar).
+;; Usage:
+;;   M-x flymake-show-buffer-diagnostics
+;;   M-x flymake-goto-next-error
+;;   M-x flymake-goto-prev-error
+(use-package flymake-languagetool
+  :ensure t
+  :hook ((text-mode . flymake-languagetool-load)
+         (text-mode . flymake-mode)
+         (latex-mode . flymake-languagetool-load)
+         (latex-mode . flymake-mode)
+         (markdown-mode . flymake-languagetool-load)
+         (markdown-mode . flymake-mode)
+         (org-mode . flymake-languagetool-load)
+         (org-mode . flymake-mode))
+  :config
+  (setq flymake-languagetool-language "en-US")
+  (setq flymake-languagetool-server-jar
+        "/opt/homebrew/opt/languagetool/libexec/languagetool-server.jar"))
+
 ;; Todo.txt mode
 ;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
 ;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
