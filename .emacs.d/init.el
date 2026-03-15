@@ -265,8 +265,30 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 (add-hook 'text-mode-hook 'visual-line-mode)  ; wrap long lines
 (add-hook 'text-mode-hook (lambda () (electric-pair-mode -1))) ; disable
 
-;; LaTeX mode
-(add-hook 'latex-mode-hook 'visual-line-mode) ; wrap long lines
+;; AUCTeX - enhanced LaTeX editing
+;; https://www.gnu.org/software/auctex/
+;;
+;; Usage:
+;;   C-c C-c  compile (LaTeX, BibTeX, View, etc.)
+;;   C-c C-v  view PDF
+;;   C-c C-e  insert environment (\begin{}...\end{})
+;;   C-c C-s  insert section/chapter
+;;   C-c =    table of contents (reftex)
+;;   C-c [    insert citation (reftex)
+;;   C-c (    insert label (reftex)
+;;   C-c )    insert reference (reftex)
+(use-package tex
+  :ensure auctex
+  :defer t
+  :hook ((LaTeX-mode . visual-line-mode)
+         (LaTeX-mode . LaTeX-math-mode)
+         (LaTeX-mode . turn-on-reftex))
+  :config
+  (setq TeX-auto-save t)                ; parse on save
+  (setq TeX-parse-self t)               ; parse on load
+  (setq-default TeX-master nil)         ; prompt for master file
+  (setq TeX-PDF-mode t)                 ; default to PDF output
+  (setq reftex-plug-into-AUCTeX t))     ; integrate reftex with AUCTeX
 
 ;; Spell checking backend: prefer hunspell (better dictionary) over ispell.
 ;;
@@ -315,6 +337,8 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
          (text-mode . flymake-mode)
          (latex-mode . flymake-languagetool-load)
          (latex-mode . flymake-mode)
+         (LaTeX-mode . flymake-languagetool-load)
+         (LaTeX-mode . flymake-mode)
          (markdown-mode . flymake-languagetool-load)
          (markdown-mode . flymake-mode)
          (org-mode . flymake-languagetool-load)
@@ -609,7 +633,8 @@ Subsequent calls cycle through available completions."
            (yaml-mode . eglot-ensure)
            (json-mode . eglot-ensure)
            (dockerfile-mode . eglot-ensure)
-           (latex-mode . eglot-ensure))))
+           (latex-mode . eglot-ensure)
+           (LaTeX-mode . eglot-ensure))))
 
 ;; Remote file editing with TRAMP.  Configure TRAMP to use the same SSH
 ;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignores my
