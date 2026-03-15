@@ -355,6 +355,51 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
               (setq-local flymake-languagetool-disabled-rules
                           '("WHITESPACE_RULE")))))
 
+;; Writegood-mode: highlight weasel words, passive voice, and duplicates
+;; https://github.com/bnbeckwith/writegood-mode
+;;
+;; Usage:
+;;   C-c g     toggle writegood-mode
+;;   C-c g g   writegood-grade-level (Flesch-Kincaid)
+;;   C-c g e   writegood-reading-ease (Flesch)
+(use-package writegood-mode
+  :ensure t
+  :hook ((text-mode . writegood-mode)
+         (latex-mode . writegood-mode)
+         (LaTeX-mode . writegood-mode)
+         (markdown-mode . writegood-mode))
+  :bind (("C-c g" . writegood-mode))
+  :config
+
+  ;; Disable duplicate word detection; flyspell and LanguageTool already cover it
+  (setq writegood-duplicates-regexp nil)
+
+  ;; Match flymake-languagetool underline color
+  (set-face-attribute 'writegood-weasels-face nil
+                      :underline '(:style wave :color "deep sky blue")
+                      :background nil)
+  (set-face-attribute 'writegood-passive-voice-face nil
+                      :underline '(:style wave :color "deep sky blue")
+                      :background nil)
+
+  ;; Match LanguageTool minibuffer messages
+  (defun writegood-minibuffer-message ()
+    "Show writegood help-echo in the minibuffer for text at point."
+    (when (bound-and-true-p writegood-mode)
+      (let* ((face (get-text-property (point) 'face))
+             (faces (if (listp face) face (list face))))
+        (when (seq-intersection faces '(writegood-weasels-face
+                                        writegood-passive-voice-face))
+          (message "%s"
+                   (propertize
+                    (concat (get-text-property (point) 'help-echo) " [writegood]")
+                    'face 'flymake-warning-echo))))))
+  (add-hook 'writegood-mode-hook
+            (lambda ()
+              (if writegood-mode
+                  (add-hook 'post-command-hook #'writegood-minibuffer-message nil t)
+                (remove-hook 'post-command-hook #'writegood-minibuffer-message t)))))
+
 ;; Todo.txt mode
 ;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
 ;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
