@@ -160,10 +160,11 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
              (current-pixel-width (frame-pixel-width))
              (screen-width (display-pixel-width))
              (char-width (frame-char-width))
+             (frame-overhead (- (frame-outer-width) (frame-text-width)))
              (desired-width (* mult (frame-width)))
-             (max-width (/ screen-width char-width))
+             (max-width (/ (- screen-width frame-overhead) char-width))
              (new-width (min desired-width max-width))
-             (new-pixel-width (* new-width char-width))
+             (new-pixel-width (+ (* new-width char-width) frame-overhead))
              (new-left (max 0 (- current-left
                                  (/ (- new-pixel-width current-pixel-width) 2)))))
         (modify-frame-parameters
