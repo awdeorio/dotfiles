@@ -355,6 +355,18 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
               (setq-local flymake-languagetool-disabled-rules
                           '("WHITESPACE_RULE")))))
 
+;; Flymake-popon: show flymake diagnostics in a popup near point
+;; https://github.com/flymake/flymake-popon
+(use-package flymake-popon
+  :ensure t
+  :hook (flymake-mode . flymake-popon-mode)
+  :config
+  ;; Disable minibuffer diagnostics (eldoc) since popon handles display
+  (add-hook 'flymake-mode-hook
+            (lambda ()
+              (remove-hook 'eldoc-documentation-functions
+                           #'flymake-eldoc-function t))))
+
 ;; Todo.txt mode
 ;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
 ;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
