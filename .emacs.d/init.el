@@ -762,6 +762,12 @@ Subsequent calls cycle through available completions."
   (defvar ediff-tall-display-orig-parameters nil
     "Original frame parameters before maximizing vertically.")
 
+  ;; Restore frame width when ediff quits
+  (add-hook 'ediff-cleanup-hook
+            (lambda ()
+              (when (frame-parameter nil 'toggle-double-wide-orig)
+                (toggle-double-wide))))
+
   ;; Keybindings extend the existing 'c' prefix (ca, cb).  We use :hook instead
   ;; of :bind because ediff dynamically creates its keymap; :bind would fail
   ;; with "Key sequence starts with non-prefix key" since 'c' isn't defined
