@@ -143,10 +143,12 @@
       (set-frame-parameter nil 'fullscreen nil)
     (set-frame-parameter nil 'fullscreen 'fullheight)))
 
-(defun toggle-double-wide ()
-  "Toggle frame width between original and double equally on both sides."
+(defun toggle-double-wide (&optional multiplier)
+  "Toggle frame width between original and MULTIPLIER times wide.
+MULTIPLIER defaults to 2.  The frame is centered around its original position."
   (interactive)
-  (let ((orig (frame-parameter nil 'toggle-double-wide-orig)))
+  (let ((mult (or multiplier 2))
+        (orig (frame-parameter nil 'toggle-double-wide-orig)))
     (if orig
         (progn
           (modify-frame-parameters (selected-frame) orig)
@@ -156,11 +158,18 @@
                                  (cons 'width (frame-parameter nil 'width))))
       (let* ((current-left (frame-parameter nil 'left))
              (current-pixel-width (frame-pixel-width))
-             (new-left (max 0 (- current-left (/ current-pixel-width 2)))))
+             (screen-width (display-pixel-width))
+             (char-width (frame-char-width))
+             (desired-width (* mult (frame-width)))
+             (max-width (/ screen-width char-width))
+             (new-width (min desired-width max-width))
+             (new-pixel-width (* new-width char-width))
+             (new-left (max 0 (- current-left
+                                 (/ (- new-pixel-width current-pixel-width) 2)))))
         (modify-frame-parameters
          (selected-frame)
          (list (cons 'left new-left)
-               (cons 'width (* 2 (frame-width)))))))))
+               (cons 'width new-width)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package manager
@@ -763,12 +772,17 @@ Subsequent calls cycle through available completions."
   ;;   cbn  B→A append  (insert B after A)
   :hook
   (ediff-keymap-setup . (lambda ()
-                          (define-key ediff-mode-map "m" 'toggle-double-wide)
+                          (define-key ediff-mode-map "m"
+                            (lambda () (interactive)
+                              (toggle-double-wide
+                               (if (ediff-3way-comparison-job) 3 2))))
                           (define-key ediff-mode-map "t" 'toggle-maximize-vertically)
-                          (define-key ediff-mode-map "cap" 'ediff-copy-a-to-b-prepend)
-                          (define-key ediff-mode-map "can" 'ediff-copy-a-to-b-append)
-                          (define-key ediff-mode-map "cbp" 'ediff-copy-b-to-a-prepend)
-                          (define-key ediff-mode-map "cbn" 'ediff-copy-b-to-a-append))))
+                          ;; (define-key ediff-mode-map "cap" 'ediff-copy-a-to-b-prepend)
+                          ;; (define-key ediff-mode-map "can" 'ediff-copy-a-to-b-append)
+                          ;; (define-key ediff-mode-map "cbp" 'ediff-copy-b-to-a-prepend)
+                          ;; (define-key ediff-mode-map "cbn" 'ediff-copy-b-to-a-append)
+                          ))
+  )
 
 ;; Git
 (use-package magit
