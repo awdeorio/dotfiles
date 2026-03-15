@@ -285,7 +285,10 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 
 ;; Flyspell: "red squiggles" spell checking
 ;;
-;; flyspell-prog-mode checks strings and comments only (skips identifiers)
+;; flyspell-prog-mode checks strings and comments only (skips identifiers).  It
+;; checks words as you type or move past them.
+;;
+;; M-x flyspell-buffer  ; check whole buffer
 (use-package flyspell
   :hook ((text-mode . flyspell-mode)
          (latex-mode . flyspell-mode)
@@ -294,6 +297,12 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 
 ;; Flymake-languagetool: real-time grammar checking via flymake
 ;; https://github.com/emacs-languagetool/flymake-languagetool
+;;
+;; Install LanguageTool:
+;;   $ brew install languagetool
+;;
+;; Runs a local LanguageTool HTTP server (auto-started on first check).
+;; No data is sent to external servers.
 ;;
 ;; Provides inline grammar diagnostics (like flyspell, but for grammar).
 ;; Usage:
@@ -313,7 +322,14 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
   :config
   (setq flymake-languagetool-language "en-US")
   (setq flymake-languagetool-server-jar
-        "/opt/homebrew/opt/languagetool/libexec/languagetool-server.jar"))
+        "/opt/homebrew/opt/languagetool/libexec/languagetool-server.jar")
+
+  ;; Disable WHITESPACE_RULE in org-mode because aligned tags (e.g.,
+  ;; org-tags-column) produce repeated whitespace that triggers false positives.
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (setq-local flymake-languagetool-disabled-rules
+                          '("WHITESPACE_RULE")))))
 
 ;; Todo.txt mode
 ;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
