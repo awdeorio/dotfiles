@@ -260,10 +260,19 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
         verilog-auto-lineup              '(none))
   :defer t)
 
+;; Unfill paragraph: join all lines into one long line
+(defun unfill-paragraph ()
+  "Replace newlines in current paragraph with spaces, producing one line."
+  (interactive)
+  (let ((fill-column most-positive-fixnum))
+    (fill-paragraph nil)))
+
 ;; Text mode
 (setq auto-mode-alist (cons '("README\\'" . text-mode) auto-mode-alist))
 (add-hook 'text-mode-hook 'visual-line-mode)  ; wrap long lines
 (add-hook 'text-mode-hook (lambda () (electric-pair-mode -1))) ; disable
+(add-hook 'text-mode-hook
+          (lambda () (local-set-key (kbd "M-q") 'unfill-paragraph)))
 
 ;; AUCTeX - enhanced LaTeX editing
 ;; https://www.gnu.org/software/auctex/
