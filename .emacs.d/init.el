@@ -1033,3 +1033,31 @@ If the :CREATED: property already exists, do nothing."
   :hook (fcat-settings-mode . (lambda () (setq-local js-indent-level 2)))
   :bind (:map fcat-minor-mode-map
               ("M-/" . fcat-complete-category)))
+
+;; flywrite DEVELOPMENT
+(use-package flywrite-mode
+  :load-path "~/src/flywrite"
+  :commands (flywrite-mode)
+
+  ;; Fast navigation among errors
+  :bind (:map flymake-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error))
+
+  ;; Auto-enable flywrite-mode for files in ~/src/flywrite/samples/
+  :init
+  (dir-locals-set-class-variables
+   'flywrite-samples
+   '((nil . ((eval . (flywrite-mode 1))))))
+  (dir-locals-set-directory-class
+   (expand-file-name "~/src/flywrite/samples") 'flywrite-samples)
+
+  ;; Anthropic API configuration
+  :config
+  (setq flywrite-api-url "https://api.anthropic.com/v1/messages")
+  (setq flywrite-api-key-file "~/.flywrite-api-key")
+  )
+
+(use-package flymake-popon
+  :hook (flymake-mode . flymake-popon-mode)
+  :ensure t)
