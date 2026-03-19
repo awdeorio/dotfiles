@@ -323,8 +323,7 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 (use-package flyspell
   :hook ((text-mode . flyspell-mode)
          (latex-mode . flyspell-mode)
-         (markdown-mode . flyspell-mode)
-         (prog-mode . flyspell-prog-mode)))
+         (markdown-mode . flyspell-mode)))
 
 ;; Flymake-languagetool: real-time grammar checking via flymake
 ;; https://github.com/emacs-languagetool/flymake-languagetool
