@@ -376,27 +376,6 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
               (remove-hook 'eldoc-documentation-functions
                            #'flymake-eldoc-function t))))
 
-;; Todo.txt mode
-;; NOTE: The package is "todotxt", but the mode is "todotxt-mode":
-;; https://github.com/rpdillon/todotxt.el/blob/master/readme.org
-(use-package todotxt
-  :mode ("todo.txt" . todotxt-mode)
-  :mode ("someday.txt" . todotxt-mode)
-  :mode ("bills.*" . todotxt-mode)
-  :config
-  (add-hook 'todotxt-mode-hook 'goto-address-mode) ; for URLs
-  (add-hook 'todotxt-mode-hook 'auto-revert-mode) ; for Dropbox
-  (add-hook 'todotxt-mode-hook (lambda () (visual-line-mode -1))) ; disable
-  (add-hook 'todotxt-mode-hook (lambda () (flyspell-mode -1))) ; disable
-  (add-hook 'todotxt-mode-hook (lambda () (electric-pair-mode -1))) ; disable
-  (defun sort-buffer ()
-    "Sort buffer."
-    (interactive)
-    (mark-whole-buffer)
-    (sort-lines nil (point-min) (point-max)))
-  :defer t
-)
-
 ;; Markdown mode (.md)
 (use-package markdown-mode
   :if (version<= "24.4" emacs-version)
