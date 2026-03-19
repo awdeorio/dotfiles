@@ -568,8 +568,6 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
       (setq copilot-cycle-completion t)  ; cycle back to first after last completion
       (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
       (define-key copilot-completion-map (kbd "C-g") 'copilot-clear-overlay)
-      (define-key copilot-completion-map (kbd "M-n") 'copilot-next-completion)
-      (define-key copilot-completion-map (kbd "M-p") 'copilot-previous-completion)
       (define-key copilot-completion-map (kbd "C-RET") 'copilot-accept-completion-by-line)
       :vc (:url "https://github.com/copilot-emacs/copilot.el"
                 :rev :newest
