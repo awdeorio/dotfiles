@@ -1056,6 +1056,17 @@ If the :CREATED: property already exists, do nothing."
   :config
   (setq flywrite-api-url "https://api.anthropic.com/v1/messages")
   (setq flywrite-api-key-file "~/.flywrite-api-key")
+
+  (defun reload-flywrite ()
+    "Reload flywrite-mode.el and restart flywrite-mode in the current buffer."
+    (interactive)
+    (let ((was-active (bound-and-true-p flywrite-mode)))
+      (when was-active (flywrite-mode -1))
+      (when (get-buffer "*flywrite-log*")
+        (kill-buffer "*flywrite-log*"))
+      (load-file (expand-file-name "~/src/flywrite/flywrite-mode.el"))
+      (when was-active (flywrite-mode 1))
+      (message "flywrite reloaded")))
   )
 
 (use-package flymake-popon
