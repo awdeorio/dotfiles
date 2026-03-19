@@ -341,6 +341,10 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;;   M-x flymake-goto-next-error
 ;;   M-x flymake-goto-prev-error
 (use-package flymake-languagetool
+
+  ;; Disabled in favor of flywrite-mode
+  :disabled
+
   :ensure t
   :hook ((text-mode . flymake-languagetool-load)
          (text-mode . flymake-mode)
