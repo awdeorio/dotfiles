@@ -675,6 +675,13 @@ Subsequent calls cycle through available completions."
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . js-mode))
 (add-hook 'js-mode-hook (lambda () (setq-local js-indent-level 2)))
 
+;; .env file support
+(use-package dotenv-mode
+  :mode "\\.env\\'"
+  :mode "\\.env\\..*\\'"
+  :ensure t
+  :defer t)
+
 ;; Code folding (prog-mode only, see web-mode for HTML/web files)
 ;;   C-c f f  toggle hiding
 ;;   C-c f a  toggle hide-all/show-all
@@ -1055,6 +1062,9 @@ If the :CREATED: property already exists, do nothing."
   :config
   (setq flywrite-api-url "https://api.anthropic.com/v1/messages")
   (setq flywrite-api-key-file "~/.flywrite-api-key")
+
+  ;; Feedback configuration
+  (setq flywrite-system-prompt 'academic)
 
   (defun reload-flywrite ()
     "Reload flywrite-mode.el and restart flywrite-mode in the current buffer."
