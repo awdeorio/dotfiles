@@ -393,13 +393,6 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
   ;; flyspell handled by flyspell use-package block
   :ensure t)
 
-;; Markdown ToC generator
-;; https://github.com/ardumont/markdown-toc
-(use-package markdown-toc
-  :if (version<= "24.4" emacs-version)
-  :commands (markdown-toc-generate-toc markdown-toc-refresh-toc)
-  :ensure t)
-
 ;; Shell programming
 (setq-default sh-basic-offset tab-width)
 (setq-default sh-indentation tab-width)
