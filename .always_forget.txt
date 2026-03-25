@@ -932,6 +932,8 @@ seq 10 | xargs -n1 echo "hello"         # do something N times (see also {1..N})
 printf                                  # C-workalike print function
 
 # Bash shell scripting
+shellcheck SCRIPT                       # Static analysis and lint tool
+Static
 set -Eeuo pipefail                      # Stop on errors
 bash -n SCRIPT                          # Bash script syntax check
 echo "hello world"                      # print stdout
@@ -1929,6 +1931,7 @@ module clear                            # clear all loaded modules
 module apropos                          # search module name and description
 module avail -t 2>&1 | grep vscode      # search module name (deprecated)
 module key vscode                       # search module name
+module spider vscode                    # search module name
 
 # C++ compilation
 gcc -Wall -Werror -std=c89 -ansi        # compile ISO C
@@ -3202,3 +3205,8 @@ gemini                                  # Run
 /init                                   # Generate or refresh GEMINI.md
 /clear                                  # Delete context
 !CMD                                    # Run CMD shell command
+
+# Digital accessibility
+https://github.com/opendataloader-project/opendataloader-pdf
+
+$ pipx install opendataloader_pdf
