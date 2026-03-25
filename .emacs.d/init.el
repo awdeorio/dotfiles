@@ -230,7 +230,7 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 (use-package emacs-lisp-mode
   :ensure nil
   :custom
-  (lisp-indent-offset 2))
+  (setq-default indent-tabs-mode nil))
 
 ;; Verilog mode customizations
 ;;
@@ -341,7 +341,7 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;;   M-x flymake-goto-prev-error
 (use-package flymake-languagetool
 
-  ;; Disabled in favor of flywrite-mode
+  ;; Disabled in favor of flywrite
   :disabled
 
   :ensure t
@@ -1034,7 +1034,7 @@ If the :CREATED: property already exists, do nothing."
               ("M-/" . fcat-complete-category)))
 
 ;; flywrite DEVELOPMENT
-(use-package flywrite-mode
+(use-package flywrite
   :load-path "~/src/flywrite"
   :commands (flywrite-mode)
 
@@ -1045,6 +1045,9 @@ If the :CREATED: property already exists, do nothing."
 
   ;; Auto-enable flywrite-mode for files in ~/src/flywrite/samples/
   :init
+  ;; Register safe file-local values before package is loaded
+  (put 'flywrite-system-prompt 'safe-local-variable
+       (lambda (v) (memq v '(prose academic))))
   (dir-locals-set-class-variables
    'flywrite-samples
    '((nil . ((eval . (flywrite-mode 1))))))
