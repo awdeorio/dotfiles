@@ -297,7 +297,9 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
   (setq TeX-parse-self t)               ; parse on load
   (setq-default TeX-master nil)         ; prompt for master file
   (setq TeX-PDF-mode t)                 ; default to PDF output
-  (setq reftex-plug-into-AUCTeX t))     ; integrate reftex with AUCTeX
+  (setq reftex-plug-into-AUCTeX t)      ; integrate reftex with AUCTeX
+  (setq TeX-auto-local ".auto"))        ; hide AUCTeX cache
+
 
 ;; Spell checking backend: prefer hunspell (better dictionary) over ispell.
 ;;
