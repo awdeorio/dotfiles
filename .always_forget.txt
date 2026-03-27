@@ -21,6 +21,7 @@ groupmod -g GID group                   # change GID of group
 gpasswd -a USER GROUP                   # add USER to GROUP
 usermod -aG GROUP USER                  # add USER to GROUP
 smbpasswd -a USER                       # new Samba user
+cat /etc/shells                         # list available shells
 chsh -s /usr/local/bin/bash             # change default shell
 chsh -s /usr/local/bin/bash USER        # change default shell for USER
 id                                      # print user and group ID #'s
