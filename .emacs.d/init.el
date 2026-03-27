@@ -396,8 +396,17 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
   :ensure t)
 
 ;; Shell programming
-(setq-default sh-basic-offset tab-width)
-(setq-default sh-indentation tab-width)
+;;
+;; Linting via shellcheck, which runs automatically through the eglot +
+;; bash-language-server integration configured below.  Install both:
+;;   $ brew install shellcheck
+;;   $ brew install bash-language-server
+(use-package sh-script
+  :ensure nil  ; built-in
+  :mode ("\\.bats\\'" . sh-mode)
+  :config
+  (setq-default sh-basic-offset tab-width)
+  (setq-default sh-indentation tab-width))
 
 ;; Perl programming
 ;; cperl-mode is preferred to perl-mode
