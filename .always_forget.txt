@@ -1273,6 +1273,7 @@ umask 0077                              # Nobody can r/w my data
 umask 0022                              # Group members can r/w my data
 
 # AFS
+kinit awdeorio@UMICH.EDU && aklog       # Login
 kdestroy                                # delete Kerberos tickets
 unlog                                   # delete AFS tokens
 kinit [-5] [-l 30d] [awdeorio@UMICH.EDU]# get Kerberos ticket
