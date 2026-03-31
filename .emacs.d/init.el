@@ -227,10 +227,10 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
   )
 
 ;; Emacs Lisp mode customizations
-(use-package emacs-lisp-mode
+(use-package elisp-mode
   :ensure nil
   :custom
-  (setq-default indent-tabs-mode nil))
+  (indent-tabs-mode nil))
 
 ;; Verilog mode customizations
 ;;
@@ -639,7 +639,10 @@ Subsequent calls cycle through available completions."
            (c++-ts-mode . eglot-ensure)
            (js-mode . eglot-ensure)
            (typescript-ts-mode . eglot-ensure)
-           (sh-mode . eglot-ensure)
+           (sh-mode . (lambda ()  ; skip eglot for .always_forget.txt
+                        (unless (string-match-p "always_forget"
+                                                (or (buffer-file-name) ""))
+                          (eglot-ensure))))
            (yaml-mode . eglot-ensure)
            (json-mode . eglot-ensure)
            (dockerfile-mode . eglot-ensure)
