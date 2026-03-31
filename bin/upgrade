@@ -30,6 +30,9 @@ pipx upgrade-all
 gem update --system --quiet
 gem cleanup --silent
 
+# Update npm packages in ~/.local
+npm --prefix ${HOME}/.local update
+
 # Update Homebrew packages
 brew update --quiet
 brew upgrade --quiet --greedy || true
