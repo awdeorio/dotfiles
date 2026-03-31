@@ -491,6 +491,10 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
   )
 
 ;; CMake
+;;
+;; LSP support via cmake-language-server, which runs automatically through the
+;; eglot integration configured below.  Install:
+;;   $ pipx install cmake-language-server
 (use-package cmake-mode
   :ensure t
   :mode "CMakeLists\\.txt\\'"
@@ -612,6 +616,7 @@ Subsequent calls cycle through available completions."
 ;; Eglot - LSP client providing IDE features (completions, diagnostics, etc.)
 ;; Eglot feeds completions to corfu via the completion-at-point-functions (capf).
 ;;  $ pipx install python-lsp-server
+;;  $ pipx install cmake-language-server
 ;;  $ go install golang.org/x/tools/gopls@latest
 ;;  $ brew install llvm  (or clangd comes with Xcode Command Line Tools)
 ;;  $ brew install typescript-language-server
@@ -638,6 +643,7 @@ Subsequent calls cycle through available completions."
            (yaml-mode . eglot-ensure)
            (json-mode . eglot-ensure)
            (dockerfile-mode . eglot-ensure)
+           (cmake-mode . eglot-ensure)
            (latex-mode . eglot-ensure)
            (LaTeX-mode . eglot-ensure))))
 
