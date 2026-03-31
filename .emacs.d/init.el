@@ -286,12 +286,16 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;;   C-c [    insert citation (reftex)
 ;;   C-c (    insert label (reftex)
 ;;   C-c )    insert reference (reftex)
+;; LSP via texlab:
+;;   $ brew install texlab
 (use-package tex
   :ensure auctex
   :defer t
   :hook ((LaTeX-mode . visual-line-mode)
          (LaTeX-mode . LaTeX-math-mode)
-         (LaTeX-mode . turn-on-reftex))
+         (LaTeX-mode . turn-on-reftex)
+         (latex-mode . eglot-ensure)
+         (LaTeX-mode . eglot-ensure))
   :config
   (setq TeX-auto-save t)                ; parse on save
   (setq TeX-parse-self t)               ; parse on load
@@ -397,13 +401,17 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 
 ;; Shell programming
 ;;
-;; Linting via shellcheck, which runs automatically through the eglot +
-;; bash-language-server integration configured below.  Install both:
+;; Linting via shellcheck, which runs automatically through eglot +
+;; bash-language-server.  Install both:
 ;;   $ brew install shellcheck
 ;;   $ brew install bash-language-server
 (use-package sh-script
   :ensure nil  ; built-in
   :mode ("\\.bats\\'" . sh-mode)
+  :hook (sh-mode . (lambda ()  ; skip eglot for .always_forget.txt
+                     (unless (string-match-p "always_forget"
+                                             (or (buffer-file-name) ""))
+                       (eglot-ensure))))
   :config
   (setq-default sh-basic-offset tab-width)
   (setq-default sh-indentation tab-width))
@@ -421,6 +429,9 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 (add-hook 'c-initialization-hook
           (lambda () (define-key c-mode-base-map (kbd "C-c c") 'recompile)))
 (setq-default c-basic-offset tab-width) ; indentation
+;; C/C++ eglot (non-tree-sitter fallback)
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
 
 ;; C programming (fallback for Emacs without tree-sitter)
 (unless (and (fboundp 'treesit-available-p) (treesit-available-p))
@@ -437,6 +448,7 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;; Install Go tools
 ;;   $ export GOPATH=${HOME}/.go
 ;;   $ export PATH=${PATH}:${GOPATH}/bin
+;;   $ go install golang.org/x/tools/gopls@latest      # gopls (LSP server)
 ;;   $ go get golang.org/x/tools/cmd/...               # godoc
 ;;   $ go get -v -u golang.org/x/lint/golint           # golint
 ;;   $ go get -u github.com/nsf/gocode                 # gocode
@@ -447,6 +459,7 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;; https://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
 (use-package go-mode
   :mode "\\.go\\'"
+  :hook (go-mode . eglot-ensure)
   :config
   (add-hook 'before-save-hook 'gofmt-before-save)  ; Call gofmt before save
   ;; :bind (("M-." . godef-jump)    ; Jump to definition
@@ -492,17 +505,19 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 
 ;; CMake
 ;;
-;; LSP support via cmake-language-server, which runs automatically through the
-;; eglot integration configured below.  Install:
+;; LSP support via cmake-language-server.  Install:
 ;;   $ pipx install cmake-language-server
 (use-package cmake-mode
   :ensure t
+  :hook (cmake-mode . eglot-ensure)
   :mode "CMakeLists\\.txt\\'"
   :mode "\\.cmake\\'")
 
 ;; C/C++ (built-in tree-sitter mode, Emacs 29+)
 ;; Install grammars: M-x treesit-install-language-grammar RET c RET
 ;;                   M-x treesit-install-language-grammar RET cpp RET
+;; LSP via clangd:
+;;   $ brew install llvm  (or clangd comes with Xcode Command Line Tools)
 (use-package c-ts-mode
   :if (and (fboundp 'treesit-available-p) (treesit-available-p))
   :ensure nil
@@ -514,14 +529,19 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
          ("\\.ino\\'" . c-ts-mode)
          ("\\.h\\.starter\\'" . c++-ts-mode)
          ("\\.cpp\\.starter\\'" . c++-ts-mode))
+  :hook ((c-ts-mode . eglot-ensure)
+         (c++-ts-mode . eglot-ensure))
   :config
   (setq c-ts-mode-indent-offset tab-width))
 
 ;; TypeScript (built-in tree-sitter mode, Emacs 29+)
 ;; Install grammar: M-x treesit-install-language-grammar RET typescript RET
+;; LSP:
+;;   $ brew install typescript-language-server
 (use-package typescript-ts-mode
   :if (and (fboundp 'treesit-available-p) (treesit-available-p))
   :ensure nil
+  :hook (typescript-ts-mode . eglot-ensure)
   :mode "\\.ts\\'")
 
 ;; Autocomplete for words and filenames (text buffers).
@@ -605,50 +625,19 @@ Subsequent calls cycle through available completions."
   (setq pyvenv-mode-line-indicator
         '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] "))))
 
+;; Python eglot (non-tree-sitter fallback)
+;; LSP:
+;;   $ pipx install python-lsp-server
+(add-hook 'python-mode-hook 'eglot-ensure)
+
 ;; Python (built-in tree-sitter mode, Emacs 29+)
 ;; Install grammar: M-x treesit-install-language-grammar RET python RET
 ;; Falls back to python-mode if tree-sitter or grammar unavailable.
 (use-package python
   :if (and (fboundp 'treesit-available-p) (treesit-available-p))
   :ensure nil
+  :hook (python-ts-mode . eglot-ensure)
   :mode ("\\.py\\'" . python-ts-mode))
-
-;; Eglot - LSP client providing IDE features (completions, diagnostics, etc.)
-;; Eglot feeds completions to corfu via the completion-at-point-functions (capf).
-;;  $ pipx install python-lsp-server
-;;  $ pipx install cmake-language-server
-;;  $ go install golang.org/x/tools/gopls@latest
-;;  $ brew install llvm  (or clangd comes with Xcode Command Line Tools)
-;;  $ brew install typescript-language-server
-;;  $ brew install bash-language-server
-;;  $ brew install yaml-language-server
-;;  $ npm install -g vscode-langservers-extracted  (json)
-;;  $ npm install -g dockerfile-language-server-nodejs
-;;  $ brew install texlab
-;;
-;; NOTE: Wrapped in `when` because :if doesn't prevent :ensure in older use-package.
-(when (version<= "29.1" emacs-version)
-  (use-package eglot
-    :ensure nil  ; Built-in on Emacs 29+
-    :hook ((python-mode . eglot-ensure)
-           (python-ts-mode . eglot-ensure)
-           (go-mode . eglot-ensure)
-           (c-mode . eglot-ensure)
-           (c++-mode . eglot-ensure)
-           (c-ts-mode . eglot-ensure)
-           (c++-ts-mode . eglot-ensure)
-           (js-mode . eglot-ensure)
-           (typescript-ts-mode . eglot-ensure)
-           (sh-mode . (lambda ()  ; skip eglot for .always_forget.txt
-                        (unless (string-match-p "always_forget"
-                                                (or (buffer-file-name) ""))
-                          (eglot-ensure))))
-           (yaml-mode . eglot-ensure)
-           (json-mode . eglot-ensure)
-           (dockerfile-mode . eglot-ensure)
-           (cmake-mode . eglot-ensure)
-           (latex-mode . eglot-ensure)
-           (LaTeX-mode . eglot-ensure))))
 
 ;; Remote file editing with TRAMP.  Configure TRAMP to use the same SSH
 ;; multiplexing that I configure in ~/.ssh/config.  By default, TRAMP ignores my
@@ -671,14 +660,20 @@ Subsequent calls cycle through available completions."
 )
 
 ;; YAML mode
+;; LSP:
+;;   $ brew install yaml-language-server
 (use-package yaml-mode
   :mode "\\.yml\\'"
+  :hook (yaml-mode . eglot-ensure)
   :ensure t
   :defer t)
 
 ;; JSON mode
+;; LSP:
+;;   $ npm install -g vscode-langservers-extracted
 (use-package json-mode
   :mode "\\.json\\'"
+  :hook (json-mode . eglot-ensure)
   :config
   (setq js-indent-level 2)
   :ensure t
@@ -687,6 +682,7 @@ Subsequent calls cycle through available completions."
 ;; JSONC (JSON with Comments) - use js-mode which supports // and /* */ comments
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . js-mode))
 (add-hook 'js-mode-hook (lambda () (setq-local js-indent-level 2)))
+(add-hook 'js-mode-hook 'eglot-ensure)
 
 ;; .env file support
 (use-package dotenv-mode
@@ -730,8 +726,11 @@ Subsequent calls cycle through available completions."
               ("TAB" . outline-cycle)))
 
 ;; Dockerfile syntax highlighting
+;; LSP:
+;;   $ npm install -g dockerfile-language-server-nodejs
 (use-package dockerfile-mode
   :mode "Dockerfile\\'"
+  :hook (dockerfile-mode . eglot-ensure)
   :ensure t
   :defer t
 )
