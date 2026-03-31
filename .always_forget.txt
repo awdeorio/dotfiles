@@ -1,3 +1,4 @@
+# -*- mode: sh; truncate-lines: t -*-
 # .always_forget.txt
 #
 # awdeorio's UNIX cheat sheet
@@ -1330,6 +1331,10 @@ lynx --dump FILE.html > FILE.txt        # HTML to txt
 tesseract                               # OCR https://tesseract-ocr.github.io/tessdoc/Command-Line-Usage.html
 tesseract INPUT OUTPUT                  # OCR, saves to OUTPUT.txt
 tesseract INPUT OUTPUT pdf              # OCR, saves searchable pdf
+pipx install opendataloader_pdf         # Install opendataloader_pdf https://github.com/opendataloader-project/opendataloader-pdf
+opendataloader-pdf --format json        # pdf to json w/ bounding boxes, etc.
+opendataloader-pdf --format markdown    # pdf to markdown
+opendataloader-pdf --format text        # pdf to text
 
 # Date and time
 date '+%s'                                        # current time in seconds
@@ -3208,7 +3213,14 @@ gemini                                  # Run
 /clear                                  # Delete context
 !CMD                                    # Run CMD shell command
 
-# Digital accessibility
-https://github.com/opendataloader-project/opendataloader-pdf
-
-$ pipx install opendataloader_pdf
+# Pa11y Accesibility Checker
+# Can check WCAG Level A, AA, AAA
+# Checks WAI-ARIA 1.2 only with the "axe" runner, requires install and config
+npm install -g pa11y --prefix ~/.local  # Install pa11y
+pa11y docs/index.html                   # Check FILE
+pa11y https://eecs280.org               # Check hosted site
+pa11y --standard WCAG2A                 # Level A
+pa11y --standard WCAG2AA                # Level AA (default)
+pa11y --standard WCAG2AAA               # Level AAA
+pa11y --include-warnings                # Also show warnings
+pa11y --include-notices                 # Also show notices
