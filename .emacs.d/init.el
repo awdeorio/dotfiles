@@ -307,18 +307,19 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 
 ;; Spell checking backend: prefer hunspell (better dictionary) over ispell.
 ;;
-;; Install hunspell and the en_US dictionary on macOS:
+;; Install hunspell and the SCOWL en_US-large dictionary on macOS:
+;; https://wordlist.aspell.net/dicts/
+;; Find the latest version at https://github.com/en-wl/wordlist/releases/latest
 ;;   $ brew install hunspell
 ;;   $ mkdir -p ~/Library/Spelling
-;;   $ curl -o ~/Library/Spelling/en_US.aff https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_US.aff
-;;   $ curl -o ~/Library/Spelling/en_US.dic https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_US.dic
+;;   $ curl -sL https://github.com/en-wl/wordlist/releases/download/rel-YYYY.MM.DD/hunspell-en_US-large-YYYY.MM.DD.zip | tar -xvf- -C ~/Downloads/
 ;;
 ;; Add words to personal dictionary (~/.hunspell_en_US): M-x ispell-word RET i
 (use-package ispell
   :if (executable-find "hunspell")
   :config
   (setq ispell-program-name "hunspell")
-  (setq ispell-dictionary "en_US"))
+  (setq ispell-dictionary "en_US-large"))
 
 ;; Flyspell: "red squiggles" spell checking
 ;;
