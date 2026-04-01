@@ -136,6 +136,42 @@
     ;; Indent entire buffer
     (indent-region (point-min) (point-max))))
 
+(defun from-claude (beg end)
+  "Clean up text pasted from Claude Code or claude.ai in region.
+Remove trailing whitespace and rejoin hard-wrapped lines into
+paragraphs.  Blank lines, headings, and list items are preserved."
+  (interactive "r")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region beg end)
+
+      ;; Remove trailing whitespace
+      (delete-trailing-whitespace (point-min) (point-max))
+
+      ;; Rejoin hard-wrapped lines.  Work backward so positions stay valid.
+      (goto-char (point-max))
+      (while (> (point) (point-min))
+        (forward-line -1)
+        (let ((this-line-empty (looking-at "^[[:space:]]*$"))
+              (next-line-start (save-excursion
+                                 (forward-line 1)
+                                 (point))))
+          ;; Only act when we're not on the last line
+          (when (< next-line-start (point-max))
+            (let ((next-line-boundary
+                   (save-excursion
+                     (goto-char next-line-start)
+                     (or (looking-at "^[[:space:]]*$")        ; blank line
+                         (looking-at "^[[:space:]]*[-*+]\\s") ; list item
+                         (looking-at "^[[:space:]]*[0-9]+\\.\\s") ; numbered list
+                         (looking-at "^#")))))                ; heading
+              ;; If this line is not empty and next line is a continuation, join
+              (when (and (not this-line-empty)
+                         (not next-line-boundary))
+                (goto-char (1- next-line-start)) ; the newline char
+                (delete-char 1)
+                (insert " ")))))))))
+
 (defun toggle-maximize-vertically ()
   "Toggle frame height between original and max (screen) height."
   (interactive)
