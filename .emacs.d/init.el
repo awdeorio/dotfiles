@@ -1100,14 +1100,26 @@ If the :CREATED: property already exists, do nothing."
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error))
 
-  ;; Auto-enable flywrite-mode for files in ~/src/flywrite/samples/
   :init
   ;; Register safe file-local values before package is loaded
   (put 'flywrite-system-prompt 'safe-local-variable
        (lambda (v) (memq v '(prose academic))))
-  (dir-locals-set-class-variables
-   'flywrite-samples
-   '((nil . ((eval . (flywrite-mode 1))))))
+
+  ;; Auto-enable flywrite-mode for files in ~/src/flywrite/samples/
+  ;; Split window: file on top, log on bottom
+  (let ((samples-eval
+         '(progn
+            (flywrite-mode 1)
+            (delete-other-windows)
+            (let ((log-buf (get-buffer-create "*flywrite-log*")))
+              (split-window-below)
+              (other-window 1)
+              (switch-to-buffer log-buf)
+              (other-window 1)))))
+    (add-to-list 'safe-local-eval-forms samples-eval)
+    (dir-locals-set-class-variables
+     'flywrite-samples
+     `((nil . ((eval . ,samples-eval))))))
   (dir-locals-set-directory-class
    (expand-file-name "~/src/flywrite/samples") 'flywrite-samples)
 
