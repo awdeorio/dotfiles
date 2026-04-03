@@ -515,6 +515,7 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;; Web Development
 ;;   C-c f f  toggle folding
 (use-package web-mode
+  :mode "\\.mjs\\'"
   :mode "\\.jsx?\\'"
   :mode "\\.tsx?\\'"
   :mode "\\.html?\\'"
