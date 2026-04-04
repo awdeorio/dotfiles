@@ -3214,8 +3214,8 @@ gemini                                  # Run
 !CMD                                    # Run CMD shell command
 
 # Pa11y Accesibility Checker
-# Can check WCAG Level A, AA, AAA
-# Checks WAI-ARIA 1.2 only with the "axe" runner, requires install and config
+# Can check WCAG Level A, AA, AAA, WAI-ARIA
+# WAI-ARIA only with the "axe" runner
 npm install -g pa11y --prefix ~/.local  # Install pa11y
 pa11y docs/index.html                   # Check FILE
 pa11y https://eecs280.org               # Check hosted site
@@ -3224,3 +3224,5 @@ pa11y --standard WCAG2AA                # Level AA (default)
 pa11y --standard WCAG2AAA               # Level AAA
 pa11y --include-warnings                # Also show warnings
 pa11y --include-notices                 # Also show notices
+pa11y --runner axe                      # Include WAI-ARIA
+pa11y --runner htmlcs --runner axe      # Both runners
