@@ -759,7 +759,8 @@ Subsequent calls cycle through available completions."
 ;;   S-TAB  cycle global visibility
 (use-package outline
   :hook ((markdown-mode . outline-minor-mode)
-         (latex-mode . outline-minor-mode))
+         (latex-mode . outline-minor-mode)
+         (LaTeX-mode . outline-minor-mode))
   :bind (:map outline-minor-mode-map
               ("<S-tab>" . outline-cycle-buffer)
               ("TAB" . outline-cycle)))
