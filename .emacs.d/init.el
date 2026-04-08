@@ -137,40 +137,45 @@
     (indent-region (point-min) (point-max))))
 
 (defun from-claude (beg end)
-  "Clean up text pasted from Claude Code or claude.ai in region.
-Remove trailing whitespace and rejoin hard-wrapped lines into
-paragraphs.  Blank lines, headings, and list items are preserved."
+  "Format selected region of text pasted from Claude Code output.
+Remove trailing whitespace, shared leading whitespace, and
+leading prompt symbols (❯, ⏺).  Preserve blank lines."
   (interactive "r")
   (save-excursion
     (save-restriction
       (narrow-to-region beg end)
-
-      ;; Remove trailing whitespace
+      ;; Step 1: Remove trailing whitespace.
       (delete-trailing-whitespace (point-min) (point-max))
-
-      ;; Rejoin hard-wrapped lines.  Work backward so positions stay valid.
-      (goto-char (point-max))
-      (while (> (point) (point-min))
-        (forward-line -1)
-        (let ((this-line-empty (looking-at "^[[:space:]]*$"))
-              (next-line-start (save-excursion
-                                 (forward-line 1)
-                                 (point))))
-          ;; Only act when we're not on the last line
-          (when (< next-line-start (point-max))
-            (let ((next-line-boundary
-                   (save-excursion
-                     (goto-char next-line-start)
-                     (or (looking-at "^[[:space:]]*$")        ; blank line
-                         (looking-at "^[[:space:]]*[-*+]\\s") ; list item
-                         (looking-at "^[[:space:]]*[0-9]+\\.\\s") ; numbered list
-                         (looking-at "^#")))))                ; heading
-              ;; If this line is not empty and next line is a continuation, join
-              (when (and (not this-line-empty)
-                         (not next-line-boundary))
-                (goto-char (1- next-line-start)) ; the newline char
-                (delete-char 1)
-                (insert " ")))))))))
+      ;; Step 2: Compute shared leading whitespace.
+      ;; Ignore blank lines and lines whose first non-space char is ❯ or ⏺.
+      (let ((min-indent most-positive-fixnum))
+        (goto-char (point-min))
+        (while (not (eobp))
+          (unless (looking-at "^[[:space:]]*$")           ; skip blank lines
+            (unless (looking-at "^[[:space:]]*[❯⏺]")     ; skip prompt lines
+              (let ((indent (current-indentation)))
+                (when (< indent min-indent)
+                  (setq min-indent indent)))))
+          (forward-line 1))
+        (when (= min-indent most-positive-fixnum)
+          (setq min-indent 0))
+        ;; Step 3: Process each line.
+        (goto-char (point-min))
+        (while (not (eobp))
+          (cond
+           ;; Blank line — leave it alone.
+           ((looking-at "^[[:space:]]*$")
+            nil)
+           ;; Prompt line — remove symbol and surrounding whitespace.
+           ((looking-at "^[[:space:]]*[❯⏺][[:space:]]*")
+            (replace-match ""))
+           ;; Normal line — remove shared indent.
+           (t
+            (when (> min-indent 0)
+              (let ((start (point))
+                    (end (min (+ (point) min-indent) (line-end-position))))
+                (delete-region start end)))))
+          (forward-line 1))))))
 
 (defun toggle-maximize-vertically ()
   "Toggle frame height between original and max (screen) height."
