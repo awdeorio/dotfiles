@@ -420,6 +420,12 @@ webkit2png google.htm                   # Screenshot saved web page
 ls *.html | xargs -n1 webkit2png        # Screenshot many saved web pages
 speedtest                               # Test upload and download speeds
 
+# wget with browser cookies
+# 1. Install Chrome extension "Get cookies.txt LOCALLY"
+# 2. Log in URL
+# 3. Visit URL and use extension to export cookies to file
+wget --load-cookies cookies.txt URL
+
 # Echo server
 http POST httpbin.org/anything x=y      # Public echo server test
 echo -e "HTTP/1.1 200 OK\n\n{}\n" | nc -l -p 8000  # Local CLI echo server
@@ -1179,6 +1185,12 @@ pandoc X.docx -o X.md                   # DOCX to MD
 convert X.jpg X.png                     # JPG to PNG
 in2csv X.xls > X.csv                    # XLS to CSV
 tidy -im FILE.html                      # Reformat and re-indent HTML file
+
+# LaTeX
+latexmk -pdf main.tex                   # Build
+latexmk -pdf -pvc main.tex              # Serve (watches for changes)
+latexmk -c                              # Clean
+latexmk -C                              # Clean, incl. pdf
 
 # CSV files
 cat FILE| head -n1| tr ',' '\n'         # column labels
