@@ -1187,8 +1187,8 @@ in2csv X.xls > X.csv                    # XLS to CSV
 tidy -im FILE.html                      # Reformat and re-indent HTML file
 
 # LaTeX
-latexmk -pdf main.tex                   # Build
-latexmk -pdf -pvc main.tex              # Serve (watches for changes)
+latexmk -pdf FILE.tex                   # Build
+latexmk -pdf -pvc FILE.tex              # Serve (watches for changes)
 latexmk -c                              # Clean
 latexmk -C                              # Clean, incl. pdf
 
