@@ -2886,7 +2886,7 @@ git push origin ":feature/F"            # remove F branch from server
 # Worktrees: multiple working directories from the same repo, each checked out
 # to a different branch
 git worktree add ../myapp-auth -b auth  # Create worktree and branch
-git worktree list                       # List worktrees
+git worktree list                       # List worktree directories and branches
 git worktree remove ../myapp-auth       # Remove worktree
 git worktree prune                      # Clean up if dir is deleted
 
@@ -3215,6 +3215,7 @@ Option-Shift-<up>                       # Next unread channel or DM
 brew install claude-code                # Install
 claude                                  # Run (PWD matters)
 /init                                   # Generate or refresh CLAUDE.md
+/status                                 # Check context
 /clear                                  # Delete context
 /output-style                           # List/select modes (e.g., Learning)
 <kbd> C-g                               # Open Emacs to write prompt
