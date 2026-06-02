@@ -3221,6 +3221,8 @@ CLAUDE_CODE_MAX_RETRIES=1 claude        # Limit retries
 /status                                 # Check context
 /clear                                  # Delete context
 /output-style                           # List/select modes (e.g., Learning)
+/model                                  # Change default model
+/effort                                 # Change effort level
 <kbd> C-g                               # Open Emacs to write prompt
 !CMD                                    # Run CMD shell command
 
