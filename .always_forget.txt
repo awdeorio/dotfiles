@@ -3225,6 +3225,8 @@ CLAUDE_CODE_MAX_RETRIES=1 claude        # Limit retries
 /effort                                 # Change effort level
 <kbd> C-g                               # Open Emacs to write prompt
 !CMD                                    # Run CMD shell command
+brew install ccusage                    # Install ccusage
+ccusage daily                           # Table of daily usage
 
 # Codex (OpenAI's Agentic Coding Tool)
 brew install codex                      # Install
