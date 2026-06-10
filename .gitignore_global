@@ -10,3 +10,4 @@ ehthumbs.db
 Thumbs.db
 *~
 .claude/worktrees/
+**/.claude/settings.local.json
