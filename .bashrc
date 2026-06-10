@@ -71,6 +71,7 @@ alias fbrm="find . -name '*~' -exec rm -v {} \;"
 alias pylint='pylint --output-format=colorized'
 alias gs='git status'
 alias gd='git diff'
+alias gdt='git difftool'
 alias gr='git rebase'
 alias gf='git fetch -p'
 alias gb='git branch'
