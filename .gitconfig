@@ -46,6 +46,8 @@
 # ============================================================================
 # Diff and difftool
 # ============================================================================
+# Default difftool/mergetool stay generic (ediff); per-type tools (images,
+# notebooks) are wired via diff/merge drivers below, not by changing these.
 [diff]
 	tool = ediff
 
@@ -70,6 +72,22 @@
 
 # ----------------------------------------------------------------------------
 # Jupyter notebook diff/merge (nbdime)
+# Driver for files mapped to diff=jupyternotebook in ~/.gitattributes.  Like
+# the image driver, this command intercepts BOTH `git diff` and `git difftool`
+# for .ipynb files, so notebooks automatically get nbdime's diff with no
+# `-t nbdime` needed.
+#
+# Because the driver always wins, the [difftool "nbdime"] entry below is
+# effectively unreachable for .ipynb (even `git difftool -t nbdime` runs the
+# driver, not that cmd).  It is kept because it is part of nbdime's standard
+# `nbdime config-git` setup and serves as a fallback if the driver is ever
+# disabled.  The [mergetool "nbdime"] entry, by contrast, IS reachable: merge
+# drivers do not intercept `git mergetool`, so `git mergetool -t nbdime` works.
+#
+# diff.tool / merge.tool are deliberately left at their defaults (ediff, none)
+# rather than set to nbdime: git has only one global default, so pointing it at
+# nbdime would have no effect on notebooks (the driver already wins) while
+# breaking `git difftool`/`git mergetool` on every non-notebook file.
 # ----------------------------------------------------------------------------
 [diff "jupyternotebook"]
 	command = git-nbdiffdriver diff -s

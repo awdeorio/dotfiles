@@ -9,3 +9,10 @@
 *.jpg  diff=image
 *.png  diff=image
 *.svg  diff=image
+
+# Jupyter notebooks: route through the nbdime diff/merge drivers.
+# See the [diff "jupyternotebook"] and [merge "jupyternotebook"] sections in
+# ~/.gitconfig.  (Previously lived in ~/.config/git/attributes, which git now
+# ignores because core.attributesfile points here.)
+*.ipynb diff=jupyternotebook
+*.ipynb merge=jupyternotebook
