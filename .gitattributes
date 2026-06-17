@@ -1,7 +1,11 @@
-*.bmp diff=image
-*.gif diff=image
+# Global git attributes (referenced by core.attributesfile in ~/.gitconfig).
+
+# Image files: route through the "image" diff driver (git-diff-image).
+# See the [diff "image"] section in ~/.gitconfig for behavior.
+*.bmp  diff=image
+*.gif  diff=image
 *.heic diff=image
 *.jpeg diff=image
-*.jpg diff=image
-*.png diff=image
-*.svg diff=image
+*.jpg  diff=image
+*.png  diff=image
+*.svg  diff=image

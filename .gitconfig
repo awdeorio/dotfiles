@@ -1,50 +1,100 @@
+# ============================================================================
+# Identity
+# ============================================================================
 [user]
 	name = Andrew DeOrio
 	email = awdeorio@umich.edu
 	signingKey = BB6201BA07530070
-[color]
-	diff = auto
-	status = auto
-	branch = auto
+
+# ============================================================================
+# Core
+# ============================================================================
 [core]
 	editor = emacs
 	excludesFile = /Users/awdeorio/.gitignore_global
 	attributesfile = ~/.gitattributes
+
+[init]
+	defaultBranch = main
+
+[push]
+	default = simple
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+
+# ============================================================================
+# Commit signing (GPG)
+# ============================================================================
+[commit]
+	gpgSign = true
+
+[gpg]
+	program = gpg
+
+# ============================================================================
+# Aliases
+# ============================================================================
 [alias]
-  graph = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold blue)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-  logdoga = log --decorate --oneline --graph --all
-  s = status
-  d = diff
-	diff-image = "!f() { cd -- \"${GIT_PREFIX:-.}\"; GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
+	s = status
+	d = diff
+	graph = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold blue)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	logdoga = log --decorate --oneline --graph --all
+
+# ============================================================================
+# Diff and difftool
+# ============================================================================
+[diff]
+	tool = ediff
+
+[difftool]
+	prompt = false
+
+# ediff: compare two revisions inside Emacs.
+[difftool "ediff"]
+	cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+
+# ----------------------------------------------------------------------------
+# Image diff (git-diff-image, https://github.com/ewanmellor/git-diff-image)
+# Driver for files mapped to diff=image in ~/.gitattributes.  Behavior:
+#   git diff       -> git's normal "Binary files differ" text
+#   git difftool   -> visual side-by-side compare in Preview
+# Requires ImageMagick and exiftool.  The git_diff_image script carries local
+# edits (binary-text fallback for plain diff, visual under difftool); a pull
+# of that repo may conflict on it.
+# ----------------------------------------------------------------------------
+[diff "image"]
+	command = ~/src/git-diff-image/git_diff_image
+
+# ----------------------------------------------------------------------------
+# Jupyter notebook diff/merge (nbdime)
+# ----------------------------------------------------------------------------
+[diff "jupyternotebook"]
+	command = git-nbdiffdriver diff -s
+
+[difftool "nbdime"]
+	cmd = git-nbdifftool diff \"$LOCAL\" \"$REMOTE\" \"$BASE\"
+
+# ============================================================================
+# Merge and mergetool
+# ============================================================================
+[mergetool]
+	prompt = false
+
+[merge "jupyternotebook"]
+	driver = git-nbmergedriver merge %O %A %B %L %P
+	name = jupyter notebook merge driver
+
+[mergetool "nbdime"]
+	cmd = git-nbmergetool merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+
+# ============================================================================
+# Git LFS
+# ============================================================================
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
-[commit]
-	gpgSign = true
-[push]
-	default = simple
-[gpg]
-	program = gpg
-[diff]
-	tool = ediff
-[difftool]
-	prompt = false
-[difftool.ediff]
-	cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
-[init]
-	defaultBranch = main
-[diff "jupyternotebook"]
-	command = git-nbdiffdriver diff -s
-[merge "jupyternotebook"]
-	driver = git-nbmergedriver merge %O %A %B %L %P
-	name = jupyter notebook merge driver
-[difftool "nbdime"]
-	cmd = git-nbdifftool diff \"$LOCAL\" \"$REMOTE\" \"$BASE\"
-[mergetool "nbdime"]
-	cmd = git-nbmergetool merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
-[mergetool]
-	prompt = false
-[diff "image"]
-	command = ~/src/git-diff-image/git_diff_image
