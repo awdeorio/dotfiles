@@ -1,0 +1,7 @@
+*.bmp diff=image
+*.gif diff=image
+*.heic diff=image
+*.jpeg diff=image
+*.jpg diff=image
+*.png diff=image
+*.svg diff=image
