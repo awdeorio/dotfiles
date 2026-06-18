@@ -149,6 +149,9 @@ find -mtime -3 -type f                  # files modified less than 3 days ago
 find -mtime +3 -type f                  # files modified more than 3 days ago
 find . -not -path '*/\.git*'            # ignore .git dir
 find . -type f -not -wholename '*\.git*' -exec file {} \; | grep CRLF  # Windows line endings
+fd                                      # find alternative
+fd PATTERN                              # Find filenames matching PATTERN https://github.com/sharkdp/fd
+fd -p '/src/.*\.js$'                    # Search whole path
 locate FILE                             # Linux filename lookup
 mlocate FILE                            # Linux filename lookup
 mdfind FILE                             # macOS spotlight file content search
@@ -166,9 +169,20 @@ ag -f                                   # Follow symlinks
 ag -Q                                   # Do not parse PATTERN as regex
 ag --hidden                             # Include hidden files
 ag -G .py                               # Filter by file extension or filename
-fd                                      # find alternative
-fd PATTERN                              # Find filenames matching PATTERN https://github.com/sharkdp/fd
-fd -p '/src/.*\.js$'                    # Search whole path
+rg                                      # ripgrep (replaces ag)
+rg PATTERN                              # Recursively search for PATTERN (respects .gitignore)
+rg -i                                   # Case insensitive
+rg -S                                   # Smart case sensitivity
+rg PATTERN --color=always | less -r     # ^^^ w/ color and pager
+rg -l PATTERN                           # Filenames only
+rg --glob '!*test*'                     # Ignore files/directories with "test"
+rg -L                                   # Follow symlinks
+rg -F                                   # Do not parse PATTERN as regex (fixed strings)
+rg --hidden                             # Include hidden files
+rg -g '*.py'                            # Filter by file extension or filename
+rg -t py                                # ^^^ by predefined file type
+rg -uu                                  # Search everything (ignore .gitignore + hidden)
+rg -P                                   # Use PCRE2 (look-around, backreferences)
 
 # Superuser permissions
 su                                      # switch user to root
