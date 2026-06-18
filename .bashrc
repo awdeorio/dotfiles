@@ -436,5 +436,49 @@ alias g=git
 complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null \
   || complete -o default -o nospace -F _git g
 
+# Make "git diff <TAB>" and "git difftool <TAB>" complete only modified files.
+#
+# By default git's completion functions (_git_diff / _git_difftool) end with
+# __git_complete_revlist_file, which offers EVERY tracked file plus revs.  We
+# redefine both so the file argument completes only modified files, i.e.
+# "git ls-files --modified", while leaving all the --option completion intact.
+#
+# Git's completion script is normally loaded lazily on first use.  Source it
+# here first so these overrides are applied last and won't be clobbered when the
+# upstream script loads.  (Sourcing also registers "git", so the lazy loader
+# won't re-fire and re-source the upstream definitions over ours.)
+__git_completion_script="$(brew --prefix 2>/dev/null)/share/bash-completion/completions/git"
+if [[ -r "${__git_completion_script}" ]]; then
+  source "${__git_completion_script}"
+
+  # "git diff <TAB>": option handling copied verbatim from upstream; only the
+  # final file-completion call is changed to restrict to modified files.
+  _git_diff () {
+    __git_has_doubledash && return
+    case "$cur" in
+    --diff-algorithm=*)     __gitcomp "$__git_diff_algorithms"          "" "${cur##--diff-algorithm=}";     return ;;
+    --submodule=*)          __gitcomp "$__git_diff_submodule_formats"   "" "${cur##--submodule=}";          return ;;
+    --color-moved=*)        __gitcomp "$__git_color_moved_opts"         "" "${cur##--color-moved=}";        return ;;
+    --color-moved-ws=*)     __gitcomp "$__git_color_moved_ws_opts"      "" "${cur##--color-moved-ws=}";     return ;;
+    --ws-error-highlight=*) __gitcomp "$__git_ws_error_highlight_opts"  "" "${cur##--ws-error-highlight=}"; return ;;
+    --*)                    __gitcomp "$__git_diff_difftool_options";                                       return ;;
+    esac
+    # Upstream calls __git_complete_revlist_file here (all files + revs).
+    __git_complete_index_file "--modified"
+  }
+
+  # "git difftool <TAB>": same idea, restricted to modified files.
+  _git_difftool () {
+    __git_has_doubledash && return
+    case "$cur" in
+    --tool=*) __gitcomp "$__git_mergetools_common kompare" "" "${cur##--tool=}"; return ;;
+    --*)      __gitcomp_builtin difftool "$__git_diff_difftool_options";         return ;;
+    esac
+    # Upstream calls __git_complete_revlist_file here (all files + revs).
+    __git_complete_index_file "--modified"
+  }
+fi
+unset __git_completion_script
+
 # Clear History at the very end
 history -c
