@@ -1085,6 +1085,11 @@ fgrep                                   # fixed patterns (no regex), faster
 pcregrep                                # Perl Compatible Regex
 grep -P                                 # Perl regex
 ptargrep                                # grep files insize a tarball
+ugrep PATTERN                           # grep-compatible search (use ug for the short/interactive form)
+ug -Q                                   # interactive TUI: type pattern, see live results
+ug -z PATTERN                           # search inside compressed files & archives (gz, zip, tar, 7z...)
+ug --filter='pdf:pdftotext' PATTERN     # search inside PDFs (and similar for docs)
+ug PATTERN -r --include='*.py'          # recursive, filtered by file type
 
 # sed
 sed -rn '/PATTERN/p'                    # grep work-a-like
