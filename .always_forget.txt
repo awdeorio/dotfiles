@@ -102,7 +102,7 @@ rename 's/old1/new1/g;' *               # batch rename
 rename 's/old1/new1/g; s/old2/new2/g' * # batch rename with two patterns
 rename --dry-run                        # batch rename dry run
 
-# Paths and files
+# Directory navigation
 pwd                                     # current directory
 pwd -P                                  # current directory, absolute path
 readlink -f PATH                        # absolute path (FAILS on regular files)
@@ -121,7 +121,7 @@ cd ~2                                   # cd to 2nd dir on stack (bash)
 cp FILE ~2                              # use ~2 as an alias for a DIR (bash)
 cp -L                                   # Copy files pointed to by symlinks
 
-# Paths and executables
+# Executable lookup
 which CMD                               # print path to CMD
 which -a CMD                            # print all paths to CMD (GNU)
 whereis CMD                             # print all paths to CMD
@@ -129,6 +129,129 @@ export PATH=$PATH:NEW_DIR               # add new directory to PATH (bash)
 type -a CMD                             # include shell functions/aliases (bash)
 command -v                              # ^^^
 command CMD                             # Run CMD without alias
+
+# Regular Expression Syntax (regex)
+# https://regex101.com/
+
+# grep
+grep PATTERN                            # search for pattern
+grep -E PATTERN                         # extended regex
+grep -E '(PATTERN1|PATTERN2)'           # two patterns
+egrep PATTERN                           # extended regex
+grep -o                                 # only print the matched pattern
+grep -v                                 # invert match
+grep -Ev '(PATTERN1|PATTERN2)'          # invert two matches
+grep -A10                               # print match + 10 lines after
+grep -B10                               # print match + 10 lines before
+grep -10                                # same as grep -A10 -B10
+grep -a -b -B100 -A100 phrase /dev/sda3 # recover deleted files
+egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
+# grep for tab in bash: Ctrl-V TAB
+grep '^.\{10\}$'                        # 10 letter words
+zgrep                                   # grep gzip'ed files
+fgrep                                   # fixed patterns (no regex), faster
+pcregrep                                # Perl Compatible Regex
+grep -P                                 # Perl regex
+ptargrep                                # grep files insize a tarball
+ugrep PATTERN                           # grep-compatible search (use ug for the short/interactive form)
+ug -Q                                   # interactive TUI: type pattern, see live results
+ug -z PATTERN                           # search inside compressed files & archives (gz, zip, tar, 7z...)
+ug --filter='pdf:pdftotext' PATTERN     # search inside PDFs (and similar for docs)
+ug PATTERN -r --include='*.py'          # recursive, filtered by file type
+
+# sed
+sed -rn '/PATTERN/p'                    # grep work-a-like
+sed -r                                  # use extended regex
+sed 1d                                  # print all but first line
+sed '$d'                                # print all but last line
+sed -n '52p'                            # print line 52
+sed '52q;d'                             # ^^^ efficient on large files
+sed -n '45,50p' filename                # print lines 45-50
+sed -n '51q;45,50p' filename            # ^^^ efficient on large files
+sed -n '/BEGIN/,/END/p'                 # print lines between BEGIN and END
+sed '/BEGIN/,/END/d'                    # delete lines between BEGIN and END
+sed '/SENTINEL/q'                       # print lines before and incl. SENTINEL
+sed -ne '/SENINTEL/,$ p'                # print lines after and incl. SENTINEL
+sed -i '' 's/x/y/g' FILE                # replace "x" with "y" (BSD)
+sed -i 's/x/y/g' FILE                   # replace "x" with "y" (GNU)
+sed -i'' 's/x/y/g' FILE                 # replace "x" with "y" (GNU+BSD) NO SPC!
+sed -i .bak 's/x/y/g' FILE              # ^^^ with backup
+perl -pi -e 's/x/y/g'                   # ^^^ perl alternative
+sed 's/\([a-z]*\).*/\1/'                # keep only lowercase letters
+sed 's/^/before/'                       # prepend every line
+sed 's/$/after/'                        # append every line
+sed '/before/d'                         # filter lines matching "before"
+sed -nr 's/@@  ([0-9]+\.?[0-9]*) ns total time to execute/\1/p'
+sed '1s/before/after/'                  # replace first line
+sed -rn "s/^.*(PATTERN1).*(PATTERN2).*$/\1\t\2/p" # extract two fields
+tac | sed -n '1,/PATTERN/p' | tac       # print from last match to end of file
+sed '/PATTERN1/s/PATTERN2/PATTERN3/'    # match P1, then apply query-replace
+perl -0pe 's/QUERY/REPLACE/sm'          # multiline regex query-replace
+
+# awk
+awk '/Iowa/,/Montana/'                  # print lines between Iowa & Montana
+awk '{print $NF}'                       # print last field
+awk '{print $(NF-1)}'                   # print second-to-last field
+awk '{$1="";print}'                     # print all but last field
+awk '$1>=2{print}'                      # print if greater that 2
+awk '{ sum += $1 }; END { print sum }'  # sum input stream
+awk '{print length}'                    # length of each line
+awk '{print length($1)}'                # length of first word
+awk '{a[$1]+=$2}END{for(i in a) print i,a[i]}' # sum vals (col2) by key (col2)
+awk '/match/,/*/'                       # remove from match to end of file
+awk 'BEGIN { FS = "," } ; { print $2 }' # change field separator
+awk '{$1=$1;print}'                     # trim whitespace
+cat ips | awk 'BEGIN {FS="."}; {printf "%03d%03d%03d%03d\n", $1, $2, $3, $4}' | sort -n | awk '{printf "%d.%d.%d.%d\n", substr($0,1,3), substr($0,4,3), substr($0,7,3), substr($0,10,3)}'       # sort ips
+
+# Misc text processing
+cat FILE1                               # print file to terminal
+cat FILE1 FILE2                         # Concatenate and ^^^
+cat -n                                  # prepend line numbers
+nl                                      # prepend line numbers
+fold                                    # word-wrap text
+cut -c8-                                # remove first 8 characters of a line
+less FILE                               # pager.  q to quit
+pygmentize -g                           # syntax highlighting, autodetect lexer
+column -t                               # format columns in tabular data
+column -tns, FILE.csv                   # pretty-print a csv file
+test `tail -c 1 file`                   # test if file ends in newline
+expand                                  # converts tabs into spaces
+unexpand                                # convert spaces to tabs
+tac                                     # reverse order of lines
+rev                                     # reverse order of characters
+paste                                   # print two files side-by-side
+paste <(CMD1) <(CMD2) | column -t       # compare the output of two commands
+tr "\r\n" "\n"  FILE                    # convert line endings to UNIX
+tr -d '[:space:]'                       # remove whitespace
+tr -d -c ',\n' | awk '{print length}'   # count commas
+shuf                                    # shuffle lines
+head                                    # first 10 lines
+head -n2                                # first 2 lines
+head -n-2                               # all but last 2 lines
+head -c 250                             # first 250 chars (truncate)
+tail                                    # last 10 lines
+tail -n2                                # last 2 lines
+tail -n+2                               # from from line 2 to end
+tail -f                                 # monitor file for appends
+tail -f FILE | grep --line-buffered PATTERN  # monitor FILE for PATTERN
+wc                                      # word, line, character and byte count
+wc -l                                   # line count
+sort                                    # sort lines
+sort | uniq                             # print only unique lines
+sort -n                                 # numeric order
+sort -u                                 # print only unique lines
+sort -k1                                # sort on column 1 (first)
+sort -k1-2                              # sort on columns 1 and 2
+sort -k1 -t,                            # sort on col 1, comma-delimited
+sort -h                                 # sort human readable, e.g., from du -h
+sort -o FILE FILE                       # sort FILE in place
+/usr/share/dict/words                   # All the words in the dictionary
+shuf -n1 /usr/share/dict/words          # random word
+split FILE                              # split FILE into 1000 line files
+split -                                 # ^^^ stdin
+split -l10 FILE                         # split FILE into 10 line files
+csplit FILE '/^TO:/' '{*}' -            # split FILE, match on "TO" (GNU)
+csplit '/^TO:/' '{*}' -                 # split stdin, match on "TO" (GNU)
 
 # Finding files
 find . -name hello.txt                  # find hello.txt, starting at PWD
@@ -1061,129 +1184,6 @@ echo !$:e                               # Remove all but the suffix
 [Ctrl + z]                              # Suspend command
 fg                                      # Restart command in foreground
 bg                                      # Restart command in background
-
-# Regular Expression Syntax (regex)
-# https://regex101.com/
-
-# grep
-grep PATTERN                            # search for pattern
-grep -E PATTERN                         # extended regex
-grep -E '(PATTERN1|PATTERN2)'           # two patterns
-egrep PATTERN                           # extended regex
-grep -o                                 # only print the matched pattern
-grep -v                                 # invert match
-grep -Ev '(PATTERN1|PATTERN2)'          # invert two matches
-grep -A10                               # print match + 10 lines after
-grep -B10                               # print match + 10 lines before
-grep -10                                # same as grep -A10 -B10
-grep -a -b -B100 -A100 phrase /dev/sda3 # recover deleted files
-egrep -o "\w+([._-]\w)*@\w+([._-]\w)*\.\w{2,4}" -e  # email addresses
-# grep for tab in bash: Ctrl-V TAB
-grep '^.\{10\}$'                        # 10 letter words
-zgrep                                   # grep gzip'ed files
-fgrep                                   # fixed patterns (no regex), faster
-pcregrep                                # Perl Compatible Regex
-grep -P                                 # Perl regex
-ptargrep                                # grep files insize a tarball
-ugrep PATTERN                           # grep-compatible search (use ug for the short/interactive form)
-ug -Q                                   # interactive TUI: type pattern, see live results
-ug -z PATTERN                           # search inside compressed files & archives (gz, zip, tar, 7z...)
-ug --filter='pdf:pdftotext' PATTERN     # search inside PDFs (and similar for docs)
-ug PATTERN -r --include='*.py'          # recursive, filtered by file type
-
-# sed
-sed -rn '/PATTERN/p'                    # grep work-a-like
-sed -r                                  # use extended regex
-sed 1d                                  # print all but first line
-sed '$d'                                # print all but last line
-sed -n '52p'                            # print line 52
-sed '52q;d'                             # ^^^ efficient on large files
-sed -n '45,50p' filename                # print lines 45-50
-sed -n '51q;45,50p' filename            # ^^^ efficient on large files
-sed -n '/BEGIN/,/END/p'                 # print lines between BEGIN and END
-sed '/BEGIN/,/END/d'                    # delete lines between BEGIN and END
-sed '/SENTINEL/q'                       # print lines before and incl. SENTINEL
-sed -ne '/SENINTEL/,$ p'                # print lines after and incl. SENTINEL
-sed -i '' 's/x/y/g' FILE                # replace "x" with "y" (BSD)
-sed -i 's/x/y/g' FILE                   # replace "x" with "y" (GNU)
-sed -i'' 's/x/y/g' FILE                 # replace "x" with "y" (GNU+BSD) NO SPC!
-sed -i .bak 's/x/y/g' FILE              # ^^^ with backup
-perl -pi -e 's/x/y/g'                   # ^^^ perl alternative
-sed 's/\([a-z]*\).*/\1/'                # keep only lowercase letters
-sed 's/^/before/'                       # prepend every line
-sed 's/$/after/'                        # append every line
-sed '/before/d'                         # filter lines matching "before"
-sed -nr 's/@@  ([0-9]+\.?[0-9]*) ns total time to execute/\1/p'
-sed '1s/before/after/'                  # replace first line
-sed -rn "s/^.*(PATTERN1).*(PATTERN2).*$/\1\t\2/p" # extract two fields
-tac | sed -n '1,/PATTERN/p' | tac       # print from last match to end of file
-sed '/PATTERN1/s/PATTERN2/PATTERN3/'    # match P1, then apply query-replace
-perl -0pe 's/QUERY/REPLACE/sm'          # multiline regex query-replace
-
-# awk
-awk '/Iowa/,/Montana/'                  # print lines between Iowa & Montana
-awk '{print $NF}'                       # print last field
-awk '{print $(NF-1)}'                   # print second-to-last field
-awk '{$1="";print}'                     # print all but last field
-awk '$1>=2{print}'                      # print if greater that 2
-awk '{ sum += $1 }; END { print sum }'  # sum input stream
-awk '{print length}'                    # length of each line
-awk '{print length($1)}'                # length of first word
-awk '{a[$1]+=$2}END{for(i in a) print i,a[i]}' # sum vals (col2) by key (col2)
-awk '/match/,/*/'                       # remove from match to end of file
-awk 'BEGIN { FS = "," } ; { print $2 }' # change field separator
-awk '{$1=$1;print}'                     # trim whitespace
-cat ips | awk 'BEGIN {FS="."}; {printf "%03d%03d%03d%03d\n", $1, $2, $3, $4}' | sort -n | awk '{printf "%d.%d.%d.%d\n", substr($0,1,3), substr($0,4,3), substr($0,7,3), substr($0,10,3)}'       # sort ips
-
-# Misc text processing
-cat FILE1                               # print file to terminal
-cat FILE1 FILE2                         # Concatenate and ^^^
-cat -n                                  # prepend line numbers
-nl                                      # prepend line numbers
-fold                                    # word-wrap text
-cut -c8-                                # remove first 8 characters of a line
-less FILE                               # pager.  q to quit
-pygmentize -g                           # syntax highlighting, autodetect lexer
-column -t                               # format columns in tabular data
-column -tns, FILE.csv                   # pretty-print a csv file
-test `tail -c 1 file`                   # test if file ends in newline
-expand                                  # converts tabs into spaces
-unexpand                                # convert spaces to tabs
-tac                                     # reverse order of lines
-rev                                     # reverse order of characters
-paste                                   # print two files side-by-side
-paste <(CMD1) <(CMD2) | column -t       # compare the output of two commands
-tr "\r\n" "\n"  FILE                    # convert line endings to UNIX
-tr -d '[:space:]'                       # remove whitespace
-tr -d -c ',\n' | awk '{print length}'   # count commas
-shuf                                    # shuffle lines
-head                                    # first 10 lines
-head -n2                                # first 2 lines
-head -n-2                               # all but last 2 lines
-head -c 250                             # first 250 chars (truncate)
-tail                                    # last 10 lines
-tail -n2                                # last 2 lines
-tail -n+2                               # from from line 2 to end
-tail -f                                 # monitor file for appends
-tail -f FILE | grep --line-buffered PATTERN  # monitor FILE for PATTERN
-wc                                      # word, line, character and byte count
-wc -l                                   # line count
-sort                                    # sort lines
-sort | uniq                             # print only unique lines
-sort -n                                 # numeric order
-sort -u                                 # print only unique lines
-sort -k1                                # sort on column 1 (first)
-sort -k1-2                              # sort on columns 1 and 2
-sort -k1 -t,                            # sort on col 1, comma-delimited
-sort -h                                 # sort human readable, e.g., from du -h
-sort -o FILE FILE                       # sort FILE in place
-/usr/share/dict/words                   # All the words in the dictionary
-shuf -n1 /usr/share/dict/words          # random word
-split FILE                              # split FILE into 1000 line files
-split -                                 # ^^^ stdin
-split -l10 FILE                         # split FILE into 10 line files
-csplit FILE '/^TO:/' '{*}' -            # split FILE, match on "TO" (GNU)
-csplit '/^TO:/' '{*}' -                 # split stdin, match on "TO" (GNU)
 
 # File types and file conversion
 file FILE                               # determine encoding of FILE
