@@ -275,6 +275,7 @@ find . -type f -not -wholename '*\.git*' -exec file {} \; | grep CRLF  # Windows
 fd                                      # find alternative
 fd PATTERN                              # Find filenames matching PATTERN https://github.com/sharkdp/fd
 fd -p '/src/.*\.js$'                    # Search whole path
+fd -H                                   # Include hidden files
 locate FILE                             # Linux filename lookup
 mlocate FILE                            # Linux filename lookup
 mdfind FILE                             # macOS spotlight file content search
