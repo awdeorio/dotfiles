@@ -3254,6 +3254,9 @@ CLAUDE_CODE_MAX_RETRIES=1 claude        # Limit retries
 brew install ccusage                    # Install ccusage
 ccusage daily                           # Table of daily usage
 
+# MCP servers
+playwright   # Browser automation, e.g., circumvent bot blacklisting
+
 # Codex (OpenAI's Agentic Coding Tool)
 brew install codex                      # Install
 codex                                   # Run
