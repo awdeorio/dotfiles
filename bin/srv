@@ -49,9 +49,9 @@ if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
   SERVERCMD="$BUNDLE exec jekyll serve --livereload --incremental --host $HOST --port $PORT"
   pushd ..
   set -x
-  $GEM install bundler
-  $GEM install jekyll-livereload
-  $BUNDLE install
+  $GEM list -i "^bundler$" &> /dev/null || $GEM install bundler
+  $GEM list -i "^jekyll-livereload$" &> /dev/null || $GEM install jekyll-livereload
+  $BUNDLE check &> /dev/null || $BUNDLE install
   set +x
   popd
 elif [ -e _config.yml ]; then
