@@ -1271,7 +1271,9 @@ rsync -rv --delete --checksum           # copy from FAT32, using file checksum
 mount_webdav -i https://ctools.umich.edu/dav/group-user/1a01c844-13d4-4375-bbd8-b8ecb6e538bb /Users/awdeorio/mnt/uarts250w15-dropbox # mount a WebDav share
 encfs PATH mnt/PATH                     # mount an encfs virtual drive
 sshfs USER@HOST:REMOTE_DIR LOCAL_DIR    # mount REMOTE_DIR over SSH
-mount -o loop file.img DIR              # mount CD/DVD image
+mount -o loop FILE.img DIR              # mount CD/DVD image
+mount -o loop FILE.iso DIR              # mount .iso file
+hdiutil attach FILE.iso -mountpoint DIR # mount .iso on macOS
 
 # Disk imaging over a network
 # create a backup of client to server
