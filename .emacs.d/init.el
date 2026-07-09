@@ -1065,7 +1065,104 @@ If the :CREATED: property already exists, do nothing."
                ((org-ql-block-header "Today Dashboard"))
 
                ))))))
-  )
+
+  ;; M-/ tag completion in the tag-entry minibuffer (C-c C-c)
+  ;; ---------------------------------------------------------------
+  ;; M-/ already runs `hippie-expand' everywhere (see the
+  ;; dabbrev-expand alias in the hippie-expand section above); the
+  ;; functions below just prepend a tag-aware try-function while the
+  ;; "Tags: " minibuffer is active, so M-/ there completes existing
+  ;; tags before falling back to word expansion from the org buffer.
+  ;; Only tags already used in the current buffer are offered, in
+  ;; alphabetical (case-insensitive) order.
+  ;; https://orgmode.org/manual/Setting-Tags.html
+
+  (defun org-tag-dabbrev-candidates ()
+    "Return tags already used in the current buffer, alphabetically
+(case-insensitive)."
+    (sort (delete-dups
+           (delq nil (mapcar (lambda (x) (and (stringp (car-safe x)) (car x)))
+                              org-last-tags-completion-table)))
+          (lambda (a b) (string-lessp (downcase a) (downcase b)))))
+
+  ;; Words in BUFFER starting with PREFIX (case-insensitive), for
+  ;; word completion.  `try-expand-dabbrev' can't be used for this:
+  ;; it has no concept of a minibuffer's "origin" buffer, so from
+  ;; inside the Tags: minibuffer it only searches the minibuffer's
+  ;; own (nearly empty) text, never the org buffer.
+  (defun org-buffer-word-candidates (prefix buffer)
+    "Return words in BUFFER starting with PREFIX, alphabetically
+(both case-insensitive)."
+    (let (words)
+      (with-current-buffer buffer
+        (save-excursion
+          (goto-char (point-min))
+          (let ((case-fold-search t)
+                (regexp (concat "\\_<" (regexp-quote prefix) "\\(?:\\sw\\|\\s_\\)*")))
+            (while (re-search-forward regexp nil t)
+              (push (match-string-no-properties 0) words)))))
+      (sort (delete-dups (nreverse words))
+            (lambda (a b) (string-lessp (downcase a) (downcase b))))))
+
+  ;; Shared hippie-expand cycling logic.  CANDIDATES-FN is called
+  ;; with no args (when OLD is nil) to compute the full candidate
+  ;; list for the current prefix; both try-functions below just
+  ;; differ in where that list comes from.
+  (defun org-tag-entry-try-expand (old candidates-fn)
+    (unless old
+      (he-init-string (save-excursion
+                         (skip-chars-backward "^:" (minibuffer-prompt-end))
+                         (point))
+                       (point))
+      ;; When the field being completed is empty, `he-string-beg' and
+      ;; `he-string-end' start at the same position.  Markers don't
+      ;; advance past text inserted exactly at them by default, so
+      ;; `he-substitute-string' would immediately delete-region right
+      ;; back over whatever it just inserted.  Force the end marker to
+      ;; advance so the inserted candidate survives.
+      (set-marker-insertion-type he-string-end t)
+      (setq he-expand-list (funcall candidates-fn)))
+    (while (and he-expand-list (he-string-member (car he-expand-list) he-tried-table))
+      (setq he-expand-list (cdr he-expand-list)))
+    (if (null he-expand-list)
+        (progn (when old (he-reset-string)) nil)
+      (he-substitute-string (car he-expand-list))
+      (setq he-expand-list (cdr he-expand-list))
+      t))
+
+  (defun try-expand-org-tags (old)
+    "Hippie-expand try function that completes against known org tags."
+    ;; `org-tag-dabbrev-candidates' already returns tags in sorted
+    ;; order; `all-completions' preserves list order, so don't
+    ;; re-sort here.  Org tags are normally case-sensitive, but
+    ;; ignore case here so, e.g., "h" also matches "Home".
+    (org-tag-entry-try-expand
+     old (lambda ()
+           (let ((completion-ignore-case t))
+             (all-completions he-search-string (org-tag-dabbrev-candidates))))))
+
+  (defun try-expand-org-buffer-words (old)
+    "Hippie-expand try function that completes words from the
+Tags: minibuffer's origin buffer (see `org-buffer-word-candidates')."
+    (org-tag-entry-try-expand
+     old (lambda ()
+           (org-buffer-word-candidates he-search-string
+                                        (window-buffer (minibuffer-selected-window))))))
+
+  ;; Restrict M-/ to tags, then current-buffer words, only while
+  ;; actually in the tag-entry minibuffer; every other minibuffer
+  ;; prompt is unaffected.  The global `hippie-expand-try-functions-list'
+  ;; also tries other buffers, file names, abbrevs, etc., none of
+  ;; which make sense for a tags field.
+  (defun org-tags-minibuffer-hippie-expand-setup ()
+    "Restrict `hippie-expand-try-functions-list' to tags, then
+current-buffer words, while entering tags in the minibuffer opened
+by `org-set-tags-command'."
+    (when (string-prefix-p "Tags: " (or (minibuffer-prompt) ""))
+      (setq-local hippie-expand-try-functions-list
+                  '(try-expand-org-tags try-expand-org-buffer-words))))
+  (add-hook 'minibuffer-setup-hook #'org-tags-minibuffer-hippie-expand-setup)
+  ) ; closes (use-package org ...)
 
 ;; editorconfig
 ;; https://github.com/editorconfig/editorconfig-emacs
