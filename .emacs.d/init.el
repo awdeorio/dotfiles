@@ -36,6 +36,8 @@
 (global-set-key "\C-x\C-b"                      'electric-buffer-list)
 (global-set-key "\C-x\C-t"                      'insert-todays-date)
 (global-set-key "\C-x\C-u"                      'browse-url-at-point)
+(global-set-key "\C-cu"                         'clean-url-at-point)
+(global-set-key "\C-cy"                         'insert-clean-url)
 (global-set-key "\C-cm"                         'toggle-double-wide)
 (global-set-key "\C-ct"                         'toggle-maximize-vertically)
 
@@ -117,6 +119,56 @@
   (interactive)
   (insert (format-time-string "%Y-%m-%d"))
 )
+
+(defun clean-url (url)
+  "Return URL with tracking cruft and session junk stripped.
+Amazon URLs are shortened to /dp/ASIN/, Home Depot URLs to /p/ID,
+Menards URLs to /main/p-NNNN-c-NNNN.htm, and Gmail URLs have their
+search/label/mailbox prefix replaced with #all/.  Any other URL has
+its query string and fragment removed."
+  (cond
+   ;; Amazon: .../dp/ASIN/... -> https://www.amazon.com/dp/ASIN/
+   ((string-match "\\`https?://\\(?:www\\.\\)?amazon\\.com/.*/dp/\\([A-Z0-9]+\\)"
+                  url)
+    (format "https://www.amazon.com/dp/%s/" (match-string 1 url)))
+   ;; Home Depot: .../p/.../ID -> https://www.homedepot.com/p/ID
+   ((string-match "\\`https?://\\(?:www\\.\\)?homedepot\\.com/p/.*/\\([0-9]+\\)"
+                  url)
+    (format "https://www.homedepot.com/p/%s" (match-string 1 url)))
+   ;; Menards: .../p-NNNN-c-NNNN.htm -> https://www.menards.com/main/p-NNNN-c-NNNN.htm
+   ((string-match
+     "\\`https?://\\(?:www\\.\\)?menards\\.com/.*/\\(p-[0-9]+-c-[0-9]+\\)\\.htm"
+     url)
+    (format "https://www.menards.com/main/%s.htm" (match-string 1 url)))
+   ;; Gmail: #search/query/ID or #sent/ID etc -> #all/ID
+   ((string-match
+     "\\`https?://mail\\.google\\.com/mail/u/\\([0-9]+\\)/#.*/\\([^/?#]+\\)\\'"
+     url)
+    (format "https://mail.google.com/mail/u/%s/#all/%s"
+            (match-string 1 url) (match-string 2 url)))
+   ;; General: strip query string and fragment
+   (t (replace-regexp-in-string "[?#].*\\'" "" url))))
+
+(defun clean-url-at-point ()
+  "Replace the URL at point, or in the active region, with a cleaned version.
+See `clean-url' for the cleanup rules applied."
+  (interactive)
+  (let* ((bounds (if (use-region-p)
+                      (cons (region-beginning) (region-end))
+                    (bounds-of-thing-at-point 'url)))
+         (url (and bounds (buffer-substring-no-properties (car bounds) (cdr bounds)))))
+    (unless url
+      (user-error "No URL found at point"))
+    (let ((cleaned (clean-url (string-trim url))))
+      (delete-region (car bounds) (cdr bounds))
+      (goto-char (car bounds))
+      (insert cleaned))))
+
+(defun insert-clean-url ()
+  "Insert a cleaned version of the URL on the clipboard/kill-ring at point.
+See `clean-url' for the cleanup rules applied."
+  (interactive)
+  (insert (clean-url (string-trim (current-kill 0 t)))))
 
 (defun from-pptx ()
   "Reformat entire buffer after paste from PowerPoint."
