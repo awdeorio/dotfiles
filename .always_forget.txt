@@ -511,6 +511,9 @@ tshark -r get.pcap -Tfields -e _ws.col.Protocol -e _ws.col.Info -e http.file_dat
 # Web Utilities
 python -m SimpleHTTPServer 8000         # start a file server at ./ on port 8000
 python3 -m http.server 8000             # start a file server at ./ on port 8000
+caddy                                   # start a file server with TLS
+caddy file-server --domain localhost --root /path/to/dir
+openssl s_server -accept 4443 -cert cert.pem -key key.pem -WWW  # ^^^
 wget https://www.google.com/            # download one page
 wget -m andrewdeorio.com                # download everything
 wget URL -O FILE                        # output to FILE
