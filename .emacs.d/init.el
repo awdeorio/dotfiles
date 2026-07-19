@@ -283,6 +283,13 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+;; Emacs bundles its own (older) compat.el and reports it as already
+;; installed, which silently blocks package.el from installing the newer
+;; ELPA compat that magit/transient require.  Without this, a fresh
+;; machine install ends up with a magit that half-loads and fails with
+;; "Symbol's function definition is void: set-local" the first time
+;; magit-status runs.
+(setq package-install-upgrade-built-in t)
 (package-initialize)
 
 ;; Install and configure use-package
