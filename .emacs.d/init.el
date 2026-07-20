@@ -498,7 +498,186 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
   (setq markdown-gfm-use-electric-backquote nil)
   :hook (markdown-mode . visual-line-mode)
   ;; flyspell handled by flyspell use-package block
+  :config
+  ;; markdown-mode.el self-registers a broad auto-mode-alist entry for
+  ;; markdown-mode on load; since add-to-list prepends, it shadows gfm-mode
+  ;; above for every .md file after the first one opened each session.
+  ;; Strip it, keeping our own .markdown entry (matched by regexp so this
+  ;; survives if the package's own pattern changes upstream).
+  (setq auto-mode-alist
+        (cl-remove-if (lambda (entry)
+                         (and (eq (cdr entry) 'markdown-mode)
+                              (not (equal (car entry) "\\.markdown\\'"))))
+                       auto-mode-alist))
   :ensure t)
+
+;; Polymode: edit Slidev YAML front matter blocks as yaml-mode
+;;
+;; Slidev decks (https://sli.dev), conventionally named slides.md, separate
+;; slides with bare `---' lines; a `---' immediately followed by `key:
+;; value' opens per-slide front matter, closed by another `---'.  Since a
+;; bare separator and a front matter opener look identical, markdown-mode's
+;; `markdown-use-pandoc-style-yaml-metadata' can't be used -- it treats
+;; every `---' ... `---' pair as YAML, swallowing whole slides.  The
+;; head-matcher below only accepts a real front matter block: next line
+;; looks like a YAML key, closed by another `---' before an unrelated line.
+;;
+;; poly-markdown pulls in polymode; its keybinding setup is a separate
+;; use-package block below.  :mode defers loading until a slides.md file is
+;; opened, same as the markdown-mode block above but pointed at a mode this
+;; :config defines rather than one the package ships.
+(use-package polymode
+  :ensure t
+  :defer t
+  :config
+  ;; polymode claims M-n as a prefix key (`polymode-prefix-key'), shadowing
+  ;; the M-n/M-p slide navigation bound below.  Move it to C-c n, as
+  ;; polymode's own docs suggest.
+  (define-key polymode-minor-mode-map (kbd "M-n") nil)
+  (define-key polymode-minor-mode-map (kbd "C-c n") polymode-map))
+
+(use-package poly-markdown
+  :ensure t
+  :defer t
+  :mode ("/slides\\.md\\'" . poly-slidev-mode)
+  :config
+  ;; poly-markdown.el self-registers ("\\.md\\'" . poly-markdown-mode) on
+  ;; load, which would steal every markdown buffer away from gfm-mode.
+  ;; Only /slides\.md\' -> poly-slidev-mode is wanted; strip its entry.
+  (setq auto-mode-alist (rassq-delete-all 'poly-markdown-mode auto-mode-alist))
+
+  (defun poly-slidev--frontmatter-line-p ()
+    "Return non-nil if the line at point could belong inside a YAML
+front matter block: blank, a `# comment', a `key: value' pair, or a
+`- list item' (any of these optionally indented)."
+    (looking-at "^[ \t]*\\(?:$\\|#\\|[[:alpha:]_][^\n:]*:\\|-\\)"))
+
+  (defun poly-slidev--frontmatter-closes-p ()
+    "From point (the line right after a `---' front matter opener),
+scan forward through lines that look like YAML and return non-nil if
+a closing `---' is reached before any line that doesn't.  Blank lines
+and comments are allowed inside the block (see `poly-slidev--frontmatter-line-p'),
+so a legitimate front matter block with blank-line spacing isn't
+mistaken for a bare slide separator."
+    (save-excursion
+      (catch 'done
+        (while t
+          (cond
+           ((eobp) (throw 'done nil))
+           ((looking-at "^---[ \t]*$") (throw 'done t))
+           ((poly-slidev--frontmatter-line-p) (forward-line 1))
+           (t (throw 'done nil)))))))
+
+  (defun poly-slidev-yaml-frontmatter-head-matcher (ahead)
+    "Match a Slidev front matter opening `---' line.
+Search forward when AHEAD is positive, backward when negative, per
+polymode's head-matcher calling convention."
+    (let ((search-fn (if (< ahead 0) #'re-search-backward #'re-search-forward))
+          found)
+      (while (and (not found) (funcall search-fn "^---[ \t]*$" nil t))
+        (let ((border (cons (match-beginning 0) (match-end 0))))
+          (when (save-excursion
+                  (goto-char (cdr border))
+                  (forward-line 1)
+                  (and (looking-at "^[[:alpha:]_][^[:space:]:]*:")
+                       (poly-slidev--frontmatter-closes-p)))
+            (setq found border))))
+      found))
+
+  (defun poly-slidev-yaml-chunk-mode ()
+    "Enable yaml-mode for a Slidev front matter chunk, skipping
+`yaml-mode-hook' -- eglot-ensure there (see the yaml-mode block above)
+would LSP-analyze the whole underlying buffer, not just the fragment."
+    (delay-mode-hooks (yaml-mode)))
+
+  (define-innermode poly-slidev-yaml-frontmatter-innermode poly-markdown-root-innermode
+    :mode 'poly-slidev-yaml-chunk-mode
+    :head-matcher #'poly-slidev-yaml-frontmatter-head-matcher
+    :tail-matcher "^---[ \t]*$")
+
+  ;; Fenced code blocks still use native fontification (see
+  ;; markdown-fontify-code-blocks-natively above), not a polymode innermode.
+  (define-polymode poly-slidev-mode poly-gfm-mode
+    :innermodes '(poly-slidev-yaml-frontmatter-innermode))
+
+  ;; Slide navigation reuses the innermode's span classification: a `---'
+  ;; boundary starts a slide unless it's the `tail' closing front matter.
+  ;; The first boundary, if at point-min, is the deck's own front matter
+  ;; and belongs to slide 1 rather than starting a new one.
+  (defun slidev--skip-blank-lines-forward (pos)
+    "Return the first position at or after POS that isn't a blank line."
+    (save-excursion
+      (goto-char pos)
+      (while (and (not (eobp)) (looking-at "^[ \t]*$"))
+        (forward-line 1))
+      (point)))
+
+  (defun slidev--boundary-content-start (boundary-pos)
+    "Return where a slide's content begins, given the position of its
+opening `---' boundary BOUNDARY-POS, skipping any front matter block
+and blank lines."
+    (save-excursion
+      (goto-char boundary-pos)
+      (forward-line 1)
+      (when (eq (nth 0 (pm-innermost-span boundary-pos)) 'head)
+        (re-search-forward "^---[ \t]*$" nil t)
+        (forward-line 1))
+      (slidev--skip-blank-lines-forward (point))))
+
+  (defun slidev--slide-start-positions ()
+    "Return a sorted list of content-start positions, one per slide."
+    (save-excursion
+      (goto-char (point-min))
+      (let (boundaries)
+        (while (re-search-forward "^---[ \t]*$" nil t)
+          (let ((bol (match-beginning 0)))
+            (unless (eq (nth 0 (pm-innermost-span bol)) 'tail)
+              (push bol boundaries))))
+        (setq boundaries (nreverse boundaries))
+        (let ((starts (mapcar #'slidev--boundary-content-start boundaries)))
+          (if (and boundaries (= (car boundaries) (point-min)))
+              starts
+            (cons (slidev--skip-blank-lines-forward (point-min)) starts))))))
+
+  (defun slidev--report-slide-number (starts)
+    (message "Slide %d/%d" (1+ (or (seq-position starts (point)) 0)) (length starts)))
+
+  (defun poly-slidev-forward-slide (&optional n)
+    "Move to the start of the Nth next slide's content."
+    (interactive "p")
+    (let* ((starts (slidev--slide-start-positions))
+           (later (seq-filter (lambda (s) (> s (point))) starts)))
+      (if (>= (length later) (or n 1))
+          (goto-char (nth (1- (or n 1)) later))
+        (user-error "No next slide"))
+      (slidev--report-slide-number starts)))
+
+  (defun poly-slidev-backward-slide (&optional n)
+    "Move to the start of the Nth previous slide's content."
+    (interactive "p")
+    (let* ((starts (slidev--slide-start-positions))
+           (earlier (reverse (seq-filter (lambda (s) (< s (point))) starts))))
+      (if (>= (length earlier) (or n 1))
+          (goto-char (nth (1- (or n 1)) earlier))
+        (user-error "No previous slide"))
+      (slidev--report-slide-number starts)))
+
+  (defun poly-slidev-goto-slide (n)
+    "Move to the start of slide N's content, like `goto-line'."
+    (interactive
+     (if (and current-prefix-arg (not (consp current-prefix-arg)))
+         (list (prefix-numeric-value current-prefix-arg))
+       (list (read-number "Goto slide: "))))
+    (let* ((starts (slidev--slide-start-positions))
+           (total (length starts)))
+      (unless (and (>= n 1) (<= n total))
+        (user-error "Slide %d out of range (1-%d)" n total))
+      (goto-char (nth (1- n) starts))
+      (slidev--report-slide-number starts)))
+
+  (define-key poly-slidev-mode-map (kbd "M-n") #'poly-slidev-forward-slide)
+  (define-key poly-slidev-mode-map (kbd "M-p") #'poly-slidev-backward-slide)
+  (define-key poly-slidev-mode-map (kbd "C-c C-g") #'poly-slidev-goto-slide))
 
 ;; Shell programming
 ;;
