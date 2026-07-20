@@ -568,6 +568,16 @@ mistaken for a bare slide separator."
            ((poly-slidev--frontmatter-line-p) (forward-line 1))
            (t (throw 'done nil)))))))
 
+  (defun poly-slidev--frontmatter-open-p (border-end)
+    "Return non-nil if a `---' border ending at BORDER-END opens a real
+Slidev front matter block: the next line looks like a YAML key, and a
+closing `---' is reached before any unrelated line."
+    (save-excursion
+      (goto-char border-end)
+      (forward-line 1)
+      (and (looking-at "^[[:alpha:]_][^[:space:]:]*:")
+           (poly-slidev--frontmatter-closes-p))))
+
   (defun poly-slidev-yaml-frontmatter-head-matcher (ahead)
     "Match a Slidev front matter opening `---' line.
 Search forward when AHEAD is positive, backward when negative, per
@@ -576,13 +586,32 @@ polymode's head-matcher calling convention."
           found)
       (while (and (not found) (funcall search-fn "^---[ \t]*$" nil t))
         (let ((border (cons (match-beginning 0) (match-end 0))))
-          (when (save-excursion
-                  (goto-char (cdr border))
-                  (forward-line 1)
-                  (and (looking-at "^[[:alpha:]_][^[:space:]:]*:")
-                       (poly-slidev--frontmatter-closes-p)))
+          (when (poly-slidev--frontmatter-open-p (cdr border))
             (setq found border))))
       found))
+
+  (defun poly-slidev--clear-markdown-properties-in-frontmatter (start end)
+    "Undo markdown-mode's own syntax-propertize inside a Slidev front
+matter block within START..END: its setext-heading and hr matchers
+don't know about our boundaries and can misfire on a block's `---'
+lines and last content line.  Advised onto `markdown-syntax-propertize',
+shared by every markdown/gfm buffer, so guard by file name rather than
+the poly-slidev-mode variable, which isn't set yet during the initial
+whole-buffer pass."
+    (when (and buffer-file-name
+               (string-match-p "/slides\\.md\\'" buffer-file-name))
+      (save-excursion
+        (goto-char start)
+        (while (re-search-forward "^---[ \t]*$" end t)
+          (let ((open-beg (match-beginning 0)) (open-end (match-end 0)))
+            (when (poly-slidev--frontmatter-open-p open-end)
+              (save-excursion
+                (goto-char open-end)
+                (when (re-search-forward "^---[ \t]*$" nil t)
+                  (remove-text-properties open-beg (match-end 0)
+                                           markdown--syntax-properties)))))))))
+  (advice-add 'markdown-syntax-propertize :after
+              #'poly-slidev--clear-markdown-properties-in-frontmatter)
 
   (defun poly-slidev-yaml-chunk-mode ()
     "Enable yaml-mode for a Slidev front matter chunk, skipping
@@ -593,7 +622,12 @@ would LSP-analyze the whole underlying buffer, not just the fragment."
   (define-innermode poly-slidev-yaml-frontmatter-innermode poly-markdown-root-innermode
     :mode 'poly-slidev-yaml-chunk-mode
     :head-matcher #'poly-slidev-yaml-frontmatter-head-matcher
-    :tail-matcher "^---[ \t]*$")
+    :tail-matcher "^---[ \t]*$"
+    ;; polymode bolds head/tail lines (:head-adjust-face) and tints the
+    ;; body's background (:adjust-face, inherited default 2) by default;
+    ;; front matter should look like plain text, not call attention to itself.
+    :head-adjust-face nil
+    :adjust-face nil)
 
   ;; Fenced code blocks still use native fontification (see
   ;; markdown-fontify-code-blocks-natively above), not a polymode innermode.
