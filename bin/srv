@@ -57,6 +57,9 @@ if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
 elif [ -e _config.yml ]; then
   # Jekyll
   SERVERCMD="$BUNDLE exec jekyll serve --livereload --incremental --host $HOST --port $PORT"
+elif [ -e slides.md ]; then
+  # Slidev
+  SERVERCMD="npx slidev slides.md --port $PORT"
 elif [ -e README.md ]; then
   # Markdown README
   SERVERCMD="grip ${HOST}:${PORT}"
