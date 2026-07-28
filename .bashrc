@@ -25,6 +25,7 @@ export LANG=en_US.UTF-8
 
 ### Aliases ###################################################################
 # NOTE: emacs, git, ls, and less  aliases appear later
+alias mv='mv -i'
 alias du="du -sh"
 function dusort {
   [[ -z "$@" ]] && FINDPATH="." || FINDPATH="$@"
