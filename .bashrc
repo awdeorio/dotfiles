@@ -26,9 +26,9 @@ export LANG=en_US.UTF-8
 ### Aliases ###################################################################
 # NOTE: emacs, git, ls, and less  aliases appear later
 alias mv='mv -i'
-alias du="du -sh"
+alias du='du -sh'
 function dusort {
-  [[ -z "$@" ]] && FINDPATH="." || FINDPATH="$@"
+  [[ -z "$*" ]] && FINDPATH="." || FINDPATH="$*"
   find $FINDPATH -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h ;
 }
 alias df="df -h"
