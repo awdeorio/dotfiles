@@ -29,7 +29,7 @@ alias mv='mv -i'
 alias du='du -sh'
 function dusort {
   [[ -z "$*" ]] && FINDPATH="." || FINDPATH="$*"
-  find $FINDPATH -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h ;
+  find "$FINDPATH" -mindepth 1 -maxdepth 1 -print0 | xargs -0 du -sh | sort -h ;
 }
 alias df="df -h"
 alias cdd="cd .."
