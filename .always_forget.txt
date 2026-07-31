@@ -3249,12 +3249,15 @@ claude                                  # Run (PWD matters)
 claude -p PROMPT                        # Print response and exit
 claude -m MODEL                         # Specify model (opus, opus-4-6, etc.)
 CLAUDE_CODE_MAX_RETRIES=1 claude        # Limit retries
+claude doctor                           # Installation diagnostics
 /init                                   # Generate or refresh CLAUDE.md
 /status                                 # Check context
 /clear                                  # Delete context
 /output-style                           # List/select modes (e.g., Learning)
 /model                                  # Change default model
 /effort                                 # Change effort level
+/context                                # Context usage, bloat warnings, confirm memory loaded
+/doctor                                 # Checkup: fixes config, trims CLAUDE.md
 <kbd> C-g                               # Open Emacs to write prompt
 !CMD                                    # Run CMD shell command
 brew install ccusage                    # Install ccusage
