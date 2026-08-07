@@ -1543,8 +1543,15 @@ by `org-set-tags-command'."
 (use-package csv-mode
   :ensure t
   :mode "\\.[Cc][Ss][Vv]\\'"
-  :hook (csv-mode . csv-align-mode)
+  :hook ((csv-mode . csv-align-mode)
+         ;; csv-mode derives from text-mode, whose hook turns on
+         ;; visual-line-mode.  Wrapped lines break column alignment.
+         (csv-mode . csv--disable-visual-line-mode))
   :config
+
+  (defun csv--disable-visual-line-mode ()
+    "Turn off `visual-line-mode', which is inherited from `text-mode-hook'."
+    (visual-line-mode -1))
 
   (defun csv--goto-field (n)
     "Move point to the start of field N on the current line.
