@@ -23,9 +23,15 @@
             (setq gc-cons-threshold (* 16 1024 1024))  ; 16MB - reasonable for interactive use
             (setq file-name-handler-alist default-file-name-handler-alist)))
 
-;; Prevent package.el from loading packages before init.el runs
-;; use-package handles this instead
-(setq package-enable-at-startup nil)
+;; Activate installed packages before init.el runs, using the precomputed
+;; package-quickstart.el.  Quickstart concatenates every package's autoloads
+;; and load-path into one byte-compiled file, so startup reads one file
+;; instead of walking ~/.emacs.d/elpa.  package.el itself stays unloaded;
+;; its entry points (package-install, package-installed-p, ...) are
+;; autoloaded, so `use-package :ensure' still works on a fresh machine.
+;; package.el regenerates the file whenever a package is installed or
+;; deleted; to rebuild it by hand: M-x package-quickstart-refresh
+(setq package-quickstart t)
 
 ;; Disable UI elements before they're initialized (faster than disabling after)
 (push '(tool-bar-lines . 0) default-frame-alist)

@@ -57,7 +57,7 @@
 
 ;; Dialog settings.  No more typing the whole yes or no. Just y or n
 ;; will do. Disable GUI dialogs and use emacs text interface.
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 (setq use-dialog-box nil)
 
 ;; Remove scrollbars, menu bars, and toolbars
@@ -279,10 +279,11 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 (if (version< emacs-version "26.3")
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
-;; Configure built-in package manager
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+;; Configure built-in package manager.  early-init.el sets
+;; `package-quickstart', so packages are already activated by the time this
+;; runs and there is no (require 'package) / (package-initialize) here.
+;; These settings only matter once package.el actually loads, which happens
+;; on demand the first time something installs a package.
 ;; Emacs bundles its own (older) compat.el and reports it as already
 ;; installed, which silently blocks package.el from installing the newer
 ;; ELPA compat that magit/transient require.  Without this, a fresh
@@ -290,15 +291,34 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;; "Symbol's function definition is void: set-local" the first time
 ;; magit-status runs.
 (setq package-install-upgrade-built-in t)
-(package-initialize)
+(with-eval-after-load 'package
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
 
-;; Install and configure use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; Configure use-package (built in since Emacs 29, no bootstrap needed)
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-defer t)  ; Globally defer package loading
+
+;; `:ensure t' normally calls `package-installed-p', which pulls in all of
+;; package.el (and url, browse-url, auth-source...) on every startup just to
+;; answer "is it there?".  package-quickstart already leaves the answer in
+;; `package-activated-list', so check that first and fall back to the real
+;; thing only for a package that is genuinely missing.
+(defun awdeorio-use-package-ensure (name args state &optional no-refresh)
+  "Like `use-package-ensure-elpa', but skip loading package.el when every
+package NAME/ARGS asks for is already in `package-activated-list'."
+  (let ((all-active t))
+    (dolist (ensure args)
+      (let ((pkg (cond ((eq ensure t) (use-package-as-symbol name))
+                       ((consp ensure) (car ensure))
+                       (t ensure))))
+        (when (and pkg
+                   (not (memq pkg (bound-and-true-p package-activated-list))))
+          (setq all-active nil))))
+    (or all-active
+        (use-package-ensure-elpa name args state no-refresh))))
+(setq use-package-ensure-function #'awdeorio-use-package-ensure)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -333,7 +353,7 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;; NOTE to self: Take a look at verilog-ts-mode which includes tree-sitter
 ;;  support https://github.com/gmlarumbe/verilog-ext
 (use-package verilog-mode
-  :ensure t
+  ;; Built in to Emacs; no :ensure needed.
   :mode "\\.v\\'"
   :mode "\\.vh\\'"
   :mode "testfixture.verilog"
