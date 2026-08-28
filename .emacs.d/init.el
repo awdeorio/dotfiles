@@ -1433,9 +1433,8 @@ by `org-set-tags-command'."
   ) ; closes (use-package org ...)
 
 ;; editorconfig
-;; https://github.com/editorconfig/editorconfig-emacs
+;; Built in to Emacs 30+, no need for the MELPA package.
 (use-package editorconfig
-  :ensure t
   :hook (prog-mode . editorconfig-mode))
 
 ;; version482 required by EECS 482 autograder
