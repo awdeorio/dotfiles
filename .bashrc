@@ -26,6 +26,7 @@ export LANG=en_US.UTF-8
 ### Aliases ###################################################################
 # NOTE: emacs, git, ls, and less  aliases appear later
 alias mv='mv -i'
+alias cp='cp -i'
 alias du='du -sh'
 function dusort {
   [[ -z "$*" ]] && FINDPATH="." || FINDPATH="$*"
@@ -76,6 +77,7 @@ alias gdt='git difftool'
 alias gr='git rebase'
 alias gf='git fetch -p'
 alias gb='git branch'
+alias gl='git log'
 alias phs='python3 -m http.server --bind localhost 8000'
 alias bejs='bundle exec jekyll serve --host localhost --port 4000'
 alias mogrify-1024='mogrify -resize 1024x1024'
