@@ -1440,7 +1440,7 @@ comm -12 <(sort file1) <(sort file2)    # set intersection
 sort file1 file2 | uniq -u              # set symmetric difference
 comm -23 <(sort file1) <(sort file2)    # set difference (lines only in file1)
 diff <(sort file1) <(sort file2)        # set equality
-cat FILE | sort | uniq -c               # frequency analysis (histogram)
+cat FILE | sort | uniq -c | sort -n     # frequency analysis (histogram) / count duplicates
 factor NUM                              # print prime factors
 st                                      # statistics about a stream of numbers
 
