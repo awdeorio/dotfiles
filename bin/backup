@@ -9,9 +9,13 @@ set -Eeuo pipefail
 # Bug fix: globbing causes problems with '*' in EXCLUDE strings
 set -o noglob
 
-# Copy stdout and stderr to file
-# exec > >(tee backup.log)
-# exec 2>&1
+# Copy output to log file
+mkdir -p ${HOME}/.local/var/log/backup
+LOGFILE=${HOME}/.local/var/log/backup/backup-$(date '+%Y-%m-%d_%H%M').log
+echo "Logging to ${LOGFILE}"
+exec > >(tee -a ${LOGFILE}); exec 2>&1;
+echo "$0"
+date
 
 # Synchronized files
 EXCLUDE+=' --exclude Dropbox*/***'
