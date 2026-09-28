@@ -282,6 +282,12 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
 ;; Configure built-in package manager.  early-init.el sets
 ;; `package-quickstart', so packages are already activated by the time this
 ;; runs and there is no (require 'package) / (package-initialize) here.
+;;
+;; EXCEPTION: `emacs --batch' skips early-init.el, so nothing is activated
+;; and every :ensure / :hook that needs a package fails with "Cannot open
+;; load file".  Batch callers must run (package-initialize) before loading
+;; this file; see ~/bin/upgrade.
+;;
 ;; These settings only matter once package.el actually loads, which happens
 ;; on demand the first time something installs a package.
 ;; Emacs bundles its own (older) compat.el and reports it as already

@@ -17,11 +17,24 @@ sudo -v
 # Print commands
 set -x
 
-# Update Emacs packages
-command emacs \
+# Update Emacs packages.
+#
+# --batch skips early-init.el, so activate packages explicitly.  Initialize
+# with quickstart off so package.el scans elpa/ instead of trusting a possibly
+# stale package-quickstart.el, then turn quickstart on so installs regenerate
+# it.  See package notes in init.el.
+command emacs --batch \
+  --eval='
+    (progn
+      (package-initialize)
+      (setq package-quickstart t))' \
   --load ${HOME}/.emacs.d/init.el \
-  --eval="(progn (package-refresh-contents) (package-vc-upgrade-all) (package-upgrade-all) (message \"Packages updated successfully.\"))" \
-  --batch
+  --eval='
+    (progn
+      (package-refresh-contents)
+      (package-vc-upgrade-all)
+      (package-upgrade-all)
+      (message "Packages updated successfully."))'
 
 # Update Python packages
 pipx upgrade-all
