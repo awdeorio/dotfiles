@@ -680,8 +680,9 @@ and blank lines."
         (forward-line 1))
       (slidev--skip-blank-lines-forward (point))))
 
-  (defun slidev--slide-start-positions ()
-    "Return a sorted list of content-start positions, one per slide."
+  (defun slidev--slide-boundaries ()
+    "Return a sorted list of positions where each slide begins: its
+opening `---' boundary, or point-min for an implicit first slide."
     (save-excursion
       (goto-char (point-min))
       (let (boundaries)
@@ -690,10 +691,39 @@ and blank lines."
             (unless (eq (nth 0 (pm-innermost-span bol)) 'tail)
               (push bol boundaries))))
         (setq boundaries (nreverse boundaries))
-        (let ((starts (mapcar #'slidev--boundary-content-start boundaries)))
-          (if (and boundaries (= (car boundaries) (point-min)))
-              starts
-            (cons (slidev--skip-blank-lines-forward (point-min)) starts))))))
+        (if (and boundaries (= (car boundaries) (point-min)))
+            boundaries
+          (cons (point-min) boundaries)))))
+
+  (defun slidev--slide-start-positions ()
+    "Return a sorted list of content-start positions, one per slide."
+    (mapcar (lambda (boundary)
+              (if (save-excursion (goto-char boundary) (looking-at-p "---[ \t]*$"))
+                  (slidev--boundary-content-start boundary)
+                (slidev--skip-blank-lines-forward boundary)))
+            (slidev--slide-boundaries)))
+
+  ;; Mode line "Slide N/M".  Redisplay evaluates it often, so cache the
+  ;; boundary scan until the buffer text changes.  Boundaries rather than
+  ;; content starts, so point inside a slide's front matter counts as that
+  ;; slide.
+  (defvar-local slidev--boundaries-cache nil
+    "Cons of (CHARS-MODIFIED-TICK . BOUNDARIES) for the mode line.")
+
+  (defun slidev--mode-line-string ()
+    "Return \" Slide N/M\" for point in a `poly-slidev-mode' buffer."
+    (when (bound-and-true-p poly-slidev-mode)
+      (let ((tick (buffer-chars-modified-tick)))
+        (unless (eql (car slidev--boundaries-cache) tick)
+          (setq slidev--boundaries-cache
+                (cons tick (ignore-errors (slidev--slide-boundaries))))))
+      (let ((boundaries (cdr slidev--boundaries-cache)))
+        (when boundaries
+          (format " Slide %d/%d"
+                  (max 1 (seq-count (lambda (b) (<= b (point))) boundaries))
+                  (length boundaries))))))
+
+  (add-to-list 'mode-line-position '(:eval (slidev--mode-line-string)) t)
 
   (defun slidev--report-slide-number (starts)
     (message "Slide %d/%d" (1+ (or (seq-position starts (point)) 0)) (length starts)))
