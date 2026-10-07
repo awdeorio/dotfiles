@@ -1,0 +1,69 @@
+#!/usr/bin/env swift
+// lg-brightness
+//
+// Drew's script to get or set LG UltraFine 5K brightness over USB HID.
+// Useful when the monitor's backlight gets out of sync and goes dark.
+//
+// Usage:
+//   lg-brightness         Print current brightness percent
+//   lg-brightness PCT     Set brightness to PCT (0-100)
+
+import Foundation
+import IOKit.hid
+
+let minRaw = 400
+let maxRaw = 54000
+
+func percent(_ raw: Int) -> Int {
+    return Int((Double(raw - minRaw) / Double(maxRaw - minRaw) * 100).rounded())
+}
+
+func readRaw(_ dev: IOHIDDevice) -> Int? {
+    var buf = [UInt8](repeating: 0, count: 6)
+    var len = buf.count
+    let rc = IOHIDDeviceGetReport(dev, kIOHIDReportTypeFeature, 0, &buf, &len)
+    guard rc == kIOReturnSuccess, len >= 2 else { return nil }
+    return Int(buf[0]) | Int(buf[1]) << 8
+}
+
+// Parse arguments
+let args = CommandLine.arguments.dropFirst()
+var target: Int? = nil
+if let arg = args.first {
+    guard args.count == 1, let pct = Int(arg), (0...100).contains(pct) else {
+        FileHandle.standardError.write("Usage: lg-brightness [0-100]\n".data(using: .utf8)!)
+        exit(1)
+    }
+    target = pct
+}
+
+// Find the display controls interface (VESA monitor usage page 0x80)
+let manager = IOHIDManagerCreate(kCFAllocatorDefault, 0)
+IOHIDManagerSetDeviceMatching(manager, [
+    kIOHIDProductKey: "LG UltraFine Display Controls",
+    kIOHIDPrimaryUsagePageKey: 0x80,
+] as CFDictionary)
+IOHIDManagerOpen(manager, 0)
+let devices = IOHIDManagerCopyDevices(manager) as? Set<IOHIDDevice> ?? []
+guard !devices.isEmpty else {
+    FileHandle.standardError.write("Error: LG UltraFine not found\n".data(using: .utf8)!)
+    exit(1)
+}
+
+for dev in devices {
+    if let pct = target {
+        let raw = minRaw + (maxRaw - minRaw) * pct / 100
+        var report: [UInt8] = [UInt8(raw & 0xff), UInt8(raw >> 8), 0, 0, 0, 0]
+        let rc = IOHIDDeviceSetReport(dev, kIOHIDReportTypeFeature, 0, &report, report.count)
+        guard rc == kIOReturnSuccess else {
+            FileHandle.standardError.write("Error: set brightness failed (\(rc))\n".data(using: .utf8)!)
+            exit(1)
+        }
+        print("\(pct)%")
+    } else if let raw = readRaw(dev) {
+        print("\(percent(raw))%")
+    } else {
+        FileHandle.standardError.write("Error: read brightness failed\n".data(using: .utf8)!)
+        exit(1)
+    }
+}
