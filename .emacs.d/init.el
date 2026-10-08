@@ -229,16 +229,32 @@ leading prompt symbols (❯, ⏺).  Preserve blank lines."
                 (delete-region start end)))))
           (forward-line 1))))))
 
+;; Exact pixel sizes, no rounding to character cells
+(setq frame-resize-pixelwise t)
+
+;; Geometry is computed against `frame-monitor-workarea' (the current
+;; monitor minus menu bar and Dock) rather than using the `fullscreen'
+;; parameter, which on macOS overshoots and gets shoved off-screen.
 (defun toggle-maximize-vertically ()
-  "Toggle frame height between original and max (screen) height."
+  "Toggle frame height between original and the monitor's usable height."
   (interactive)
-  (if (eq (frame-parameter nil 'fullscreen) 'fullheight)
-      (set-frame-parameter nil 'fullscreen nil)
-    (set-frame-parameter nil 'fullscreen 'fullheight)))
+  (let ((orig (frame-parameter nil 'toggle-maximize-vertically-orig)))
+    (if orig
+        (progn
+          (set-frame-position nil (car (frame-position)) (car orig))
+          (set-frame-size nil (frame-text-width) (cdr orig) t)
+          (set-frame-parameter nil 'toggle-maximize-vertically-orig nil))
+      (set-frame-parameter nil 'toggle-maximize-vertically-orig
+                           (cons (cdr (frame-position)) (frame-text-height)))
+      (pcase-let ((`(,_ ,wy ,_ ,wh) (frame-monitor-workarea))
+                  (overhead (- (frame-outer-height) (frame-text-height))))
+        (set-frame-position nil (car (frame-position)) wy)
+        (set-frame-size nil (frame-text-width) (- wh overhead) t)))))
 
 (defun toggle-double-wide (&optional multiplier)
   "Toggle frame width between original and MULTIPLIER times wide.
-MULTIPLIER defaults to 2.  The frame is centered around its original position."
+MULTIPLIER defaults to 2.  The frame is centered around its original
+position, then clamped to the current monitor's usable area."
   (interactive)
   (let ((mult (or multiplier 2))
         (orig (frame-parameter nil 'toggle-double-wide-orig)))
@@ -247,19 +263,21 @@ MULTIPLIER defaults to 2.  The frame is centered around its original position."
           (modify-frame-parameters (selected-frame) orig)
           (set-frame-parameter nil 'toggle-double-wide-orig nil))
       (set-frame-parameter nil 'toggle-double-wide-orig
-                           (list (cons 'left (frame-parameter nil 'left))
+                           (list (cons 'left (car (frame-position)))
                                  (cons 'width (frame-parameter nil 'width))))
-      (let* ((current-left (frame-parameter nil 'left))
-             (current-pixel-width (frame-pixel-width))
-             (screen-width (display-pixel-width))
-             (char-width (frame-char-width))
-             (frame-overhead (- (frame-outer-width) (frame-text-width)))
-             (desired-width (* mult (frame-width)))
-             (max-width (/ (- screen-width frame-overhead) char-width))
-             (new-width (min desired-width max-width))
-             (new-pixel-width (+ (* new-width char-width) frame-overhead))
-             (new-left (max 0 (- current-left
-                                 (/ (- new-pixel-width current-pixel-width) 2)))))
+      (pcase-let* ((`(,wx ,_ ,ww ,_) (frame-monitor-workarea))
+                   (current-left (car (frame-position)))
+                   (current-pixel-width (frame-outer-width))
+                   (char-width (frame-char-width))
+                   (frame-overhead (- (frame-outer-width) (frame-text-width)))
+                   (desired-width (* mult (frame-width)))
+                   (max-width (/ (- ww frame-overhead) char-width))
+                   (new-width (min desired-width max-width))
+                   (new-pixel-width (+ (* new-width char-width) frame-overhead))
+                   (centered-left (- current-left
+                                     (/ (- new-pixel-width current-pixel-width) 2)))
+                   (new-left (max wx (min centered-left
+                                          (- (+ wx ww) new-pixel-width)))))
         (modify-frame-parameters
          (selected-frame)
          (list (cons 'left new-left)
