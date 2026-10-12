@@ -3244,7 +3244,7 @@ Option-Shift-<down>                     # Prev unread channel or DM
 Option-Shift-<up>                       # Next unread channel or DM
 
 # Claude Code (Anthropic's Agentic Coding Tool)
-brew install claude-code                # Install
+brew install --cask claude-code@latest  # Install
 claude                                  # Run (PWD matters)
 claude -p PROMPT                        # Print response and exit
 claude -m MODEL                         # Specify model (opus, opus-4-6, etc.)
