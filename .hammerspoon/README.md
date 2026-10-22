@@ -5,7 +5,7 @@ My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcut
 | Shortcut      | Effect                                                    |
 |---------------|-----------------------------------------------------------|
 | `C-s-<arrow>` | Snap to nearest window edge or screen edge                |
-| `C-s-c`       | Cycle centering: center->original                         |
+| `C-s-c`       | Cycle centering: center->left->right->original            |
 | `C-s-n`       | Cycle displays: next->...->original                       |
 | `C-s-t`       | Cycle height: fill->full->fit->original                   |
 | `C-s-w`       | Cycle width: fill->full->fit->original                    |

@@ -44,10 +44,16 @@ local function widthAround(f, s, w)
   return n
 end
 
+-- Center, then flush left, then flush right, keeping the size.
 local function centerSteps(o, s)
-  local n = rect(o)
-  n.x = s.x + math.floor((s.w - o.w) / 2)
-  return {n}
+  local steps = {}
+  for _, x in ipairs({s.x + math.floor((s.w - o.w) / 2), s.x,
+      s.x + s.w - o.w}) do
+    local n = rect(o)
+    n.x = x
+    table.insert(steps, n)
+  end
+  return steps
 end
 
 -- Grow the top edge up and the bottom edge down until each touches a window

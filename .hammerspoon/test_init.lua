@@ -87,11 +87,18 @@ local function bld(fn, others)
 end
 local W = R(100, 200, 200, 300)
 
-checkCycle("center", press(bld(M.centerSteps), W, 3),
-  "400,200,200,300 100,200,200,300 400,200,200,300")
-checkCycle("center when centered: nothing",
-  press(bld(M.centerSteps), R(400, 200, 200, 300), 2),
-  "400,200,200,300 400,200,200,300")
+checkCycle("center, left, right, original", press(bld(M.centerSteps), W, 5),
+  "400,200,200,300 0,200,200,300 800,200,200,300 100,200,200,300 "
+    .. "400,200,200,300")
+checkCycle("center when centered: left, right, original",
+  press(bld(M.centerSteps), R(400, 200, 200, 300), 3),
+  "0,200,200,300 800,200,200,300 400,200,200,300")
+checkCycle("center when flush left: skip left",
+  press(bld(M.centerSteps), R(0, 200, 200, 300), 3),
+  "400,200,200,300 800,200,200,300 0,200,200,300")
+checkCycle("center full width: nothing",
+  press(bld(M.centerSteps), R(0, 200, 1000, 300), 2),
+  "0,200,1000,300 0,200,1000,300")
 checkCycle("double", press(bld(M.doubleSteps), W, 5),
   "0,200,400,300 0,200,800,300 0,200,1000,300 100,200,200,300 0,200,400,300")
 checkCycle("halves", press(bld(M.halvesSteps), W, 5),
