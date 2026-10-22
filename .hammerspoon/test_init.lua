@@ -121,6 +121,17 @@ local Ab = R(100, 400, 300, 400)
 checkCycle("height over B: full, fit, original",
   press(bld(M.heightSteps, {R(0, 0, 1000, 500)}), Ab, 4),
   "100,0,300,800 100,500,300,300 100,400,300,400 100,0,300,800")
+-- User's case: A is full height, B covers A's top, and C is full height and
+-- overlaps A's side.  C spans A's whole height, so it doesn't count, and A
+-- fits below B.
+checkCycle("height fit ignores a window spanning A's height",
+  press(bld(M.heightSteps, {R(300, 0, 300, 400), R(0, 0, 400, 800)}),
+    R(300, 0, 300, 800), 2),
+  "300,400,300,400 300,0,300,800")
+checkCycle("width fit ignores a window spanning A's width",
+  press(bld(M.widthSteps, {R(0, 200, 400, 300), R(0, 0, 1000, 350)}),
+    R(0, 200, 1000, 300), 2),
+  "400,200,600,300 0,200,1000,300")
 -- B covers most of A: a 50px sliver is too short, so no fit step.
 checkCycle("height sliver: full, original",
   press(bld(M.heightSteps, {R(0, 0, 1000, 750)}), Ab, 2),

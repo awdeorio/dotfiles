@@ -73,13 +73,16 @@ end
 local minFit = 200
 
 -- Like fillHeight, but windows that overlap f count too: the side of f's
--- center that a window's center is on decides which edge it limits.  May
--- shrink f.  If the gap is shorter than minFit, return f unchanged.
+-- center that a window's center is on decides which edge it limits.  A
+-- window that spans f's whole height can't be fit around, so it doesn't
+-- count.  May shrink f.  If the gap is shorter than minFit, return f
+-- unchanged.
 local function fitHeight(f, s, others)
   local top, bottom = s.y, s.y + s.h
   local c = f.y + f.h / 2
   for _, o in ipairs(others) do
-    if overlaps(f.x, f.x + f.w, o.x, o.x + o.w) then
+    if overlaps(f.x, f.x + f.w, o.x, o.x + o.w)
+        and not (o.y <= f.y and o.y + o.h >= f.y + f.h) then
       if o.y + o.h / 2 < c then top = math.max(top, o.y + o.h)
       else bottom = math.min(bottom, o.y) end
     end
@@ -111,13 +114,16 @@ local function fillWidth(f, s, others)
 end
 
 -- Like fillWidth, but windows that overlap f count too: the side of f's
--- center that a window's center is on decides which edge it limits.  May
--- shrink f.  If the gap is narrower than minFit, return f unchanged.
+-- center that a window's center is on decides which edge it limits.  A
+-- window that spans f's whole width can't be fit around, so it doesn't
+-- count.  May shrink f.  If the gap is narrower than minFit, return f
+-- unchanged.
 local function fitWidth(f, s, others)
   local left, right = s.x, s.x + s.w
   local c = f.x + f.w / 2
   for _, o in ipairs(others) do
-    if overlaps(f.y, f.y + f.h, o.y, o.y + o.h) then
+    if overlaps(f.y, f.y + f.h, o.y, o.y + o.h)
+        and not (o.x <= f.x and o.x + o.w >= f.x + f.w) then
       if o.x + o.w / 2 < c then left = math.max(left, o.x + o.w)
       else right = math.min(right, o.x) end
     end
