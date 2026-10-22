@@ -7,10 +7,12 @@ Keyboard shortcuts for moving and resizing the focused window.
 | `ctrl + option + <arrow>` | Snap to nearest window edge or screen edge |
 | `ctrl + option + c`       | Center horizontally                        |
 | `ctrl + option + n`       | Move to next display                       |
-| `ctrl + option + t`       | Fill height to neighbors, then full height |
-| `ctrl + option + w`       | Fill width to neighbors, then full width   |
+| `ctrl + option + t`       | Cycle height: fill->full->fit->original    |
+| `ctrl + option + w`       | Cycle width: fill->full->fit->original     |
 | `ctrl + option + m`       | Double the width                           |
 | `ctrl + option + l`       | Left half, center half, right half         |
+
+Fill grows to the nearest windows.  Fit also shrinks to the nearest windows.
 
 ## Install
 

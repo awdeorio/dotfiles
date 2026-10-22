@@ -108,6 +108,16 @@ checkCycle("height fill, full, original",
   "100,100,200,500 100,0,200,800 100,200,200,300 100,100,200,500")
 checkCycle("height with no neighbors: full, original",
   press(bld(M.heightSteps, {}), W, 2), "100,0,200,800 100,200,200,300")
+-- A on the bottom overlaps B on top.  Fill ignores B, so it equals full.
+-- Fit shrinks A's top edge to B's bottom edge.
+local Ab = R(100, 400, 300, 400)
+checkCycle("height over B: full, fit, original",
+  press(bld(M.heightSteps, {R(0, 0, 1000, 500)}), Ab, 4),
+  "100,0,300,800 100,500,300,300 100,400,300,400 100,0,300,800")
+-- B covers most of A: a 50px sliver is too short, so no fit step.
+checkCycle("height sliver: full, original",
+  press(bld(M.heightSteps, {R(0, 0, 1000, 750)}), Ab, 2),
+  "100,0,300,800 100,400,300,400")
 -- Width: windows to the left (right edge at 50) and right (left edge at 600)
 -- overlap vertically; one above does not count.
 local left, right = R(0, 100, 50, 300), R(600, 400, 300, 200)
@@ -117,6 +127,30 @@ checkCycle("width fill, full, original",
   "50,200,550,300 0,200,1000,300 100,200,200,300 50,200,550,300")
 checkCycle("width with no neighbors: full, original",
   press(bld(M.widthSteps, {}), W, 2), "0,200,1000,300 100,200,200,300")
+-- A on the right overlaps B on the left.  Fill ignores B, so it equals full.
+-- Fit shrinks A's left edge to B's right edge.
+local A, Bl = R(600, 200, 400, 300), R(0, 100, 700, 500)
+checkCycle("width over B: full, fit, original",
+  press(bld(M.widthSteps, {Bl}), A, 4),
+  "0,200,1000,300 700,200,300,300 600,200,400,300 0,200,1000,300")
+-- Fit grows one edge and shrinks the other: B overlaps on the left, a
+-- neighbor sits clear to the right.
+checkCycle("width fit grows and shrinks",
+  press(bld(M.widthSteps, {R(0, 100, 400, 500), R(900, 0, 100, 800)}),
+    R(300, 200, 300, 300), 4),
+  "0,200,900,300 0,200,1000,300 400,200,500,300 300,200,300,300")
+-- B covers A entirely: no gap, so no fit step.
+checkCycle("width covered by B: full, original",
+  press(bld(M.widthSteps, {R(0, 0, 1000, 800)}), A, 2),
+  "0,200,1000,300 600,200,400,300")
+-- B covers most of A: a 50px sliver is too narrow, so no fit step.  A
+-- 200px gap is just enough.
+checkCycle("width sliver: full, original",
+  press(bld(M.widthSteps, {R(0, 0, 950, 800)}), A, 2),
+  "0,200,1000,300 600,200,400,300")
+checkCycle("width gap at minimum: fit",
+  press(bld(M.widthSteps, {R(0, 0, 800, 800)}), A, 3),
+  "0,200,1000,300 800,200,200,300 600,200,400,300")
 -- Something else moves the window mid-cycle: start over from there.
 local st, t = nil, nil
 t, st = M.advance(st, W, bld(M.doubleSteps))
