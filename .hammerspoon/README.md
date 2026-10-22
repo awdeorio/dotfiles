@@ -2,15 +2,15 @@
 
 My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcuts for moving and resizing the focused window.
 
-| Shortcut      | Effect                                                    |
-|---------------|-----------------------------------------------------------|
-| `C-s-<arrow>` | Snap to nearest window edge or screen edge                |
-| `C-s-c`       | Cycle centering: center->left->right->original            |
-| `C-s-n`       | Cycle displays: next->...->original                       |
-| `C-s-t`       | Cycle height: fill->full->fit->original                   |
-| `C-s-w`       | Cycle width: fill->full->fit->original                    |
-| `C-s-m`       | Cycle width: 2x->4x->...->full->original                  |
-| `C-s-l`       | Cycle width: left half->center half->right half->original |
+| Shortcut      | Effect                                         |
+|---------------|------------------------------------------------|
+| `C-s-<arrow>` | Snap to nearest window edge or screen edge     |
+| `C-s-c`       | Cycle centering: center->left->right->original |
+| `C-s-n`       | Cycle displays: next->...->original            |
+| `C-s-t`       | Cycle height: fill->full->fit->original        |
+| `C-s-w`       | Cycle width: fill->full->fit->original         |
+| `C-s-m`       | Cycle width: 2x->4x->...->full->original       |
+| `C-s-l`       | Cycle halves: left->center->right->original    |
 
 Shortcut notation: `C` is ctrl, `M` is command (Meta), and `s` is option (Super).
 
