@@ -4,7 +4,8 @@ local a = src:find("local function overlaps", 1, true)
 local b = src:find("local function snap(dir)", 1, true)
 local M = load(src:sub(a, b - 1) .. [[
 return {snapFrame = snapFrame, advance = advance, centerSteps = centerSteps,
-  heightSteps = heightSteps, widthSteps = widthSteps, doubleSteps = doubleSteps, halvesSteps = halvesSteps}
+  heightSteps = heightSteps, widthSteps = widthSteps, doubleSteps = doubleSteps, halvesSteps = halvesSteps,
+  moveFrame = moveFrame}
 ]])()
 local snapFrame = M.snapFrame
 
@@ -123,5 +124,30 @@ local moved = R(300, 200, 400, 300)
 t, st = M.advance(st, moved, bld(M.doubleSteps))
 checkCycle("restart after outside move",
   string.format("%d,%d,%d,%d", t.x, t.y, t.w, t.h), "100,200,800,300")
+
+-- Next display: a small screen S and a big screen to its right.
+local big = R(1000, 0, 2000, 1000)
+local function move(f, from, to)
+  local n = M.moveFrame(f, from, to)
+  return string.format("%d,%d,%d,%d", n.x, n.y, n.w, n.h)
+end
+checkCycle("next: flush right stays flush right",
+  move(R(600, 200, 400, 300), S, big), "2600,287,400,300")
+checkCycle("next: flush left and top stay flush",
+  move(R(0, 0, 400, 300), S, big), "1000,0,400,300")
+checkCycle("next: full height spans new screen",
+  move(R(100, 0, 200, 800), S, big), "1300,0,200,1000")
+checkCycle("next: full screen spans new screen",
+  move(R(0, 0, 1000, 800), S, big), "1000,0,2000,1000")
+checkCycle("next: floating keeps relative center",
+  move(R(400, 200, 200, 300), S, big), "1900,287,200,300")
+checkCycle("next: too wide shrinks with aspect ratio, stays flush right",
+  move(R(1200, 100, 1800, 300), big, S), "0,117,1000,166")
+checkCycle("next: full height, too wide shrinks width only",
+  move(R(1200, 0, 1800, 1000), big, S), "0,0,1000,800")
+checkCycle("next: within slop of edges counts as touching",
+  move(R(10, 0, 975, 790), S, big), "1000,0,2000,1000")
+checkCycle("next: past slop does not count",
+  move(R(30, 30, 200, 300), S, big), "1160,75,200,300")
 
 os.exit(fails == 0 and 0 or 1)

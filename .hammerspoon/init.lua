@@ -188,21 +188,50 @@ local function snapFrame(dir, f, s, others)
   return f
 end
 
+-- Pixels from a screen edge that still count as touching it.  Apps that size
+-- to a character grid, like Emacs and terminals, stop short of the edge.
+local slop = 20
+
+-- Whether [p, p + len) touches the low and high edges of [s0, s0 + slen).
+local function touching(p, len, s0, slen)
+  return p <= s0 + slop, p + len >= s0 + slen - slop
+end
+
+-- Map one axis from screen [s0, s0 + slen) to [n0, n0 + nlen) with new
+-- length w.  Touching both edges spans the new screen, touching one stays
+-- flush with it, and otherwise the center keeps its relative position.
+local function mapAxis(p, len, w, s0, slen, n0, nlen)
+  local lo, hi = touching(p, len, s0, slen)
+  if lo and hi then return n0, nlen end
+  if lo then return n0, w end
+  if hi then return n0 + nlen - w, w end
+  local c = n0 + (p + len / 2 - s0) / slen * nlen
+  return math.max(n0, math.min(math.floor(c - w / 2), n0 + nlen - w)), w
+end
+
+-- Frame f on screen s moved to screen n, edge by edge.  Shrink only to fit,
+-- keeping the aspect ratio.  An axis that spans the screen doesn't count.
+local function moveFrame(f, s, n)
+  local function fit(p, len, s0, slen, nlen)
+    local lo, hi = touching(p, len, s0, slen)
+    return (lo and hi) and 1 or nlen / len
+  end
+  local k = math.min(1, fit(f.x, f.w, s.x, s.w, n.w),
+    fit(f.y, f.h, s.y, s.h, n.h))
+  local x, w = mapAxis(f.x, f.w, math.floor(f.w * k), s.x, s.w, n.x, n.w)
+  local y, h = mapAxis(f.y, f.h, math.floor(f.h * k), s.y, s.h, n.y, n.h)
+  return {x = x, y = y, w = w, h = h}
+end
+
 local function snap(dir)
   return function(f, s, win)
     return snapFrame(dir, f, s, otherFrames(win))
   end
 end
 
--- Same relative position on the next display, shrunk only if it doesn't fit.
 local function nextDisplay(f, s, win)
-  local n = screenOf(win):next():frame()
-  local w, h = math.min(f.w, n.w), math.min(f.h, n.h)
-  local x = n.x + (f.x - s.x) / s.w * n.w
-  local y = n.y + (f.y - s.y) / s.h * n.h
-  x = math.max(n.x, math.min(x, n.x + n.w - w))
-  y = math.max(n.y, math.min(y, n.y + n.h - h))
-  return hs.geometry.rect(x, y, w, h)
+  local n = moveFrame(rect(f), rect(s), rect(screenOf(win):next():frame()))
+  return hs.geometry.rect(n.x, n.y, n.w, n.h)
 end
 
 -- Key map.  ctrl+option is unused by Emacs, where option is Super.
