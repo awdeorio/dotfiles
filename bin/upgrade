@@ -48,10 +48,12 @@ npm --prefix ${HOME}/.local update
 
 # Update Homebrew packages
 brew update --quiet
+sudo -v
 brew upgrade --quiet --greedy || true
 brew cleanup --quiet
 
 # Update macOS packages
+sudo -v
 softwareupdate --install --all
 
 # Finished
