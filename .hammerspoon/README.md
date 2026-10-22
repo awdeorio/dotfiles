@@ -28,18 +28,10 @@ Reload after editing `init.lua`, either from the Hammerspoon menu bar icon (Relo
 $ hs -c 'hs.reload()'
 ```
 
-## Test
-
-Unit tests cover the window placement logic in `init.lua` and need only `lua`.
-
-```console
-$ lua test_init.lua
-```
-
 ## Principles
 
 1. **Maximize screen real estate.**  Windows snap to each other and to the screen edges, leaving no wasted gaps.
 2. **Do what I mean.**  Repeated key presses keep going.
-3. **Avoid clashing with Emacs.**  In my Emacs, command is Meta and option is Super, so ctrl+option is unbound.
+3. **Avoid clashing with other shortcuts.**  In my Emacs, command is Meta and option is Super, so ctrl+option is unbound, while ctrl+command would shadow `C-M-` commands.  ctrl+command+v belongs to Maccy, and ctrl+option+space switches input sources.
 4. **Ergonomic.**  The left hand holds ctrl+option and the right hand stays near the arrow keys.
 5. **Cycle.**  Repeated presses of a resize or center shortcut step through states, then return to the original.
