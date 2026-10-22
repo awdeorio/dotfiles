@@ -38,8 +38,6 @@
 (global-set-key "\C-x\C-u"                      'browse-url-at-point)
 (global-set-key "\C-cu"                         'clean-url-at-point)
 (global-set-key "\C-cy"                         'insert-clean-url)
-(global-set-key "\C-cm"                         'toggle-double-wide)
-(global-set-key "\C-ct"                         'toggle-maximize-vertically)
 
 ;; Org keybindings are set in the org use-package block below
 
@@ -231,57 +229,6 @@ leading prompt symbols (❯, ⏺).  Preserve blank lines."
 
 ;; Exact pixel sizes, no rounding to character cells
 (setq frame-resize-pixelwise t)
-
-;; Geometry is computed against `frame-monitor-workarea' (the current
-;; monitor minus menu bar and Dock) rather than using the `fullscreen'
-;; parameter, which on macOS overshoots and gets shoved off-screen.
-(defun toggle-maximize-vertically ()
-  "Toggle frame height between original and the monitor's usable height."
-  (interactive)
-  (let ((orig (frame-parameter nil 'toggle-maximize-vertically-orig)))
-    (if orig
-        (progn
-          (set-frame-position nil (car (frame-position)) (car orig))
-          (set-frame-size nil (frame-text-width) (cdr orig) t)
-          (set-frame-parameter nil 'toggle-maximize-vertically-orig nil))
-      (set-frame-parameter nil 'toggle-maximize-vertically-orig
-                           (cons (cdr (frame-position)) (frame-text-height)))
-      (pcase-let ((`(,_ ,wy ,_ ,wh) (frame-monitor-workarea))
-                  (overhead (- (frame-outer-height) (frame-text-height))))
-        (set-frame-position nil (car (frame-position)) wy)
-        (set-frame-size nil (frame-text-width) (- wh overhead) t)))))
-
-(defun toggle-double-wide (&optional multiplier)
-  "Toggle frame width between original and MULTIPLIER times wide.
-MULTIPLIER defaults to 2.  The frame is centered around its original
-position, then clamped to the current monitor's usable area."
-  (interactive)
-  (let ((mult (or multiplier 2))
-        (orig (frame-parameter nil 'toggle-double-wide-orig)))
-    (if orig
-        (progn
-          (modify-frame-parameters (selected-frame) orig)
-          (set-frame-parameter nil 'toggle-double-wide-orig nil))
-      (set-frame-parameter nil 'toggle-double-wide-orig
-                           (list (cons 'left (car (frame-position)))
-                                 (cons 'width (frame-parameter nil 'width))))
-      (pcase-let* ((`(,wx ,_ ,ww ,_) (frame-monitor-workarea))
-                   (current-left (car (frame-position)))
-                   (current-pixel-width (frame-outer-width))
-                   (char-width (frame-char-width))
-                   (frame-overhead (- (frame-outer-width) (frame-text-width)))
-                   (desired-width (* mult (frame-width)))
-                   (max-width (/ (- ww frame-overhead) char-width))
-                   (new-width (min desired-width max-width))
-                   (new-pixel-width (+ (* new-width char-width) frame-overhead))
-                   (centered-left (- current-left
-                                     (/ (- new-pixel-width current-pixel-width) 2)))
-                   (new-left (max wx (min centered-left
-                                          (- (+ wx ww) new-pixel-width)))))
-        (modify-frame-parameters
-         (selected-frame)
-         (list (cons 'left new-left)
-               (cons 'width new-width)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package manager
@@ -1230,15 +1177,6 @@ Subsequent calls cycle through available completions."
       (ediff-clear-fine-differences n)
       (ediff-refresh-mode-lines)))
 
-  (defvar ediff-tall-display-orig-parameters nil
-    "Original frame parameters before maximizing vertically.")
-
-  ;; Restore frame width when ediff quits
-  (add-hook 'ediff-cleanup-hook
-            (lambda ()
-              (when (frame-parameter nil 'toggle-double-wide-orig)
-                (toggle-double-wide))))
-
   ;; Keybindings extend the existing 'c' prefix (ca, cb).  We use :hook instead
   ;; of :bind because ediff dynamically creates its keymap; :bind would fail
   ;; with "Key sequence starts with non-prefix key" since 'c' isn't defined
@@ -1250,11 +1188,6 @@ Subsequent calls cycle through available completions."
   ;;   cbn  B→A append  (insert B after A)
   :hook
   (ediff-keymap-setup . (lambda ()
-                          (define-key ediff-mode-map "m"
-                            (lambda () (interactive)
-                              (toggle-double-wide
-                               (if (ediff-3way-comparison-job) 3 2))))
-                          (define-key ediff-mode-map "t" 'toggle-maximize-vertically)
                           ;; (define-key ediff-mode-map "cap" 'ediff-copy-a-to-b-prepend)
                           ;; (define-key ediff-mode-map "can" 'ediff-copy-a-to-b-append)
                           ;; (define-key ediff-mode-map "cbp" 'ediff-copy-b-to-a-prepend)
