@@ -5,7 +5,7 @@ local b = src:find("local function snap(dir)", 1, true)
 local M = load(src:sub(a, b - 1) .. [[
 return {snapFrame = snapFrame, advance = advance, centerSteps = centerSteps,
   heightSteps = heightSteps, widthSteps = widthSteps, doubleSteps = doubleSteps, halvesSteps = halvesSteps,
-  moveFrame = moveFrame}
+  moveFrame = moveFrame, displaySteps = displaySteps}
 ]])()
 local snapFrame = M.snapFrame
 
@@ -183,5 +183,17 @@ checkCycle("next: within slop of edges counts as touching",
   move(R(10, 0, 975, 790), S, big), "1000,0,2000,1000")
 checkCycle("next: past slop does not count",
   move(R(30, 30, 200, 300), S, big), "1160,75,200,300")
+
+-- Next display cycle: each step moves the original frame, so a window that
+-- shrank to fit comes back at its original size.
+local side = R(-1000, 0, 1000, 800)
+checkCycle("next cycle: two screens, back to original",
+  press(function(o) return M.displaySteps(o, big, {S}) end,
+    R(1200, 100, 1800, 300), 2),
+  "0,117,1000,166 1200,100,1800,300")
+checkCycle("next cycle: three screens in order, then original",
+  press(function(o) return M.displaySteps(o, big, {S, side}) end,
+    R(1000, 0, 400, 300), 3),
+  "0,0,400,300 -1000,0,400,300 1000,0,400,300")
 
 os.exit(fails == 0 and 0 or 1)

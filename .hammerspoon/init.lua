@@ -2,12 +2,14 @@ require("hs.ipc")  -- lets the `hs` command-line tool talk to Hammerspoon
 -- Window management shortcuts.  See README.md.
 hs.window.animationDuration = 0
 
--- Screen whose full frame contains the window's center.
-local function screenOf(win)
-  local c = win:frame().center
+-- Screen whose full frame contains the center of frame f, default the
+-- window's own.
+local function screenOf(win, f)
+  f = f or win:frame()
+  local cx, cy = f.x + f.w / 2, f.y + f.h / 2
   for _, s in ipairs(hs.screen.allScreens()) do
     local r = s:fullFrame()
-    if c.x >= r.x and c.x < r.x + r.w and c.y >= r.y and c.y < r.y + r.h then
+    if cx >= r.x and cx < r.x + r.w and cy >= r.y and cy < r.y + r.h then
       return s
     end
   end
@@ -177,18 +179,24 @@ local function otherFrames(win)
   return others
 end
 
--- Bind a cycle to a hotkey.  build(orig, screen, win) returns the steps.
+-- Bind a cycle to a hotkey.  build(orig, screen, win) returns the steps,
+-- where screen is the one orig is on.
 local function cycle(build)
   local states = {}
   return function()
     local win = hs.window.focusedWindow()
     if not win then return end
-    local id, s = win:id(), rect(screenOf(win):frame())
+    local id = win:id()
     local target, st = advance(states[id], rect(win:frame()), function(o)
-      return build(o, s, win)
+      return build(o, rect(screenOf(win, o):frame()), win)
     end)
     if target then
-      win:setFrame(hs.geometry.rect(target.x, target.y, target.w, target.h))
+      -- Moving to a larger screen, the size is clamped to the screen the
+      -- window was on, so set it again once the window is there.
+      local r = hs.geometry.rect(target.x, target.y, target.w, target.h)
+      local from = screenOf(win):id()
+      win:setFrame(r)
+      if screenOf(win):id() ~= from then win:setFrame(r) end
     end
     -- The app may adjust the frame (e.g. to a character grid), so record
     -- where the window actually landed.
@@ -268,15 +276,27 @@ local function moveFrame(f, s, n)
   return {x = x, y = y, w = w, h = h}
 end
 
+-- Frame o on screen s moved to each of the other screens, in order.
+local function displaySteps(o, s, screens)
+  local steps = {}
+  for _, n in ipairs(screens) do table.insert(steps, moveFrame(o, s, n)) end
+  return steps
+end
+
 local function snap(dir)
   return function(f, s, win)
     return snapFrame(dir, f, s, otherFrames(win))
   end
 end
 
-local function nextDisplay(f, s, win)
-  local n = moveFrame(rect(f), rect(s), rect(screenOf(win):next():frame()))
-  return hs.geometry.rect(n.x, n.y, n.w, n.h)
+-- Visible frames of the screens after first, in next() order, wrapping.
+local function otherScreens(first)
+  local screens, n = {}, first:next()
+  while n:id() ~= first:id() do
+    table.insert(screens, rect(n:frame()))
+    n = n:next()
+  end
+  return screens
 end
 
 -- Key map.  ctrl+option is unused by Emacs, where option is Super.
@@ -286,7 +306,9 @@ hs.hotkey.bind(ca, "right", act(snap("right")))
 hs.hotkey.bind(ca, "up",    act(snap("up")))
 hs.hotkey.bind(ca, "down",  act(snap("down")))
 hs.hotkey.bind(ca, "c",     cycle(centerSteps))
-hs.hotkey.bind(ca, "n",     act(nextDisplay))
+hs.hotkey.bind(ca, "n",     cycle(function(o, s, win)
+  return displaySteps(o, s, otherScreens(screenOf(win, o)))
+end))
 hs.hotkey.bind(ca, "t",     cycle(function(o, s, win)
   return heightSteps(o, s, otherFrames(win))
 end))

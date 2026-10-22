@@ -6,7 +6,7 @@ My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcut
 |---------------|-----------------------------------------------------------|
 | `C-s-<arrow>` | Snap to nearest window edge or screen edge                |
 | `C-s-c`       | Cycle centering: center->original                         |
-| `C-s-n`       | Move to next display                                      |
+| `C-s-n`       | Cycle displays: next->...->original                       |
 | `C-s-t`       | Cycle height: fill->full->fit->original                   |
 | `C-s-w`       | Cycle width: fill->full->fit->original                    |
 | `C-s-m`       | Cycle width: 2x->4x->...->full->original                  |
@@ -36,5 +36,5 @@ $ hs -c 'hs.reload()'
 
 1. **Maximize screen real estate.**  Windows snap to each other and to the screen edges, leaving no wasted gaps.
 2. **Press again to keep going.**  A snap moves on to the next edge, and a cycle steps to its next state.
-3. **Cycle back to undo.**  A cycle's last step restores the original frame, so pressing until the window comes back undoes it.
+3. **Cycle back to undo.**  Every cycle ends on the original frame, so pressing through it is an undo.
 4. **Comfortable, clash-free keys.**  The left hand holds `C-s-` and the right hand stays near the arrow keys.  `C-s-` is unbound in my Emacs, where option is Super; `C-M-` would shadow Emacs commands.  Also taken: `C-s-SPC` switches input sources, and `C-M-v` belongs to Maccy.
