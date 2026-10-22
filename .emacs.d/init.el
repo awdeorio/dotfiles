@@ -1073,8 +1073,6 @@ Subsequent calls cycle through available completions."
 ;; https://www.gnu.org/software/emacs/manual/html_mono/ediff.html
 ;;
 ;; Custom keybindings:
-;;   m    toggle wide display (double width, not fullscreen)
-;;   t    toggle tall display (maximize vertically)
 ;;   cap  A→B prepend (insert A before B)
 ;;   can  A→B append  (insert A after B)
 ;;   cbp  B→A prepend (insert B before A)
@@ -1082,10 +1080,6 @@ Subsequent calls cycle through available completions."
 (use-package ediff
   :ensure nil
   :defer t
-
-  ;; :init runs at startup, before ediff loads.  The wide display function must
-  ;; be defined and set here, before ediff-wind.el initializes.
-  :init
 
   ;; :custom runs at startup, setting variables via customize-set-variable.
   :custom
