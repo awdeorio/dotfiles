@@ -100,7 +100,10 @@ checkCycle("center full width: nothing",
   press(bld(M.centerSteps), R(0, 200, 1000, 300), 2),
   "0,200,1000,300 0,200,1000,300")
 checkCycle("double", press(bld(M.doubleSteps), W, 5),
-  "0,200,400,300 0,200,800,300 0,200,1000,300 100,200,200,300 0,200,400,300")
+  "300,0,400,800 100,0,800,800 0,0,1000,800 100,200,200,300 300,0,400,800")
+checkCycle("double clamps to screen width",
+  press(bld(M.doubleSteps), R(100, 200, 600, 300), 2),
+  "0,0,1000,800 100,200,600,300")
 checkCycle("halves", press(bld(M.halvesSteps), W, 5),
   "0,0,500,800 250,0,500,800 500,0,500,800 100,200,200,300 0,0,500,800")
 checkCycle("halves from left half: skip it",
@@ -175,7 +178,7 @@ t, st = M.advance(st, W, bld(M.doubleSteps))
 local moved = R(300, 200, 400, 300)
 t, st = M.advance(st, moved, bld(M.doubleSteps))
 checkCycle("restart after outside move",
-  string.format("%d,%d,%d,%d", t.x, t.y, t.w, t.h), "100,200,800,300")
+  string.format("%d,%d,%d,%d", t.x, t.y, t.w, t.h), "100,0,800,800")
 
 -- Next display: a small screen S and a big screen to its right.
 local big = R(1000, 0, 2000, 1000)

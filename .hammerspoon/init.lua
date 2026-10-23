@@ -35,15 +35,6 @@ local function same(a, b)
   return a.x == b.x and a.y == b.y and a.w == b.w and a.h == b.h
 end
 
--- Width w around the current center, clamped to the screen.
-local function widthAround(f, s, w)
-  local n = rect(f)
-  n.w = math.min(w, s.w)
-  local x = math.floor(f.x + f.w / 2 - n.w / 2)
-  n.x = math.max(s.x, math.min(x, s.x + s.w - n.w))
-  return n
-end
-
 -- Center, then flush left, then flush right, keeping the size.
 local function centerSteps(o, s)
   local steps = {}
@@ -141,14 +132,17 @@ local function widthSteps(o, s, others)
   return steps
 end
 
+-- Full height and centered, doubling the width each step up to the screen
+-- width.
 local function doubleSteps(o, s)
   local steps, w = {}, 2 * o.w
-  while w < s.w do
-    table.insert(steps, widthAround(o, s, w))
+  while true do
+    w = math.min(w, s.w)
+    table.insert(steps,
+      {x = s.x + math.floor((s.w - w) / 2), y = s.y, w = w, h = s.h})
+    if w == s.w then return steps end
     w = 2 * w
   end
-  table.insert(steps, widthAround(o, s, s.w))
-  return steps
 end
 
 -- Full height, half width: left, center, then right.
@@ -327,7 +321,7 @@ end))
 hs.hotkey.bind(ca, "w",     cycle(function(o, s, win)
   return widthSteps(o, s, otherFrames(win))
 end))
-hs.hotkey.bind(ca, "m",     cycle(doubleSteps))
+hs.hotkey.bind(ca, "d",     cycle(doubleSteps))
 hs.hotkey.bind(ca, "l",     cycle(halvesSteps))
 
 hs.alert.show("Hammerspoon config loaded")

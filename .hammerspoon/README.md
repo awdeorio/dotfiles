@@ -9,12 +9,12 @@ My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcut
 | `C-s-n`       | Cycle displays: next->...->original            |
 | `C-s-t`       | Cycle height: fill->full->fit->original        |
 | `C-s-w`       | Cycle width: fill->full->fit->original         |
-| `C-s-m`       | Cycle width: 2x->4x->...->full->original       |
 | `C-s-l`       | Cycle halves: left->center->right->original    |
+| `C-s-d`       | Diff cycle: width 2x->4x->...->full->original  |
 
 Shortcut notation: `C` is ctrl, `M` is command (Meta), and `s` is option (Super).
 
-Fill grows to the nearest windows.  Fit also shrinks to the nearest windows.
+Fill grows to the nearest windows.  Fit shrinks to the nearest windows.  Diff is full height and centered on the screen.
 
 ## Install
 
