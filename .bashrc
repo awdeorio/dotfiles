@@ -152,6 +152,7 @@ export EDITOR="emacs"
 export VISUAL="$EDITOR"                # Here for historical reasons
 export SUDO_EDITOR="emacs -nw -Q"      # Editor used by sudoedit and sudo -e
 export GIT_EDITOR="emacs -nw -Q"       # Editor used by git commit
+
 function e {
   # Start Emacs in the background unless we're on an SSH connection
   if [ "$SSH_CONNECTION" ]; then
@@ -160,7 +161,17 @@ function e {
     emacs "$@" &
   fi
 }
-function ediff { emacs --eval "(ediff-files \"$1\" \"$2\")" & }
+
+function ediff {
+  # Full height and centered, like Hammerspoon's C-s-d.  Width 163 is two
+  # 80-column panes plus 3 columns for fringes and the divider.  -g requires a
+  # height, so 999 lines is a placeholder taller than any screen (a 5K display
+  # fits about 200).  fullheight then fits the frame to the screen.
+  emacs \
+    -g 163x999 \
+    --eval "(set-frame-parameter nil 'fullscreen 'fullheight)" \
+    --eval "(ediff-files \"$1\" \"$2\")" &
+}
 
 ### Pager #####################################################################
 export PAGER="less --chop-long-lines -i"
