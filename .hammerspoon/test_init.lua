@@ -4,7 +4,7 @@ local a = src:find("local function overlaps", 1, true)
 local b = src:find("local function snap(dir)", 1, true)
 local M = load(src:sub(a, b - 1) .. [[
 return {snapFrame = snapFrame, advance = advance, centerSteps = centerSteps,
-  heightSteps = heightSteps, widthSteps = widthSteps, doubleSteps = doubleSteps, halvesSteps = halvesSteps,
+  heightSteps = heightSteps, widthSteps = widthSteps, halvesSteps = halvesSteps,
   moveFrame = moveFrame, displaySteps = displaySteps}
 ]])()
 local snapFrame = M.snapFrame
@@ -99,11 +99,6 @@ checkCycle("center when flush left: skip left",
 checkCycle("center full width: nothing",
   press(bld(M.centerSteps), R(0, 200, 1000, 300), 2),
   "0,200,1000,300 0,200,1000,300")
-checkCycle("double", press(bld(M.doubleSteps), W, 5),
-  "300,0,400,800 100,0,800,800 0,0,1000,800 100,200,200,300 300,0,400,800")
-checkCycle("double clamps to screen width",
-  press(bld(M.doubleSteps), R(100, 200, 600, 300), 2),
-  "0,0,1000,800 100,200,600,300")
 checkCycle("halves", press(bld(M.halvesSteps), W, 5),
   "0,0,500,800 250,0,500,800 500,0,500,800 100,200,200,300 0,0,500,800")
 checkCycle("halves from left half: skip it",
@@ -174,11 +169,11 @@ checkCycle("width gap at minimum: fit",
   "0,200,1000,300 800,200,200,300 600,200,400,300")
 -- Something else moves the window mid-cycle: start over from there.
 local st, t = nil, nil
-t, st = M.advance(st, W, bld(M.doubleSteps))
+t, st = M.advance(st, W, bld(M.halvesSteps))
 local moved = R(300, 200, 400, 300)
-t, st = M.advance(st, moved, bld(M.doubleSteps))
+t, st = M.advance(st, moved, bld(M.halvesSteps))
 checkCycle("restart after outside move",
-  string.format("%d,%d,%d,%d", t.x, t.y, t.w, t.h), "100,0,800,800")
+  string.format("%d,%d,%d,%d", t.x, t.y, t.w, t.h), "0,0,500,800")
 
 -- Next display: a small screen S and a big screen to its right.
 local big = R(1000, 0, 2000, 1000)

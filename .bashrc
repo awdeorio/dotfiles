@@ -163,10 +163,10 @@ function e {
 }
 
 function ediff {
-  # Full height and centered, like Hammerspoon's C-s-d.  Width 163 is two
-  # 80-column panes plus 3 columns for fringes and the divider.  -g requires a
-  # height, so 999 lines is a placeholder taller than any screen (a 5K display
-  # fits about 200).  fullheight then fits the frame to the screen.
+  # Full height and centered.  Width 163 is two 80-column panes plus 3
+  # columns for fringes and the divider.  -g requires a height, so 999 lines is
+  # a placeholder taller than any screen (a 5K display fits about 200).
+  # fullheight then fits the frame to the screen.
   emacs \
     -g 163x999 \
     --eval "(set-frame-parameter nil 'fullscreen 'fullheight)" \
