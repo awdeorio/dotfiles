@@ -54,9 +54,10 @@
 [difftool]
 	prompt = false
 
-# ediff: compare two revisions inside Emacs.
+# ediff: compare two revisions inside Emacs.  Frame geometry copied from the
+# ediff function in .bashrc.
 [difftool "ediff"]
-	cmd = emacs --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+	cmd = emacs -g 163x999 --eval \"(set-frame-parameter nil 'fullscreen 'fullheight)\" --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 
 # ----------------------------------------------------------------------------
 # Image diff (git-diff-image, https://github.com/ewanmellor/git-diff-image)
