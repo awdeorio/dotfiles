@@ -5,11 +5,11 @@ My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcut
 | Shortcut      | Effect                                         |
 |---------------|------------------------------------------------|
 | `C-s-<arrow>` | Snap to nearest window edge or screen edge     |
-| `C-s-c`       | Cycle centering: center->left->right->original |
-| `C-s-n`       | Cycle displays: next->...->original            |
 | `C-s-t`       | Cycle height: fill->full->fit->original        |
 | `C-s-w`       | Cycle width: fill->full->fit->original         |
+| `C-s-c`       | Cycle centering: center->left->right->original |
 | `C-s-l`       | Cycle halves: left->center->right->original    |
+| `C-s-n`       | Cycle displays: next->...->original            |
 | `C-s-d`       | Diff cycle: width 2x->4x->...->full->original  |
 
 Shortcut notation: `C` is ctrl, `M` is command (Meta), and `s` is option (Super).
