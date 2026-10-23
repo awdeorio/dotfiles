@@ -34,6 +34,7 @@ EXCLUDE+=' --exclude .dropbox/***'
 EXCLUDE+=' --exclude .vagrant.d/***'
 EXCLUDE+=' --exclude .docker/***'
 EXCLUDE+=' --exclude nobackup/***'
+EXCLUDE+=' --exclude .cache/***'
 
 # Python, JavaScript and Ruby third party libraries
 EXCLUDE+=' --exclude .venv/***'
