@@ -46,6 +46,10 @@
   (setq mac-command-modifier 'meta)  ; Command == Meta
   (setq mac-option-modifier 'super)) ; Option == Super
 
+;; Focus Emacs at startup when launched from a terminal on macOS
+(when (eq window-system 'ns)
+  (add-hook 'window-setup-hook (lambda () (x-focus-frame nil))))
+
 ;; Open link in browser
 (setq browse-url-browser-function 'browse-url-generic)
 (setq browse-url-generic-program
