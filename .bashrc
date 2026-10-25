@@ -162,17 +162,6 @@ function e {
   fi
 }
 
-function ediff {
-  # Full height and centered.  Width 163 is two 80-column panes plus 3
-  # columns for fringes and the divider.  -g requires a height, so 999 lines is
-  # a placeholder taller than any screen (a 5K display fits about 200).
-  # fullheight then fits the frame to the screen.
-  emacs \
-    -g 163x999 \
-    --eval "(set-frame-parameter nil 'fullscreen 'fullheight)" \
-    --eval "(ediff-files \"$1\" \"$2\")" &
-}
-
 ### Pager #####################################################################
 export PAGER="less --chop-long-lines -i"
 alias less="${PAGER}"

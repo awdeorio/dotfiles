@@ -24,7 +24,7 @@ done
 
 # Merge
 set -x
-emacs --eval "(ediff-files \"$TODO_BAK\" \"$TODO_PATH\")"
+ediff "$TODO_BAK" "$TODO_PATH"
 { set +x; } 2>/dev/null
 
 # Prompt user to delete conflict files

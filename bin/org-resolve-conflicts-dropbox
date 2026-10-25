@@ -18,7 +18,7 @@ fi
 IFS=$(echo -en "\n\b")
 for CONFLICT_FILE in $CONFLICT_FILES; do
   set -x
-  emacs --eval "(ediff-files \"$CONFLICT_FILE\" \"$MERGED_FILE\")"
+  ediff "$CONFLICT_FILE" "$MERGED_FILE"
   { set +x; } 2>/dev/null
 done
 
