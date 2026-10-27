@@ -2,23 +2,24 @@
 set -Eeuo pipefail
 
 # Path to todo file
-TODO_PATH=${HOME}/Dropbox/org/home.org
-TODO_BAK=${TODO_PATH}.bak
+TODO_PATH="${HOME}/Dropbox/org/home.org"
+TODO_BAK="${TODO_PATH}.bak"
 
 # Sanity Check
-if [ -e ${TODO_BAK} ]; then
+if [ -e "$TODO_BAK" ]; then
   echo "Error: backup file already exists: ${TODO_BAK}"
   exit 1
 fi
 
 # Move conflicted file out of the way
 set -x
-mv -v ${TODO_PATH} ${TODO_BAK}
+mv -v "$TODO_PATH" "$TODO_BAK"
 { set +x; } 2>/dev/null
 
-# Wait for Dropbox to re-sync original file
-while [ ! -e ${TODO_PATH} ]; do
-  echo "Waiting for sync: ${TODO_PATH} ... "
+# Wait for Orgzly to push its copy back through Dropbox
+echo "Sync Orgzly now.  Waiting for ${TODO_PATH} ..."
+echo "To abort, Ctrl-C and run: mv '${TODO_BAK}' '${TODO_PATH}'"
+while [ ! -e "$TODO_PATH" ]; do
   sleep 1
 done
 
@@ -28,10 +29,10 @@ ediff "$TODO_BAK" "$TODO_PATH"
 { set +x; } 2>/dev/null
 
 # Prompt user to delete conflict files
-read -e -p "Delete '$TODO_BAK' ? " choice
+read -e -p "Delete '${TODO_BAK}' ? " choice
 if [[ "$choice" != [Yy]* ]]; then
   exit 0
 fi
 set -x
-rm $TODO_BAK
+rm "$TODO_BAK"
 { set +x; } 2>/dev/null
