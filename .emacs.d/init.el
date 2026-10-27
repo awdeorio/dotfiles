@@ -654,11 +654,16 @@ and blank lines."
 opening `---' boundary, or point-min for an implicit first slide."
     (save-excursion
       (goto-char (point-min))
-      (let (boundaries)
-        (while (re-search-forward "^---[ \t]*$" nil t)
+      (let (boundaries in-fence)
+        ;; Like Slidev's parser, ignore `---' inside fenced code blocks,
+        ;; e.g. a Mermaid diagram's own front matter.
+        (while (re-search-forward "^\\(?:[ \t]*\\(```\\|~~~\\)\\|---[ \t]*$\\)" nil t)
           (let ((bol (match-beginning 0)))
-            (unless (eq (nth 0 (pm-innermost-span bol)) 'tail)
-              (push bol boundaries))))
+            (cond
+             ((match-beginning 1) (setq in-fence (not in-fence)))
+             ((or in-fence (eq (nth 0 (pm-innermost-span bol)) 'tail)))
+             (t (push bol boundaries))))
+          (forward-line 1))
         (setq boundaries (nreverse boundaries))
         (if (and boundaries (= (car boundaries) (point-min)))
             boundaries
