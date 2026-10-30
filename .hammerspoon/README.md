@@ -5,15 +5,15 @@ My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcut
 | Shortcut      | Effect                                         |
 |---------------|------------------------------------------------|
 | `C-s-<arrow>` | Snap to nearest window edge or screen edge     |
-| `C-s-h`       | Cycle height: fill->full->fit->original        |
-| `C-s-w`       | Cycle width: fill->full->fit->original         |
+| `C-s-h`       | Cycle height: fill->full->fits->original       |
+| `C-s-w`       | Cycle width: fill->full->fits->original        |
 | `C-s-c`       | Cycle centering: center->left->right->original |
 | `C-s-l`       | Cycle halves: left->center->right->original    |
 | `C-s-n`       | Cycle displays: next->...->original            |
 
 Shortcut notation: `C` is ctrl, `M` is command (Meta), and `s` is option (Super).
 
-Fill grows to the nearest windows.  Fit shrinks to the nearest windows.
+Fill grows to the nearest windows.  Each fit sits snug between one window (or screen edge) on each side, counting windows the focused one overlaps, widest fit first.
 
 ## Install
 

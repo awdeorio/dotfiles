@@ -167,6 +167,27 @@ checkCycle("width sliver: full, original",
 checkCycle("width gap at minimum: fit",
   press(bld(M.widthSteps, {R(0, 0, 800, 800)}), A, 3),
   "0,200,1000,300 800,200,200,300 600,200,400,300")
+-- User's case: A on the right overlaps B on the left, and C, wider than B,
+-- sits behind both.  Each is a fit, widest first: snug against B, then C.
+checkCycle("width fits: one per window, widest first",
+  press(bld(M.widthSteps, {R(0, 0, 400, 800), R(0, 0, 800, 800)}),
+    R(350, 200, 650, 300), 4),
+  "0,200,1000,300 400,200,600,300 800,200,200,300 350,200,650,300")
+checkCycle("height fits: one per window, widest first",
+  press(bld(M.heightSteps, {R(0, 0, 1000, 200), R(0, 0, 1000, 500)}),
+    R(100, 150, 300, 650), 4),
+  "100,0,300,800 100,200,300,600 100,500,300,300 100,150,300,650")
+-- Windows on both sides: every pairing of a low edge and a high edge.
+checkCycle("width fits: pairs of edges on both sides",
+  press(bld(M.widthSteps, {R(0, 0, 100, 800), R(0, 0, 200, 800),
+    R(800, 0, 200, 800), R(700, 0, 300, 800)}), R(50, 200, 900, 300), 6),
+  "0,200,1000,300 100,200,700,300 100,200,600,300 200,200,600,300 "
+    .. "200,200,500,300 50,200,900,300")
+-- Two windows share an edge: one fit, not two.
+checkCycle("width fits: shared edge counts once",
+  press(bld(M.widthSteps, {R(0, 0, 400, 800), R(0, 100, 400, 600)}),
+    R(350, 200, 650, 300), 3),
+  "0,200,1000,300 400,200,600,300 350,200,650,300")
 -- Something else moves the window mid-cycle: start over from there.
 local st, t = nil, nil
 t, st = M.advance(st, W, bld(M.halvesSteps))

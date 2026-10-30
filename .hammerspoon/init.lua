@@ -63,32 +63,58 @@ end
 -- Narrowest gap worth fitting into.
 local minFit = 200
 
--- Like fillHeight, but windows that overlap f count too: the side of f's
+-- Gaps along axis p (with length len) to fit f into.  Windows that overlap
+-- f across the axis count, even ones that overlap f itself: the side of f's
 -- center that a window's center is on decides which edge it limits.  A
--- window that spans f's whole height can't be fit around, so it doesn't
--- count.  May shrink f.  If the gap is shorter than minFit, return f
--- unchanged.
-local function fitHeight(f, s, others)
-  local top, bottom = s.y, s.y + s.h
-  local c = f.y + f.h / 2
+-- window that spans f along the axis can't be fit around, so it doesn't
+-- count.  Each gap runs from the far edge of one window on the low side to
+-- the near edge of one on the high side, or the screen edge where a side
+-- has none.  Gaps shorter than minFit are dropped.  Widest first.
+local function fitGaps(p, len, f, s, others)
+  local q, qlen = p == "x" and "y" or "x", p == "x" and "h" or "w"
+  local los, his = {}, {}
+  local c = f[p] + f[len] / 2
   for _, o in ipairs(others) do
-    if overlaps(f.x, f.x + f.w, o.x, o.x + o.w)
-        and not (o.y <= f.y and o.y + o.h >= f.y + f.h) then
-      if o.y + o.h / 2 < c then top = math.max(top, o.y + o.h)
-      else bottom = math.min(bottom, o.y) end
+    if overlaps(f[q], f[q] + f[qlen], o[q], o[q] + o[qlen])
+        and not (o[p] <= f[p] and o[p] + o[len] >= f[p] + f[len]) then
+      if o[p] + o[len] / 2 < c then table.insert(los, o[p] + o[len])
+      else table.insert(his, o[p]) end
     end
   end
-  if bottom - top < minFit then return rect(f) end
-  return {x = f.x, y = top, w = f.w, h = bottom - top}
+  if #los == 0 then los = {s[p]} end
+  if #his == 0 then his = {s[p] + s[len]} end
+  local gaps = {}
+  for _, lo in ipairs(los) do
+    for _, hi in ipairs(his) do
+      if hi - lo >= minFit then
+        local g = rect(f)
+        g[p], g[len] = lo, hi - lo
+        table.insert(gaps, g)
+      end
+    end
+  end
+  table.sort(gaps, function(a, b)
+    if a[len] ~= b[len] then return a[len] > b[len] end
+    return a[p] < b[p]
+  end)
+  return gaps
 end
 
--- Fill, full height, then fit.  Fit equals fill when nothing overlaps, so
--- skip it then.
-local function heightSteps(o, s, others)
-  local fill, fit = fillHeight(o, s, others), fitHeight(o, s, others)
-  local steps = {fill, {x = o.x, y = s.y, w = o.w, h = s.h}}
-  if not same(fit, fill) then table.insert(steps, fit) end
+-- Append each of fits to steps unless it's already there.
+local function addFits(steps, fits)
+  for _, n in ipairs(fits) do
+    local dup = false
+    for _, m in ipairs(steps) do dup = dup or same(n, m) end
+    if not dup then table.insert(steps, n) end
+  end
   return steps
+end
+
+-- Fill, full height, then each fit.  Skip fits equal to an earlier step.
+local function heightSteps(o, s, others)
+  local full = {x = o.x, y = s.y, w = o.w, h = s.h}
+  return addFits({fillHeight(o, s, others), full},
+    fitGaps("y", "h", o, s, others))
 end
 
 -- Grow the left edge left and the right edge right until each touches a
@@ -104,32 +130,11 @@ local function fillWidth(f, s, others)
   return {x = left, y = f.y, w = right - left, h = f.h}
 end
 
--- Like fillWidth, but windows that overlap f count too: the side of f's
--- center that a window's center is on decides which edge it limits.  A
--- window that spans f's whole width can't be fit around, so it doesn't
--- count.  May shrink f.  If the gap is narrower than minFit, return f
--- unchanged.
-local function fitWidth(f, s, others)
-  local left, right = s.x, s.x + s.w
-  local c = f.x + f.w / 2
-  for _, o in ipairs(others) do
-    if overlaps(f.y, f.y + f.h, o.y, o.y + o.h)
-        and not (o.x <= f.x and o.x + o.w >= f.x + f.w) then
-      if o.x + o.w / 2 < c then left = math.max(left, o.x + o.w)
-      else right = math.min(right, o.x) end
-    end
-  end
-  if right - left < minFit then return rect(f) end
-  return {x = left, y = f.y, w = right - left, h = f.h}
-end
-
--- Fill, full width, then fit.  Fit equals fill when nothing overlaps, so
--- skip it then.
+-- Fill, full width, then each fit.  Skip fits equal to an earlier step.
 local function widthSteps(o, s, others)
-  local fill, fit = fillWidth(o, s, others), fitWidth(o, s, others)
-  local steps = {fill, {x = s.x, y = o.y, w = s.w, h = o.h}}
-  if not same(fit, fill) then table.insert(steps, fit) end
-  return steps
+  local full = {x = s.x, y = o.y, w = s.w, h = o.h}
+  return addFits({fillWidth(o, s, others), full},
+    fitGaps("x", "w", o, s, others))
 end
 
 -- Full height, half width: left, center, then right.
