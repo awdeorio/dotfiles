@@ -9,8 +9,16 @@ set -Eeuo pipefail
 
 # Parse arguments
 if (( $# > 1 )); then
-  echo "Usage: $0 [DIR]"
+  echo "Usage: $0 [DIR | FILE-slides.md]"
   exit 1
+elif (( $# == 1 )) && [ -f "$1" ]; then
+  # A single file must be a Slidev presentation
+  if [[ "$1" != *slides.md ]]; then
+    echo "Error: expected a Slidev file ending in slides.md: $1"
+    exit 1
+  fi
+  DIR=$(dirname "$1")
+  SLIDES=$(basename "$1")
 elif (( $# == 1 )); then
   DIR="$1"
 fi
@@ -44,7 +52,17 @@ GEM=${RUBY_HOME}/bin/gem
 BUNDLE=${RUBY_HOME}/bin/bundle
 
 # Intelligently choose the right server
-if [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
+if [ -n "${SLIDES-}" ]; then
+  # Slidev, single presentation.  Prefer a project-local install.
+  if npx --no -- slidev --version &> /dev/null; then
+    SERVERCMD="npx slidev $SLIDES --port $PORT"
+  elif command -v slidev &> /dev/null; then
+    SERVERCMD="slidev $SLIDES --port $PORT"
+  else
+    echo "Error: slidev is not installed"
+    exit 1
+  fi
+elif [ -e _config.yml ] && grep -q '^plugins' _config.yml; then
   # Jekyll with primer-spec remote theme
   SERVERCMD="$BUNDLE exec jekyll serve --livereload --incremental --host $HOST --port $PORT"
   pushd ..
