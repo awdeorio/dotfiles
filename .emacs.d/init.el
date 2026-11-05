@@ -1086,6 +1086,7 @@ Subsequent calls cycle through available completions."
 ;;   can  A→B append  (insert A after B)
 ;;   cbp  B→A prepend (insert B before A)
 ;;   cbn  B→A append  (insert B after A)
+;;   u    reload buffers from disk and recompute diffs
 (use-package ediff
   :ensure nil
   :defer t
@@ -1191,6 +1192,9 @@ Subsequent calls cycle through available completions."
   ;;   cbn  B→A append  (insert B after A)
   :hook
   (ediff-keymap-setup . (lambda ()
+                          (define-key ediff-mode-map "u"
+                            (lambda () (interactive)
+                              (ediff-revert-buffers-then-recompute-diffs t)))
                           ;; (define-key ediff-mode-map "cap" 'ediff-copy-a-to-b-prepend)
                           ;; (define-key ediff-mode-map "can" 'ediff-copy-a-to-b-append)
                           ;; (define-key ediff-mode-map "cbp" 'ediff-copy-b-to-a-prepend)
