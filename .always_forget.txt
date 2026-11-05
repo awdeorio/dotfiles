@@ -3291,3 +3291,6 @@ pa11y --include-warnings                # Also show warnings
 pa11y --include-notices                 # Also show notices
 pa11y --runner axe                      # Include WAI-ARIA
 pa11y --runner htmlcs --runner axe      # Both runners
+
+# Slidev
+npm i -g --prefix ~/.local @slidev/cli @slidev/theme-default
