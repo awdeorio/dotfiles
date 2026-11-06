@@ -33,6 +33,11 @@
 ;; deleted; to rebuild it by hand: M-x package-quickstart-refresh
 (setq package-quickstart t)
 
+;; init.el is byte-compiled to init.elc on save (see `init-recompile' in
+;; init.el).  If init.el is newer, e.g. edited outside Emacs, load it
+;; instead of the stale init.elc.
+(setq load-prefer-newer t)
+
 ;; Disable UI elements before they're initialized (faster than disabling after)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)

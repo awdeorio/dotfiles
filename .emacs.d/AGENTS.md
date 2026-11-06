@@ -7,6 +7,7 @@ Guidance for coding agents working in `~/.emacs.d`.
 - `early-init.el`: pre-GUI startup tweaks; enables `package-quickstart`.
 - `init.el`: the whole config, mostly deferred `use-package` blocks.
 - `elisp/`: vendored packages.
+- `init.elc`: compiled `init.el`, rebuilt on save in Emacs, ignored when older than `init.el`.
 - Everything else (`custom.el`, `calc.el`, `elpa/`, caches) is written by Emacs.
 
 ## Git
@@ -64,9 +65,10 @@ Load check.  Must load with no errors.  `--batch` skips `early-init.el`, hence `
 $ emacs --batch --eval '(package-initialize)' --load ~/.emacs.d/init.el
 ```
 
-Startup performance check.  Measures init time and whether `package.el` loaded.  Briefly opens an Emacs window:
+Startup performance check.  Compiles `init.el`, then measures init time and whether `package.el` loaded.  Briefly opens an Emacs window:
 
 ```console
-$ emacs --eval '(progn (princ (format "%s package=%s\n" (emacs-init-time) (featurep (quote package))) (function external-debugging-output)) (kill-emacs))'
-0.381755 seconds package=nil
+$ emacs --batch --eval '(package-initialize)' -f batch-byte-compile ~/.emacs.d/init.el 2>/dev/null &&
+  emacs --eval '(progn (princ (format "%s package=%s\n" (emacs-init-time) (featurep (quote package))) (function external-debugging-output)) (kill-emacs))'
+N seconds package=nil
 ```

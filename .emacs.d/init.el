@@ -28,6 +28,36 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (unless (file-exists-p custom-file) (write-region "" nil custom-file))
 
+;; Byte-compile init.el to init.elc on save, which cuts its load time to
+;; about a third by expanding use-package macros once instead of every
+;; startup.  Compile in a separate batch Emacs: use-package loads each
+;; package while compiling, which would pollute this session.
+;; early-init.el sets `load-prefer-newer', so a stale init.elc is skipped.
+(defun init-recompile ()
+  "Byte-compile init.el in a background Emacs."
+  (interactive)
+  (let ((file (expand-file-name "init.el" user-emacs-directory))
+        (buffer (get-buffer-create "*init-recompile*")))
+    (with-current-buffer buffer (erase-buffer))
+    (make-process
+     :name "init-recompile"
+     :buffer buffer
+     :command (list (expand-file-name invocation-name invocation-directory)
+                    "--batch" "--eval" "(package-initialize)"
+                    "-f" "batch-byte-compile" file)
+     :sentinel (lambda (proc _event)
+                 (when (memq (process-status proc) '(exit signal))
+                   (message (if (eq 0 (process-exit-status proc))
+                                "Compiled init.el"
+                              "Compiling init.el failed, see *init-recompile*")))))))
+(defun init-recompile-on-save ()
+  "Run `init-recompile' if the current buffer visits init.el."
+  (when (and buffer-file-name
+             (file-equal-p buffer-file-name
+                           (expand-file-name "init.el" user-emacs-directory)))
+    (init-recompile)))
+(add-hook 'after-save-hook #'init-recompile-on-save)
+
 ;; Modified keyboard shortcuts
 (global-set-key "\C-ci"                         'indent-to)
 (global-set-key "\C-c\C-s"                      'search-forward-regexp)
