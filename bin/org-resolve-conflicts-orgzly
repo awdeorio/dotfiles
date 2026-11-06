@@ -48,12 +48,26 @@ set -x
 mv -v "$TODO_PATH" "$TODO_BAK"
 { set +x; } 2>/dev/null
 
+# On Ctrl-C while waiting, restore the backup unless Orgzly's copy has
+# already arrived, which we must not clobber
+restore() {
+  trap - INT
+  echo
+  if [ -e "$TODO_PATH" ]; then
+    echo "Not restoring: ${TODO_PATH} exists.  Backup kept: ${TODO_BAK}"
+  else
+    mv -nv "$TODO_BAK" "$TODO_PATH"
+  fi
+  exit 130
+}
+trap restore INT
+
 # Wait for Orgzly to push its copy back through Dropbox
-echo "Sync Orgzly now.  Waiting for ${TODO_PATH} ..."
-echo "To abort, Ctrl-C and run: mv '${TODO_BAK}' '${TODO_PATH}'"
+echo "Sync Orgzly now.  Waiting for ${TODO_PATH} ...  Ctrl-C to abort."
 while [ ! -e "$TODO_PATH" ]; do
   sleep 1
 done
+trap - INT
 
 # Merge
 set -x
