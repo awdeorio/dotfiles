@@ -190,47 +190,6 @@ See `clean-url' for the cleanup rules applied."
     ;; Indent entire buffer
     (indent-region (point-min) (point-max))))
 
-(defun from-claude (beg end)
-  "Format selected region of text pasted from Claude Code output.
-Remove trailing whitespace, shared leading whitespace, and
-leading prompt symbols (❯, ⏺).  Preserve blank lines."
-  (interactive "r")
-  (save-excursion
-    (save-restriction
-      (narrow-to-region beg end)
-      ;; Step 1: Remove trailing whitespace.
-      (delete-trailing-whitespace (point-min) (point-max))
-      ;; Step 2: Compute shared leading whitespace.
-      ;; Ignore blank lines and lines whose first non-space char is ❯ or ⏺.
-      (let ((min-indent most-positive-fixnum))
-        (goto-char (point-min))
-        (while (not (eobp))
-          (unless (looking-at "^[[:space:]]*$")           ; skip blank lines
-            (unless (looking-at "^[[:space:]]*[❯⏺]")     ; skip prompt lines
-              (let ((indent (current-indentation)))
-                (when (< indent min-indent)
-                  (setq min-indent indent)))))
-          (forward-line 1))
-        (when (= min-indent most-positive-fixnum)
-          (setq min-indent 0))
-        ;; Step 3: Process each line.
-        (goto-char (point-min))
-        (while (not (eobp))
-          (cond
-           ;; Blank line — leave it alone.
-           ((looking-at "^[[:space:]]*$")
-            nil)
-           ;; Prompt line — remove symbol and surrounding whitespace.
-           ((looking-at "^[[:space:]]*[❯⏺][[:space:]]*")
-            (replace-match ""))
-           ;; Normal line — remove shared indent.
-           (t
-            (when (> min-indent 0)
-              (let ((start (point))
-                    (end (min (+ (point) min-indent) (line-end-position))))
-                (delete-region start end)))))
-          (forward-line 1))))))
-
 ;; Exact pixel sizes, no rounding to character cells
 (setq frame-resize-pixelwise t)
 
