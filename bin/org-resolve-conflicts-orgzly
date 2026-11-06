@@ -1,8 +1,40 @@
 #!/bin/bash
 set -Eeuo pipefail
 
-# Path to todo file
-TODO_PATH="${HOME}/Dropbox/org/home.org"
+ORG_DIR="${HOME}/Dropbox/org"
+
+usage() {
+  echo "Usage: $(basename "$0") [FILE]"
+  echo
+  echo "Resolve an Orgzly sync conflict for FILE in ${ORG_DIR}."
+  echo "FILE may be a name (work), a filename (work.org), or a path."
+  echo "Default: home.org"
+}
+
+# Parse arguments
+if [ $# -gt 1 ]; then
+  usage
+  exit 1
+fi
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
+TODO_NAME="${1:-home.org}"
+
+# Resolve FILE to a path: as given if it exists, else inside ORG_DIR,
+# adding a .org extension if missing
+if [ -e "$TODO_NAME" ]; then
+  TODO_PATH="$TODO_NAME"
+else
+  TODO_NAME="$(basename "$TODO_NAME")"
+  [[ "$TODO_NAME" == *.* ]] || TODO_NAME="${TODO_NAME}.org"
+  TODO_PATH="${ORG_DIR}/${TODO_NAME}"
+fi
+if [ ! -e "$TODO_PATH" ]; then
+  echo "Error: file not found: ${TODO_PATH}"
+  exit 1
+fi
 TODO_BAK="${TODO_PATH}.bak"
 
 # Sanity Check
