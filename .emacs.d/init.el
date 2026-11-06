@@ -1222,6 +1222,14 @@ Subsequent calls cycle through available completions."
     :defer t
     :after org))
 
+;; Org mode
+;;
+;; Custom keybindings:
+;;   C-c l         store link
+;;   C-c a         agenda
+;;   C-c c         capture
+;;   C-M-S-<down>  move subtree to bottom of parent
+;;   C-M-S-<up>    move subtree to top of parent
 (use-package org
   :defer t
   :init
@@ -1297,6 +1305,23 @@ If the :CREATED: property already exists, do nothing."
            (org-archive-subtree)
            (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))))
      nil 'file))
+
+  ;; Move subtree to bottom/top of its parent.  C-M-S-<down>, C-M-S-<up>
+  (defun org-move-subtree-to-bottom ()
+    "Move the current subtree below its last sibling."
+    (interactive)
+    (condition-case nil
+        (while t (org-move-subtree-down))
+      (user-error nil)))
+  (defun org-move-subtree-to-top ()
+    "Move the current subtree above its first sibling."
+    (interactive)
+    (condition-case nil
+        (while t (org-move-subtree-up))
+      (user-error nil)))
+  (with-eval-after-load 'org
+    (define-key org-mode-map (kbd "C-M-S-<down>") #'org-move-subtree-to-bottom)
+    (define-key org-mode-map (kbd "C-M-S-<up>") #'org-move-subtree-to-top))
 
   ;; Add file local mode variable enabling org mode
   (defun org-insert-file-local-mode-variable ()
