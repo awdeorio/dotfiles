@@ -898,6 +898,10 @@ opening `---' boundary, or point-min for an implicit first slide."
 ;; https://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
 (use-package go-mode
   :mode "\\.go\\'"
+  :init
+  ;; Remove go-mode's Go assembly check, which loads go-mode on every
+  ;; file open, even non-Go files
+  (setq magic-mode-alist (assq-delete-all 'go--is-go-asm magic-mode-alist))
   :hook (go-mode . eglot-ensure)
   :config
   (add-hook 'before-save-hook 'gofmt-before-save)  ; Call gofmt before save
@@ -1343,6 +1347,8 @@ Subsequent calls cycle through available completions."
         (list "home.org"
               "work.org"))
   (setq org-agenda-search-view-always-boolean t)
+  ;; Don't load org's default link modules, which slow the first org file open
+  (setq org-modules nil)
   (add-hook 'org-mode-hook 'auto-revert-mode) ; for Dropbox
 
   :config
