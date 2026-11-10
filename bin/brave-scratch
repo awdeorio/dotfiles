@@ -1,0 +1,55 @@
+#!/bin/bash
+set -Eeuo pipefail
+
+BRAVE="/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+PROFILE_DIR="${TMPDIR%/}/brave-scratch"
+
+usage() {
+  echo "Usage: $(basename "$0") [URL ...]"
+  echo
+  echo "Start a throwaway Brave instance with an empty profile."
+  echo "If one is already running, open URLs in it instead."
+}
+
+# Parse arguments
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
+
+# Sanity check
+if [ ! -x "$BRAVE" ]; then
+  echo "Error: Brave not found: ${BRAVE}"
+  exit 1
+fi
+
+# Already running: hand URLs to the existing instance
+if pgrep -f -- "--user-data-dir=${PROFILE_DIR}( |$)" > /dev/null; then
+  "$BRAVE" --user-data-dir="$PROFILE_DIR" "$@" &> /dev/null
+  exit 0
+fi
+
+# Start fresh in the background.  Delete the profile on any exit.  On a
+# signal, quit Brave first so the profile isn't deleted while in use.
+rm -rf "$PROFILE_DIR"
+mkdir -p "$PROFILE_DIR"
+(
+  PID=""
+  quit_brave() {
+    if [ -n "$PID" ]; then
+      kill "$PID" 2> /dev/null || true
+      wait "$PID" || true
+    fi
+    exit 143
+  }
+  trap 'rm -rf "$PROFILE_DIR"' EXIT
+  trap quit_brave TERM HUP INT
+
+  # Run Brave in the background so that a signal can interrupt wait and
+  # run the trap right away
+  "$BRAVE" --no-first-run --no-default-browser-check \
+    --user-data-dir="$PROFILE_DIR" "$@" &
+  PID=$!
+  wait "$PID" || true
+) &> /dev/null &
+disown

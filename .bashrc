@@ -106,7 +106,6 @@ if test -d /Applications/Google\ Chrome.app; then
 fi
 if test -d /Applications/Brave\ Browser.app; then
   alias brave='open -a "Brave Browser" --args'
-  alias brave-private='/Applications/Brave\ Browser.app/Contents/MacOS/Brave\ Browser --incognito --user-data-dir=$(mktemp -d) &> /dev/null'
 fi
 if test -d /Applications/Firefox.app; then
   alias firefox='open -a Firefox --args'
