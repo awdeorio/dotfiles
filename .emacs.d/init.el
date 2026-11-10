@@ -154,14 +154,31 @@
 
 (defun clean-url (url)
   "Return URL with tracking cruft and session junk stripped.
+YouTube URLs are shortened to watch?v=ID, keeping any t= timestamp.
 Amazon URLs are shortened to /dp/ASIN/, Home Depot URLs to /p/ID,
 Menards URLs to /main/p-NNNN-c-NNNN.htm, and Gmail URLs have their
 search/label/mailbox prefix replaced with #all/.  Any other URL has
 its query string and fragment removed."
   (cond
-   ;; Amazon: .../dp/ASIN/... -> https://www.amazon.com/dp/ASIN/
-   ((string-match "\\`https?://\\(?:www\\.\\)?amazon\\.com/.*/dp/\\([A-Z0-9]+\\)"
-                  url)
+   ;; YouTube: watch?v=ID, youtu.be/ID, shorts/ID -> watch?v=ID[&t=T]
+   ((and (string-match-p
+          (concat "\\`https?://\\(?:\\(?:www\\|m\\)\\.\\)?"
+                  "\\(?:youtube\\.com\\|youtu\\.be\\)/")
+          url)
+         (or (string-match "[?&]v=\\([A-Za-z0-9_-]+\\)" url)
+             (string-match "\\`https?://youtu\\.be/\\([A-Za-z0-9_-]+\\)" url)
+             (string-match "/shorts/\\([A-Za-z0-9_-]+\\)" url)))
+    (let ((id (match-string 1 url))
+          (time (and (string-match "[?&#]t=\\([0-9hms]+\\)" url)
+                     (match-string 1 url))))
+      (concat "https://www.youtube.com/watch?v=" id
+              (if time (concat "&t=" time) ""))))
+   ;; Amazon: .../dp/ASIN/... or .../gp/product/ASIN/...
+   ;;   -> https://www.amazon.com/dp/ASIN/
+   ((string-match
+     (concat "\\`https?://\\(?:www\\.\\)?amazon\\.com/\\(?:.*/\\)?"
+             "\\(?:dp\\|gp/product\\)/\\([A-Z0-9]+\\)")
+     url)
     (format "https://www.amazon.com/dp/%s/" (match-string 1 url)))
    ;; Home Depot: .../p/.../ID -> https://www.homedepot.com/p/ID
    ((string-match "\\`https?://\\(?:www\\.\\)?homedepot\\.com/p/.*/\\([0-9]+\\)"
@@ -198,9 +215,15 @@ See `clean-url' for the cleanup rules applied."
 
 (defun insert-clean-url ()
   "Insert a cleaned version of the URL on the clipboard/kill-ring at point.
-See `clean-url' for the cleanup rules applied."
+Like `yank', set the mark at the start of the inserted text.  Signal an
+error if the clipboard does not hold an http(s) URL.  See `clean-url'
+for the cleanup rules applied."
   (interactive)
-  (insert (clean-url (string-trim (current-kill 0 t)))))
+  (let ((url (string-trim (current-kill 0 t))))
+    (unless (string-match-p "\\`https?://" url)
+      (user-error "Clipboard does not contain a URL"))
+    (push-mark)
+    (insert (clean-url url))))
 
 (defun from-pptx ()
   "Reformat entire buffer after paste from PowerPoint."
