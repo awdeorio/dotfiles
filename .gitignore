@@ -3,6 +3,36 @@
 # Ignore everything
 /*
 
-# Except /bin and its contents
+# Except /bin
 !/bin/
-!/bin/**
+
+# Except /.emacs.d, minus generated files
+!/.emacs.d/
+/.emacs.d/.cache/
+/.emacs.d/.dap-breakpoints
+/.emacs.d/auto-save-list/
+/.emacs.d/bookmarks
+/.emacs.d/custom.el
+/.emacs.d/eln-cache/
+/.emacs.d/elpa/
+/.emacs.d/org-persist/
+/.emacs.d/package-quickstart.el
+/.emacs.d/projects
+/.emacs.d/tramp
+/.emacs.d/transient/
+/.emacs.d/tree-sitter/
+*.elc
+
+# Except these config directories
+!/.gdb.d/
+!/.hammerspoon/
+!/.bash_completion.d/
+
+# Except /.claude config: CLAUDE.md, agents, and skills (minus synced and symlinked skills)
+!/.claude/
+/.claude/*
+!/.claude/CLAUDE.md
+!/.claude/agents/
+!/.claude/skills/
+/.claude/skills/synced/
+/.claude/skills/find-skills
