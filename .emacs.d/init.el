@@ -1357,12 +1357,17 @@ Subsequent calls cycle through available completions."
 ;;   C-M-S-<down>  move subtree to bottom of parent
 ;;   C-M-S-<up>    move subtree to top of parent
 ;;   C-c w         copy region as HTML rich text (org-mode-map)
+;;   C-c e         paste Gmail URL as org link (org-mode-map)
 (use-package org
-  :defer t
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
+         :map org-mode-map
+         ("C-c e"        . org-insert-gmail-link)
+         ("C-c w"        . org-copy-region-as-html)
+         ("C-M-S-<down>" . org-move-subtree-to-bottom)
+         ("C-M-S-<up>"   . org-move-subtree-to-top))
   :init
-  (define-key global-map "\C-cl" 'org-store-link)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (define-key global-map "\C-cc" 'org-capture)
   (setq org-log-done 'time)
   (setq org-tags-column 59)
   (setq org-directory "~/Dropbox/org")
@@ -1448,9 +1453,6 @@ If the :CREATED: property already exists, do nothing."
     (condition-case nil
         (while t (org-move-subtree-up))
       (user-error nil)))
-  (with-eval-after-load 'org
-    (define-key org-mode-map (kbd "C-M-S-<down>") #'org-move-subtree-to-bottom)
-    (define-key org-mode-map (kbd "C-M-S-<up>") #'org-move-subtree-to-top))
 
   ;; Copy region as rich text for pasting into Gmail and Google Docs.  C-c w
   (defun org-html-rich-text-unwrap (html _backend _info)
@@ -1477,8 +1479,31 @@ See `copy-html-as-rich-text'."
        (org-export-string-as (buffer-substring-no-properties beg end)
                              'html t '(:with-toc nil :section-numbers nil))))
     (deactivate-mark))
-  (with-eval-after-load 'org
-    (define-key org-mode-map (kbd "C-c w") #'org-copy-region-as-html))
+
+  ;; Paste a Gmail URL from the clipboard as an Org link.
+  ;; Silence byte-compile warning; ol is loaded by org at runtime
+  (declare-function org-link-make-string "ol" (link &optional description))
+  (defun org-insert-gmail-link ()
+    "Insert the Gmail URL on the clipboard/kill-ring as an Org link.
+The URL is cleaned with `clean-url'.  The anchor text is the active
+region, which the link replaces, or \"email\".  Like `yank', set the
+mark at the start of the inserted link.  Signal an error if the
+clipboard does not hold a Gmail message URL."
+    (interactive)
+    (let* ((raw (string-trim (current-kill 0 t)))
+           (url (and (string-match-p "\\`https?://" raw) (clean-url raw)))
+           (desc "email"))
+      (unless (and url (string-match-p
+                        "\\`https://mail\\.google\\.com/mail/u/[0-9]+/#all/"
+                        url))
+        (user-error "Clipboard does not contain a Gmail message URL"))
+      (when (use-region-p)
+        (let ((beg (region-beginning)) (end (region-end)))
+          (setq desc (buffer-substring-no-properties beg end))
+          (delete-region beg end)
+          (goto-char beg)))
+      (push-mark)
+      (insert (org-link-make-string url desc))))
 
   ;; Add file local mode variable enabling org mode
   (defun org-insert-file-local-mode-variable ()
