@@ -1183,16 +1183,36 @@ Subsequent calls cycle through available completions."
               ("C-c f a" . hs-toggle-all)
               ("C-c f f" . hs-toggle-hiding)))
 
-;; Outline folding (markdown, latex)
-;;   TAB    cycle visibility (on a heading only)
-;;   S-TAB  cycle global visibility (on a heading only)
+;; Outline - folding and heading navigation (markdown, latex)
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Mode.html
+;;
+;; Custom keys:
+;;   TAB    outline-cycle (on a heading only)
+;;   S-TAB  outline-cycle-buffer (on a heading only)
+;;   n      outline-next-visible-heading (at start of a heading only)
+;;   p      outline-previous-visible-heading (at start of a heading only)
+;;   f      outline-forward-same-level (at start of a heading only)
+;;   b      outline-backward-same-level (at start of a heading only)
+;;   u      outline-up-heading (at start of a heading only)
+;;   c      outline-cycle (at start of a heading only)
 (use-package outline
   :hook ((markdown-mode . outline-minor-mode)
          (latex-mode . outline-minor-mode)
          (LaTeX-mode . outline-minor-mode))
+
   :custom
   ;; TAB/S-TAB cycle only on headings; elsewhere they work as usual
-  (outline-minor-mode-cycle t))
+  (outline-minor-mode-cycle t)
+
+  ;; Org-style speed keys, active only at the beginning of a heading line
+  :bind (:map outline-minor-mode-map
+         :filter (and (bolp) (outline-on-heading-p t))
+         ("n" . outline-next-visible-heading)
+         ("p" . outline-previous-visible-heading)
+         ("f" . outline-forward-same-level)
+         ("b" . outline-backward-same-level)
+         ("u" . outline-up-heading)
+         ("c" . outline-cycle)))
 
 ;; Dockerfile syntax highlighting
 ;; LSP:
