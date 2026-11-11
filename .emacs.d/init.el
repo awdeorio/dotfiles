@@ -1368,6 +1368,7 @@ Subsequent calls cycle through available completions."
          ("C-M-S-<down>" . org-move-subtree-to-bottom)
          ("C-M-S-<up>"   . org-move-subtree-to-top))
   :init
+  (setq org-use-speed-commands t)
   (setq org-log-done 'time)
   (setq org-tags-column 59)
   (setq org-directory "~/Dropbox/org")
