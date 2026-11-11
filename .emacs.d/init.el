@@ -1184,15 +1184,15 @@ Subsequent calls cycle through available completions."
               ("C-c f f" . hs-toggle-hiding)))
 
 ;; Outline folding (markdown, latex)
-;;   TAB    cycle visibility
-;;   S-TAB  cycle global visibility
+;;   TAB    cycle visibility (on a heading only)
+;;   S-TAB  cycle global visibility (on a heading only)
 (use-package outline
   :hook ((markdown-mode . outline-minor-mode)
          (latex-mode . outline-minor-mode)
          (LaTeX-mode . outline-minor-mode))
-  :bind (:map outline-minor-mode-map
-              ("<S-tab>" . outline-cycle-buffer)
-              ("TAB" . outline-cycle)))
+  :custom
+  ;; TAB/S-TAB cycle only on headings; elsewhere they work as usual
+  (outline-minor-mode-cycle t))
 
 ;; Dockerfile syntax highlighting
 ;; LSP:
