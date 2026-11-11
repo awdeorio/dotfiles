@@ -33,6 +33,62 @@ fi
 # signal, quit Brave first so the profile isn't deleted while in use.
 rm -rf "$PROFILE_DIR"
 mkdir -p "$PROFILE_DIR"
+
+# Disable product analytics and usage pings, and suppress the analytics
+# notice infobar
+cat > "${PROFILE_DIR}/Local State" <<'EOF'
+{
+  "brave": {
+    "p3a": {"enabled": false, "notice_acknowledged": true},
+    "stats": {"reporting_enabled": false}
+  }
+}
+EOF
+
+# Declutter the UI.  Hide the empty bookmarks bar and its "Import bookmarks"
+# button.  On the new tab page, hide the cards (including VPN "Start free
+# trial"), stats, news, "Ask anything" search box, and background photo.  Hide
+# the VPN and Rewards buttons.  Hide Leo AI in the toolbar, address bar,
+# context menu, and tab menu.  Hide Brave Wallet and don't expose it to web
+# pages (1 = DefaultWallet::None).
+mkdir -p "${PROFILE_DIR}/Default"
+cat > "${PROFILE_DIR}/Default/Preferences" <<'EOF'
+{
+  "bookmark_bar": {"show_on_all_tabs": false},
+  "brave": {
+    "ai_chat": {
+      "autocomplete_provider_enabled": false,
+      "context_menu_enabled": false,
+      "show_toolbar_button": false,
+      "tab_organization_enabled": false
+    },
+    "always_show_bookmark_bar_on_ntp": false,
+    "brave_search": {"show-ntp-chat": false, "show-ntp-search": false},
+    "brave_vpn": {"show_button": false},
+    "new_tab_page": {
+      "hide_all_widgets": true,
+      "show_background_image": false,
+      "show_branded_background_image": false,
+      "show_brave_news": false,
+      "show_brave_vpn": false,
+      "show_rewards": false,
+      "show_stats": false,
+      "show_together": false
+    },
+    "rewards": {"show_brave_rewards_button_in_location_bar": false},
+    "show_brave_rewards_button": false,
+    "wallet": {
+      "default_cardano_wallet": 1,
+      "default_solana_wallet": 1,
+      "default_wallet2": 1,
+      "nft_discovery_enabled": false,
+      "should_show_wallet_suggestion_badge": false,
+      "show_wallet_icon_on_toolbar": false
+    }
+  }
+}
+EOF
+
 (
   PID=""
   quit_brave() {
