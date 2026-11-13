@@ -45,15 +45,20 @@ cat > "${PROFILE_DIR}/Local State" <<'EOF'
 }
 EOF
 
-# Declutter the UI.  Hide the empty bookmarks bar and its "Import bookmarks"
-# button.  On the new tab page, hide the cards (including VPN "Start free
-# trial"), stats, news, "Ask anything" search box, and background photo.  Hide
-# the VPN and Rewards buttons.  Hide Leo AI in the toolbar, address bar,
-# context menu, and tab menu.  Hide Brave Wallet and don't expose it to web
-# pages (1 = DefaultWallet::None).
+# Declutter the UI and avoid interruptions during live demos: no suggestions,
+# autocomplete, autofill, offers to save or translate, or prompts.  Enum
+# values: wallet 1 = none, notifications 2 = block, sidebar 3 = never, tab
+# hover 0 = tooltip.
 mkdir -p "${PROFILE_DIR}/Default"
 cat > "${PROFILE_DIR}/Default/Preferences" <<'EOF'
 {
+  "autofill": {
+    "bnpl_enabled": false,
+    "credit_card_enabled": false,
+    "enabled": false,
+    "payment_cvc_storage": false,
+    "profile_enabled": false
+  },
   "bookmark_bar": {"show_on_all_tabs": false},
   "brave": {
     "ai_chat": {
@@ -63,7 +68,10 @@ cat > "${PROFILE_DIR}/Default/Preferences" <<'EOF'
       "tab_organization_enabled": false
     },
     "always_show_bookmark_bar_on_ntp": false,
+    "autocomplete_enabled": false,
     "brave_search": {"show-ntp-chat": false, "show-ntp-search": false},
+    "brave_suggested_site_suggestions_enabled": false,
+    "email_aliases": {"new_alias_autofill_suggestion_enabled": false},
     "brave_vpn": {"show_button": false},
     "new_tab_page": {
       "hide_all_widgets": true,
@@ -75,8 +83,21 @@ cat > "${PROFILE_DIR}/Default/Preferences" <<'EOF'
       "show_stats": false,
       "show_together": false
     },
+    "omnibox": {
+      "bookmark_suggestions_enabled": false,
+      "commander_suggestions_enabled": false,
+      "history_suggestions_enabled": false
+    },
+    "playlist": {"enabled": false},
     "rewards": {"show_brave_rewards_button_in_location_bar": false},
+    "shields": {"stats_badge_visible": false},
     "show_brave_rewards_button": false,
+    "show_side_panel_button": false,
+    "sidebar": {"sidebar_show_option": 3},
+    "speedreader": {"enabled": false},
+    "tabs": {"hover_mode": 0},
+    "today": {"should_show_toolbar_button": false},
+    "top_site_suggestions_enabled": false,
     "wallet": {
       "default_cardano_wallet": 1,
       "default_solana_wallet": 1,
@@ -85,7 +106,14 @@ cat > "${PROFILE_DIR}/Default/Preferences" <<'EOF'
       "should_show_wallet_suggestion_badge": false,
       "show_wallet_icon_on_toolbar": false
     }
-  }
+  },
+  "browser": {"enable_spellchecking": false},
+  "credentials_enable_autosignin": false,
+  "credentials_enable_passkeys": false,
+  "credentials_enable_service": false,
+  "profile": {"default_content_setting_values": {"notifications": 2}},
+  "search": {"suggest_enabled": false},
+  "translate": {"enabled": false}
 }
 EOF
 
