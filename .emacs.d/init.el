@@ -1405,6 +1405,16 @@ Subsequent calls cycle through available completions."
   (when (version<= "29.0" emacs-version)
     (setq org-element-use-cache t))
 
+  ;; Table alignment treats currency like $3,770 and ~$119,000 as
+  ;; numbers, so those columns right-align without <r> cookies.  Same
+  ;; as the default regexp plus an optional leading ~ and $, and commas.
+  (setq org-table-number-regexp
+        (concat "^\\([<>]?[-+~]?\\$?[-+^.,0-9]*[0-9]"
+                "[-+^.,0-9eEdDx()%:]*"
+                "\\|[<>]?[-+]?0[xX][[:xdigit:].]+"
+                "\\|[<>]?[-+]?[0-9]+#[0-9a-zA-Z.]+"
+                "\\|nan\\|[-+u]?inf\\)$"))
+
   ;; TODO keywords as workflow states for GTD
   ;; https://orgmode.org/manual/Workflow-states.html
   ;;
