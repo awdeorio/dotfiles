@@ -1376,6 +1376,8 @@ Subsequent calls cycle through available completions."
 ;;   C-c c         capture
 ;;   C-M-S-<down>  move subtree to bottom of parent
 ;;   C-M-S-<up>    move subtree to top of parent
+;;   Z             move subtree to bottom of parent (speed key)
+;;   A             move subtree to top of parent (speed key)
 ;;   C-c w         copy region as HTML rich text (org-mode-map)
 ;;   C-c e         paste Gmail URL as org link (org-mode-map)
 (use-package org
@@ -1484,6 +1486,8 @@ If the :CREATED: property already exists, do nothing."
     (condition-case nil
         (while t (org-move-subtree-up))
       (user-error nil)))
+  (add-to-list 'org-speed-commands '("Z" . org-move-subtree-to-bottom) t)
+  (add-to-list 'org-speed-commands '("A" . org-move-subtree-to-top) t)
 
   ;; Copy region as rich text for pasting into Gmail and Google Docs.  C-c w
   (defun org-html-rich-text-unwrap (html _backend _info)
