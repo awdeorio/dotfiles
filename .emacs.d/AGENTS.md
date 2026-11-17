@@ -33,9 +33,9 @@ A new or changed binding must not clash with any other.  Outside Emacs, keys are
 - AltTab preferences
 - macOS keyboard shortcuts
 
-### use-package comments
+### use-package blocks
 
-A comment block in this form sits directly above every `use-package` block:
+A comment block sits directly above every `use-package` block:
 
 ```elisp
 ;; Foo - one-line description
@@ -47,10 +47,18 @@ A comment block in this form sits directly above every `use-package` block:
 ;; Requires:
 ;;   $ brew install foo
 (use-package foo
+  :hook (python-mode . foo-mode)
+  :bind (("C-c f" . foo-run)
+         :map foo-mode-map
+         ("M-n" . nil))
+  :custom
+  (foo-style 'compact))
 ```
 
 - `Custom keys:` is required if the block binds, rebinds, or unbinds any key, anywhere (`:bind`, `define-key`, hooks).  List every one; the comment alone must reveal every custom key.
 - `Requires:` is required if the package needs an external tool.
+- Prefer `:hook`, `:bind`, `:mode`, `:commands`, and `:custom` over `add-hook`, `define-key`, and `setq`.
+- Code that needs the package goes in `:config`.  `:init` runs at startup, so keep it cheap.
 
 ### Off limits
 
