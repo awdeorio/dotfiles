@@ -282,10 +282,13 @@ for the cleanup rules applied."
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
 
-;; Configure use-package (built in since Emacs 29, no bootstrap needed)
+;; Load and configure use-package (built in since Emacs 29, no bootstrap
+;; needed).  Globally defer package loading.  eval-and-compile because
+;; use-package expands at compile time; a plain setq is ignored in init.elc.
 (eval-when-compile
   (require 'use-package))
-(setq use-package-always-defer t)  ; Globally defer package loading
+(eval-and-compile
+  (setq use-package-always-defer t))
 
 ;; `:ensure t' normally calls `package-installed-p', which pulls in all of
 ;; package.el (and url, browse-url, auth-source...) on every startup just to
