@@ -1688,10 +1688,12 @@ by `org-set-tags-command'."
   (add-hook 'minibuffer-setup-hook #'org-tags-minibuffer-hippie-expand-setup)
   ) ; closes (use-package org ...)
 
-;; editorconfig
-;; Built in to Emacs 30+, no need for the MELPA package.
+;; EditorConfig - per-project coding style from .editorconfig files
+;; https://editorconfig.org
+;;
+;; Global mode, enabled after init so files on the command line get it.
 (use-package editorconfig
-  :hook (prog-mode . editorconfig-mode))
+  :hook (after-init . editorconfig-mode))
 
 ;; version482 required by EECS 482 autograder
 ;; Automatically loads when "eecs482" appears anywhere in the full path
