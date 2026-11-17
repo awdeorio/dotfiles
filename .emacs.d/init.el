@@ -1408,9 +1408,8 @@ Subsequent calls cycle through available completions."
   (add-hook 'org-mode-hook 'auto-revert-mode) ; for Dropbox
 
   :config
-  ;; Enable org element cache for faster parsing (Emacs 29+)
-  (when (version<= "29.0" emacs-version)
-    (setq org-element-use-cache t))
+  ;; Enable org element cache for faster parsing
+  (setq org-element-use-cache t)
 
   ;; Table alignment treats currency like $3,770 and ~$119,000 as
   ;; numbers, so those columns right-align without <r> cookies.  Same
@@ -1592,23 +1591,21 @@ clipboard does not hold a Gmail message URL."
   ;; Custom agenda views
   ;; https://github.com/alphapapa/org-ql
   ;; https://github.com/alphapapa/org-ql/blob/master/examples.org
-  (when (version<= "28.1" emacs-version)
-    (setq org-agenda-custom-commands
-          '(("d" "Dashboard"
-             ((org-ql-block
+  (setq org-agenda-custom-commands
+        '(("d" "Dashboard"
+           ((org-ql-block
 
-               '(and
-                 (or
-                  (priority "A")
-                  (deadline auto) ;; has deadline set and due today or overdue
-                  (scheduled :to today)
-                  )
-                 (not (done))
-                 )
+             '(and
+               (or
+                (priority "A")
+                (deadline auto) ;; has deadline set and due today or overdue
+                (scheduled :to today)
+                )
+               (not (done))
+               )
 
-               ((org-ql-block-header "Today Dashboard"))
-
-               ))))))
+             ((org-ql-block-header "Today Dashboard"))
+             )))))
 
   ;; M-/ tag completion in the tag-entry minibuffer (C-c C-c)
   ;; ---------------------------------------------------------------
