@@ -1381,6 +1381,8 @@ Subsequent calls cycle through available completions."
 ;;   C-M-S-<up>    move subtree to top of parent
 ;;   Z             move subtree to bottom of parent (speed key)
 ;;   A             move subtree to top of parent (speed key)
+;;   N             go to last heading in buffer (speed key)
+;;   P             go to first heading in buffer (speed key)
 ;;   C-c w         copy region as HTML rich text (org-mode-map)
 ;;   C-c e         paste Gmail URL as org link (org-mode-map)
 (use-package org
@@ -1491,6 +1493,21 @@ If the :CREATED: property already exists, do nothing."
       (user-error nil)))
   (add-to-list 'org-speed-commands '("Z" . org-move-subtree-to-bottom) t)
   (add-to-list 'org-speed-commands '("A" . org-move-subtree-to-top) t)
+
+  ;; Go to first/last visible heading in the buffer.  Speed keys P, N
+  (defun org-goto-first-heading ()
+    "Move point to the first heading in the buffer."
+    (interactive)
+    (goto-char (point-min))
+    (unless (org-at-heading-p)
+      (org-next-visible-heading 1)))
+  (defun org-goto-last-heading ()
+    "Move point to the last visible heading in the buffer."
+    (interactive)
+    (goto-char (point-max))
+    (org-previous-visible-heading 1))
+  (add-to-list 'org-speed-commands '("N" . org-goto-last-heading) t)
+  (add-to-list 'org-speed-commands '("P" . org-goto-first-heading) t)
 
   ;; Copy region as rich text for pasting into Gmail and Google Docs.  C-c w
   (defun org-html-rich-text-unwrap (html _backend _info)
