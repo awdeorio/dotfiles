@@ -1443,28 +1443,18 @@ Subsequent calls cycle through available completions."
           ("WAIT" . (:foreground "orange" :weight bold))
           ("HOLD" . (:foreground "orange" :weight bold))))
 
-  ;; Syntax highlighting for special property CREATED
-  (font-lock-add-keywords
-   'org-mode
-   '(("^\\([ \t]*CREATED:\\)[ \t]*\\(.*\\)"
-      (1 'org-special-keyword t) ; Highlight `CREATED:` property
-      (2 'org-date t))))        ; Highlight the timestamp
-
   ;; Do not fold org files in ediff mode
   (add-hook 'ediff-prepare-buffer-hook #'org-show-all)
 
+  ;; Record when an entry was created, the same way Orgzly does
   (defun org-add-created-property ()
-    "Add a :CREATED: property with the current timestamp as a special property.
-If the :CREATED: property already exists, do nothing."
+    "Set the CREATED property of the current entry to today's date.
+If the entry already has a CREATED property, do nothing."
     (interactive)
-    (when (org-at-heading-p) ;; Ensure we are at a heading
-      (save-excursion
-        (org-back-to-heading t)
-        (forward-line 1)
-        (let ((created-regexp "^:CREATED:"))
-          ;; Check if the :CREATED: property already exists
-          (unless (re-search-forward created-regexp (line-end-position) t)
-            (insert (format "CREATED: %s\n" (format-time-string "[%Y-%m-%d %a]"))))))))
+    (save-excursion
+      (org-back-to-heading t)
+      (unless (org-entry-get nil "CREATED")
+        (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a]")))))
 
   ;; Archive all tasks in this file marked DONE
   (defun org-archive-done-tasks-file ()
