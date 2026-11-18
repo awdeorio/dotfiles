@@ -342,25 +342,47 @@ local function appWindows(name)
   return ws
 end
 
--- Run launch(), then snap the first new window of app name in each of
--- dirs, in order.  Poll for up to 10 seconds for the window to appear.
+-- Move win to screen sc, if given, then snap it in each of dirs, in order.
+local function place(win, sc, dirs)
+  if sc and screenOf(win):id() ~= sc:id() then
+    local n = moveFrame(rect(win:frame()), rect(screenOf(win):frame()),
+      rect(sc:frame()))
+    -- Set twice, because the first sets a size clamped to the old screen.
+    local r = hs.geometry.rect(n.x, n.y, n.w, n.h)
+    win:setFrame(r)
+    win:setFrame(r)
+  end
+  for _, d in ipairs(dirs) do apply(win, snap(d)) end
+end
+
+-- Poll for up to 10 seconds until find() returns a window, then place it.
+local pending = {} -- Keep timers referenced so they are not collected.
+local function whenWindow(find, sc, dirs)
+  local tries, timer = 0
+  timer = hs.timer.doEvery(0.1, function()
+    tries = tries + 1
+    local w = find()
+    if w or tries >= 100 then
+      timer:stop()
+      pending[timer] = nil
+      if w then place(w, sc, dirs) end
+    end
+  end)
+  pending[timer] = true
+end
+
+-- Run launch(), then place the first new window of app name on screen sc,
+-- if given, and snap it in each of dirs.
 local function launchAndSnap(name, launch, dirs)
-  local timer -- Keep a reference so the timer is not collected.
-  return function()
+  return function(sc)
     local old = {}
     for _, w in ipairs(appWindows(name)) do old[w:id()] = true end
     launch()
-    local tries = 0
-    timer = hs.timer.doUntil(function() return tries >= 100 end, function()
-      tries = tries + 1
+    whenWindow(function()
       for _, w in ipairs(appWindows(name)) do
-        if not old[w:id()] then
-          tries = 100
-          for _, d in ipairs(dirs) do apply(w, snap(d)) end
-          return
-        end
+        if not old[w:id()] then return w end
       end
-    end, 0.1)
+    end, sc, dirs)
   end
 end
 
@@ -377,9 +399,25 @@ local function newWindow(name, cmd, dirs)
   end, dirs)
 end
 
--- Focus an app, launching it if needed.
+-- Focus an app, launching it if needed, and move its main window to screen
+-- sc, if given.
 local function focus(id)
-  return function() hs.application.launchOrFocusByBundleID(id) end
+  return function(sc)
+    hs.application.launchOrFocusByBundleID(id)
+    if not sc then return end
+    whenWindow(function()
+      local app = hs.application.get(id)
+      local w = app and app:mainWindow()
+      if w and w:isStandard() then return w end
+    end, sc, {})
+  end
+end
+
+-- The laptop's own display, or nil with the lid closed.
+local function builtinScreen()
+  for _, sc in ipairs(hs.screen.allScreens()) do
+    if (sc:name() or ""):match("^Built%-in") then return sc end
+  end
 end
 
 local launchers = {
@@ -392,11 +430,15 @@ local launchers = {
   s = focus("org.whispersystems.signal-desktop"),
   k = focus("com.tinyspeck.slackmacgap"),
 }
-for key, fn in pairs(launchers) do hs.hotkey.bind(ca, key, fn) end
+for key, fn in pairs(launchers) do
+  hs.hotkey.bind(ca, key, function() fn() end)
+end
 
--- All of the above, chat apps first so the new windows end up in front.
+-- All of the above on the laptop's display, chat apps first so the new
+-- windows end up in front.
 hs.hotkey.bind(ca, "a", function()
-  for _, key in ipairs({"k", "s", "e", "b", "t"}) do launchers[key]() end
+  local sc = builtinScreen()
+  for _, key in ipairs({"k", "s", "e", "b", "t"}) do launchers[key](sc) end
 end)
 
 hs.alert.show("Hammerspoon config loaded")
