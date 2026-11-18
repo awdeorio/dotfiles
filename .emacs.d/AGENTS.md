@@ -59,10 +59,10 @@ A comment block sits directly above every `use-package` block:
 - `Requires:` is required if the package needs an external tool.
 - Prefer `:hook`, `:bind`, `:mode`, `:commands`, and `:custom` over `add-hook`, `define-key`, and `setq`.
 - Code that needs the package goes in `:config`.  `:init` runs at startup, so keep it cheap.
+- `use-package-always-defer` is on, so a package loads only through a trigger such as `:hook`, `:bind`, `:mode`, or `:commands`.  A block with no trigger never loads.
 
 ### Off limits
 
-- Edit only `init.el`, `early-init.el`, and this file.
 - Do not install or upgrade packages without asking.
 
 ## Test
@@ -73,10 +73,10 @@ Load check.  Must load with no errors.  `--batch` skips `early-init.el`, hence `
 $ emacs --batch --eval '(package-initialize)' --load ~/.emacs.d/init.el
 ```
 
-Startup performance check.  Compiles `init.el`, then measures init time and whether `package.el` loaded.  Briefly opens an Emacs window:
+Startup performance check.  Compiles `init.el`, printing any warnings, then measures init time and whether `package.el` loaded.  Briefly opens an Emacs window.  Run it three times and report the best:
 
 ```console
-$ emacs --batch --eval '(package-initialize)' -f batch-byte-compile ~/.emacs.d/init.el 2>/dev/null &&
+$ emacs --batch --eval '(package-initialize)' -f batch-byte-compile ~/.emacs.d/init.el &&
   emacs --eval '(progn (princ (format "%s package=%s\n" (emacs-init-time) (featurep (quote package))) (function external-debugging-output)) (kill-emacs))'
 N seconds package=nil
 ```
