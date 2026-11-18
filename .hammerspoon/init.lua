@@ -2,6 +2,17 @@ require("hs.ipc")  -- lets the `hs` command-line tool talk to Hammerspoon
 -- Window management shortcuts.  See README.md.
 hs.window.animationDuration = 0
 
+-- Reload when init.lua changes.  Set up first, so a config that fails to
+-- load still reloads once it is fixed.  Wait a moment so one save that fires
+-- several events reloads once.  The watcher is global so it is not
+-- collected.
+local reloadTimer = hs.timer.delayed.new(0.5, hs.reload)
+configWatcher = hs.pathwatcher.new(hs.configdir, function(paths)
+  for _, p in ipairs(paths) do
+    if p:match("/init%.lua$") then reloadTimer:start() end
+  end
+end):start()
+
 -- Screen whose full frame contains the center of frame f, default the
 -- window's own.
 local function screenOf(win, f)
@@ -17,13 +28,16 @@ local function screenOf(win, f)
 end
 
 -- Run fn(frame, visibleFrame) -> new frame; apply only if it changed.
+local function apply(win, fn)
+  local f = win:frame()
+  local n = fn(f:copy(), screenOf(win):frame(), win)
+  if n and not n:equals(f) then win:setFrame(n) end
+end
+
 local function act(fn)
   return function()
     local win = hs.window.focusedWindow()
-    if not win then return end
-    local f = win:frame()
-    local n = fn(f:copy(), screenOf(win):frame(), win)
-    if n and not n:equals(f) then win:setFrame(n) end
+    if win then apply(win, fn) end
   end
 end
 
@@ -314,5 +328,75 @@ hs.hotkey.bind(ca, "w",     cycle(function(o, s, win)
   return widthSteps(o, s, otherFrames(win))
 end))
 hs.hotkey.bind(ca, "l",     cycle(halvesSteps))
+
+-- Standard windows of every running app named name, on the current Space.
+local function appWindows(name)
+  local ws = {}
+  for _, a in ipairs(hs.application.runningApplications()) do
+    if a:name() == name then
+      for _, w in ipairs(a:allWindows()) do
+        if w:isStandard() then table.insert(ws, w) end
+      end
+    end
+  end
+  return ws
+end
+
+-- Run launch(), then snap the first new window of app name in each of
+-- dirs, in order.  Poll for up to 10 seconds for the window to appear.
+local function launchAndSnap(name, launch, dirs)
+  local timer -- Keep a reference so the timer is not collected.
+  return function()
+    local old = {}
+    for _, w in ipairs(appWindows(name)) do old[w:id()] = true end
+    launch()
+    local tries = 0
+    timer = hs.timer.doUntil(function() return tries >= 100 end, function()
+      tries = tries + 1
+      for _, w in ipairs(appWindows(name)) do
+        if not old[w:id()] then
+          tries = 100
+          for _, d in ipairs(dirs) do apply(w, snap(d)) end
+          return
+        end
+      end
+    end, 0.1)
+  end
+end
+
+-- New window of app name with AppleScript command cmd.  A cold launch
+-- opens its own window, so skip the extra one.
+local function newWindow(name, cmd, dirs)
+  return launchAndSnap(name, function()
+    hs.osascript.applescript(string.format([[
+      if application "%s" is running then
+        tell application "%s" to %s
+      end if
+      tell application "%s" to activate
+    ]], name, name, cmd, name))
+  end, dirs)
+end
+
+-- Focus an app, launching it if needed.
+local function focus(id)
+  return function() hs.application.launchOrFocusByBundleID(id) end
+end
+
+local launchers = {
+  t = newWindow("Terminal", 'do script ""', {"up", "right"}),
+  b = newWindow("Brave Browser", "make new window", {"left", "up"}),
+  -- Emacs on the todo lists, via the same script as the CLI.
+  e = launchAndSnap("Emacs", function()
+    hs.task.new(os.getenv("HOME") .. "/bin/et", nil):start()
+  end, {"down", "right"}),
+  s = focus("org.whispersystems.signal-desktop"),
+  k = focus("com.tinyspeck.slackmacgap"),
+}
+for key, fn in pairs(launchers) do hs.hotkey.bind(ca, key, fn) end
+
+-- All of the above, chat apps first so the new windows end up in front.
+hs.hotkey.bind(ca, "a", function()
+  for _, key in ipairs({"k", "s", "e", "b", "t"}) do launchers[key]() end
+end)
 
 hs.alert.show("Hammerspoon config loaded")

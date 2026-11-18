@@ -1,6 +1,6 @@
 # awdeorio's Hammerspoon config
 
-My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcuts for moving and resizing the focused window.
+My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcuts for moving and resizing windows and for launching apps.
 
 | Shortcut      | Effect                                         |
 |---------------|------------------------------------------------|
@@ -10,6 +10,12 @@ My personal [Hammerspoon](https://www.hammerspoon.org) config: keyboard shortcut
 | `C-s-c`       | Cycle centering: center->left->right->original |
 | `C-s-l`       | Cycle halves: left->center->right->original    |
 | `C-s-n`       | Cycle displays: next->...->original            |
+| `C-s-t`       | Launch Terminal / new window                   |
+| `C-s-b`       | Launch Brave / new window                      |
+| `C-s-e`       | Launch Emacs on todo lists (`~/bin/et`)        |
+| `C-s-s`       | Launch Signal                                  |
+| `C-s-k`       | Launch Slack                                   |
+| `C-s-a`       | Launch Terminal, Brave, Slack, Signal, and et  |
 
 Shortcut notation: `C` is ctrl, `M` is command (Meta), and `s` is option (Super).
 
@@ -24,12 +30,6 @@ $ brew install --cask hammerspoon
 ```
 
 Grant Accessibility permission in System Settings > Privacy & Security > Accessibility.  Restart Hammerspoon afterward; the permission does not take effect until it does.
-
-Reload after editing `init.lua`, either from the Hammerspoon menu bar icon (Reload Config) or from a terminal.  An alert reading "Hammerspoon config loaded" confirms the reload.
-
-```console
-$ hs -c 'hs.reload()'
-```
 
 ## Principles
 

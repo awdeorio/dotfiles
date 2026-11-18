@@ -12,7 +12,7 @@ Guidance for coding agents working in `~/.hammerspoon`.  Read `README.md` first 
 ```console
 $ luac -p init.lua
 $ lua test_init.lua
-$ hs -t 5 -c 'hs.reload()'
+$ hs -t 5 -c 'return #hs.hotkey.getHotkeys()'
 ```
 
-Always pass `-t` to `hs`; without a timeout it can hang.  `hs -c 'hs.reload()'` can hang even with `-t`, because the reload tears down the message port mid-reply.  The reload still takes effect, so run it in the background or kill it, then confirm with `hs -t 5 -c` on a query such as `hs.hotkey.getHotkeys()`.  Hammerspoon needs Accessibility permission and a restart after it is granted.  Do not move the user's windows without asking.
+Saving `init.lua` reloads Hammerspoon.  Don't reload from the shell, which can wedge `hs`.  Confirm with the query above, and use `hs` only for read-only queries, always with `-t`.  Hammerspoon needs Accessibility permission and a restart after it is granted.  Do not move the user's windows without asking.
