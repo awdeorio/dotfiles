@@ -1099,8 +1099,8 @@ Subsequent calls cycle through available completions."
   ;; Multiple keyword sets in one file
   ;; https://orgmode.org/manual/Multiple-sets-in-one-file.html
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "|" "DONE(d)")
-          (sequence "WAIT(w)" "|" "RECV(r)" "CANC(c)")))
+        '((sequence "TODO" "|" "DONE")
+          (sequence "WAIT" "|" "RECV" "CANC")))
 
   ;; Faces for TODO keywords, darker than the bright defaults.  org-todo
   ;; colors not-done keywords, org-done colors done keywords, and WAIT
