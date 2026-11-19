@@ -650,7 +650,13 @@ as rich text.  See `copy-html-as-rich-text'."
   ;; the M-n/M-p slide navigation bound below.  Move it to C-c n, as
   ;; polymode's own docs suggest.
   (define-key polymode-minor-mode-map (kbd "M-n") nil)
-  (define-key polymode-minor-mode-map (kbd "C-c n") polymode-map))
+  (define-key polymode-minor-mode-map (kbd "C-c n") polymode-map)
+  ;; Don't hide inner buffers by renaming them with a leading space.  The
+  ;; base buffer gets hidden too while point is in a chunk, and Emacs adds a
+  ;; random suffix when the hidden name is taken, so a revert could leave
+  ;; the window showing " slides.md-318220" instead of slides.md.
+  ;; Cost: inner buffers like slides.md[yaml] show up in C-x b.
+  (setq pm-hide-implementation-buffers nil))
 
 (use-package poly-markdown
   :ensure t
