@@ -1197,6 +1197,7 @@ Subsequent calls cycle through available completions."
 ;;   f      outline-forward-same-level (at start of a heading only)
 ;;   b      outline-backward-same-level (at start of a heading only)
 ;;   u      outline-up-heading (at start of a heading only)
+;;   d      outline-down-heading (at start of a heading only)
 ;;   c      outline-cycle (at start of a heading only)
 (use-package outline
   :hook ((markdown-mode . outline-minor-mode)
@@ -1215,7 +1216,22 @@ Subsequent calls cycle through available completions."
          ("f" . outline-forward-same-level)
          ("b" . outline-backward-same-level)
          ("u" . outline-up-heading)
-         ("c" . outline-cycle)))
+         ("d" . outline-down-heading)
+         ("c" . outline-cycle))
+
+  :config
+  ;; Go down to the first child heading, the opposite of `outline-up-heading'
+  (defun outline-down-heading ()
+    "Show the children of the current heading and move to the first one."
+    (interactive)
+    (outline-back-to-heading t)
+    (let ((start (point))
+          (level (funcall outline-level)))
+      (outline-show-children)
+      (outline-next-heading)
+      (unless (and (not (eobp)) (> (funcall outline-level) level))
+        (goto-char start)
+        (user-error "No child heading")))))
 
 ;; Dockerfile syntax highlighting
 ;; LSP:
@@ -1383,6 +1399,7 @@ Subsequent calls cycle through available completions."
 ;;   A             move subtree to top of parent (speed key)
 ;;   N             go to last heading in buffer (speed key)
 ;;   P             go to first heading in buffer (speed key)
+;;   d             go down to first child heading (speed key)
 ;;   C-c w         copy region as HTML rich text (org-mode-map)
 ;;   C-c e         paste Gmail URL as org link (org-mode-map)
 (use-package org
@@ -1497,6 +1514,18 @@ If the entry already has a CREATED property, do nothing."
     (org-previous-visible-heading 1))
   (add-to-list 'org-speed-commands '("N" . org-goto-last-heading) t)
   (add-to-list 'org-speed-commands '("P" . org-goto-first-heading) t)
+
+  ;; Go down to the first child heading, the opposite of speed key u.
+  ;; Speed key d
+  (defun org-down-heading ()
+    "Show the children of the current heading and move to the first one."
+    (interactive)
+    (org-back-to-heading t)
+    (org-fold-show-children)
+    (unless (org-goto-first-child)
+      (user-error "No child heading")))
+  (add-to-list 'org-speed-commands
+               '("d" org-speed-move-safe 'org-down-heading) t)
 
   ;; Copy region as rich text for pasting into Gmail and Google Docs.  C-c w
   (defun org-html-rich-text-unwrap (html _backend _info)
