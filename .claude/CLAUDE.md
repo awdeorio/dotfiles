@@ -36,6 +36,10 @@ These apply to anything you write outside this chat, such as files, commit messa
 
 Align table columns.  Keep rows to 80 characters or fewer when possible.
 
+## Browser
+
+Chrome is yours, not mine, and it's signed out.  Drive it with Claude in Chrome (less bot detection than Playwright), close tabs when done, and ask me when a site needs a login.  To show me a page, use `open`.
+
 ## Shell
 
 `cp` and `mv` are aliased with `-i`, so non-interactive overwrites silently fail.  To overwrite, use `command cp -f` or `command mv -f`.
