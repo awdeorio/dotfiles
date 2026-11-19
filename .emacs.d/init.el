@@ -1,7 +1,7 @@
 ;;; init.el --- awdeorio's emacs customizations -*- lexical-binding: t -*-
 ;;;
-;;; A few rare packages are provided in ~/.emacs.d/elisp/ .  More packages are
-;;; automatically downloaded by use-package and placed in ~/.emacs.d/elpa/ .
+;;; Helper code for use-package blocks lives in ~/.emacs.d/elisp/ .  Packages
+;;; are automatically downloaded by use-package and placed in ~/.emacs.d/elpa/ .
 ;;;
 ;;; Start-up performance is important.  We use use-package to configure most
 ;;; packages at load time, not startup.  Summary of when sections evaluate.
@@ -13,7 +13,8 @@
 ;;;   :init     Runs immediately on startup
 ;;;   :config   Runs later when package loads
 
-;; User-provided packages go in ~/.emacs.d/elisp
+;; Helper files, like org-extras.el, go in ~/.emacs.d/elisp.  Each is
+;; loaded with `require' from its package's use-package :config.
 ;; https://www.emacswiki.org/emacs/LoadPath
 (let ((default-directory  "~/.emacs.d/elisp/"))
   (normal-top-level-add-to-load-path '("."))
