@@ -1103,17 +1103,14 @@ Subsequent calls cycle through available completions."
   ;; M-x list-colors-display  ; show color names
   ;; https://orgmode.org/manual/Faces-for-TODO-keywords.html
   (setq org-todo-keywords
-        '((sequence "TODO" "|" "DONE")
-          (sequence "HOLD" "TODO" "|" "DONE")
-          (sequence "WAIT" "|" "RECV" "CANC" "NANA")))
+        '((sequence "TODO(t)" "|" "DONE(d)")
+          (sequence "WAIT(w)" "|" "RECV(r)" "CANC(c)")))
   (setq org-todo-keyword-faces
         '(("TODO" . (:foreground "dark red" :weight bold))
           ("DONE" . (:foreground "dark green" :weight bold))
           ("CANC" . (:foreground "dark green" :weight bold))
-          ("NANA" . (:foreground "dark green" :weight bold))
           ("RECV" . (:foreground "dark green" :weight bold))
-          ("WAIT" . (:foreground "orange" :weight bold))
-          ("HOLD" . (:foreground "orange" :weight bold))))
+          ("WAIT" . (:foreground "orange" :weight bold))))
 
   ;; Do not fold org files in ediff mode
   (add-hook 'ediff-prepare-buffer-hook #'org-show-all)
@@ -1155,7 +1152,7 @@ Subsequent calls cycle through available completions."
 
           ("l" "Letter"
            entry (file+headline "work.org" "Letters")
-           "* HOLD Recommendation for NAME %? (CATEGORY)\nDEADLINE: TBD\n\nSTUDENT EMAIL\n\nLINK TO EMAIL THREAD\n\nI would be happy to help.  I would be able to comment on your performance in EECS FIXME, where it looks like you got an FIXME and your rank was FIXME/FIXME = top FIXME percent.\n\nIf you're planning to apply to multiple schools, please sign up for the confidential Interfolio reference letter service.  I can upload one letter and then they will submit copies to each school. https://account.interfolio.com/signup\n\nWhen is the first deadline?\n\n")
+           "* WAIT Recommendation for NAME %? (CATEGORY)\nDEADLINE: TBD\n\nSTUDENT EMAIL\n\nLINK TO EMAIL THREAD\n\nI would be happy to help.  I would be able to comment on your performance in EECS FIXME, where it looks like you got an FIXME and your rank was FIXME/FIXME = top FIXME percent.\n\nIf you're planning to apply to multiple schools, please sign up for the confidential Interfolio reference letter service.  I can upload one letter and then they will submit copies to each school. https://account.interfolio.com/signup\n\nWhen is the first deadline?\n\n")
 
           )
         )

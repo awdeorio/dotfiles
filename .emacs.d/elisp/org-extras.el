@@ -29,15 +29,14 @@ If the entry already has a CREATED property, do nothing."
     (unless (org-entry-get nil "CREATED")
       (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a]")))))
 
-;; Archive all tasks in this file marked DONE
+;; Archive all tasks in this file with a done keyword
 (defun org-archive-done-tasks-file ()
   (interactive)
   (org-map-entries
    (lambda ()
-     (let ((current-keyword (org-get-todo-state)))
-       (when (member current-keyword '("DONE" "RECV" "CANC" "NANA" ))
-         (org-archive-subtree)
-         (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))))
+     (when (org-entry-is-done-p)
+       (org-archive-subtree)
+       (setq org-map-continue-from (org-element-property :begin (org-element-at-point)))))
    nil 'file))
 
 ;; Move subtree to bottom/top of its parent.  C-M-S-<down>, C-M-S-<up>
