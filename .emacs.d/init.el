@@ -1098,19 +1098,19 @@ Subsequent calls cycle through available completions."
   ;;
   ;; Multiple keyword sets in one file
   ;; https://orgmode.org/manual/Multiple-sets-in-one-file.html
-  ;;
-  ;; Faces for TODO keywords
-  ;; M-x list-colors-display  ; show color names
-  ;; https://orgmode.org/manual/Faces-for-TODO-keywords.html
   (setq org-todo-keywords
         '((sequence "TODO(t)" "|" "DONE(d)")
           (sequence "WAIT(w)" "|" "RECV(r)" "CANC(c)")))
+
+  ;; Faces for TODO keywords, darker than the bright defaults.  org-todo
+  ;; colors not-done keywords, org-done colors done keywords, and WAIT
+  ;; gets its own color.
+  ;; M-x list-colors-display  ; show color names
+  ;; https://orgmode.org/manual/Faces-for-TODO-keywords.html
+  (set-face-attribute 'org-todo nil :foreground "dark red")
+  (set-face-attribute 'org-done nil :foreground "dark green")
   (setq org-todo-keyword-faces
-        '(("TODO" . (:foreground "dark red" :weight bold))
-          ("DONE" . (:foreground "dark green" :weight bold))
-          ("CANC" . (:foreground "dark green" :weight bold))
-          ("RECV" . (:foreground "dark green" :weight bold))
-          ("WAIT" . (:foreground "orange" :weight bold))))
+        '(("WAIT" . (:foreground "orange" :weight bold))))
 
   ;; Do not fold org files in ediff mode
   (add-hook 'ediff-prepare-buffer-hook #'org-show-all)
