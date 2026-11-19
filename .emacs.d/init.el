@@ -1053,6 +1053,7 @@ Subsequent calls cycle through available completions."
 ;;   n             next visible heading or list item (speed key)
 ;;   p             previous visible heading or list item (speed key)
 ;;   d             first child heading or list item (speed key)
+;;   W             insert WAIT heading with CREATED (speed key)
 ;; Speed keys also work on list items.
 (use-package org
   :bind (("C-c l" . org-store-link)
@@ -1134,6 +1135,10 @@ Subsequent calls cycle through available completions."
   (setf (alist-get "p" org-speed-commands nil nil #'equal)
         'org-speed-previous-visible)
   (add-to-list 'org-speed-commands '("d" . org-speed-down) t)
+
+  ;; Insert a WAIT heading with CREATED.  Speed key W
+  (setf (alist-get "W" org-speed-commands nil nil #'equal)
+        'org-insert-wait-heading)
 
   ;; How far ahead to list SCHEDULED items in agenda
   (setq org-deadline-warning-days 1)

@@ -22,12 +22,25 @@
 ;; Record when an entry was created, the same way Orgzly does
 (defun org-add-created-property ()
   "Set the CREATED property of the current entry to today's date.
-If the entry already has a CREATED property, do nothing."
+If the entry already has a CREATED property, do nothing.  Leave the
+property drawer unfolded."
   (interactive)
   (save-excursion
     (org-back-to-heading t)
     (unless (org-entry-get nil "CREATED")
-      (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a]")))))
+      (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %a]"))
+      ;; Org folds a new property drawer, so unfold it
+      (goto-char (car (org-get-property-block)))
+      (forward-line -1)
+      (org-fold-hide-drawer-toggle 'off t))))
+
+;; Insert a WAIT heading with a CREATED property.  Speed key W
+(defun org-insert-wait-heading ()
+  "Insert a WAIT sibling after the current subtree, with CREATED."
+  (interactive)
+  (org-insert-heading-respect-content)
+  (insert "WAIT ")
+  (org-add-created-property))
 
 ;; Archive all tasks in this file with a done keyword
 (defun org-archive-done-tasks-file ()
