@@ -1399,15 +1399,18 @@ Subsequent calls cycle through available completions."
 ;;   C-c l         store link
 ;;   C-c a         agenda
 ;;   C-c c         capture
+;;   C-c w         copy region as HTML rich text (org-mode-map)
+;;   C-c e         paste Gmail URL as org link (org-mode-map)
 ;;   C-M-S-<down>  move subtree to bottom of parent
 ;;   C-M-S-<up>    move subtree to top of parent
 ;;   Z             move subtree to bottom of parent (speed key)
 ;;   A             move subtree to top of parent (speed key)
-;;   N             go to last heading in buffer (speed key)
-;;   P             go to first heading in buffer (speed key)
-;;   d             go down to first child heading (speed key)
-;;   C-c w         copy region as HTML rich text (org-mode-map)
-;;   C-c e         paste Gmail URL as org link (org-mode-map)
+;;   N             last heading in buffer (speed key)
+;;   P             first heading in buffer (speed key)
+;;   n             next visible heading or list item (speed key)
+;;   p             previous visible heading or list item (speed key)
+;;   d             first child heading or list item (speed key)
+;; Speed keys also work on list items.
 (use-package org
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
@@ -1521,17 +1524,199 @@ If the entry already has a CREATED property, do nothing."
   (add-to-list 'org-speed-commands '("N" . org-goto-last-heading) t)
   (add-to-list 'org-speed-commands '("P" . org-goto-first-heading) t)
 
-  ;; Go down to the first child heading, the opposite of speed key u.
-  ;; Speed key d
-  (defun org-down-heading ()
-    "Show the children of the current heading and move to the first one."
+  ;; Speed keys on plain list items.  Headings and items form one
+  ;; continuous outline: n/p walk both, u from a top-level item reaches
+  ;; its heading, and d from a heading with no child heading reaches its
+  ;; first item.  Item keys are active from column 0 through the bullet.
+  (defun org-speed--goto-speed-position ()
+    "Move to the speed key position of the current heading or item."
+    (if (org-at-heading-p) (forward-line 0) (back-to-indentation)))
+
+  (defun org-speed--outline-line-p ()
+    "Return non-nil if this line is a visible heading or list item."
+    (and (not (org-invisible-p (line-beginning-position)))
+         (or (org-at-heading-p) (org-at-item-p))))
+
+  (defun org-speed-next-visible ()
+    "Move to the next visible heading or list item."
     (interactive)
-    (org-back-to-heading t)
-    (org-fold-show-children)
-    (unless (org-goto-first-child)
-      (user-error "No child heading")))
-  (add-to-list 'org-speed-commands
-               '("d" org-speed-move-safe 'org-down-heading) t)
+    (let ((start (point))
+          (re (concat org-outline-regexp-bol "\\|" (org-item-re)))
+          found)
+      (goto-char (line-end-position))
+      (while (and (not found) (re-search-forward re nil t))
+        (forward-line 0)
+        (if (org-speed--outline-line-p)
+            (setq found t)
+          (goto-char (line-end-position))))
+      (if found
+          (org-speed--goto-speed-position)
+        (goto-char start)
+        (user-error "No next heading or item"))))
+
+  (defun org-speed-previous-visible ()
+    "Move to the previous visible heading or list item."
+    (interactive)
+    (let ((start (point))
+          (re (concat org-outline-regexp-bol "\\|" (org-item-re)))
+          found)
+      (forward-line 0)
+      (while (and (not found) (re-search-backward re nil t))
+        (forward-line 0)
+        (setq found (org-speed--outline-line-p)))
+      (if found
+          (org-speed--goto-speed-position)
+        (goto-char start)
+        (user-error "No previous heading or item"))))
+
+  (defun org-speed--first-item-in-entry ()
+    "Return the start of the first list item in this entry's text, or nil."
+    (save-excursion
+      (org-back-to-heading t)
+      (let ((end (org-entry-end-position))
+            (re (org-item-re))
+            found)
+        (goto-char (line-end-position))
+        (while (and (not found) (re-search-forward re end t))
+          (forward-line 0)
+          (if (org-at-item-p)
+              (setq found (point))
+            (goto-char (line-end-position))))
+        found)))
+
+  (defun org-speed-down ()
+    "Move to the first child heading, else to the entry's first item.
+On an item, move to its first child item."
+    (interactive)
+    (if (org-at-item-p)
+        (let* ((struct (org-list-struct))
+               (parents (org-list-parents-alist struct))
+               (item (line-beginning-position))
+               (child (car (org-list-get-children item struct parents))))
+          (unless child (user-error "No child item"))
+          (org-list-set-item-visibility item struct 'children)
+          (goto-char child)
+          (back-to-indentation))
+      (org-back-to-heading t)
+      (org-fold-show-children)
+      (unless (org-goto-first-child)
+        (let ((item (org-speed--first-item-in-entry)))
+          (unless item (user-error "No child heading or item"))
+          (org-fold-show-entry)
+          (goto-char item)
+          (back-to-indentation)))))
+
+  (defun org-speed-up-item ()
+    "Move to the parent item, or to the heading from a top-level item."
+    (interactive)
+    (let* ((struct (org-list-struct))
+           (parents (org-list-parents-alist struct))
+           (parent (org-list-get-parent (line-beginning-position)
+                                        struct parents)))
+      (cond (parent (goto-char parent) (back-to-indentation))
+            ((org-before-first-heading-p)
+             (user-error "No parent item or heading"))
+            (t (org-back-to-heading t)))))
+
+  (defun org-speed-forward-item ()
+    "Move to the next sibling item."
+    (interactive)
+    (org-next-item)
+    (back-to-indentation))
+
+  (defun org-speed-backward-item ()
+    "Move to the previous sibling item."
+    (interactive)
+    (org-previous-item)
+    (back-to-indentation))
+
+  (defun org-move-item-to-bottom ()
+    "Move the current item below its last sibling."
+    (interactive)
+    (let ((org-list-use-circular-motion nil))
+      (condition-case nil
+          (while t (org-move-item-down))
+        (user-error nil))))
+
+  (defun org-move-item-to-top ()
+    "Move the current item above its first sibling."
+    (interactive)
+    (let ((org-list-use-circular-motion nil))
+      (condition-case nil
+          (while t (org-move-item-up))
+        (user-error nil))))
+
+  (defun org-speed-insert-item ()
+    "Insert a new item after the current item and its children.
+Insert before the current item, then move the new item down past it,
+so org keeps the list's bullets, numbering, and blank lines."
+    (interactive)
+    (let ((box (org-list-get-checkbox (line-beginning-position)
+                                      (org-list-struct)))
+          (org-list-use-circular-motion nil))
+      (back-to-indentation)
+      (org-insert-item box)
+      (org-move-item-down)
+      (goto-char (line-end-position))))
+
+  (defun org-speed-toggle-checkbox ()
+    "Toggle the item's checkbox, adding one if there is none."
+    (interactive)
+    (if (org-list-get-checkbox (line-beginning-position) (org-list-struct))
+        (org-toggle-checkbox)
+      (org-toggle-checkbox '(4))))
+
+  (defvar org-item-speed-commands
+    '(("n" . org-speed-next-visible)
+      ("p" . org-speed-previous-visible)
+      ("f" . org-speed-forward-item)
+      ("b" . org-speed-backward-item)
+      ("u" . org-speed-up-item)
+      ("d" . org-speed-down)
+      ("c" . org-cycle)
+      ("U" . org-metaup)
+      ("D" . org-metadown)
+      ("r" . org-metaright)
+      ("l" . org-metaleft)
+      ("R" . org-shiftmetaright)
+      ("L" . org-shiftmetaleft)
+      ("A" . org-move-item-to-top)
+      ("Z" . org-move-item-to-bottom)
+      ("N" . org-goto-last-heading)
+      ("P" . org-goto-first-heading)
+      ("i" . org-speed-insert-item)
+      ("t" . org-speed-toggle-checkbox)
+      ("?" . org-item-speed-command-help))
+    "Speed commands on plain list items, like `org-speed-commands'.")
+
+  (defun org-item-speed-command-help ()
+    "Show the item speed keys."
+    (interactive)
+    (with-output-to-temp-buffer "*Help*"
+      (princ "Item speed commands\n===================\n")
+      (dolist (c org-item-speed-commands)
+        (princ (format "%s   %s\n" (car c) (cdr c))))))
+
+  (defun org-item-speed-command-activate (keys)
+    "Return the item speed command for KEYS, or nil.
+Active from column 0 through the bullet of a list item.  A heading
+speed key with no item version gives an error instead of inserting.
+Space and digits always insert."
+    (when (and (save-excursion (skip-chars-backward " \t") (bolp))
+               (save-excursion (forward-line 0) (looking-at-p (org-item-re)))
+               (org-at-item-p))
+      (or (cdr (assoc keys org-item-speed-commands))
+          (and (not (string-match-p "\\`[ 0-9]\\'" keys))
+               (cdr (assoc keys org-speed-commands))
+               `(user-error "No item speed key: %s" ,keys)))))
+  (add-hook 'org-speed-command-hook #'org-item-speed-command-activate t)
+
+  ;; Heading n/p/d walk into list items too
+  (setf (alist-get "n" org-speed-commands nil nil #'equal)
+        'org-speed-next-visible)
+  (setf (alist-get "p" org-speed-commands nil nil #'equal)
+        'org-speed-previous-visible)
+  (add-to-list 'org-speed-commands '("d" . org-speed-down) t)
 
   ;; Copy region as rich text for pasting into Gmail and Google Docs.  C-c w
   (defun org-html-rich-text-unwrap (html _backend _info)
