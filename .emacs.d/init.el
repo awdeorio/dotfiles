@@ -70,8 +70,6 @@
 (global-set-key "\C-cu"                         'clean-url-at-point)
 (global-set-key "\C-cy"                         'insert-clean-url)
 
-;; Org keybindings are set in the org use-package block below
-
 ;; macOS modifier keys
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'meta)  ; Command == Meta
@@ -1032,9 +1030,10 @@ Subsequent calls cycle through available completions."
   :ensure t
   :after org)
 
-;; Org mode
+;; Org - outlines, TODO lists, and agenda
+;; https://orgmode.org
 ;;
-;; Custom keybindings:
+;; Custom keys:
 ;;   C-c l         store link
 ;;   C-c a         agenda
 ;;   C-c c         capture
