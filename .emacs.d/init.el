@@ -1005,6 +1005,10 @@ Subsequent calls cycle through available completions."
   ;;   cbp  B→A prepend (insert B before A)
   ;;   cbn  B→A append  (insert B after A)
   :hook
+  ;; Do not fold org files in ediff mode
+  (ediff-prepare-buffer . (lambda ()
+                            (when (derived-mode-p 'org-mode)
+                              (org-fold-show-all))))
   (ediff-keymap-setup . (lambda ()
                           (define-key ediff-mode-map "u"
                             (lambda () (interactive)
@@ -1103,9 +1107,6 @@ Subsequent calls cycle through available completions."
   (set-face-attribute 'org-done nil :foreground "dark green")
   (setq org-todo-keyword-faces
         '(("WAIT" . (:foreground "orange" :weight bold))))
-
-  ;; Do not fold org files in ediff mode
-  (add-hook 'ediff-prepare-buffer-hook #'org-show-all)
 
   ;; Move subtree to bottom/top of its parent.  Speed keys Z, A
   (add-to-list 'org-speed-commands '("Z" . org-move-subtree-to-bottom) t)
