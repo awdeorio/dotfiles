@@ -1041,15 +1041,22 @@ Subsequent calls cycle through available completions."
 ;;   C-c e         paste Gmail URL as org link (org-mode-map)
 ;;   C-M-S-<down>  move subtree to bottom of parent
 ;;   C-M-S-<up>    move subtree to top of parent
-;;   Z             move subtree to bottom of parent (speed key)
-;;   A             move subtree to top of parent (speed key)
-;;   N             last heading in buffer (speed key)
-;;   P             first heading in buffer (speed key)
-;;   n             next visible heading or list item (speed key)
-;;   p             previous visible heading or list item (speed key)
-;;   d             first child heading or list item (speed key)
-;;   W             insert WAIT heading with CREATED (speed key)
-;; Speed keys also work on list items.
+;;
+;; Speed keys, at the start of a heading or a list item's bullet:
+;;   n / p         next / previous visible heading or item
+;;   d             first child heading or item
+;;   N / P         last / first heading in buffer
+;;   Z / A         move subtree or item to bottom / top of parent
+;;   W             insert WAIT heading with CREATED
+;;   f / b         next / previous sibling heading or item
+;;   u             parent heading or item
+;;   U / D         move subtree or item up / down
+;;   r / l         demote / promote heading or item
+;;   R / L         demote / promote subtree or item with children
+;;   c             cycle heading or item visibility
+;;   i             insert heading or item after current one
+;;   t             cycle TODO on heading, toggle checkbox on item
+;;   ?             list speed keys for this heading or item
 (use-package org
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
@@ -1077,6 +1084,17 @@ Subsequent calls cycle through available completions."
   :config
   ;; Helper commands live in elisp/org-extras.el
   (require 'org-extras)
+
+  ;; Speed keys, including customizations to extend to list items
+  (add-to-list 'org-speed-commands '("n" . org-speed-next-visible))
+  (add-to-list 'org-speed-commands '("p" . org-speed-previous-visible))
+  (add-to-list 'org-speed-commands '("d" . org-speed-down))
+  (add-to-list 'org-speed-commands '("N" . org-goto-last-heading))
+  (add-to-list 'org-speed-commands '("P" . org-goto-first-heading))
+  (add-to-list 'org-speed-commands '("Z" . org-move-subtree-to-bottom))
+  (add-to-list 'org-speed-commands '("A" . org-move-subtree-to-top))
+  (add-to-list 'org-speed-commands '("W" . org-insert-wait-heading))
+  (add-hook 'org-speed-command-hook #'org-item-speed-command-activate t)
 
   ;; Table alignment treats currency like $3,770 and ~$119,000 as
   ;; numbers, so those columns right-align without <r> cookies.  Same
@@ -1106,30 +1124,6 @@ Subsequent calls cycle through available completions."
   (set-face-attribute 'org-done nil :foreground "dark green")
   (setq org-todo-keyword-faces
         '(("WAIT" . (:foreground "orange" :weight bold))))
-
-  ;; Move subtree to bottom/top of its parent.  Speed keys Z, A
-  (add-to-list 'org-speed-commands '("Z" . org-move-subtree-to-bottom) t)
-  (add-to-list 'org-speed-commands '("A" . org-move-subtree-to-top) t)
-
-  ;; Go to first/last visible heading in the buffer.  Speed keys P, N
-  (add-to-list 'org-speed-commands '("N" . org-goto-last-heading) t)
-  (add-to-list 'org-speed-commands '("P" . org-goto-first-heading) t)
-
-  ;; Speed keys on plain list items.  Headings and items form one
-  ;; continuous outline.  Item keys are active from column 0 through
-  ;; the bullet.
-  (add-hook 'org-speed-command-hook #'org-item-speed-command-activate t)
-
-  ;; Heading n/p/d walk into list items too
-  (setf (alist-get "n" org-speed-commands nil nil #'equal)
-        'org-speed-next-visible)
-  (setf (alist-get "p" org-speed-commands nil nil #'equal)
-        'org-speed-previous-visible)
-  (add-to-list 'org-speed-commands '("d" . org-speed-down) t)
-
-  ;; Insert a WAIT heading with CREATED.  Speed key W
-  (setf (alist-get "W" org-speed-commands nil nil #'equal)
-        'org-insert-wait-heading)
 
   ;; How far ahead to list SCHEDULED items in agenda
   (setq org-deadline-warning-days 1)
