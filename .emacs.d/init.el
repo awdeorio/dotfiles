@@ -1057,6 +1057,8 @@ Subsequent calls cycle through available completions."
          ("C-M-S-<down>" . org-move-subtree-to-bottom)
          ("C-M-S-<up>"   . org-move-subtree-to-top))
 
+  :hook (org-mode . auto-revert-mode)   ; for Dropbox
+
   :init
   (setq org-use-speed-commands t)
   (setq org-log-done 'time)
@@ -1068,7 +1070,6 @@ Subsequent calls cycle through available completions."
   (setq org-agenda-search-view-always-boolean t)
   ;; Don't load org's default link modules, which slow the first org file open
   (setq org-modules nil)
-  (add-hook 'org-mode-hook 'auto-revert-mode) ; for Dropbox
 
   :config
   ;; Helper commands live in elisp/org-extras.el
