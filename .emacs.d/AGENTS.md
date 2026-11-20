@@ -23,6 +23,7 @@ Fast startup is critical.  Run the startup performance check under Test before a
 - Init time, best of three runs, must not grow.
 - Never load `package.el` at startup: `package=` must be nil.
 - Never use `:demand t` without asking.
+- For org changes, org open time, best of three runs, must not grow.
 
 ### No keybinding clashes
 
@@ -79,4 +80,12 @@ Startup performance check.  Compiles `init.el`, printing any warnings, then meas
 $ emacs --batch --eval '(package-initialize)' -f batch-byte-compile ~/.emacs.d/init.el &&
   emacs --eval '(progn (princ (format "%s package=%s\n" (emacs-init-time) (featurep (quote package))) (function external-debugging-output)) (kill-emacs))'
 N seconds package=nil
+```
+
+Org open check.  For org changes, since the startup check never loads org.  Times opening a copy of an org file, force-quitting after 3 seconds.  Run it three times and report the best:
+
+```console
+$ command cp -f ~/Dropbox/org/home.org /tmp/org-open-check.org &&
+  emacs --eval '(progn (run-at-time 3 nil (function kill-emacs)) (let ((t0 (current-time))) (find-file "/tmp/org-open-check.org") (princ (format "open=%.3fs\n" (float-time (time-since t0))) (function external-debugging-output))) (kill-emacs))'
+open=N.NNNs
 ```
