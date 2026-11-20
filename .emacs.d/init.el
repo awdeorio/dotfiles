@@ -1022,19 +1022,17 @@ Subsequent calls cycle through available completions."
   :defer t
   )
 
-;; Better org agenda views
-;; https://github.com/alphapapa/org-super-agenda/
-;; NOTE: Wrapped in `when` because :if doesn't prevent :ensure in older use-package.
-(when (version<= "28.1" emacs-version)
-  (use-package org-super-agenda
-    :ensure t
-    :defer t
-    :after org)
+;; org-super-agenda - group agenda items into sections
+;; https://github.com/alphapapa/org-super-agenda
+(use-package org-super-agenda
+  :ensure t
+  :after org)
 
-  (use-package org-ql
-    :ensure t
-    :defer t
-    :after org))
+;; org-ql - query language for org files, used by the agenda dashboard
+;; https://github.com/alphapapa/org-ql
+(use-package org-ql
+  :ensure t
+  :after org)
 
 ;; Org mode
 ;;
@@ -1064,6 +1062,7 @@ Subsequent calls cycle through available completions."
          ("C-c w"        . org-copy-region-as-html)
          ("C-M-S-<down>" . org-move-subtree-to-bottom)
          ("C-M-S-<up>"   . org-move-subtree-to-top))
+
   :init
   (setq org-use-speed-commands t)
   (setq org-log-done 'time)
@@ -1143,8 +1142,7 @@ Subsequent calls cycle through available completions."
   ;; Capture templates
   ;; https://orgmode.org/manual/Capture-templates.html
   (setq org-capture-templates
-        '(
-          ("h" "Home"
+        '(("h" "Home"
            entry (file "home.org")
            "* TODO %?\n  %i\n  %a")
 
@@ -1154,10 +1152,7 @@ Subsequent calls cycle through available completions."
 
           ("l" "Letter"
            entry (file+headline "work.org" "Letters")
-           "* WAIT Recommendation for NAME %? (CATEGORY)\nDEADLINE: TBD\n\nSTUDENT EMAIL\n\nLINK TO EMAIL THREAD\n\nI would be happy to help.  I would be able to comment on your performance in EECS FIXME, where it looks like you got an FIXME and your rank was FIXME/FIXME = top FIXME percent.\n\nIf you're planning to apply to multiple schools, please sign up for the confidential Interfolio reference letter service.  I can upload one letter and then they will submit copies to each school. https://account.interfolio.com/signup\n\nWhen is the first deadline?\n\n")
-
-          )
-        )
+           "* WAIT Recommendation for NAME %? (CATEGORY)\nDEADLINE: TBD\n\nSTUDENT EMAIL\n\nLINK TO EMAIL THREAD\n\nI would be happy to help.  I would be able to comment on your performance in EECS FIXME, where it looks like you got an FIXME and your rank was FIXME/FIXME = top FIXME percent.\n\nIf you're planning to apply to multiple schools, please sign up for the confidential Interfolio reference letter service.  I can upload one letter and then they will submit copies to each school. https://account.interfolio.com/signup\n\nWhen is the first deadline?\n\n")))
 
   ;; Custom agenda views
   ;; https://github.com/alphapapa/org-ql
@@ -1165,22 +1160,14 @@ Subsequent calls cycle through available completions."
   (setq org-agenda-custom-commands
         '(("d" "Dashboard"
            ((org-ql-block
-
-             '(and
-               (or
-                (priority "A")
-                (deadline auto) ;; has deadline set and due today or overdue
-                (scheduled :to today)
-                )
-               (not (done))
-               )
-
-             ((org-ql-block-header "Today Dashboard"))
-             )))))
+             '(and (or (priority "A")
+                       (deadline auto)  ; due today or overdue
+                       (scheduled :to today))
+                   (not (done)))
+             ((org-ql-block-header "Today Dashboard")))))))
 
   ;; M-/ tag completion in the tag-entry minibuffer (C-c C-c)
-  (add-hook 'minibuffer-setup-hook #'org-tags-minibuffer-hippie-expand-setup)
-  ) ; closes (use-package org ...)
+  (add-hook 'minibuffer-setup-hook #'org-tags-minibuffer-hippie-expand-setup))
 
 ;; EditorConfig - per-project coding style from .editorconfig files
 ;; https://editorconfig.org
