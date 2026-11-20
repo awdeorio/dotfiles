@@ -1022,12 +1022,6 @@ Subsequent calls cycle through available completions."
   :defer t
   )
 
-;; org-super-agenda - group agenda items into sections
-;; https://github.com/alphapapa/org-super-agenda
-(use-package org-super-agenda
-  :ensure t
-  :after org)
-
 ;; org-ql - query language for org files, used by the agenda dashboard
 ;; https://github.com/alphapapa/org-ql
 (use-package org-ql
