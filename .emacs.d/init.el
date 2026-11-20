@@ -1081,9 +1081,6 @@ Subsequent calls cycle through available completions."
   ;; Helper commands live in elisp/org-extras.el
   (require 'org-extras)
 
-  ;; Enable org element cache for faster parsing
-  (setq org-element-use-cache t)
-
   ;; Table alignment treats currency like $3,770 and ~$119,000 as
   ;; numbers, so those columns right-align without <r> cookies.  Same
   ;; as the default regexp plus an optional leading ~ and $, and commas.
